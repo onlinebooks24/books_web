@@ -1,0 +1,119 @@
+
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+img {
+    max-width: 100%
+}
+
+/* Main Section */
+
+.main {
+    min-height: 500px;
+}
+
+.post {
+    border: 1px solid #E321A3;
+    padding: 10px 10px 25px 10px;
+    margin-bottom: 15px;
+}
+
+.post_info {
+    color: gray;
+    font-size: 12px;
+}
+
+.post_des {
+    text-align: justify;
+}
+
+.footer {
+    padding: 10px;
+    text-align: center;
+    background-color: black;
+}
+
+.footer a {
+    color: gray;
+}
+
+.footer a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.read_more {
+    font-size: 15px;
+    float: right;
+}
+
+.about_des {
+    padding-top: 10px;
+    font-size: 15px;
+}
+
+.left_sidebar h4 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid gray
+}
+
+.left_sidebar_content {
+    color: gray;
+    line-height: 12px;
+}
+
+.right {
+    z-index: 9999;
+    float: right;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+.date-header span {
+    color: #595959;
+    font-size: 15px;
+}
+
+.affiliate_group {
+    margin: 13px auto 34px;
+    width: 153px;
+}
+
+.amazon_button {
+    background-color: #f90;
+    background-image: linear-gradient(to top, #ff9900 60%, #ffbb44 100%);
+    border-radius: 0.4em;
+    box-shadow: 1px 1px 2px #888888;
+    color: #fff !important;
+    display: inline-block;
+    font-family: Arial;
+    font-size: 89%;
+    font-weight: bold;
+    padding: 0.7em;
+    text-align: center;
+    text-decoration: none;
+    width: 104px;
+}
+
+.ebay_button {
+    display: inline-block;
+    width: 140px;
+    color: #fff !important;
+    text-decoration: none;
+    font-family: Arial;
+    font-size: 90%;
+    font-weight: bold;
+    text-align: center;
+    border-radius: .4em;
+    padding: .4em;
+    background-color: #0654ba;
+    box-shadow: 1px 1px 2px #888888;
+}

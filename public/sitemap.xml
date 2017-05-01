@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+<url>
+  <loc>http://www.onlinebooksreview.com/</loc>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>http://www.onlinebooksreview.com/articles/laravel/best-10-books-to-learn-laravel-5-and-building-practical-applications</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.onlinebooksreview.com/articles/programming/top-5-best-beginner-books-for-mean-stack-development</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.onlinebooksreview.com/articles/graphics/10-best-books-for-learning-adobe-photoshop</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.onlinebooksreview.com/laravel</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.onlinebooksreview.com/graphics</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.onlinebooksreview.com/programming</loc>
+  <priority>0.80</priority>
+</url>
+</urlset>
