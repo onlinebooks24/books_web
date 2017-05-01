@@ -92,14 +92,15 @@ class PostController extends Controller
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimetype = $groups['mime'];                
                 // Generating a random filename
-                $filename = uniqid();
+                $filename = $img->getAttribute('data-filename');
+                $filename = str_replace(' ', '_', $filename);
                 $path = public_path().'/uploads/blog_images/';
                 $year_folder = $path . date("Y");
                 $month_folder = $year_folder . '/' . date("m");
 
                 !file_exists($year_folder) && mkdir($year_folder , 0777);
                 !file_exists($month_folder) && mkdir($month_folder, 0777);
-                $filepath =  "/uploads/blog_images/".date('Y')."/".date('m')."/". "$filename.$mimetype";
+                $filepath =  "/uploads/blog_images/".date('Y')."/".date('m')."/". "$filename";
                 // @see http://image.intervention.io/api/
                 $image = Image::make($src)
                   // resize if required
