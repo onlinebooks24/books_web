@@ -12,6 +12,9 @@ use Mockery\Recorder;
 use Session;
 use Redirect;
 use Intervention\Image\ImageManagerStatic as Image;
+use Carbon\Carbon;
+use File;
+use Date;
 
 class PostController extends Controller
 {
@@ -89,14 +92,21 @@ class PostController extends Controller
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimetype = $groups['mime'];                
                 // Generating a random filename
-                $filename = uniqid();
-                $filepath = "/uploads/blog_images/$filename.$mimetype";
+                $filename = $img->getAttribute('data-filename');
+                $filename = str_replace(' ', '_', $filename);
+                $path = public_path().'/uploads/blog_images/';
+                $year_folder = $path . date("Y");
+                $month_folder = $year_folder . '/' . date("m");
+
+                !file_exists($year_folder) && mkdir($year_folder , 0777);
+                !file_exists($month_folder) && mkdir($month_folder, 0777);
+                $filepath =  "/uploads/blog_images/".date('Y')."/".date('m')."/". "$filename";
                 // @see http://image.intervention.io/api/
                 $image = Image::make($src)
                   // resize if required
                   /* ->resize(300, 200) */
                   ->encode($mimetype, 100)  // encode file to the specified mimetype
-                  ->save(public_path($filepath));                
+                  ->save(public_path($filepath));
                 $new_src = $filepath;
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
