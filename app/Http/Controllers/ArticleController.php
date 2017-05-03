@@ -97,7 +97,11 @@ class ArticleController extends Controller
     {
         $categories = Category::all();
         $category = Category::where('slug' , $slug)->first();
-        $posts = Post::where('category_id' , $category->id)->orderBy('created_at','desc')->Paginate(5);
-        return view('frontend.category',['posts'=> $posts,'categories' => $categories,'categoryName' => $category->name ]);
+        if (!empty($category)){
+            $posts = Post::where('category_id' , $category->id)->orderBy('created_at','desc')->Paginate(5);
+            return view('frontend.category',['posts'=> $posts,'categories' => $categories,'categoryName' => $category->name ]);
+        } else {
+            return redirect()->route('blog.index');
+        }
     }
 }
