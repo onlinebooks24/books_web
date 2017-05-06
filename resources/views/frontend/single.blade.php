@@ -1,8 +1,7 @@
 @extends('layouts.master')
-
-@section('title')
-{{ $post->title }} | OnlineBooksReview
-@endsection
+@section('title'){{ $post->title }} | OnlineBooksReview @endsection
+@section('meta_description'){{$post->meta_description}}@endsection
+@section('meta_keyword'){{ $post->keyword }}@endsection
 
 @section('content')
 @include('includes.header')
