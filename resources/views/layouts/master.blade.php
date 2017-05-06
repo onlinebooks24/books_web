@@ -3,14 +3,17 @@
 
 <head>
   <title>@yield('title')</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="description" content="You will get reviews and recommendation of best online books."/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" >
+    <meta name="keywords" content="@yield('meta_keyword', 'best books, review, top books, best books review');" >
+    <meta name="author" content="OnlineBooksReview" >
+    <meta name="description" content="@yield('meta_description' , 'You will get reviews and recommendation of best online books. Get suggestion of buying best books from online.')">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:locale" content="en_US" />
-    <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}"/>
+    <meta property="og:locale" content="en_US" >
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="www.onlinebooksreview.com" />
-    <meta property="og:image" content="" />
+    <meta property="og:site_name" content="www.onlinebooksreview.com">
+    <meta property="og:image" content="" >
+    <meta property="og:url" content="{{ url()->current() }}">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
