@@ -34,6 +34,16 @@
                     <input class="form-control" name="title" type="text" value="{{ $post->title }}" />
                 </div>
 
+                <div class="form-group"> <!-- Name field -->
+                    <label class="control-label " for="name">Keyword</label>
+                    <input class="form-control" name="keyword" type="text" value="{{ $post->keyword }}" required />
+                </div>
+
+                <div class="form-group"> <!-- Name field -->
+                    <label class="control-label " for="name">Meta Description</label>
+                    <textarea class="form-control" name="meta_description" type="text" required>{{ $post->meta_description }}</textarea>
+                </div>
+
                 <div class="form-group">
                     <label class="control-label">Select Category</label>
                     <select class="form-control" name="category_id">
@@ -60,14 +70,36 @@
 
 @section('run_custom_js_file')
     <script type="text/javascript" src="{{ asset('summernote/summernote.js')}}"></script>
+    <script  type="text/javascript"  src="{{ asset('summernote/summernote-image-attributes.js') }}"></script>
 @endsection
 
 @section('run_custom_jquery')
     <script type="text/javascript">
         $(document).ready(function() {
+
             $('#summernote').summernote({
-                height : '300px',
-                placeholder : 'Content here...........'
+                height : '300px' ,
+                placeholder : 'Enter Text Here...' ,
+                popover: {
+                    image: [
+                        ['custom', ['imageAttributes']],
+                        ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+                        ['float', ['floatLeft', 'floatRight', 'floatNone']],
+                        ['remove', ['removeMedia']]
+                    ],
+                },
+                lang: 'en-US',
+                imageAttributes:{
+                    imageDialogLayout:'default', // default|horizontal
+                    icon:'<i class="note-icon-pencil"/>',
+                    removeEmpty:false // true = remove attributes | false = leave empty if present
+                },
+                displayFields:{
+                    imageBasic:true,  // show/hide Title, Source, Alt fields
+                    imageExtra:false, // show/hide Alt, Class, Style, Role fields
+                    linkBasic:true,   // show/hide URL and Target fields for link
+                    linkExtra:false   // show/hide Class, Rel, Role fields for link
+                }
             });
 
 

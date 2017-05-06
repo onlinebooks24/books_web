@@ -4,7 +4,6 @@
         <h4>Be with us</h4>
         <div class="fb-like" data-href="https://web.facebook.com/onlinebooksreview" data-width="350px" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
         <div id="fb-root"></div>
-        <div id="fb-root"></div>
         <script>(function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
                 if (d.getElementById(id)) return;

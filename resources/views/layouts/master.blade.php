@@ -2,20 +2,19 @@
 <html class="no-js" lang="en-US">
 
 <head>
-  <meta charset="utf-8">
   <title>@yield('title')</title>
-  <meta http-equiv="Content-Type" content="text/html">
-  <meta name="description" content="You will get reviews and recommendation of best online books.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:locale" content="en_US" />
-  <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}"/>
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="www.onlinebooksreview.com" />
-  <meta property="og:image" content="" />
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-    @yield('run_custom_css_file')
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="You will get reviews and recommendation of best online books."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:locale" content="en_US" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="www.onlinebooksreview.com" />
+    <meta property="og:image" content="" />
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+     @yield('run_custom_css_file')
     @yield('run_custom_css')
 </head>
 	<body>	

@@ -27,8 +27,7 @@
               <div class="clearfix"></div>
               <hr>
          @endforeach
-         
-      <section>
+
         <nav>
           <ul class="pager">
               @if($posts->currentPage() !== 1)
@@ -39,7 +38,6 @@
               @endif
           </ul>
         </nav>
-        </section>   
 
       </div>
 
