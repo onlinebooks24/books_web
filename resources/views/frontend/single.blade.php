@@ -23,7 +23,6 @@
         
         <div class="fb-comments" data-href=" <?php echo('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>" data-width="100%" data-numposts="5"></div>
 
-        <div id="fb-root"></div>
         <script>
         (function(d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0];

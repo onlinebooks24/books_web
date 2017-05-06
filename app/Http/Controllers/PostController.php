@@ -15,6 +15,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
 use File;
 use Date;
+use App\Upload;
 
 class PostController extends Controller
 {
@@ -52,61 +53,64 @@ class PostController extends Controller
             'title' => 'required|unique:posts'
         ]);
         $post = new Post();
+
         $post->title = $request['title'];
         $post->user_id = Auth::user()->id ;
         $post->category_id = $request['category_id'];
         $slug = strtolower($request['title']);
-        $slug = str_replace(' ', '-', $slug); 
-        $post->slug = $slug ; 
-        // $post->body = $request['body'];
-        // $post->save();
+        $slug = str_replace(' ', '-', $slug);
+        $post->slug = $slug ;
 
-        // return redirect()->back()->with(['success' => 'Post Created Successfully']);
-
-        $message=$request->input('body');
+        $message = $request->input('body');
         $dom = new DomDocument();
-        //$dom->loadHtml($message, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
+        //$dom->loadHtml($message, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
-		$dom->loadHTML("<div>$message</div>");
+        $dom->loadHTML("<div>$message</div>");
 
-		$container = $dom->getElementsByTagName('div')->item(0);
+        $container = $dom->getElementsByTagName('div')->item(0);
 
-		$container = $container->parentNode->removeChild($container);
+        $container = $container->parentNode->removeChild($container);
 
-		while ($dom->firstChild) {
-		    $dom->removeChild($dom->firstChild);
-		}
+        while ($dom->firstChild) {
+            $dom->removeChild($dom->firstChild);
+        }
 
-		while ($container->firstChild ) {
-		    $dom->appendChild($container->firstChild);
-		}
+        while ($container->firstChild) {
+            $dom->appendChild($container->firstChild);
+        }
 
         $images = $dom->getElementsByTagName('img');
-       // foreach <img> in the submited message
-        foreach($images as $img){
+        // foreach <img> in the submited message
+
+        foreach ($images as $img) {
             $src = $img->getAttribute('src');
-            
+
             // if the img source is 'data-url'
-            if(preg_match('/data:image/', $src)){                
+            if (preg_match('/data:image/', $src)) {
                 // get the mimetype
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];                
+                $mimetype = $groups['mime'];
                 // Generating a random filename
                 $filename = $img->getAttribute('data-filename');
                 $filename = str_replace(' ', '_', $filename);
-                $path = public_path().'/uploads/blog_images/';
+                $path = public_path() . '/uploads/blog_images/';
                 $year_folder = $path . date("Y");
                 $month_folder = $year_folder . '/' . date("m");
 
-                !file_exists($year_folder) && mkdir($year_folder , 0777);
+                !file_exists($year_folder) && mkdir($year_folder, 0777);
                 !file_exists($month_folder) && mkdir($month_folder, 0777);
-                $filepath =  "/uploads/blog_images/".date('Y')."/".date('m')."/". "$filename";
+                $filepath = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/" . "$filename";
+                $upload = new Upload();
+                $upload->name = Carbon::now().'_'.$filename;
+                $upload->folder_path = $filepath;
+                $upload->md5_hash = md5_file($src);
+                $upload->save();
                 // @see http://image.intervention.io/api/
                 $image = Image::make($src)
-                  // resize if required
-                  /* ->resize(300, 200) */
-                  ->encode($mimetype, 100)  // encode file to the specified mimetype
-                  ->save(public_path($filepath));
+                    // resize if required
+                    /* ->resize(300, 200) */
+                    ->encode($mimetype, 100)// encode file to the specified mimetype
+                    ->save(public_path($filepath));
                 $new_src = $filepath;
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
@@ -151,12 +155,71 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
-        $post->title =  $request['title'];
+
+        $post->title = $request['title'];
+        $post->user_id = Auth::user()->id ;
         $post->category_id = $request['category_id'];
-        $post->body = $request['body'];
         $slug = strtolower($request['title']);
-        $slug = str_replace(' ', '-', $slug); 
-        $post->slug = $slug ; 
+        $slug = str_replace(' ', '-', $slug);
+        $post->slug = $slug ;
+
+        $message = $request->input('body');
+        $dom = new DomDocument();
+        //$dom->loadHtml($message, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+
+        $dom->loadHTML("<div>$message</div>");
+
+        $container = $dom->getElementsByTagName('div')->item(0);
+
+        $container = $container->parentNode->removeChild($container);
+
+        while ($dom->firstChild) {
+            $dom->removeChild($dom->firstChild);
+        }
+
+        while ($container->firstChild) {
+            $dom->appendChild($container->firstChild);
+        }
+
+        $images = $dom->getElementsByTagName('img');
+        // foreach <img> in the submited message
+
+        foreach ($images as $img) {
+            $src = $img->getAttribute('src');
+
+            // if the img source is 'data-url'
+            if (preg_match('/data:image/', $src)) {
+                // get the mimetype
+                preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
+                $mimetype = $groups['mime'];
+                // Generating a random filename
+                $filename = $img->getAttribute('data-filename');
+                $filename = str_replace(' ', '_', $filename);
+                $path = public_path() . '/uploads/blog_images/';
+                $year_folder = $path . date("Y");
+                $month_folder = $year_folder . '/' . date("m");
+
+                !file_exists($year_folder) && mkdir($year_folder, 0777);
+                !file_exists($month_folder) && mkdir($month_folder, 0777);
+                $filepath = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/" . "$filename";
+                $upload = new Upload();
+                $upload->name = Carbon::now().'_'.$filename;
+                $upload->folder_path = $filepath;
+                $upload->md5_hash = md5_file($src);
+                $upload->save();
+                // @see http://image.intervention.io/api/
+                $image = Image::make($src)
+                    // resize if required
+                    /* ->resize(300, 200) */
+                    ->encode($mimetype, 100)// encode file to the specified mimetype
+                    ->save(public_path($filepath));
+                $new_src = $filepath;
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $new_src);
+            } // <!--endif
+        } // <!-
+        $post->body = $dom->saveHTML();
+
         $post->update();
 
         return redirect()->route('post.index')->with(['success' => 'Post Updated Successfully']);
