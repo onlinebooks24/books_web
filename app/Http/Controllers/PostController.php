@@ -60,6 +60,9 @@ class PostController extends Controller
         $slug = strtolower($request['title']);
         $slug = str_replace(' ', '-', $slug);
         $post->slug = $slug ;
+        $post->keyword = $request['keyword'];
+        $post->status = true;
+        $post->meta_description = $request['meta_description'];
 
         $message = $request->input('body');
         $dom = new DomDocument();
@@ -162,6 +165,9 @@ class PostController extends Controller
         $slug = strtolower($request['title']);
         $slug = str_replace(' ', '-', $slug);
         $post->slug = $slug ;
+        $post->keyword = $request['keyword'];
+        $post->status = true;
+        $post->meta_description = $request['meta_description'];
 
         $message = $request->input('body');
         $dom = new DomDocument();

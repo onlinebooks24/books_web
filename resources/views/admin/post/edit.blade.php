@@ -34,6 +34,16 @@
                     <input class="form-control" name="title" type="text" value="{{ $post->title }}" />
                 </div>
 
+                <div class="form-group"> <!-- Name field -->
+                    <label class="control-label " for="name">Keyword</label>
+                    <input class="form-control" name="keyword" type="text" value="{{ $post->keyword }}" required />
+                </div>
+
+                <div class="form-group"> <!-- Name field -->
+                    <label class="control-label " for="name">Meta Description</label>
+                    <textarea class="form-control" name="meta_description" type="text" required>{{ $post->meta_description }}</textarea>
+                </div>
+
                 <div class="form-group">
                     <label class="control-label">Select Category</label>
                     <select class="form-control" name="category_id">

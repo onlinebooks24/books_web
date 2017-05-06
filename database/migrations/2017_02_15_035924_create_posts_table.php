@@ -19,6 +19,9 @@ class CreatePostsTable extends Migration
             $table->integer('user_id');
             $table->text('body');
             $table->integer('category_id');
+            $table->string('keyword');
+            $table->boolean('status');
+            $table->text('meta_description');
             $table->timestamps();
             $table->string('slug');
         });

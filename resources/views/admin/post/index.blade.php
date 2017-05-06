@@ -33,6 +33,16 @@
 					<input class="form-control" name="title" type="text" required />
 				</div>
 
+				<div class="form-group"> <!-- Name field -->
+					<label class="control-label " for="name">Keyword</label>
+					<input class="form-control" name="keyword" type="text" required />
+				</div>
+
+				<div class="form-group"> <!-- Name field -->
+					<label class="control-label " for="name">Meta Description</label>
+					<textarea class="form-control" name="meta_description" type="text" required></textarea>
+				</div>
+
 				<div class="form-group">
 					<label class="control-label">Select Category</label>
 					<select class="form-control" name="category_id" required>
