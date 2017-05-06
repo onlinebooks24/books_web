@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-    @yield('run_custom_css_file')
+     @yield('run_custom_css_file')
     @yield('run_custom_css')
 </head>
 	<body>	
