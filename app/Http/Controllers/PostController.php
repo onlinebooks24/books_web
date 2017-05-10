@@ -66,7 +66,8 @@ class PostController extends Controller
 
         $message = $request->input('body');
         $dom = new DomDocument();
-        $dom->loadHTML($message);
+        libxml_use_internal_errors(true);
+        $dom->loadHTML("<div>$message</div>");
 
         $container = $dom->getElementsByTagName('div')->item(0);
         $container = $container->parentNode->removeChild($container);
@@ -80,51 +81,51 @@ class PostController extends Controller
         }
 
         $images = $dom->getElementsByTagName('img');
-        // foreach <img> in the submited message
+
+        $post->body = $dom->saveHTML();
+        $post->save();
 
         foreach ($images as $img) {
             $src = $img->getAttribute('src');
 
-            // if the img source is 'data-url'
             if (preg_match('/data:image/', $src)) {
-                // get the mimetype
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimetype = $groups['mime'];
-                // Generating a random filename
                 $filename = $img->getAttribute('data-filename');
                 $filename = str_replace(' ', '_', $filename);
-                $path = public_path() . '/uploads/blog_images/';
-                $year_folder = $path . date("Y");
+                $public_path = public_path() . '/uploads/blog_images/';
+                $year_folder = $public_path . date("Y");
                 $month_folder = $year_folder . '/' . date("m");
 
                 !file_exists($year_folder) && mkdir($year_folder, 0777);
                 !file_exists($month_folder) && mkdir($month_folder, 0777);
-                $filepath = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/" . "$filename";
-                $upload = new Upload();
-                $image_exist = Upload::where('name', '=', $filename)->first();
-                if ($image_exist === null) {
-                    $upload->name = $filename;
-                }else {
-                    $filename = Carbon::now().'_'.$filename;
-                    $upload->name = str_replace(' ', '_', $filename);
+                $folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
+                $img_md5_value = md5_file($src);
+                $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
+
+                if (!empty($image_exist)) {
+                    $filename = Carbon::now()->timestamp . '_' . $filename;
+                    $filename = str_replace(' ', '_', $filename);
                 }
 
-                $upload->folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
-                $upload->md5_hash = md5_file($src);
+                $upload = new Upload();
+                $upload->name = $filename;
+                $upload->folder_path = $folder_path;
+                $upload->md5_hash = $img_md5_value;
+                $upload->post_id = $post->id;
                 $upload->save();
-                // @see http://image.intervention.io/api/
                 $image = Image::make($src)
                     // resize if required
                     /* ->resize(300, 200) */
                     ->encode($mimetype, 100)// encode file to the specified mimetype
-                    ->save(public_path($filepath));
-                $new_src = $filepath;
+                    ->save(public_path($folder_path.$filename));
+
+                $new_src = $folder_path.$filename;
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
             } // <!--endif
         } // <!-
-        $post->body = $dom->saveHTML();
-        $post->save();
+
         return redirect()->back()->with(['success' => 'Post Created Successfully']);
     }
 
@@ -175,7 +176,6 @@ class PostController extends Controller
 
         $message = $request->input('body');
         $dom = new DomDocument();
-        //$dom->loadHtml($message, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_use_internal_errors(true);
 
         $dom->loadHTML("<div>$message</div>");
@@ -193,44 +193,43 @@ class PostController extends Controller
         }
 
         $images = $dom->getElementsByTagName('img');
-        // foreach <img> in the submited message
 
         foreach ($images as $img) {
             $src = $img->getAttribute('src');
 
-            // if the img source is 'data-url'
             if (preg_match('/data:image/', $src)) {
-                // get the mimetype
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimetype = $groups['mime'];
-                // Generating a random filename
                 $filename = $img->getAttribute('data-filename');
                 $filename = str_replace(' ', '_', $filename);
-                $path = public_path() . '/uploads/blog_images/';
-                $year_folder = $path . date("Y");
+                $public_path = public_path() . '/uploads/blog_images/';
+                $year_folder = $public_path . date("Y");
                 $month_folder = $year_folder . '/' . date("m");
 
                 !file_exists($year_folder) && mkdir($year_folder, 0777);
                 !file_exists($month_folder) && mkdir($month_folder, 0777);
-                $filepath = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/" . "$filename";
-                $upload = new Upload();
-                $image_exist = Upload::where('name', '=', $filename)->first();
-                if ($image_exist === null) {
-                    $upload->name = $filename;
-                }else {
-                    $filename = Carbon::now().'_'.$filename;
-                    $upload->name = str_replace(' ', '_', $filename);
+                $folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
+                $img_md5_value = md5_file($src);
+                $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
+
+                if (!empty($image_exist)) {
+                    $filename = Carbon::now()->timestamp . '_' . $filename;
+                    $filename = str_replace(' ', '_', $filename);
                 }
-                $upload->folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
-                $upload->md5_hash = md5_file($src);
+
+                $upload = new Upload();
+                $upload->name = $filename;
+                $upload->folder_path = $folder_path;
+                $upload->md5_hash = $img_md5_value;
+                $upload->post_id = $post->id;
                 $upload->save();
-                // @see http://image.intervention.io/api/
                 $image = Image::make($src)
                     // resize if required
                     /* ->resize(300, 200) */
                     ->encode($mimetype, 100)// encode file to the specified mimetype
-                    ->save(public_path($filepath));
-                $new_src = $filepath;
+                    ->save(public_path($folder_path.$filename));
+
+                $new_src = $folder_path.$filename;
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
             } // <!--endif

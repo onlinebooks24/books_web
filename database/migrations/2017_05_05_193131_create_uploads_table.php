@@ -18,6 +18,7 @@ class CreateUploadsTable extends Migration
             $table->string('name');
             $table->string('folder_path');
             $table->string('md5_hash');
+            $table->string('post_id');
             $table->timestamps();
         });
     }
