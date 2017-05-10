@@ -104,8 +104,15 @@ class PostController extends Controller
                 !file_exists($month_folder) && mkdir($month_folder, 0777);
                 $filepath = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/" . "$filename";
                 $upload = new Upload();
-                $upload->name = Carbon::now().'_'.$filename;
-                $upload->folder_path = $filepath;
+                $image_exist = Upload::where('name', '=', $filename)->first();
+                if ($image_exist === null) {
+                    $upload->name = $filename;
+                }else {
+                    $filename = Carbon::now().'_'.$filename;
+                    $upload->name = str_replace(' ', '_', $filename);
+                }
+
+                $upload->folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
                 $upload->md5_hash = md5_file($src);
                 $upload->save();
                 // @see http://image.intervention.io/api/
@@ -209,8 +216,14 @@ class PostController extends Controller
                 !file_exists($month_folder) && mkdir($month_folder, 0777);
                 $filepath = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/" . "$filename";
                 $upload = new Upload();
-                $upload->name = Carbon::now().'_'.$filename;
-                $upload->folder_path = $filepath;
+                $image_exist = Upload::where('name', '=', $filename)->first();
+                if ($image_exist === null) {
+                    $upload->name = $filename;
+                }else {
+                    $filename = Carbon::now().'_'.$filename;
+                    $upload->name = str_replace(' ', '_', $filename);
+                }
+                $upload->folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
                 $upload->md5_hash = md5_file($src);
                 $upload->save();
                 // @see http://image.intervention.io/api/
