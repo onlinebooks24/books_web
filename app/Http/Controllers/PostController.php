@@ -66,12 +66,9 @@ class PostController extends Controller
 
         $message = $request->input('body');
         $dom = new DomDocument();
-        //$dom->loadHtml($message, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-
-        $dom->loadHTML("<div>$message</div>");
+        $dom->loadHTML($message);
 
         $container = $dom->getElementsByTagName('div')->item(0);
-
         $container = $container->parentNode->removeChild($container);
 
         while ($dom->firstChild) {
@@ -179,6 +176,7 @@ class PostController extends Controller
         $message = $request->input('body');
         $dom = new DomDocument();
         //$dom->loadHtml($message, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_use_internal_errors(true);
 
         $dom->loadHTML("<div>$message</div>");
 
