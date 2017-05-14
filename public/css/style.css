@@ -156,7 +156,7 @@ h2 {
 }
 .social-icon ul li a {
     border: 1px solid #337ab7;
-    background: #337ab7;
+    background: grey;
     border-radius: 50%;
     color: white;
     display: inline-block;
