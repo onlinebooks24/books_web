@@ -19,7 +19,7 @@
                  <hr>
                  <!-- <hr>
                   <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
-                  <div>{!! str_limit($post->body,400) !!} </div>
+                  <div>{!! Helper::readMoreHelper($post->body) !!}</div>
                   <div class="clearfix"></div>
 
                   <a class="btn btn-primary" style="float: right;" href="{{ route('post.single' , [ 'category_name' => $post->category->name , 'slug' => $post->slug ])}}"> Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
