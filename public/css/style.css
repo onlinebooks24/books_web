@@ -15,6 +15,10 @@ img {
 
 /* Main Section */
 
+.brand-title {
+    font-weight: bold;
+}
+
 .main {
     min-height: 500px;
 }
@@ -143,4 +147,21 @@ h2 {
 }
 .popular-post-time{
     font-size: 12px;
+}
+.social-icon ul li{
+    list-style: none;
+    float: left;
+    font-size: 16px;
+    margin-left: 8px;
+}
+.social-icon ul li a {
+    border: 1px solid #337ab7;
+    background: #337ab7;
+    border-radius: 50%;
+    color: white;
+    display: inline-block;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    width: 34px;
 }

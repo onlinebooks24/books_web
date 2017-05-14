@@ -16,6 +16,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
      @yield('run_custom_css_file')
     @yield('run_custom_css')
