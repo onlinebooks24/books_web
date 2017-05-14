@@ -134,3 +134,13 @@ h2 {
 .author-name {
     color: grey;
 }
+.popular-post{
+    padding: 5px;
+    border-top: 1px solid #eeeeee;
+}
+.popular-post-title{
+    font-size: 15px;
+}
+.popular-post-time{
+    font-size: 12px;
+}

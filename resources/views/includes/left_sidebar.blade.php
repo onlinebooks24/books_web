@@ -42,4 +42,25 @@
         <!-- /.row -->
     </div>
 
+    <div class="border-block">
+        <h4>Popular Articles</h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-unstyled">
+                    @foreach($posts->reverse() as $post)
+                        <div class="popular-post">
+                            <div class="popular-post-title">
+                                <a href="{{ route('post.single' , [ 'slug' => $post->slug ])}}">{{ $post->title }}</a>
+                            </div>
+                            <div class="popular-post-time">
+                                published on {{ $post->created_at->format('m-d-Y') }}
+                            </div>
+                        </div>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+
 </div>
