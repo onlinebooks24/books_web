@@ -1,6 +1,6 @@
 <div class="col-md-4">
     <!-- Side Widget Well  -->
-    <div class="well">
+    <div class="border-block">
         <h4>Be with us</h4>
         <div class="fb-like" data-href="https://web.facebook.com/onlinebooksreview" data-width="350px" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
         <div id="fb-root"></div>
@@ -13,7 +13,7 @@
             }(document, 'script', 'facebook-jssdk'));</script>
     </div>
     <!-- Blog Search Well -->
-    <div class="well">
+    <div class="border-block">
         <h4>Article Search</h4>
         <div class="input-group">
             <input type="text" class="form-control">
@@ -27,7 +27,7 @@
     </div>
 
     <!-- Blog Categories Well -->
-    <div class="well">
+    <div class="border-block">
         <h4>Article Categories</h4>
         <div class="row">
             <div class="col-lg-12">

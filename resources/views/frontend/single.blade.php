@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-           <div class="well">
+           <div class="border-block">
                <h1>
                  {{ $post->title }}
                </h1>
@@ -35,5 +35,6 @@
         
     @include('includes.left_sidebar')  
     @include('includes.footer')
+    </div> <!--row -->
 </div>
 @endsection

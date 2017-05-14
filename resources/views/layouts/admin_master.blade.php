@@ -23,8 +23,8 @@
       @yield('content')
     </div>
 
-    <script type="text/javascript" src="{{ asset('js/jquery-2.1.4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js')}}"></script>  
+    <script type="text/javascript" src="{{ asset('js/jquery-2.1.4.min.js') }}"/>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js')}}"/>
     @yield('run_custom_js_file')
     @yield('run_custom_jquery')
 	</body>

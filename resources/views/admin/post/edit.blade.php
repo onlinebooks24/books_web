@@ -69,8 +69,8 @@
 @endsection
 
 @section('run_custom_js_file')
-    <script type="text/javascript" src="{{ asset('summernote/summernote.js')}}"></script>
-    <script  type="text/javascript"  src="{{ asset('summernote/summernote-image-attributes.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('summernote/summernote.js')}}" />
+    <script  type="text/javascript"  src="{{ asset('summernote/summernote-image-attributes.js') }}" />
 @endsection
 
 @section('run_custom_jquery')

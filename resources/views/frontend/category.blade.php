@@ -8,7 +8,7 @@
 @include('includes.header')
 <div class="container">
   <div class="row">
-      <div class="col-md-8"> 
+      <div class="col-md-8 full-box">
          @if(!empty(Request::Segment(1)))
             <div class="alert alert-info">
               <strong>Category : </strong> {{ $categoryName }} . Show All Posts.
@@ -21,11 +21,9 @@
               <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $post->created_at->format('m-d-Y') }}  by <span style="color: blue;text-transform: capitalize;">{{$post->user->name }}</span></p>
               <!-- <hr>
               <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
-              <hr>
-              <p>{!! str_limit($post->body,400) !!}</p> 
+              <p>{!! str_limit($post->body,400) !!}</p>
               <a class="btn btn-primary" href="{{ route('post.single' , [ 'category_name' => $post->category->name , 'slug' => $post->slug ])}}" style="float: right;">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
               <div class="clearfix"></div>
-              <hr>
          @endforeach
 
         <nav>
@@ -41,7 +39,8 @@
 
       </div>
 
-      @include('includes.left_sidebar')  
-      @include('includes.footer')
+      @include('includes.left_sidebar')
+   </div>
+    @include('includes.footer')
 </div>
 @endsection

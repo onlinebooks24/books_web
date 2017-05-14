@@ -24,8 +24,8 @@
 
     @yield('content')
 
-    <script type="text/javascript" src="{{ asset('js/jquery-2.1.4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-2.1.4.min.js') }}"/>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js')}}"/>
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

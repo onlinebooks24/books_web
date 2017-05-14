@@ -117,3 +117,16 @@ h2 {
     background-color: #0654ba;
     box-shadow: 1px 1px 2px #888888;
 }
+
+.full-box {
+    background: #fff none repeat scroll 0 0;
+}
+
+.border-block {
+    box-shadow: 0 0 3px #cacaca;
+    margin-top: 10px;
+    padding-left: 12px ;
+    padding-right: 12px ;
+    padding-bottom: 10px ;
+    padding-top: 1px ;
+}
