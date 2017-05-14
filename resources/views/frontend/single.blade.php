@@ -33,8 +33,8 @@
             <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>
         </div>
         
-    @include('includes.left_sidebar')  
-    @include('includes.footer')
+    @include('includes.left_sidebar')
     </div> <!--row -->
+    @include('includes.footer')
 </div>
 @endsection
