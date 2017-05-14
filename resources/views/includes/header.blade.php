@@ -10,7 +10,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand brand-title" href="{{ route('blog.index') }}">OnlineBooksReview</a>
+          <a class="navbar-brand brand-title" href="{{ route('blog.index') }}">
+            <i class="fa fa-book" aria-hidden="true"></i>
+            Online Books Review</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
