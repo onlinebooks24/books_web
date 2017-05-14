@@ -12,7 +12,7 @@
                <h1>
                  {{ $post->title }}
                </h1>
-               <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $post->created_at->format('m-d-Y') }}  by <span style="color: blue;text-transform: capitalize;">{{$post->user->name }}</span></p>
+               <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $post->created_at->format('m-d-Y') }}  by <span class="author-name">{{$post->user->name }}</span></p>
                <!-- <hr>
                <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
                <hr>
