@@ -16,7 +16,7 @@ class ArticleController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $posts = Post::orderBy('created_at','desc')->Paginate(10);
+        $posts = Post::where('status', true)->orderBy('created_at','desc')->Paginate(10);
         return view('frontend.articles',['categories'=>$categories,'posts'=>$posts]);
     }
 
