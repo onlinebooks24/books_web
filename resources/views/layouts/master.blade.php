@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:locale" content="en_US" >
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
+    <meta name="google-site-verification" content="SshyPvUWMt9RvlmGX7X4AJtFpVhrCiejltTVOqRbe6o" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="www.onlinebooksreview.com">
     <meta property="og:image" content="" >
