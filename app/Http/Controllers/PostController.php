@@ -91,7 +91,7 @@ class PostController extends Controller
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimetype = $groups['mime'];
-                $filename = $img->getAttribute('data-filename');
+                $filename = date("d") . '_' . $img->getAttribute('data-filename');
                 $filename = str_replace(' ', '_', $filename);
                 $public_path = public_path() . '/uploads/blog_images/';
                 $year_folder = $public_path . date("Y");
@@ -104,8 +104,7 @@ class PostController extends Controller
                 $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
 
                 if (!empty($image_exist)) {
-                    $filename = Carbon::now()->timestamp . '_' . $filename;
-                    $filename = str_replace(' ', '_', $filename);
+                    $filename =  Carbon::now()->timestamp . '_' . $filename;
                 }
 
                 $upload = new Upload();
@@ -125,6 +124,10 @@ class PostController extends Controller
                 $img->setAttribute('src', $new_src);
             } // <!--endif
         } // <!-
+
+        $post->body = $dom->saveHTML();
+
+        $post->update();
 
         return redirect()->back()->with(['success' => 'Post Created Successfully']);
     }
@@ -200,7 +203,7 @@ class PostController extends Controller
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimetype = $groups['mime'];
-                $filename = $img->getAttribute('data-filename');
+                $filename = date("d") . '_' . $img->getAttribute('data-filename');
                 $filename = str_replace(' ', '_', $filename);
                 $public_path = public_path() . '/uploads/blog_images/';
                 $year_folder = $public_path . date("Y");
@@ -213,8 +216,7 @@ class PostController extends Controller
                 $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
 
                 if (!empty($image_exist)) {
-                    $filename = Carbon::now()->timestamp . '_' . $filename;
-                    $filename = str_replace(' ', '_', $filename);
+                    $filename =  Carbon::now()->timestamp . '_' . $filename;
                 }
 
                 $upload = new Upload();
