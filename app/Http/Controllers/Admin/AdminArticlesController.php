@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\Post;
+use App\Models\Article;
 use Auth;
 use Illuminate\Support\Facades\Input;
 use \DomDocument;
@@ -29,7 +29,7 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('created_at','desc')->Paginate(10);
+        $posts = Article::orderBy('created_at','desc')->Paginate(10);
         $categories = Category::all();
         return view('admin.articles.index',['categories' => $categories,'posts' => $posts]);
     }
@@ -114,7 +114,7 @@ class AdminArticlesController extends Controller
                 $upload->name = $filename;
                 $upload->folder_path = $folder_path;
                 $upload->md5_hash = $img_md5_value;
-                $upload->post_id = $post->id;
+                $upload->article_id = $post->id;
                 $upload->save();
                 $image = Image::make($src)
                     // resize if required
@@ -154,7 +154,7 @@ class AdminArticlesController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = Article::find($id);
         $categories = Category::all();
         return view ('admin.articles.edit',['post'=>$post, 'categories'=>$categories]);
     }
@@ -168,7 +168,7 @@ class AdminArticlesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Post::find($id);
+        $post = Article::find($id);
 
         $post->title = $request['title'];
         $post->user_id = Auth::user()->id ;
@@ -226,7 +226,7 @@ class AdminArticlesController extends Controller
                 $upload->name = $filename;
                 $upload->folder_path = $folder_path;
                 $upload->md5_hash = $img_md5_value;
-                $upload->post_id = $post->id;
+                $upload->article_id = $post->id;
                 $upload->save();
                 $image = Image::make($src)
                     // resize if required
@@ -254,7 +254,7 @@ class AdminArticlesController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
+        $post = Article::find($id);
         if(!$post){
             return redirect()->route('post.index')->with(['fail' => 'Page not found !']);
         }

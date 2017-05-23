@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\Post;
+use App\Models\Article;
 
 class ArticleController extends Controller
 {
@@ -16,7 +16,7 @@ class ArticleController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $posts = Post::where('status', true)->orderBy('created_at','desc')->Paginate(10);
+        $posts = Article::where('status', true)->orderBy('created_at','desc')->Paginate(10);
         return view('frontend.articles',['categories'=>$categories,'posts'=>$posts]);
     }
 
@@ -88,9 +88,9 @@ class ArticleController extends Controller
 
     public function getSinglePost($slug)
     {
-        $posts = Post::orderBy('created_at','desc')->Paginate(10);
+        $posts = Article::orderBy('created_at','desc')->Paginate(10);
         $categories = Category::all();
-        $post = Post::where('slug' , $slug)->first();
+        $post = Article::where('slug' , $slug)->first();
         return view('frontend.single',['post'=>$post, 'posts' => $posts, 'categories' => $categories]);
     }
 
@@ -99,7 +99,7 @@ class ArticleController extends Controller
         $categories = Category::all();
         $category = Category::where('slug' , $slug)->first();
         if (!empty($category)){
-            $posts = Post::where('category_id' , $category->id)->orderBy('created_at','desc')->Paginate(5);
+            $posts = Article::where('category_id' , $category->id)->orderBy('created_at','desc')->Paginate(5);
             return view('frontend.category',['posts'=> $posts,'categories' => $categories,'categoryName' => $category->name ]);
         } else {
             return redirect()->route('blog.index');
