@@ -5,7 +5,7 @@ Auth::routes();
 Route::group(['middleware' => ['web']] , function() {
 
 	Route::group(['middleware' => 'auth' , 'prefix' => 'admin'] , function() {
-		Route::get('/home' , [
+		Route::get('/' , [
 			'uses' => 'Admin\AdminController@index',
 			'as' => 'admin.index'
 		]);

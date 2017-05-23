@@ -16,7 +16,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-     return redirect('/admin/home');
+     return redirect('/admin/');
     }
     public function __construct()
     {

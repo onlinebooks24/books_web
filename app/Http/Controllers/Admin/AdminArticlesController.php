@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Category;
-use App\Post;
+use App\Models\Category;
+use App\Models\Post;
 use Auth;
 use Illuminate\Support\Facades\Input;
 use \DomDocument;
@@ -18,7 +18,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
 use File;
 use Date;
-use App\Upload;
+use App\Models\Upload;
 
 class AdminArticlesController extends Controller
 {
