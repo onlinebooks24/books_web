@@ -29,9 +29,9 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
-        $posts = Article::orderBy('created_at','desc')->Paginate(10);
+        $articles = Article::orderBy('created_at','desc')->Paginate(10);
         $categories = Category::all();
-        return view('admin.articles.index',['categories' => $categories,'posts' => $posts]);
+        return view('admin.articles.index',['categories' => $categories,'articles' => $articles]);
     }
 
     /**
@@ -53,19 +53,19 @@ class AdminArticlesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request , [
-            'title' => 'required|unique:posts'
+            'title' => 'required|unique:articles'
         ]);
-        $post = new Post();
+        $article = new Post();
 
-        $post->title = $request['title'];
-        $post->user_id = Auth::user()->id ;
-        $post->category_id = $request['category_id'];
+        $article->title = $request['title'];
+        $article->user_id = Auth::user()->id ;
+        $article->category_id = $request['category_id'];
         $slug = strtolower($request['title']);
         $slug = str_replace(' ', '-', $slug);
-        $post->slug = $slug ;
-        $post->keyword = $request['keyword'];
-        $post->status = true;
-        $post->meta_description = $request['meta_description'];
+        $article->slug = $slug ;
+        $article->keyword = $request['keyword'];
+        $article->status = true;
+        $article->meta_description = $request['meta_description'];
 
         $message = $request->input('body');
         $dom = new DomDocument();
@@ -85,8 +85,8 @@ class AdminArticlesController extends Controller
 
         $images = $dom->getElementsByTagName('img');
 
-        $post->body = $dom->saveHTML();
-        $post->save();
+        $article->body = $dom->saveHTML();
+        $article->save();
 
         foreach ($images as $img) {
             $src = $img->getAttribute('src');
@@ -114,7 +114,7 @@ class AdminArticlesController extends Controller
                 $upload->name = $filename;
                 $upload->folder_path = $folder_path;
                 $upload->md5_hash = $img_md5_value;
-                $upload->article_id = $post->id;
+                $upload->article_id = $article->id;
                 $upload->save();
                 $image = Image::make($src)
                     // resize if required
@@ -128,9 +128,9 @@ class AdminArticlesController extends Controller
             } // <!--endif
         } // <!-
 
-        $post->body = $dom->saveHTML();
+        $article->body = $dom->saveHTML();
 
-        $post->update();
+        $article->update();
 
         return redirect()->back()->with(['success' => 'Post Created Successfully']);
     }
@@ -154,9 +154,9 @@ class AdminArticlesController extends Controller
      */
     public function edit($id)
     {
-        $post = Article::find($id);
+        $article = Article::find($id);
         $categories = Category::all();
-        return view ('admin.articles.edit',['post'=>$post, 'categories'=>$categories]);
+        return view ('admin.articles.edit',['article'=>$article, 'categories'=>$categories]);
     }
 
     /**
@@ -168,17 +168,17 @@ class AdminArticlesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Article::find($id);
+        $article = Article::find($id);
 
-        $post->title = $request['title'];
-        $post->user_id = Auth::user()->id ;
-        $post->category_id = $request['category_id'];
+        $article->title = $request['title'];
+        $article->user_id = Auth::user()->id ;
+        $article->category_id = $request['category_id'];
         $slug = strtolower($request['title']);
         $slug = str_replace(' ', '-', $slug);
-        $post->slug = $slug ;
-        $post->keyword = $request['keyword'];
-        $post->status = true;
-        $post->meta_description = $request['meta_description'];
+        $article->slug = $slug ;
+        $article->keyword = $request['keyword'];
+        $article->status = true;
+        $article->meta_description = $request['meta_description'];
 
         $message = $request->input('body');
         $dom = new DomDocument();
@@ -226,7 +226,7 @@ class AdminArticlesController extends Controller
                 $upload->name = $filename;
                 $upload->folder_path = $folder_path;
                 $upload->md5_hash = $img_md5_value;
-                $upload->article_id = $post->id;
+                $upload->article_id = $article->id;
                 $upload->save();
                 $image = Image::make($src)
                     // resize if required
@@ -239,9 +239,9 @@ class AdminArticlesController extends Controller
                 $img->setAttribute('src', $new_src);
             } // <!--endif
         } // <!-
-        $post->body = $dom->saveHTML();
+        $article->body = $dom->saveHTML();
 
-        $post->update();
+        $article->update();
 
         return redirect()->route('admin_articles.index')->with(['success' => 'Post Updated Successfully']);
     }
@@ -254,11 +254,11 @@ class AdminArticlesController extends Controller
      */
     public function destroy($id)
     {
-        $post = Article::find($id);
-        if(!$post){
-            return redirect()->route('post.index')->with(['fail' => 'Page not found !']);
+        $article = Article::find($id);
+        if(!$article){
+            return redirect()->route('article.index')->with(['fail' => 'Page not found !']);
         }
-        $post->delete();
+        $article->delete();
         return redirect()->route('admin_articles.index')->with(['success' => 'Post Deleted Successfully.']);
     }
 

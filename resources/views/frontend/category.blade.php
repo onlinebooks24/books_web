@@ -14,25 +14,25 @@
               <strong>Category : </strong> {{ $categoryName }} . Show All Posts.
             </div>
          @endif
-         @foreach($posts as $post)
+         @foreach($articles as $article)
              <h2>
-                  <a href="{{ route('post.single' , [ 'category_name' => $post->category->name , 'slug' => $post->slug ])}}">{{ $post->title }}</a>
+                  <a href="{{ route('articles.single' , [ 'category_name' => $article->category->name , 'slug' => $article->slug ])}}">{{ $article->title }}</a>
               </h2>
-              <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $post->created_at->format('m-d-Y') }}  by <span class="author-name">{{$post->user->name }}</span></p>
+              <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }}  by <span class="author-name">{{$article->user->name }}</span></p>
               <!-- <hr>
               <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
-              <p>{!! str_limit($post->body,400) !!}</p>
-              <a class="btn btn-primary" href="{{ route('post.single' , [ 'category_name' => $post->category->name , 'slug' => $post->slug ])}}" style="float: right;">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+              <p>{!! str_limit($article->body,400) !!}</p>
+              <a class="btn btn-primary" href="{{ route('articles.single' , [ 'category_name' => $article->category->name , 'slug' => $article->slug ])}}" style="float: right;">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
               <div class="clearfix"></div>
          @endforeach
 
         <nav>
           <ul class="pager">
-              @if($posts->currentPage() !== 1)
-                <li class="previous"><a href="{{ $posts->previousPageUrl() }}"><span aria-hidden="true">&larr;</span> Older</a></li>
+              @if($articles->currentPage() !== 1)
+                <li class="previous"><a href="{{ $articles->previousPageUrl() }}"><span aria-hidden="true">&larr;</span> Older</a></li>
               @endif
-              @if($posts->currentPage() !== $posts->lastPage() && $posts->hasPages())
-                <li class="next"><a href="{{ $posts->nextPageUrl() }}">Newer <span aria-hidden="true">&rarr;</span></a></li>
+              @if($articles->currentPage() !== $articles->lastPage() && $articles->hasPages())
+                <li class="next"><a href="{{ $articles->nextPageUrl() }}">Newer <span aria-hidden="true">&rarr;</span></a></li>
               @endif
           </ul>
         </nav>

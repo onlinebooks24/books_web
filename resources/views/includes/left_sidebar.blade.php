@@ -47,13 +47,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <ul class="list-unstyled">
-                    @foreach($posts->reverse() as $post)
+                    @foreach($articles->reverse() as $article)
                         <div class="popular-post">
                             <div class="popular-post-title">
-                                <a href="{{ route('post.single' , [ 'slug' => $post->slug ])}}">{{ $post->title }}</a>
+                                <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
                             </div>
                             <div class="popular-post-time">
-                                published on {{ $post->created_at->format('m-d-Y') }}
+                                published on {{ $article->created_at->format('m-d-Y') }}
                             </div>
                         </div>
                     @endforeach

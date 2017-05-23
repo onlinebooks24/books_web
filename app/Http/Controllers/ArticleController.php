@@ -16,8 +16,8 @@ class ArticleController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $posts = Article::where('status', true)->orderBy('created_at','desc')->Paginate(10);
-        return view('frontend.articles',['categories'=>$categories,'posts'=>$posts]);
+        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(10);
+        return view('frontend.articles',['categories'=>$categories,'articles'=>$articles]);
     }
 
     /**
@@ -88,10 +88,10 @@ class ArticleController extends Controller
 
     public function getSinglePost($slug)
     {
-        $posts = Article::orderBy('created_at','desc')->Paginate(10);
+        $articles = Article::orderBy('created_at','desc')->Paginate(10);
         $categories = Category::all();
-        $post = Article::where('slug' , $slug)->first();
-        return view('frontend.single',['post'=>$post, 'posts' => $posts, 'categories' => $categories]);
+        $article = Article::where('slug' , $slug)->first();
+        return view('frontend.single',['article'=>$article, 'articles' => $articles, 'categories' => $categories]);
     }
 
     public function getCategoryPost($slug)
@@ -99,8 +99,8 @@ class ArticleController extends Controller
         $categories = Category::all();
         $category = Category::where('slug' , $slug)->first();
         if (!empty($category)){
-            $posts = Article::where('category_id' , $category->id)->orderBy('created_at','desc')->Paginate(5);
-            return view('frontend.category',['posts'=> $posts,'categories' => $categories,'categoryName' => $category->name ]);
+            $articles = Article::where('category_id' , $category->id)->orderBy('created_at','desc')->Paginate(5);
+            return view('frontend.category',['articles'=> $articles,'categories' => $categories,'categoryName' => $category->name ]);
         } else {
             return redirect()->route('blog.index');
         }

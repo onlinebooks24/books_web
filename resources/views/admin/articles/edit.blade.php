@@ -26,22 +26,22 @@
     </div>
     <div class="row">
         <div class="alert alert-success">
-            <form action="{{ route('admin_articles.update' , $post->id)}}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('admin_articles.update' , $article->id)}}" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <input name="_method" type="hidden" value="PUT">
                 <div class="form-group"> <!-- Name field -->
                     <label class="control-label " for="name">Title</label>
-                    <input class="form-control" name="title" type="text" value="{{ $post->title }}" />
+                    <input class="form-control" name="title" type="text" value="{{ $article->title }}" />
                 </div>
 
                 <div class="form-group"> <!-- Name field -->
                     <label class="control-label " for="name">Keyword</label>
-                    <input class="form-control" name="keyword" type="text" value="{{ $post->keyword }}" required />
+                    <input class="form-control" name="keyword" type="text" value="{{ $article->keyword }}" required />
                 </div>
 
                 <div class="form-group"> <!-- Name field -->
                     <label class="control-label " for="name">Meta Description</label>
-                    <textarea class="form-control" name="meta_description" type="text" required>{{ $post->meta_description }}</textarea>
+                    <textarea class="form-control" name="meta_description" type="text" required>{{ $article->meta_description }}</textarea>
                 </div>
 
                 <div class="form-group">
@@ -49,14 +49,14 @@
                     <select class="form-control" name="category_id">
                         <option value="">Select Category</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id}}" {{ $post->category_id == $category->id ? 'selected'  : '' }} > {{ $category->name }} </option>
+                            <option value="{{ $category->id}}" {{ $article->category_id == $category->id ? 'selected'  : '' }} > {{ $category->name }} </option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="form-group"> <!-- Message field -->
                     <label class="control-label " for="message">Message</label>
-                    <textarea class="form-control" id="summernote" name="body">{!! $post->body !!}</textarea>
+                    <textarea class="form-control" id="summernote" name="body">{!! $article->body !!}</textarea>
                 </div>
 
                 <div class="form-group">

@@ -85,17 +85,17 @@
     @php 
     	$i = 0;
     @endphp
-    @foreach($posts as $post)
+    @foreach($articles as $article)
     <tr>
-    <td>{{ $post->title }}</td>
-		<td><a href="{{ route('admin_articles.edit', $post->id) }}"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
+    <td>{{ $article->title }}</td>
+		<td><a href="{{ route('admin_articles.edit', $article->id) }}"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
     <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete<?php echo  $i ; ?>" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
     </tr>
     
 	<div class="modal fade" id="delete<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 	  <div class="modal-dialog">
 		<div class="modal-content">
-		<form action="{{ route('admin_articles.destroy' , $post->id)}}" method="POST">
+		<form action="{{ route('admin_articles.destroy' , $article->id)}}" method="POST">
         {{ csrf_field() }}
         <input name="_method" type="hidden" value="DELETE">
 		   <div class="modal-header">
@@ -136,11 +136,11 @@
 	<section>
       <nav>
         <ul class="pager">
-            @if($posts->currentPage() !== 1)
-              <li class="previous"><a href="{{ $posts->previousPageUrl() }}"><span aria-hidden="true">&larr;</span>Newer</a></li>
+            @if($articles->currentPage() !== 1)
+              <li class="previous"><a href="{{ $articles->previousPageUrl() }}"><span aria-hidden="true">&larr;</span>Newer</a></li>
             @endif
-            @if($posts->currentPage() !== $posts->lastPage() && $posts->hasPages())
-              <li class="next"><a href="{{ $posts->nextPageUrl() }}">Older <span aria-hidden="true">&rarr;</span></a></li>
+            @if($articles->currentPage() !== $articles->lastPage() && $articles->hasPages())
+              <li class="next"><a href="{{ $articles->nextPageUrl() }}">Older <span aria-hidden="true">&rarr;</span></a></li>
             @endif
         </ul>
       </nav>

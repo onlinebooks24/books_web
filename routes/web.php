@@ -25,7 +25,7 @@ Route::group(['middleware' => ['web']] , function() {
 
 	Route::get('/articles/{slug}', [
 		'uses' => 'ArticleController@getSinglePost',
-		'as' => 'post.single'
+		'as' => 'articles.single'
 	]);
 
 	Route::resource('articles' , 'ArticleController');

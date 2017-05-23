@@ -1,7 +1,7 @@
 @extends('layouts.master')
-@section('title'){{ $post->title }} | OnlineBooksReview @endsection
-@section('meta_description'){{$post->meta_description}}@endsection
-@section('meta_keyword'){{ $post->keyword }}@endsection
+@section('title'){{ $article->title }} | OnlineBooksReview @endsection
+@section('meta_description'){{$article->meta_description}}@endsection
+@section('meta_keyword'){{ $article->keyword }}@endsection
 
 @section('content')
 @include('includes.header')
@@ -10,13 +10,13 @@
         <div class="col-md-8">
            <div class="border-block">
                <h1>
-                 {{ $post->title }}
+                 {{ $article->title }}
                </h1>
-               <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $post->created_at->format('m-d-Y') }}  by <span class="author-name">{{$post->user->name }}</span></p>
+               <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }}  by <span class="author-name">{{$article->user->name }}</span></p>
                <!-- <hr>
                <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
                <hr>
-               <p>{!! $post->body !!}</p>
+               <p>{!! $article->body !!}</p>
            </div>
 
         
