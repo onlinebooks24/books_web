@@ -68,7 +68,7 @@
 	</div>
 	<div class="row">
 		<div class="alert alert-info">
-			<strong>View All Posts</strong>
+			<strong>View All Articles</strong>
 		</div>
 	</div>
 	<div class="row alert alert-success">

@@ -11,7 +11,7 @@
       <div class="col-md-8 full-box">
          @if(!empty(Request::Segment(1)))
             <div class="alert alert-info">
-              <strong>Category : </strong> {{ $categoryName }} . Show All Posts.
+              <strong>Category : </strong> {{ $categoryName }} . Show All Articles.
             </div>
          @endif
          @foreach($articles as $article)
