@@ -55,7 +55,7 @@ class AdminArticlesController extends Controller
         $this->validate($request , [
             'title' => 'required|unique:articles'
         ]);
-        $article = new Post();
+        $article = new Article();
 
         $article->title = $request['title'];
         $article->user_id = Auth::user()->id ;
@@ -132,7 +132,7 @@ class AdminArticlesController extends Controller
 
         $article->update();
 
-        return redirect()->back()->with(['success' => 'Post Created Successfully']);
+        return redirect()->back()->with(['success' => 'Article Created Successfully']);
     }
 
     /**
@@ -243,7 +243,7 @@ class AdminArticlesController extends Controller
 
         $article->update();
 
-        return redirect()->route('admin_articles.index')->with(['success' => 'Post Updated Successfully']);
+        return redirect()->route('admin_articles.index')->with(['success' => 'Article Updated Successfully']);
     }
 
     /**
@@ -259,7 +259,7 @@ class AdminArticlesController extends Controller
             return redirect()->route('article.index')->with(['fail' => 'Page not found !']);
         }
         $article->delete();
-        return redirect()->route('admin_articles.index')->with(['success' => 'Post Deleted Successfully.']);
+        return redirect()->route('admin_articles.index')->with(['success' => 'Article Deleted Successfully.']);
     }
 
 }

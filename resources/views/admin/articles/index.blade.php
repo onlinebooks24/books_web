@@ -7,7 +7,7 @@
 @section('content')
 	<div class="row">
 		<div class="alert alert-info">
-			<strong>Add New Post</strong>
+			<strong>Add New Articles</strong>
 		</div>
 	</div>
 	<div class="row">

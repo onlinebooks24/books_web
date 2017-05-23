@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li {{ Request::is('category') ? 'class=active' : ''}}><a href="{{ route('category.index') }}">Category</a></li>
-        <li {{ Request::is('articles') ? 'class=active' : ''}}><a href="{{ route('admin_articles.index') }}">Post</a></li>
+        <li {{ Request::is('articles') ? 'class=active' : ''}}><a href="{{ route('admin_articles.index') }}">Articles</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">  
         <li class="dropdown" style="text-transform: capitalize;">
