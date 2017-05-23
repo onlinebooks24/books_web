@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Category;
@@ -17,7 +20,7 @@ use File;
 use Date;
 use App\Upload;
 
-class PostController extends Controller
+class AdminArticlesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,7 +31,7 @@ class PostController extends Controller
     {
         $posts = Post::orderBy('created_at','desc')->Paginate(10);
         $categories = Category::all();
-        return view('admin.post.index',['categories' => $categories,'posts' => $posts]);
+        return view('admin.articles.index',['categories' => $categories,'posts' => $posts]);
     }
 
     /**
@@ -153,7 +156,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $categories = Category::all();
-        return view ('admin.post.edit',['post'=>$post, 'categories'=>$categories]);
+        return view ('admin.articles.edit',['post'=>$post, 'categories'=>$categories]);
     }
 
     /**
@@ -240,7 +243,7 @@ class PostController extends Controller
 
         $post->update();
 
-        return redirect()->route('post.index')->with(['success' => 'Post Updated Successfully']);
+        return redirect()->route('admin_articles.index')->with(['success' => 'Post Updated Successfully']);
     }
 
     /**
@@ -256,7 +259,7 @@ class PostController extends Controller
             return redirect()->route('post.index')->with(['fail' => 'Page not found !']);
         }
         $post->delete();
-        return redirect()->route('post.index')->with(['success' => 'Post Deleted Successfully.']);
+        return redirect()->route('admin_articles.index')->with(['success' => 'Post Deleted Successfully.']);
     }
 
 }

@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="alert alert-info">
-            <strong>Update Post</strong>
+            <strong>Update Articles</strong>
         </div>
     </div>
     <div class="row">
@@ -26,7 +26,7 @@
     </div>
     <div class="row">
         <div class="alert alert-success">
-            <form action="{{ route('post.update' , $post->id)}}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('admin_articles.update' , $post->id)}}" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <input name="_method" type="hidden" value="PUT">
                 <div class="form-group"> <!-- Name field -->

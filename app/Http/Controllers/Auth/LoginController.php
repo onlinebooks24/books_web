@@ -12,11 +12,11 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    protected $redirectTo = '/admin/dashboard/home';
+    protected $redirectTo = '/admin/home';
 
     protected function authenticated(Request $request, $user)
     {
-     return redirect('/admin/dashboard/home');
+     return redirect('/admin/home');
     }
     public function __construct()
     {

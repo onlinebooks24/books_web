@@ -4,17 +4,17 @@ Auth::routes();
 
 Route::group(['middleware' => ['web']] , function() {
 
-	Route::group(['middleware' => 'auth' , 'prefix' => 'admin/dashboard'] , function() {
+	Route::group(['middleware' => 'auth' , 'prefix' => 'admin'] , function() {
 		Route::get('/home' , [
-			'uses' => 'AdminController@getIndex',
+			'uses' => 'Admin\AdminController@index',
 			'as' => 'admin.index'
 		]);
 		Route::get('/logout' , [
-			'uses' => 'AdminController@getLogout',
+			'uses' => 'Admin\AdminController@getLogout',
 			'as' => 'admin.logout'
 		]);
 		Route::resource('/category','CategoryController');
-		Route::resource('/post','PostController');
+		Route::resource('/admin_articles','Admin\AdminArticlesController');
 	});
 
 	Route::get('/', [

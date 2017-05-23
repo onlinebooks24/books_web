@@ -26,7 +26,7 @@
  	</div>
 	<div class="row">
 		<div class="alert alert-success">
-			<form method="post" action="{{ route('post.store') }}">
+			<form method="post" action="{{ route('admin_articles.store') }}">
 			{{ csrf_field() }}
 				<div class="form-group"> <!-- Name field -->
 					<label class="control-label " for="name">Title</label>
@@ -88,14 +88,14 @@
     @foreach($posts as $post)
     <tr>
     <td>{{ $post->title }}</td>
-		<td><a href="{{ route('post.edit', $post->id) }}"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
+		<td><a href="{{ route('admin_articles.edit', $post->id) }}"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
     <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete<?php echo  $i ; ?>" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
     </tr>
     
 	<div class="modal fade" id="delete<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 	  <div class="modal-dialog">
 		<div class="modal-content">
-		<form action="{{ route('post.destroy' , $post->id)}}" method="POST">
+		<form action="{{ route('admin_articles.destroy' , $post->id)}}" method="POST">
         {{ csrf_field() }}
         <input name="_method" type="hidden" value="DELETE">
 		   <div class="modal-header">
