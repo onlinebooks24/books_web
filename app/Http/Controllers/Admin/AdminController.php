@@ -19,4 +19,5 @@ class AdminController extends Controller
     	Auth::logout();
     	return redirect()->route('blog.index');
     }
+
 }

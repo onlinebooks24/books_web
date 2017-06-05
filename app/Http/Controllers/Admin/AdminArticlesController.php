@@ -29,9 +29,9 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
+
         $articles = Article::orderBy('created_at','desc')->Paginate(10);
-        $categories = Category::all();
-        return view('admin.articles.index',['categories' => $categories,'articles' => $articles]);
+        return view('admin.articles.index',['articles' => $articles]);
     }
 
     /**
@@ -41,7 +41,8 @@ class AdminArticlesController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.articles.create', compact('categories'));
     }
 
     /**

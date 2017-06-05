@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use ApaiIO\Configuration\GenericConfiguration;
 use ApaiIO\Operations\Search;
 use ApaiIO\ApaiIO;
+use ApaiIO\Operations\BrowseNodeLookup;
 use ApaiIO\Operations\Lookup;
 
-class ArticleController extends Controller
+class AdminAutoArticlesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,17 +25,18 @@ class ArticleController extends Controller
 
         $conf
             ->setCountry('com')
-            ->setAccessKey('AKIAJABX3BZT46XF4UNQ')
-            ->setSecretKey('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')
-            ->setAssociateTag('onlinebooksre-20')
-            ->setRequest($request);
+            ->setAccessKey(env('AccessKey'))
+            ->setSecretKey(env('SecretKey'))
+            ->setAssociateTag(env('AssociateTag'))
+            ->setRequest($request)
+            ->setResponseTransformer(new \ApaiIO\ResponseTransformer\XmlToArray());
         $apaiIO = new ApaiIO($conf);
 
-        $lookup = new Lookup();
-        $lookup->setItemId('1118794753');
-        $lookup->setResponseGroup(array('Large')); // More detailed information
 
-        $response = $apaiIO->runOperation($lookup);
+        $browseNodeLookup = new BrowseNodeLookup();
+        $browseNodeLookup->setNodeId(163357);
+
+        $response = $apaiIO->runOperation($browseNodeLookup);
 
         dd($response);
     }

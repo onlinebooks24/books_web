@@ -15,6 +15,10 @@ Route::group(['middleware' => ['web']] , function() {
 		]);
 		Route::resource('/category','CategoryController');
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
+		Route::get('/admin_auto_articles', [
+				'uses' => 'Admin\AdminAutoArticlesController@index',
+				'as' => 'admin.auto_articles.index'
+			]);
 	});
 
 	Route::get('/', [
