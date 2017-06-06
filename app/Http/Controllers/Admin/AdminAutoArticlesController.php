@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class AdminAutoArticlesController extends Controller
 {
@@ -21,7 +22,23 @@ class AdminAutoArticlesController extends Controller
             'SearchIndex' => 'Books',
         ];
 
-        dd($this->amazonAdAPI($search_query));
+        $amazon_response = $this->amazonAdAPI($search_query);
+        $get_amazon_items = $amazon_response['Items']['Item'];
+
+        foreach($get_amazon_items as $item){
+            $product = new Product();
+            $product->isbn = $item['ASIN'];
+            $product->product_title = $item['ItemAttributes']['Title'];
+            $product->product_description = $item['EditorialReviews']['EditorialReview']['Content'];
+            $product->brand_id = 'amazon';
+            $product->link = $item['DetailPageURL'];
+            $product->image_url = $item['LargeImage']['URL'];
+            $product->author_id = $item['ItemAttributes']['Author'];
+            $product->article_id = 1;
+
+            $product->save();
+            dd($product);
+        }
         return view('admin.auto_articles.index');
     }
 

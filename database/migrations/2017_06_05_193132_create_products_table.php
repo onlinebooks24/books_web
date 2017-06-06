@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('isbn');
             $table->string('product_title');
-            $table->string('product_description');
+            $table->text('product_description');
             $table->string('brand_id');
             $table->string('link');
             $table->string('image_url');
