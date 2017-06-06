@@ -17,6 +17,22 @@
                <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
                <hr>
                <p>{!! $article->body !!}</p>
+               @if( count($products) > 0 )
+                   @foreach($products as $key=>$product)
+                       <h2 style="color: #337ab7">{{ ++$key }}. {{ $product->product_title }}</h2>
+                       <p align="center">
+                           <img src="{{ $product->image_url }}">
+                           <br>
+                       </p>
+                       <div>{!! $product->product_description !!} </div>
+
+                       <div class="affiliate_group">
+                           <a class="amazon_button" rel="nofollow" href="{{ $product->link }}" target="_blank">View</a>
+                       </div>
+                        <br>
+                       <div class="clearfix"></div>
+                   @endforeach
+               @endif
            </div>
 
         

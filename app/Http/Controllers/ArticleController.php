@@ -91,7 +91,11 @@ class ArticleController extends Controller
         $articles = Article::orderBy('created_at','desc')->Paginate(10);
         $categories = Category::all();
         $article = Article::where('slug' , $slug)->first();
-        return view('frontend.single',['article'=>$article, 'articles' => $articles, 'categories' => $categories]);
+        $products = $article->products;
+        return view('frontend.single',[ 'article'=>$article,
+                                        'articles' => $articles,
+                                        'categories' => $categories,
+                                        'products' => $products]);
     }
 
     public function getCategoryPost($slug)

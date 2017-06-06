@@ -19,42 +19,56 @@ class AdminAutoArticlesController extends Controller
     {
         $input = Input::all();
 
-        $keyword = $input['keyword'];
-
-        $search_query = [
-            'Operation' => 'ItemSearch',
-            'ResponseGroup' => 'Medium',
-            'Keywords' => $keyword,
-            'SearchIndex' => 'Books',
-        ];
-
-        $amazon_response = $this->amazonAdAPI($search_query);
-        $get_amazon_items = $amazon_response['Items']['Item'];
-
-        if(!empty($get_amazon_items)){
-            $article = new Article();
-            $article->title = "Best $keyword books";
-            $article->user_id = 1;
-            $article->body = "Here your will get some books of $keyword";
-            $article->category_id = 1;
-            $article->keyword = $keyword;
-            $article->status = 0;
-            $article->meta_description = "Get best $keyword books";
-            $article->slug = str_replace(' ', '-',  $article->title);
-            $article->save();
+        if(!empty($input)){
+            $keyword = $input['keyword'];
         }
 
-        foreach($get_amazon_items as $item){
-            $product = new Product();
-            $product->isbn = $item['ASIN'];
-            $product->product_title = $item['ItemAttributes']['Title'];
-            $product->product_description = $item['EditorialReviews']['EditorialReview']['Content'];
-            $product->brand_id = 'amazon';
-            $product->link = $item['DetailPageURL'];
-            $product->image_url = $item['LargeImage']['URL'];
-            $product->author_id = $item['ItemAttributes']['Author'];
-            $product->article_id = $article->id;
-            $product->save();
+        if(!empty($keyword)){
+            $search_query = [
+                'Operation' => 'ItemSearch',
+                'ResponseGroup' => 'Medium',
+                'Keywords' => $keyword,
+                'SearchIndex' => 'Books',
+            ];
+
+            $amazon_response = $this->amazonAdAPI($search_query);
+            $get_amazon_items = $amazon_response['Items']['Item'];
+
+            if(!empty($get_amazon_items)){
+                $article = new Article();
+                $article->title = "Best $keyword books";
+                $article->user_id = 2;
+                $article->body = "Here your will get some books of $keyword";
+                $article->category_id = 16;
+                $article->keyword = $keyword;
+                $article->status = 1;
+                $article->meta_description = "Get best $keyword books";
+                $article->slug = str_replace(' ', '-',  $article->title);
+                $article->save();
+            }
+
+            foreach($get_amazon_items as $item){
+                $editorial_array = $item['EditorialReviews']['EditorialReview'];
+                $editorial_details = '';
+                if(!isset($editorial_array['Content'])){
+                    foreach($editorial_array as $editorial_item){
+                        $editorial_details = $editorial_item['Content'];
+                    }
+                } else {
+                    $editorial_details = $editorial_array['Content'];
+                }
+
+                $product = new Product();
+                $product->isbn = $item['ASIN'];
+                $product->product_title = $item['ItemAttributes']['Title'];
+                $product->product_description = $editorial_details;
+                $product->brand_id = 'amazon';
+                $product->link = $item['DetailPageURL'];
+                $product->image_url = $item['LargeImage']['URL'];
+                $product->author_id = $item['ItemAttributes']['Author'];
+                $product->article_id = $article->id;
+                $product->save();
+            }
         }
         return view('admin.auto_articles.index');
     }
