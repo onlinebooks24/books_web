@@ -4,11 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use ApaiIO\Configuration\GenericConfiguration;
-use ApaiIO\Operations\Search;
-use ApaiIO\ApaiIO;
-use ApaiIO\Operations\BrowseNodeLookup;
-use ApaiIO\Operations\Lookup;
 
 class AdminAutoArticlesController extends Controller
 {
@@ -19,16 +14,14 @@ class AdminAutoArticlesController extends Controller
      */
     public function index()
     {
-        $apaiIo = $this->ApaiIoSetup();
+        $search_query = [
+            'Operation' => 'ItemSearch',
+            'ResponseGroup' => 'Medium',
+            'Keywords' => 'Laravel',
+            'SearchIndex' => 'Books',
+        ];
 
-        $search = new Search();
-        $search->setCategory('Books');
-        $search->setKeywords('laravel');
-        $search->setCondition('All');
-
-        $response = $apaiIo->runOperation($search);
-
-        dd($response);
+        dd($this->amazonAdAPI($search_query));
         return view('admin.auto_articles.index');
     }
 
@@ -50,14 +43,7 @@ class AdminAutoArticlesController extends Controller
      */
     public function store(Request $request)
     {
-        $apaiIo = $this->ApaiIoSetup();
 
-        $browseNodeLookup = new BrowseNodeLookup();
-        $browseNodeLookup->setNodeId(163357);
-
-        $response = $apaiIo->runOperation($browseNodeLookup);
-
-        dd($response);
     }
 
     /**
@@ -105,19 +91,54 @@ class AdminAutoArticlesController extends Controller
         //
     }
 
-    public function ApaiIoSetup(){
-        $conf = new GenericConfiguration();
+    public function amazonAdAPI($search_query){
         $client = new \GuzzleHttp\Client();
-        $request = new \ApaiIO\Request\GuzzleRequest($client);
 
-        $conf
-            ->setCountry('com')
-            ->setAccessKey(env('AccessKey'))
-            ->setSecretKey(env('SecretKey'))
-            ->setAssociateTag(env('AssociateTag'))
-            ->setRequest($request)
-            ->setResponseTransformer(new \ApaiIO\ResponseTransformer\XmlToArray());
-        $apaiIo = new ApaiIO($conf);
-        return $apaiIo;
+        $access_key = env('AccessKey');
+        $secret_key = env('SecretKey');
+        $associate_tag = env('AssociateTag');
+
+        $timestamp = date('c');
+
+        $query = [
+            'Service' => 'AWSECommerceService',
+            'AssociateTag' => $associate_tag,
+            'AWSAccessKeyId' => $access_key,
+            'Timestamp' => $timestamp
+        ];
+
+        $query = array_merge($query , $search_query);
+
+        ksort($query);
+
+        $sign = http_build_query($query);
+
+        $request_method = 'GET';
+        $base_url = 'webservices.amazon.com';
+        $endpoint = '/onca/xml';
+
+        $string_to_sign = "{$request_method}\n{$base_url}\n{$endpoint}\n{$sign}";
+        $signature = base64_encode(
+            hash_hmac("sha256", $string_to_sign, $secret_key, true)
+        );
+
+        $query['Signature'] = $signature;
+
+        try {
+            $response = $client->request(
+                'GET', 'http://webservices.amazon.com/onca/xml',
+                ['query' => $query]
+            );
+
+            $contents = ($response->getBody()->getContents());
+            $xml = simplexml_load_string($contents, "SimpleXMLElement", LIBXML_NOCDATA);
+            $json = json_encode($xml);
+            $array = json_decode($json,TRUE);
+            return $array;
+
+        } catch(Exception $e) {
+            echo "something went wrong: <br>";
+            echo $e->getMessage();
+        }
     }
 }
