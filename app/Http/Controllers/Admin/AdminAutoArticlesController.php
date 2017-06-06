@@ -19,26 +19,17 @@ class AdminAutoArticlesController extends Controller
      */
     public function index()
     {
-        $conf = new GenericConfiguration();
-        $client = new \GuzzleHttp\Client();
-        $request = new \ApaiIO\Request\GuzzleRequest($client);
+        $apaiIo = $this->ApaiIoSetup();
 
-        $conf
-            ->setCountry('com')
-            ->setAccessKey(env('AccessKey'))
-            ->setSecretKey(env('SecretKey'))
-            ->setAssociateTag(env('AssociateTag'))
-            ->setRequest($request)
-            ->setResponseTransformer(new \ApaiIO\ResponseTransformer\XmlToArray());
-        $apaiIO = new ApaiIO($conf);
+        $search = new Search();
+        $search->setCategory('Books');
+        $search->setKeywords('laravel');
+        $search->setCondition('All');
 
-
-        $browseNodeLookup = new BrowseNodeLookup();
-        $browseNodeLookup->setNodeId(163357);
-
-        $response = $apaiIO->runOperation($browseNodeLookup);
+        $response = $apaiIo->runOperation($search);
 
         dd($response);
+        return view('admin.auto_articles.index');
     }
 
     /**
@@ -59,7 +50,14 @@ class AdminAutoArticlesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $apaiIo = $this->ApaiIoSetup();
+
+        $browseNodeLookup = new BrowseNodeLookup();
+        $browseNodeLookup->setNodeId(163357);
+
+        $response = $apaiIo->runOperation($browseNodeLookup);
+
+        dd($response);
     }
 
     /**
@@ -105,5 +103,21 @@ class AdminAutoArticlesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function ApaiIoSetup(){
+        $conf = new GenericConfiguration();
+        $client = new \GuzzleHttp\Client();
+        $request = new \ApaiIO\Request\GuzzleRequest($client);
+
+        $conf
+            ->setCountry('com')
+            ->setAccessKey(env('AccessKey'))
+            ->setSecretKey(env('SecretKey'))
+            ->setAssociateTag(env('AssociateTag'))
+            ->setRequest($request)
+            ->setResponseTransformer(new \ApaiIO\ResponseTransformer\XmlToArray());
+        $apaiIo = new ApaiIO($conf);
+        return $apaiIo;
     }
 }
