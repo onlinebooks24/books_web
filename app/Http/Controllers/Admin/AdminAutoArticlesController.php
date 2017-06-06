@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Article;
+use Illuminate\Support\Facades\Input;
 
 class AdminAutoArticlesController extends Controller
 {
@@ -15,15 +17,32 @@ class AdminAutoArticlesController extends Controller
      */
     public function index()
     {
+        $input = Input::all();
+
+        $keyword = $input['keyword'];
+
         $search_query = [
             'Operation' => 'ItemSearch',
             'ResponseGroup' => 'Medium',
-            'Keywords' => 'Laravel',
+            'Keywords' => $keyword,
             'SearchIndex' => 'Books',
         ];
 
         $amazon_response = $this->amazonAdAPI($search_query);
         $get_amazon_items = $amazon_response['Items']['Item'];
+
+        if(!empty($get_amazon_items)){
+            $article = new Article();
+            $article->title = "Best $keyword books";
+            $article->user_id = 1;
+            $article->body = "Here your will get some books of $keyword";
+            $article->category_id = 1;
+            $article->keyword = $keyword;
+            $article->status = 0;
+            $article->meta_description = "Get best $keyword books";
+            $article->slug = str_replace(' ', '-',  $article->title);
+            $article->save();
+        }
 
         foreach($get_amazon_items as $item){
             $product = new Product();
@@ -34,10 +53,8 @@ class AdminAutoArticlesController extends Controller
             $product->link = $item['DetailPageURL'];
             $product->image_url = $item['LargeImage']['URL'];
             $product->author_id = $item['ItemAttributes']['Author'];
-            $product->article_id = 1;
-
+            $product->article_id = $article->id;
             $product->save();
-            dd($product);
         }
         return view('admin.auto_articles.index');
     }
