@@ -57,7 +57,6 @@ class AdminAutoArticlesController extends Controller
                 } else {
                     $editorial_details = $editorial_array['Content'];
                 }
-
                 $product = new Product();
                 $product->isbn = $item['ASIN'];
                 $product->product_title = $item['ItemAttributes']['Title'];
@@ -65,7 +64,10 @@ class AdminAutoArticlesController extends Controller
                 $product->brand_id = 'amazon';
                 $product->link = $item['DetailPageURL'];
                 $product->image_url = $item['LargeImage']['URL'];
-                $product->author_id = $item['ItemAttributes']['Author'];
+                $author_number = count($item['ItemAttributes']['Author']);
+                if($author_number){
+                    $product->author_id = $item['ItemAttributes']['Author']['0'];
+                }
                 $product->article_id = $article->id;
                 $product->save();
             }
