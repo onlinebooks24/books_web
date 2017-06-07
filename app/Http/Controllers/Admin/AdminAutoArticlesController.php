@@ -21,7 +21,7 @@ class AdminAutoArticlesController extends Controller
         $input = Input::all();
 
         if(!empty($input)){
-            $keyword = str_replace(' ', '%20', $input['keyword']);
+            $keyword = str_replace(' ', '_', $input['keyword']);
         }
 
         if(!empty($keyword)){
@@ -40,25 +40,27 @@ class AdminAutoArticlesController extends Controller
             }
 
             if(!empty($get_amazon_items)){
-                $article = new Article();
-                $article->title = "Best $keyword books";
-                $article->user_id = 2;
-                $article->body = "Here your will get some books of $keyword";
-                $article->category_id = 16;
-                $article->keyword = $keyword;
-                $article->status = 1;
-                $article->meta_description = "Get best $keyword books";
-
-                $slug = str_replace(' ', '-',  strtolower($article->title));
+                $title = str_replace('_', ' ', $keyword);
+                $slug = str_replace(' ', '-',  strtolower($title));
                 $slug_check = Article::where('slug' , $slug)->first();
                 if(!empty($slug_check)){
                     $slug = $slug.'_'.Carbon::now()->timestamp;
                 }
+                $article = new Article();
+                $article->title = "Best $title books";
+                $article->user_id = 2;
+                $article->body = "Here your will get some books of $title";
+                $article->category_id = 16;
+                $article->keyword = $title;
+                $article->status = 1;
+                $article->meta_description = "Get best $title books";
                 $article->slug = $slug;
                 $article->save();
 
                 foreach($get_amazon_items as $item){
-                    $editorial_array = $item['EditorialReviews']['EditorialReview'];
+                    if(isset($item['EditorialReviews']['EditorialReview'])){
+                        $editorial_array = $item['EditorialReviews']['EditorialReview'];
+                    }
                     $editorial_details = '';
                     if(!isset($editorial_array['Content'])){
                         foreach($editorial_array as $editorial_item){
@@ -67,6 +69,16 @@ class AdminAutoArticlesController extends Controller
                     } else {
                         $editorial_details = $editorial_array['Content'];
                     }
+
+                    if(isset($item['ItemAttributes']['Author'])){
+                        $author_number = count($item['ItemAttributes']['Author']);
+                        if($author_number){
+                            $author_name = $item['ItemAttributes']['Author']['0'];
+                        }
+                    } else {
+                        $author_name = '';
+                    }
+
                     $product = new Product();
                     $product->isbn = $item['ASIN'];
                     $product->product_title = $item['ItemAttributes']['Title'];
@@ -74,10 +86,7 @@ class AdminAutoArticlesController extends Controller
                     $product->brand_id = 'amazon';
                     $product->link = $item['DetailPageURL'];
                     $product->image_url = $item['LargeImage']['URL'];
-                    $author_number = count($item['ItemAttributes']['Author']);
-                    if($author_number){
-                        $product->author_id = $item['ItemAttributes']['Author']['0'];
-                    }
+                    $product->author_id = $author_name;
                     $product->article_id = $article->id;
                     $product->save();
                 }
