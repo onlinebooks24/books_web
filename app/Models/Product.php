@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-
+    public function article()
+    {
+        return $this->belongsTo('App\Models\Article');
+    }
 
 }

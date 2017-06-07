@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Article;
 use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
 
 class AdminAutoArticlesController extends Controller
 {
@@ -20,7 +21,7 @@ class AdminAutoArticlesController extends Controller
         $input = Input::all();
 
         if(!empty($input)){
-            $keyword = $input['keyword'];
+            $keyword = str_replace(' ', '%20', $input['keyword']);
         }
 
         if(!empty($keyword)){
@@ -32,7 +33,11 @@ class AdminAutoArticlesController extends Controller
             ];
 
             $amazon_response = $this->amazonAdAPI($search_query);
-            $get_amazon_items = $amazon_response['Items']['Item'];
+            if(isset($amazon_response['Items']['Item'])){
+                $get_amazon_items = $amazon_response['Items']['Item'];
+            } else {
+                $get_amazon_items = null;
+            }
 
             if(!empty($get_amazon_items)){
                 $article = new Article();
@@ -43,33 +48,39 @@ class AdminAutoArticlesController extends Controller
                 $article->keyword = $keyword;
                 $article->status = 1;
                 $article->meta_description = "Get best $keyword books";
-                $article->slug = str_replace(' ', '-',  $article->title);
-                $article->save();
-            }
 
-            foreach($get_amazon_items as $item){
-                $editorial_array = $item['EditorialReviews']['EditorialReview'];
-                $editorial_details = '';
-                if(!isset($editorial_array['Content'])){
-                    foreach($editorial_array as $editorial_item){
-                        $editorial_details = $editorial_item['Content'];
+                $slug = str_replace(' ', '-',  strtolower($article->title));
+                $slug_check = Article::where('slug' , $slug)->first();
+                if(!empty($slug_check)){
+                    $slug = $slug.'_'.Carbon::now()->timestamp;
+                }
+                $article->slug = $slug;
+                $article->save();
+
+                foreach($get_amazon_items as $item){
+                    $editorial_array = $item['EditorialReviews']['EditorialReview'];
+                    $editorial_details = '';
+                    if(!isset($editorial_array['Content'])){
+                        foreach($editorial_array as $editorial_item){
+                            $editorial_details = $editorial_item['Content'];
+                        }
+                    } else {
+                        $editorial_details = $editorial_array['Content'];
                     }
-                } else {
-                    $editorial_details = $editorial_array['Content'];
+                    $product = new Product();
+                    $product->isbn = $item['ASIN'];
+                    $product->product_title = $item['ItemAttributes']['Title'];
+                    $product->product_description = $editorial_details;
+                    $product->brand_id = 'amazon';
+                    $product->link = $item['DetailPageURL'];
+                    $product->image_url = $item['LargeImage']['URL'];
+                    $author_number = count($item['ItemAttributes']['Author']);
+                    if($author_number){
+                        $product->author_id = $item['ItemAttributes']['Author']['0'];
+                    }
+                    $product->article_id = $article->id;
+                    $product->save();
                 }
-                $product = new Product();
-                $product->isbn = $item['ASIN'];
-                $product->product_title = $item['ItemAttributes']['Title'];
-                $product->product_description = $editorial_details;
-                $product->brand_id = 'amazon';
-                $product->link = $item['DetailPageURL'];
-                $product->image_url = $item['LargeImage']['URL'];
-                $author_number = count($item['ItemAttributes']['Author']);
-                if($author_number){
-                    $product->author_id = $item['ItemAttributes']['Author']['0'];
-                }
-                $product->article_id = $article->id;
-                $product->save();
             }
         }
         return view('admin.auto_articles.index');

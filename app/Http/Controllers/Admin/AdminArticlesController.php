@@ -63,6 +63,10 @@ class AdminArticlesController extends Controller
         $article->category_id = $request['category_id'];
         $slug = strtolower($request['title']);
         $slug = str_replace(' ', '-', $slug);
+        $slug_check = Article::where('slug' , $slug)->first();
+        if(!empty($slug_check)){
+            $slug = $slug.'_'.Carbon::now()->timestamp;
+        }
         $article->slug = $slug ;
         $article->keyword = $request['keyword'];
         $article->status = true;
