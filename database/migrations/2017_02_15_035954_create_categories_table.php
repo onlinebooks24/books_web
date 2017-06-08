@@ -21,6 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->string('slug');
             $table->integer('order_id');
             $table->string('parent_id');
+            $table->boolean('category_status')->default(false);
         });
     }
 
