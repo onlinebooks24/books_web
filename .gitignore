@@ -11,3 +11,4 @@ Homestead.yaml
 .ftpquota
 .DS_Store
 public/phpmyadmin/
+public/robots.txt
