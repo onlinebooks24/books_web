@@ -13,7 +13,7 @@ Route::group(['middleware' => ['web']] , function() {
 			'uses' => 'Admin\AdminController@getLogout',
 			'as' => 'admin.logout'
 		]);
-		Route::resource('/category','CategoryController');
+		Route::resource('/admin_category','Admin\AdminCategoryController');
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
 	});
@@ -32,7 +32,7 @@ Route::group(['middleware' => ['web']] , function() {
 	Route::resource('articles' , 'ArticleController');
 
 
-	Route::get('/{slug}' , [
+	Route::get('/categories/{slug}' , [
 		'uses' => 'ArticleController@getCategoryPost',
 		'as' => 'category.post'
 	]);

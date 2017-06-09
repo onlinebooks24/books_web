@@ -44,7 +44,7 @@
 	<div class="modal fade" id="edit<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 	  <div class="modal-dialog">
 		<div class="modal-content">
-		<form action="{{ route('category.update' , $category->id)}}" method="post" enctype="multipart/form-data">
+		<form action="{{ route('admin_category.update' , $category->id)}}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         <input name="_method" type="hidden" value="PUT">
 		   <div class="modal-header">
@@ -71,7 +71,7 @@
 	<div class="modal fade" id="delete<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 	  <div class="modal-dialog">
 		<div class="modal-content">
-		<form action="{{ route('category.destroy' , $category->id)}}" method="POST">
+		<form action="{{ route('admin_category.destroy' , $category->id)}}" method="POST">
         {{ csrf_field() }}
         <input name="_method" type="hidden" value="DELETE">
 		   <div class="modal-header">
@@ -111,7 +111,7 @@
 
 <div class="col-md-6">
 	<h4><strong>Add New  Category</strong></h4>
-	<form method="post" action="{{ route('category.store') }}">
+	<form method="post" action="{{ route('admin_category.store') }}">
 	{{ csrf_field() }}
 	<div class="form-group">
 		<input type="text" name="name" class="form-control" placeholder="New Category" required>
