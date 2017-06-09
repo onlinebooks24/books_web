@@ -24,6 +24,7 @@ class CreateArticlesTable extends Migration
             $table->text('meta_description');
             $table->timestamps();
             $table->string('slug');
+            $table->string('series_article')->nullable();
         });
     }
 

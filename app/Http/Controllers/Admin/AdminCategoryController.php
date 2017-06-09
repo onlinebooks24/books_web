@@ -45,6 +45,8 @@ class AdminCategoryController extends Controller
         $slug = strtolower($request['name']);
         $slug = str_replace(' ', '-', $slug); 
         $category->slug = $slug ; 
+        $category->parent_id = 1000 ;
+        $category->order_id = 1 ;
         $category->save();
 
         return redirect()->back()->with(['success' => 'Category Added Successfully']);
@@ -87,6 +89,8 @@ class AdminCategoryController extends Controller
         $slug = strtolower($request['name']);
         $slug = str_replace(' ', '-', $slug); 
         $category->slug = $slug ;
+        $category->parent_id = 1000 ;
+        $category->order_id = 1 ;
         $category->update();
 
         return redirect()->back()->with(['success' => 'Category Updated Successfully']);
