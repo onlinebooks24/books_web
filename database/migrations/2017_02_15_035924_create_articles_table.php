@@ -27,6 +27,7 @@ class CreateArticlesTable extends Migration
             $table->string('series_article')->nullable();
             $table->boolean('waiting_for_approval')->default(true);
             $table->integer('count')->default(0);
+            $table->text('conclusion')->nullable();
         });
     }
 
