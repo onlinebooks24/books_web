@@ -56,7 +56,7 @@
 
                 <div class="form-group"> <!-- Message field -->
                     <label class="control-label " for="message">Article Description</label>
-                    <textarea class="form-control" class="summernote" name="body">{!! $article->body !!}</textarea>
+                    <div class="summernote">{!! $article->body !!}</div>
                 </div>
 
                 <div class="form-group">
@@ -81,13 +81,12 @@
 
                     <div class="form-group"> <!-- Message field -->
                         <label class="control-label " for="message">Product Description</label>
-                        <textarea class="form-control" class="summernote" name="body" rows="10">{!! $product->product_description !!}</textarea>
+                        <div class="summernote">{!! $product->product_description !!}</div>
                     </div>
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
                     </div>
-
                 </form>
             </div>
         </div>
