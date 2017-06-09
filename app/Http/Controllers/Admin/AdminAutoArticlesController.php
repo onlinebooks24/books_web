@@ -85,11 +85,11 @@ class AdminAutoArticlesController extends Controller
                     $product->isbn = $item['ASIN'];
                     $product->product_title = $item['ItemAttributes']['Title'];
                     $product->product_description = $editorial_details;
-                    $product->brand_name = 'amazon';
                     $product->amazon_link = $item['DetailPageURL'];
                     $product->image_url = $item['LargeImage']['URL'];
                     $product->author_name = $author_name;
                     $product->article_id = $article->id;
+                    $product->publication_date = $item['ItemAttributes']['PublicationDate'];
                     $product->save();
                 }
             }

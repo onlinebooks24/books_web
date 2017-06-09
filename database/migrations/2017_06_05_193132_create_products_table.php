@@ -18,12 +18,11 @@ class CreateProductsTable extends Migration
             $table->string('isbn');
             $table->string('product_title');
             $table->text('product_description');
-            $table->string('brand_name');
             $table->string('amazon_link');
             $table->string('image_url');
             $table->string('author_name')->nullable();
             $table->integer('article_id');
-            $table->string('browse_node_id')->nullable();
+            $table->dateTime('publication_date');
 
             $table->timestamps();
         });
