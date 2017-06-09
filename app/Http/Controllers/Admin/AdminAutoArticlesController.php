@@ -160,7 +160,6 @@ class AdminAutoArticlesController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
 
+    }
 }
