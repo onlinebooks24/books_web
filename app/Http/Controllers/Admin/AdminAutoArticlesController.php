@@ -81,6 +81,12 @@ class AdminAutoArticlesController extends Controller
                         }
                     }
 
+                    $publication_date = $item['ItemAttributes']['PublicationDate'];
+
+                    if( strlen($publication_date) == 7 ){
+                        $publication_date = $publication_date. '-01';
+                    }
+
                     $product = new Product();
                     $product->isbn = $item['ASIN'];
                     $product->product_title = $item['ItemAttributes']['Title'];
@@ -89,7 +95,7 @@ class AdminAutoArticlesController extends Controller
                     $product->image_url = $item['LargeImage']['URL'];
                     $product->author_name = $author_name;
                     $product->article_id = $article->id;
-                    $product->publication_date = $item['ItemAttributes']['PublicationDate'];
+                    $product->publication_date = $publication_date;
                     $product->save();
                 }
             }
