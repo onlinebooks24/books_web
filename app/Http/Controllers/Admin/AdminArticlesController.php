@@ -270,4 +270,9 @@ class AdminArticlesController extends Controller
         return redirect()->route('admin_articles.index')->with(['success' => 'Article Deleted Successfully.']);
     }
 
+    public function product_save(Request $request,$id)
+    {
+        dd($request);
+    }
+
 }

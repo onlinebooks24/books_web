@@ -16,6 +16,10 @@ Route::group(['middleware' => ['web']] , function() {
 		Route::resource('/admin_category','Admin\AdminCategoryController');
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
+		Route::post('/admin_articles/product_save',[
+		    'uses' => 'Admin\AdminArticlesController@product_save',
+            'as' => 'admin_articles.product_save'
+        ]);
 	});
 
 	Route::get('/', [
