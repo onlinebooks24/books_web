@@ -19,11 +19,12 @@
                  <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }} by <span class="author-name">{{ $article->user->name }}</span></p>
                  <hr>
                          <!-- <hr>
-                  <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
+
+                                 <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
                   <div>{!! Helper::readMoreHelper($article->body) !!}</div>
                   <div class="clearfix"></div>
 
-                  <a class="btn btn-primary" style="float: right;" href="{{ route('articles.single' , [ 'category_name' => $article->category->name , 'slug' => $article->slug ])}}"> Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                  <a class="btn btn-primary" style="float: right;" href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}"> Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
                   <div class="clearfix"></div>
               </div>
          @endforeach

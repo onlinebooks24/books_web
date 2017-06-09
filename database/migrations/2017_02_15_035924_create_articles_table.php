@@ -25,6 +25,8 @@ class CreateArticlesTable extends Migration
             $table->timestamps();
             $table->string('slug');
             $table->string('series_article')->nullable();
+            $table->boolean('waiting_for_approval')->default(true);
+            $table->integer('count')->default(0);
         });
     }
 

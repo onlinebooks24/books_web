@@ -9,6 +9,7 @@ use App\Models\Article;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use App\Helpers\Helper;
+use Auth;
 
 class AdminAutoArticlesController extends Controller
 {
@@ -49,11 +50,12 @@ class AdminAutoArticlesController extends Controller
                 }
                 $article = new Article();
                 $article->title = "Best $title books";
-                $article->user_id = 2;
+                $article->user_id = Auth::user()->id;
                 $article->body = "Here your will get some books of $title";
                 $article->category_id = 16;
                 $article->keyword = $title;
-                $article->status = 1;
+                $article->status = false;
+                $article->waiting_for_approval = true;
                 $article->meta_description = "Get best $title books";
                 $article->slug = $slug;
                 $article->save();
