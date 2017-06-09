@@ -55,8 +55,8 @@
                 </div>
 
                 <div class="form-group"> <!-- Message field -->
-                    <label class="control-label " for="message">Message</label>
-                    <textarea class="form-control" id="summernote" name="body">{!! $article->body !!}</textarea>
+                    <label class="control-label " for="message">Article Description</label>
+                    <div class="summernote">{!! $article->body !!}</div>
                 </div>
 
                 <div class="form-group">
@@ -66,6 +66,32 @@
             </form>
         </div>
     </div>
+
+    @php $i = 1 ; @endphp
+    @foreach($products as $product)
+        <div class="row">
+            <div class="alert alert-success">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    <input name="_method" type="hidden" value="PUT">
+                    <div class="form-group"> <!-- Name field -->
+                        <label class="control-label " for="name"><span style="color: red;" >@php echo $i; $i++; @endphp</span> Title</label>
+                        <input class="form-control" name="title" type="text" value="{{ $product->product_title }}" disabled/>
+                    </div>
+
+                    <div class="form-group"> <!-- Message field -->
+                        <label class="control-label " for="message">Product Description</label>
+                        <div class="summernote">{!! $product->product_description !!}</div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endforeach
+
 @endsection
 
 @section('run_custom_js_file')
@@ -77,7 +103,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $('#summernote').summernote({
+            $('.summernote').summernote({
                 height : '300px' ,
                 placeholder : 'Enter Text Here...' ,
                 popover: {
@@ -104,7 +130,7 @@
 
 
             $('#clear').on('click' , function(){
-                $('#summernote').summernote('code', null);
+                $('.summernote').summernote('code', null);
             });
 
 

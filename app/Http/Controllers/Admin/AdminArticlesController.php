@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use File;
 use Date;
 use App\Models\Upload;
+use App\Models\Product;
 
 class AdminArticlesController extends Controller
 {
@@ -161,7 +162,9 @@ class AdminArticlesController extends Controller
     {
         $article = Article::find($id);
         $categories = Category::all();
-        return view ('admin.articles.edit',['article'=>$article, 'categories'=>$categories]);
+        $products = Product::where('article_id',$id)->get();
+
+        return view ('admin.articles.edit',['article'=>$article, 'categories'=>$categories,'products'=>$products]);
     }
 
     /**
