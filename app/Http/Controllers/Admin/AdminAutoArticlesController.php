@@ -74,12 +74,11 @@ class AdminAutoArticlesController extends Controller
                     if(isset($item['ItemAttributes']['Author'])){
                         $author_number = count($item['ItemAttributes']['Author']);
                         if($author_number){
-                            $author_name = $item['ItemAttributes']['Author']['0'];
+                            $author_name = $item['ItemAttributes']['Author'];
                         }
                     } else {
                         $author_name = '';
                     }
-
                     $product = new Product();
                     $product->isbn = $item['ASIN'];
                     $product->product_title = $item['ItemAttributes']['Title'];
