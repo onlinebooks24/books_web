@@ -42,14 +42,14 @@ class AdminAutoArticlesController extends Controller
             }
 
             if(!empty($get_amazon_items)){
-                $title = str_replace('_', ' ', $keyword);
+                $title = "Best ".str_replace('_', ' ', $keyword)." Books";
                 $slug = str_replace(' ', '-',  strtolower($title));
                 $slug_check = Article::where('slug' , $slug)->first();
                 if(!empty($slug_check)){
                     $slug = $slug.'_'.Carbon::now()->timestamp;
                 }
                 $article = new Article();
-                $article->title = "Best $title books";
+                $article->title = $title;
                 $article->user_id = Auth::user()->id;
                 $article->body = "Here your will get some books of $title";
                 $article->category_id = 16;
@@ -73,22 +73,22 @@ class AdminAutoArticlesController extends Controller
                         $editorial_details = $editorial_array['Content'];
                     }
 
+                    $author_name = null;
                     if(isset($item['ItemAttributes']['Author'])){
-                        $author_number = count($item['ItemAttributes']['Author']);
-                        if($author_number){
-                            $author_name = $item['ItemAttributes']['Author'];
+                        $author_name = $item['ItemAttributes']['Author'];
+                        if(is_array($author_name)){
+                            $author_name = implode(',', $author_name);
                         }
-                    } else {
-                        $author_name = '';
                     }
+
                     $product = new Product();
                     $product->isbn = $item['ASIN'];
                     $product->product_title = $item['ItemAttributes']['Title'];
                     $product->product_description = $editorial_details;
-                    $product->brand_id = 'amazon';
-                    $product->link = $item['DetailPageURL'];
+                    $product->brand_name = 'amazon';
+                    $product->amazon_link = $item['DetailPageURL'];
                     $product->image_url = $item['LargeImage']['URL'];
-                    $product->author_id = $author_name;
+                    $product->author_name = $author_name;
                     $product->article_id = $article->id;
                     $product->save();
                 }

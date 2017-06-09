@@ -27,7 +27,7 @@
                        <div>{!! $product->product_description !!} </div>
 
                        <div class="affiliate_group">
-                           <a class="amazon_button" rel="nofollow" href="{{ $product->link }}" target="_blank">View</a>
+                           <a class="amazon_button" rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">View</a>
                        </div>
                         <br>
                        <div class="clearfix"></div>
