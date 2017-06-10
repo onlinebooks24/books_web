@@ -273,7 +273,8 @@ class AdminArticlesController extends Controller
         }
 
         foreach($article->uploads as $upload){
-            $upload->delete();
+            unlink(public_path($upload->folder_path.$upload->name));
+            $upload->destroy($upload->id);
         }
 
         $article->delete();
