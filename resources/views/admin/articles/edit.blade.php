@@ -69,27 +69,49 @@
 
     @foreach($products as $key => $product)
         <div class="row">
-            <div class="alert alert-success">
-                <form action="" method="post" enctype="multipart/form-data" class="product_save">
-                    {{ csrf_field() }}
-                    <input name="_method" type="hidden" value="PUT">
-                    <input name="product_id" type="hidden" value="{{ $product->id }}">
-                    <div class="form-group"> <!-- Name field -->
-                        <label class="control-label " for="name"><span style="color: red;" >{{ ++$key }}. </span> Title</label>
-                        <input class="form-control" name="title" type="text" value="{{ $product->product_title }}" disabled/>
-                    </div>
+            <div class="col-md-3">
+                <div class="alert alert-success">
+                    <a target="_blank" href="http://www.amazon.com/dp/ASIN/{{$product->isbn}}">
+                        <img src="{{ $product->image_url }}">
+                    </a>
+                </div>
+                <label>ISBN:</label>
+                <div>
+                    {{ $product->isbn }}
+                </div>
+                <label>Author Name:</label>
+                <div>
+                    {{ $product->author_name }}
+                </div>
+                <label>Publication Date:</label>
+                <div>
+                    {{ $product->publication_date }}
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="alert alert-success">
+                    <form action="" method="post" enctype="multipart/form-data" class="product_save">
+                        {{ csrf_field() }}
+                        <input name="_method" type="hidden" value="PUT">
+                        <input name="product_id" type="hidden" value="{{ $product->id }}">
+                        <div class="form-group"> <!-- Name field -->
+                            <label class="control-label " for="name"><span style="color: red;" >{{ ++$key }}. </span> Title</label>
+                            <input class="form-control" name="title" type="text" value="{{ $product->product_title }}" disabled/>
+                        </div>
 
-                    <div class="form-group"> <!-- Message field -->
-                        <label class="control-label " for="message">Product Description</label>
-                        <textarea class="summernote product_description" name="product_description">{!! $product->product_description !!}</textarea>
-                    </div>
+                        <div class="form-group"> <!-- Message field -->
+                            <label class="control-label " for="message">Product Description</label>
+                            <textarea class="summernote product_description" name="product_description">{!! $product->product_description !!}</textarea>
+                        </div>
 
-                    <div class="form-group">
-                        <button type="submit" class="product_save btn btn-warning btn-lg" ><span class="glyphicon glyphicon-ok-sign"></span>Save</button>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <button type="submit" class="product_save btn btn-warning btn-lg" ><span class="glyphicon glyphicon-ok-sign"></span>Save</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+        <div class="clearfix"></div>
     @endforeach
 
 @endsection
