@@ -189,6 +189,7 @@ class AdminArticlesController extends Controller
         $article->meta_description = $request['meta_description'];
 
         $message = $request->input('body');
+
         $dom = new DomDocument();
         libxml_use_internal_errors(true);
 
