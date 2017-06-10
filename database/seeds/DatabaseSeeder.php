@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\RoleType;
+use App\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $role_type = RoleType::create(array(
+                        'name' => 'admin'
+                    ));
+
+        $user = User::first();
+        $user->role_type_id = $role_type->id;
+        $user->update();
     }
 }
