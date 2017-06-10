@@ -22,6 +22,10 @@ Route::group(['middleware' => ['web']] , function() {
 			'uses' => 'Admin\AdminArticlesController@publish_or_unpublished',
 			'as' => 'admin_articles.publish_or_unpublished'
 		]);
+		Route::any('/admin_articles/review_article/',[
+			'uses' => 'Admin\AdminArticlesController@review_article',
+			'as' => 'admin_articles.review_article'
+		]);
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
 	});

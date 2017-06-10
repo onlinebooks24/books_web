@@ -30,7 +30,6 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
-
         $articles = Article::orderBy('created_at','desc')->Paginate(10);
         return view('admin.articles.index',['articles' => $articles]);
     }
@@ -304,6 +303,7 @@ class AdminArticlesController extends Controller
         if($article->status){
             $article->status = false;
         } else {
+            $article->waiting_for_approval = false;
             $article->status = true;
         }
 
@@ -320,7 +320,12 @@ class AdminArticlesController extends Controller
             $category->update();
         }
 
-        return redirect()->route('admin_articles.index');
+        return redirect()->back();
+    }
+
+    public function review_article(){
+        $articles = Article::where('waiting_for_approval', true)->orderBy('created_at','desc')->Paginate(10);
+        return view('admin.articles.review_article',['articles' => $articles]);
     }
 
 }

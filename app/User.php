@@ -27,8 +27,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public  function articles()
+    public function articles()
     {
         return $this->hasMany('App\Models\Articles');
+    }
+
+    public function roleType(){
+        return $this->belongsTo('App\Models\RoleType');
     }
 }
