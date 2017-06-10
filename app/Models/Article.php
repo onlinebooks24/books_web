@@ -21,4 +21,9 @@ class Article extends Model
     {
         return $this->hasMany('App\Models\Product');
     }
+
+    public function uploads()
+    {
+        return $this->hasMany('App\Models\Upload');
+    }
 }

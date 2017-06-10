@@ -264,9 +264,20 @@ class AdminArticlesController extends Controller
     {
         $article = Article::find($id);
         if(!$article){
-            return redirect()->route('article.index')->with(['fail' => 'Page not found !']);
+            return redirect()->route('admin_articles.index')->with(['fail' => 'Page not found !']);
         }
+
+        foreach($article->products as $product){
+            $product->delete();
+        }
+
+        foreach($article->uploads as $upload){
+            $upload->delete();
+        }
+
         $article->delete();
+
+
         return redirect()->route('admin_articles.index')->with(['success' => 'Article Deleted Successfully.']);
     }
 

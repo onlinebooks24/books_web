@@ -85,6 +85,8 @@ class AdminAutoArticlesController extends Controller
 
                     if( strlen($publication_date) == 7 ){
                         $publication_date = $publication_date. '-01';
+                    } elseif (strlen($publication_date) == 4) {
+                        $publication_date = $publication_date. '-01'.'-01';
                     }
 
                     $product = new Product();
