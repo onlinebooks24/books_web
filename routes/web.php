@@ -14,12 +14,12 @@ Route::group(['middleware' => ['web']] , function() {
 			'as' => 'admin.logout'
 		]);
 		Route::resource('/admin_category','Admin\AdminCategoryController');
+		Route::any('/admin_articles/product_save',[
+			'uses' => 'Admin\AdminArticlesController@product_save',
+			'as' => 'admin_articles.product_save'
+		]);
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
-		Route::post('/admin_articles/product_save',[
-		    'uses' => 'Admin\AdminArticlesController@product_save',
-            'as' => 'admin_articles.product_save'
-        ]);
 	});
 
 	Route::get('/', [

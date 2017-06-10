@@ -67,16 +67,15 @@
         </div>
     </div>
 
-    @php $i = 1 ; @endphp
-    @foreach($products as $product)
+    @foreach($products as $key => $product)
         <div class="row">
             <div class="alert alert-success">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="" method="post" enctype="multipart/form-data" class="product_save">
                     {{ csrf_field() }}
                     <input name="_method" type="hidden" value="PUT">
                     <input name="product_id" type="hidden" value="{{ $product->id }}">
                     <div class="form-group"> <!-- Name field -->
-                        <label class="control-label " for="name"><span style="color: red;" >@php echo $i; $i++; @endphp</span> Title</label>
+                        <label class="control-label " for="name"><span style="color: red;" >{{ ++$key }}. </span> Title</label>
                         <input class="form-control" name="title" type="text" value="{{ $product->product_title }}" disabled/>
                     </div>
 
@@ -86,7 +85,7 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="product_save btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                        <button type="submit" class="product_save btn btn-warning btn-lg" ><span class="glyphicon glyphicon-ok-sign"></span>Save</button>
                     </div>
                 </form>
             </div>
@@ -135,16 +134,30 @@
             });
         });
 
-        $('.product_save').on('submit', function (e) {
-            e.preventDefault();
-            var product_description = $('.product_description').html();
+        {{--$('.product_save').on('submit', function (e) {--}}
+            {{--e.preventDefault();--}}
+            {{--var product_description = $('.product_description').html();--}}
+            {{--$.ajax({--}}
+                {{--type: "POST",--}}
+                {{--url: '{!!URL::route('admin_articles.product_save')!!}',--}}
+                {{--data: {product_description : product_description},--}}
+                {{--dataType: "json",--}}
+                {{--success: function( msg ) {--}}
+                    {{--$(".product_description").html(msg);--}}
+                {{--}--}}
+            {{--});--}}
+        {{--});--}}
+
+        $(".product_save").submit(function(event){
+            event.preventDefault();
+
             $.ajax({
-                type: "POST",
-                url: '{!!URL::route('admin_articles.product_save')!!}',
-                data: {product_description : product_description},
-                dataType: "json",
-                success: function( msg ) {
-                    $(".product_description").html(msg);
+                url:'{!!URL::route('admin_articles.product_save')!!}',
+                type:'POST',
+                data:$(this).serialize(),
+                success:function(result){
+                    alert('success');
+                    $("#response").text(result);
                 }
             });
         });
