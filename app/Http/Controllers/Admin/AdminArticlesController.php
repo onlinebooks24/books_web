@@ -183,7 +183,18 @@ class AdminArticlesController extends Controller
 
         if(!empty($request['title'])){
             $article->title = $request['title'];
+
+            if (!$article->status){
+                $slug = strtolower($request['title']);
+                $slug = str_replace(' ', '-', $slug);
+                $slug_check = Article::where('slug' , $slug)->first();
+                if(!empty($slug_check)){
+                    $slug = $slug.'_'.Carbon::now()->timestamp;
+                }
+                $article->slug = $slug;
+            }
         }
+
         $article->user_id = Auth::user()->id ;
         if(!empty($request['category_id'])){
             $article->category_id = $request['category_id'];
