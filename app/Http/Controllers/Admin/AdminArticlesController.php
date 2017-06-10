@@ -57,11 +57,17 @@ class AdminArticlesController extends Controller
         $this->validate($request , [
             'title' => 'required|unique:articles'
         ]);
+
+        $category_id = $request['category_id'];
+        $category = Category::find($category_id);
+        $category->category_status = true;
+        $category->save();
+
         $article = new Article();
 
         $article->title = $request['title'];
         $article->user_id = Auth::user()->id ;
-        $article->category_id = $request['category_id'];
+        $article->category_id = $category_id;
         $slug = strtolower($request['title']);
         $slug = str_replace(' ', '-', $slug);
         $slug_check = Article::where('slug' , $slug)->first();
@@ -296,12 +302,26 @@ class AdminArticlesController extends Controller
 
     public function publish_or_unpublished($id){
         $article = Article::find($id);
+
         if($article->status){
             $article->status = false;
         } else {
             $article->status = true;
         }
+
         $article->update();
+
+        $category = $article->category;
+        $articles = Article::where('category_id', $category->id)->where('status', true)->get();
+
+        if(count($articles) > 0){
+            $category->category_status = true;
+            $category->update();
+        } else {
+            $category->category_status = false;
+            $category->update();
+        }
+
         return redirect()->route('admin_articles.index');
     }
 
