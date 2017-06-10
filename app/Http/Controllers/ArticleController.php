@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
+use Auth;
 
 class ArticleController extends Controller
 {
@@ -94,9 +95,12 @@ class ArticleController extends Controller
             ->orderBy('created_at','desc')->get();
         $article = Article::where('slug' , $slug)->first();
         $products = $article->products;
-        $current_count = $article->count;
-        $article->count = $current_count + 1 ;
-        $article->save();
+        if(empty(Auth::user())){
+            $current_count = $article->count;
+            $article->count = $current_count + 1 ;
+            $article->save();
+        }
+
         return view('frontend.single',[ 'article'=>$article,
                                         'articles' => $articles,
                                         'categories' => $categories,
