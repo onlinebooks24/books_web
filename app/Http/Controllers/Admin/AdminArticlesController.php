@@ -59,9 +59,6 @@ class AdminArticlesController extends Controller
         ]);
 
         $category_id = $request['category_id'];
-        $category = Category::find($category_id);
-        $category->category_status = true;
-        $category->save();
 
         $article = new Article();
 
@@ -76,7 +73,8 @@ class AdminArticlesController extends Controller
         }
         $article->slug = $slug ;
         $article->keyword = $request['keyword'];
-        $article->status = true;
+        $article->status = false;
+        $article->waiting_for_approval = true;
         $article->meta_description = $request['meta_description'];
 
         $message = $request->input('body');
@@ -144,7 +142,7 @@ class AdminArticlesController extends Controller
 
         $article->update();
 
-        return redirect()->back()->with(['success' => 'Article Created Successfully']);
+        return redirect()->route('admin_articles.index')->with(['success' => 'Article Created Successfully']);
     }
 
     /**
