@@ -27,6 +27,7 @@ Route::group(['middleware' => ['web']] , function() {
 			'as' => 'admin_articles.review_article'
 		]);
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
+		Route::resource('/admin_uploads','Admin\AdminUploadsController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
 	});
 
