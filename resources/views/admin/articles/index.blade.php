@@ -47,9 +47,9 @@
 		<td>
 			<a href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
 				@if($article->status)
-					Unpublished
+					Unpublish now
 				@else
-					Published
+					Publish it
 				@endif
 			</a>
 		</td>

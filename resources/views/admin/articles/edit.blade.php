@@ -8,6 +8,16 @@
     <div class="row">
         <div class="alert alert-info">
             <strong>Update Articles</strong>
+            <div class="pull-right top-5">
+                <a target="_blank" class="btn btn-info" href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">View</a>
+                <a class="btn btn-success" href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
+                    @if($article->status)
+                        Unpublish Now
+                    @else
+                        Please Publish
+                    @endif
+                </a>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -113,6 +123,19 @@
         </div>
         <div class="clearfix"></div>
     @endforeach
+
+    <div class="alert alert-success">
+        <form action="{{ route('admin_articles.update' , $article->id)}}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group"> <!-- Message field -->
+                <label class="control-label " for="message">Article Conclusion</label>
+                <textarea class="summernote" name="conclusion">{!! $product->conclusion !!}</textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning btn-lg" ><span class="glyphicon glyphicon-ok-sign"></span>Save</button>
+            </div>
+        </form>
+    </div>
 
 @endsection
 

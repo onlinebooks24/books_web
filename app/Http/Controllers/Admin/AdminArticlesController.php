@@ -183,6 +183,7 @@ class AdminArticlesController extends Controller
         $article->category_id = $request['category_id'];
         $article->keyword = $request['keyword'];
         $article->meta_description = $request['meta_description'];
+        $article->conclusion = $request['conclusion'];
 
         $message = $request->input('body');
 
@@ -248,7 +249,7 @@ class AdminArticlesController extends Controller
 
         $article->update();
 
-        return redirect()->route('admin_articles.index')->with(['success' => 'Article Updated Successfully']);
+        return redirect()->route('admin_articles.edit', $article->id)->with(['success' => 'Article Updated Successfully']);
     }
 
     /**

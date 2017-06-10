@@ -20,7 +20,7 @@
                @if( count($products) > 0 )
                    @foreach($products as $key=>$product)
                        <div class="bottom20">
-                           <h2 style="color: #F45145">{{ ++$key }}. {{ $product->product_title }}</h2>
+                           <h2 style="color: #337ab7; line-height:1.4">{{ ++$key }}. {{ $product->product_title }}</h2>
                        </div>
                        <p align="center">
                            <img src="{{ $product->image_url }}">
@@ -31,7 +31,7 @@
                        <div class="affiliate_group">
                            <a class="amazon_button" rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">View</a>
                        </div>
-                        <br>
+                       <hr>
                        <div class="clearfix"></div>
                    @endforeach
                @endif
