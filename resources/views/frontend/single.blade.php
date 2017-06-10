@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title'){{ $article->title }} | OnlineBooksReview @endsection
+@section('title'){{ $article->title }} | Online Books Review @endsection
 @section('meta_description'){{$article->meta_description}}@endsection
 @section('meta_keyword'){{ $article->keyword }}@endsection
 
