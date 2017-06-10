@@ -178,11 +178,17 @@ class AdminArticlesController extends Controller
     {
         $article = Article::find($id);
 
-        $article->title = $request['title'];
+        if(!empty($request['title'])){
+            $article->title = $request['title'];
+        }
         $article->user_id = Auth::user()->id ;
-        $article->category_id = $request['category_id'];
+        if(!empty($request['category_id'])){
+            $article->category_id = $request['category_id'];
+        }
         $article->keyword = $request['keyword'];
-        $article->meta_description = $request['meta_description'];
+        if(!empty($request['meta_description'])){
+            $article->meta_description = $request['meta_description'];
+        }
         $article->conclusion = $request['conclusion'];
 
         $message = $request->input('body');

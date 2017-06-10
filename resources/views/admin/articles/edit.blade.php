@@ -127,9 +127,10 @@
     <div class="alert alert-success">
         <form action="{{ route('admin_articles.update' , $article->id)}}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
+            <input name="_method" type="hidden" value="PUT">
             <div class="form-group"> <!-- Message field -->
                 <label class="control-label " for="message">Article Conclusion</label>
-                <textarea class="summernote" name="conclusion">{!! $product->conclusion !!}</textarea>
+                <textarea class="summernote" name="conclusion">{!! $article->conclusion !!}</textarea>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-warning btn-lg" ><span class="glyphicon glyphicon-ok-sign"></span>Save</button>
