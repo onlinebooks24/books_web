@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\RoleType;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -62,10 +63,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $role_type = RoleType::where('name', 'editor')->first();
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'role_type_id' => $role_type->id
         ]);
     }
 }
