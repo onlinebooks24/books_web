@@ -18,6 +18,10 @@ Route::group(['middleware' => ['web']] , function() {
 			'uses' => 'Admin\AdminArticlesController@product_save',
 			'as' => 'admin_articles.product_save'
 		]);
+		Route::any('/admin_articles/publish_or_unpublished/{id}',[
+			'uses' => 'Admin\AdminArticlesController@publish_or_unpublished',
+			'as' => 'admin_articles.publish_or_unpublished'
+		]);
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
 	});

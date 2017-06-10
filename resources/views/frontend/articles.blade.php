@@ -18,9 +18,7 @@
 
                  <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }} by <span class="author-name">{{ $article->user->name }}</span></p>
                  <hr>
-                         <!-- <hr>
 
-                                 <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
                   <div>{!! Helper::readMoreHelper($article->body) !!}</div>
                   <div class="clearfix"></div>
 

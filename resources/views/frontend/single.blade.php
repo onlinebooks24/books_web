@@ -19,7 +19,9 @@
                <p>{!! $article->body !!}</p>
                @if( count($products) > 0 )
                    @foreach($products as $key=>$product)
-                       <h2 style="color: #337ab7">{{ ++$key }}. {{ $product->product_title }}</h2>
+                       <div class="bottom20">
+                           <h2 style="color: #F45145">{{ ++$key }}. {{ $product->product_title }}</h2>
+                       </div>
                        <p align="center">
                            <img src="{{ $product->image_url }}">
                            <br>

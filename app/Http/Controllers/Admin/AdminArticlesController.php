@@ -181,11 +181,7 @@ class AdminArticlesController extends Controller
         $article->title = $request['title'];
         $article->user_id = Auth::user()->id ;
         $article->category_id = $request['category_id'];
-        $slug = strtolower($request['title']);
-        $slug = str_replace(' ', '-', $slug);
-        $article->slug = $slug ;
         $article->keyword = $request['keyword'];
-        $article->status = true;
         $article->meta_description = $request['meta_description'];
 
         $message = $request->input('body');
@@ -289,6 +285,17 @@ class AdminArticlesController extends Controller
         $product = Product::find($product_id);
         $product->product_description = $request['product_description'];
         $product->save();
+    }
+
+    public function publish_or_unpublished($id){
+        $article = Article::find($id);
+        if($article->status){
+            $article->status = false;
+        } else {
+            $article->status = true;
+        }
+        $article->update();
+        return redirect()->route('admin_articles.index');
     }
 
 }
