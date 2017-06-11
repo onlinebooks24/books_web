@@ -296,3 +296,42 @@ h2 {
     text-align: center;
     width: 34px;
 }
+.footer-copyright {
+    padding: 15px 0;
+}
+.footer-copyright p{
+    color: #343434;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+.footer-links {
+    text-align: right;
+}
+.footer-links ul  {
+    margin: 0;
+    padding-left: 0;
+}
+.footer-links ul li {
+    display: inline-block;
+    list-style-type: none;
+    padding-left: 8px;
+    padding-right: 8px;
+    position: relative;
+}
+
+.footer-links ul li::before {
+    background-color: #fff;
+    content: "";
+    height: 13px;
+    position: absolute;
+    right: 0;
+    top: 7px;
+    width: 1px;
+}
+.footer-links ul li a {
+    color: #343434;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+}

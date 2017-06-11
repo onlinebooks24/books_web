@@ -50,6 +50,18 @@ Route::group(['middleware' => ['web']] , function() {
 		'as' => 'category.post'
 	]);
 
+	Route::get('/advertise-us/' , function(){
+		return View::make('frontend.other.advertise_us');
+	});
+
+	Route::get('/contact/' , function(){
+		return View::make('frontend.other.contact');
+	});
+
+	Route::get('/privacy-policy/' , function(){
+		return View::make('frontend.other.privacy_policy');
+	});
+
 	Route::get('/basicemail', [
 		'uses' => 'MailController@basic_email',
 		'as' => 'mail'

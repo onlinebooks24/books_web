@@ -16,13 +16,13 @@
          @endif
          @foreach($articles as $article)
              <h2>
-                  <a href="{{ route('articles.single' , [ 'category_name' => $article->category->name , 'slug' => $article->slug ])}}">{{ $article->title }}</a>
+                  <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
               </h2>
               <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }}  by <span class="author-name">{{$article->user->name }}</span></p>
               <!-- <hr>
               <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
               <p>{!! str_limit($article->body,400) !!}</p>
-              <a class="btn btn-primary" href="{{ route('articles.single' , [ 'category_name' => $article->category->name , 'slug' => $article->slug ])}}" style="float: right;">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+              <a class="btn btn-primary" href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}" style="float: right;">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
               <div class="clearfix"></div>
          @endforeach
 

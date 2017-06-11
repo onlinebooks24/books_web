@@ -19,7 +19,7 @@ class ArticleController extends Controller
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
         $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(10);
-        return view('frontend.articles',['categories'=>$categories,'articles'=>$articles]);
+        return view('frontend.articles.index',['categories'=>$categories,'articles'=>$articles]);
     }
 
     /**
@@ -101,7 +101,7 @@ class ArticleController extends Controller
             $article->save();
         }
 
-        return view('frontend.single',[ 'article'=>$article,
+        return view('frontend.articles.show',[ 'article'=>$article,
                                         'articles' => $articles,
                                         'categories' => $categories,
                                         'products' => $products]);
@@ -114,7 +114,7 @@ class ArticleController extends Controller
         $category = Category::where('slug' , $slug)->first();
         if (!empty($category)){
             $articles = Article::where('category_id' , $category->id)->orderBy('created_at','desc')->Paginate(5);
-            return view('frontend.category',['articles'=> $articles,'categories' => $categories,'categoryName' => $category->name ]);
+            return view('frontend.articles.category_articles',['articles'=> $articles,'categories' => $categories,'categoryName' => $category->name ]);
         } else {
             return redirect()->route('blog.index');
         }
