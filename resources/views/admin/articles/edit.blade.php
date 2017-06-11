@@ -75,7 +75,7 @@
                     @php
                         if($image_exist){
                     @endphp
-                        <img src="{{$image_exist->folder_path.'/'.$image_exist->name}}">
+                        <img class="img-responsive" src="{{$image_exist->folder_path.'/'.$image_exist->name}}">
                     @php } @endphp
                 </div>
             </div>
