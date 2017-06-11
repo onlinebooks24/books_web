@@ -37,9 +37,9 @@
         @endif
     </div>
     <div class="row">
-        <div class="alert alert-success">
-            <form action="{{ route('admin_articles.update' , $article->id)}}" method="post" enctype="multipart/form-data">
-                {{ csrf_field() }}
+        <form action="{{ route('admin_articles.update' , $article->id)}}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="alert alert-success">
                 <input name="_method" type="hidden" value="PUT">
                 <div class="form-group"> <!-- Name field -->
                     <label class="control-label " for="name">Title</label>
@@ -65,18 +65,32 @@
                         @endforeach
                     </select>
                 </div>
-
-                <div class="form-group"> <!-- Message field -->
-                    <label class="control-label " for="message">Article Description</label>
-                    <textarea class="summernote" name="body">{!! $article->body !!}</textarea>
+            </div>
+            <div class="col-sm-3">
+                <div class="alert alert-success">
+                    <h5>Upload Thumbnail Image</h5>
+                    <input type="file" name="image">
+                    <hr>
+                    <h5>Previous Image</h5>
+                    @php
+                        if($image_exist){
+                    @endphp
+                        <img src="{{$image_exist->folder_path.'/'.$image_exist->name}}">
+                    @php } @endphp
                 </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+            </div>
+            <div class="col-sm-9">
+                <div class="alert alert-success">
+                    <div class="form-group"> <!-- Message field -->
+                        <label class="control-label " for="message">Article Description</label>
+                        <textarea class="summernote" name="body">{!! $article->body !!}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                    </div>
                 </div>
-
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     @foreach($products as $key => $product)

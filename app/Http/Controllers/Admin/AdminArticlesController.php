@@ -166,8 +166,9 @@ class AdminArticlesController extends Controller
         $article = Article::find($id);
         $categories = Category::all();
         $products = Product::where('article_id',$id)->get();
+        $image_exist = Upload::where('article_id', '=', $article->id)->orderBy('id','desc')->first();
 
-        return view ('admin.articles.edit',['article'=>$article, 'categories'=>$categories,'products'=>$products]);
+        return view ('admin.articles.edit',['article'=>$article, 'categories'=>$categories,'products'=>$products,'image_exist'=>$image_exist]);
     }
 
     /**
@@ -204,6 +205,25 @@ class AdminArticlesController extends Controller
             $article->meta_description = $request['meta_description'];
         }
         $article->conclusion = $request['conclusion'];
+
+        if(!empty(Input::file('image'))){
+            $fileName = Input::file('image')->getClientOriginalName();
+            $public_path = public_path() . '/uploads/blog_images/';
+            $year_folder = $public_path . date("Y");
+            $month_folder = $year_folder . '/' . date("m");
+            !file_exists($year_folder) && mkdir($year_folder, 0777);
+            !file_exists($month_folder) && mkdir($month_folder, 0777);
+            $destinationPath = public_path() ."/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
+            $folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
+            $fileName = $article->id.'_'.$fileName;
+            Input::file('image')->move($destinationPath, $fileName);
+            $upload = new Upload();
+            $upload->name = $fileName;
+            $upload->folder_path = $folder_path;
+            $upload->md5_hash = md5_file($destinationPath.$fileName);
+            $upload->article_id = $article->id;
+            $upload->save();
+        }
 
         $message = $request->input('body');
 
