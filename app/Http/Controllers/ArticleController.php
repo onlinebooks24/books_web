@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
 use Auth;
+use App\Models\Upload;
 
 class ArticleController extends Controller
 {
@@ -19,7 +20,8 @@ class ArticleController extends Controller
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
         $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(10);
-        return view('frontend.articles.index',['categories'=>$categories,'articles'=>$articles]);
+        $uploads = Upload::all();
+        return view('frontend.articles.index',['categories'=>$categories,'articles'=>$articles,'uploads'=>$uploads]);
     }
 
     /**
@@ -95,6 +97,7 @@ class ArticleController extends Controller
             ->orderBy('created_at','desc')->get();
         $article = Article::where('slug' , $slug)->first();
         $products = $article->products;
+        $uploads = Upload::all();
         if(empty(Auth::user())){
             $current_count = $article->count;
             $article->count = $current_count + 1 ;
@@ -104,7 +107,8 @@ class ArticleController extends Controller
         return view('frontend.articles.show',[ 'article'=>$article,
                                         'articles' => $articles,
                                         'categories' => $categories,
-                                        'products' => $products]);
+                                        'products' => $products,
+                                         'uploads' => $uploads]);
     }
 
     public function getCategoryPost($slug)
@@ -112,9 +116,10 @@ class ArticleController extends Controller
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
         $category = Category::where('slug' , $slug)->first();
+        $uploads = Upload::all();
         if (!empty($category)){
             $articles = Article::where('category_id' , $category->id)->orderBy('created_at','desc')->Paginate(5);
-            return view('frontend.articles.category_articles',['articles'=> $articles,'categories' => $categories,'categoryName' => $category->name ]);
+            return view('frontend.articles.category_articles',['articles'=> $articles,'categories' => $categories,'categoryName' => $category->name,'uploads' => $uploads ]);
         } else {
             return redirect()->route('blog.index');
         }

@@ -21,6 +21,11 @@
               <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }}  by <span class="author-name">{{$article->user->name }}</span></p>
               <!-- <hr>
               <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
+             @foreach($uploads as $upload)
+                 @php if($upload->id == $article->thumnail_id){ @endphp
+                 <p class="img-responsive" align="center"><img src="{{ $upload->folder_path.'/'.$upload->name }}" width="600px" height="350px"></p>
+                 @php } @endphp
+             @endforeach
               <p>{!! str_limit($article->body,400) !!}</p>
               <a class="btn btn-primary" href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}" style="float: right;">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
               <div class="clearfix"></div>

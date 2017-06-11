@@ -17,6 +17,11 @@
                     <!-- <hr>
                     <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
                     <hr>
+                    @foreach($uploads as $upload)
+                        @php if($upload->id == $article->thumnail_id){ @endphp
+                        <p class="img-responsive" align="center"><img src="{{ $upload->folder_path.'/'.$upload->name }}" width="600px" height="350px"></p>
+                        @php } @endphp
+                    @endforeach
                     <p>{!! $article->body !!}</p>
                     @if( count($products) > 0 )
                         @foreach($products as $key=>$product)

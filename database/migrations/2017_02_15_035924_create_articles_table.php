@@ -28,6 +28,7 @@ class CreateArticlesTable extends Migration
             $table->boolean('waiting_for_approval')->default(true);
             $table->integer('count')->default(0);
             $table->text('conclusion')->nullable();
+            $table->integer('thumnail_id');
         });
     }
 

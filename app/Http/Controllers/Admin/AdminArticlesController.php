@@ -223,6 +223,7 @@ class AdminArticlesController extends Controller
             $upload->md5_hash = md5_file($destinationPath.$fileName);
             $upload->article_id = $article->id;
             $upload->save();
+            $article->thumnail_id = $upload->id;
         }
 
         $message = $request->input('body');

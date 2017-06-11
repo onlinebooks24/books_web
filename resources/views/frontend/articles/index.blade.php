@@ -18,7 +18,11 @@
 
                     <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }} by <span class="author-name">{{ $article->user->name }}</span></p>
                     <hr>
-
+                    @foreach($uploads as $upload)
+                    @php if($upload->id == $article->thumnail_id){ @endphp
+                        <p class="img-responsive" align="center"><img src="{{ $upload->folder_path.'/'.$upload->name }}" width="600px" height="350px"></p>
+                    @php } @endphp
+                    @endforeach
                     <div>{!! Helper::readMoreHelper($article->body) !!}</div>
                     <div class="clearfix"></div>
 
