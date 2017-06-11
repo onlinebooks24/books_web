@@ -4,7 +4,7 @@
             <!-- Side Widget Well  -->
             <div class="border-block">
                 <h4>Be with us</h4>
-                <div class="fb-like" data-href="https://web.facebook.com/onlinebooksreview" data-width="350px" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                <div class="fb-page" data-href="https://www.facebook.com/onlinebooksreview/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/onlinebooksreview/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/onlinebooksreview/">Online Books Review</a></blockquote></div>
                 <div id="fb-root"></div>
                 <script>(function(d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];
