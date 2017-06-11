@@ -284,6 +284,8 @@ h2 {
     float: left;
     font-size: 16px;
     margin-left: 8px;
+    padding-top:-25px;
+
 }
 .social-icon ul li a {
     border: 1px solid #337ab7;
@@ -295,6 +297,7 @@ h2 {
     line-height: 34px;
     text-align: center;
     width: 34px;
+    margin-bottom: 6px;
 }
 .footer-copyright {
     padding: 15px 0;
