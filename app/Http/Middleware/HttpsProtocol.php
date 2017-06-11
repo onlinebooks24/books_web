@@ -8,15 +8,17 @@ class HttpsProtocol {
 
     public function handle($request, Closure $next)
     {
-        $request=app('request');
-        $host=$request->header('host');
-        if(! $request->secure() && env('APP_ENV') != 'local') {
-            return redirect()->secure($request->path());
-        }
+        if (env('APP_ENV') != 'local'){
+            $request=app('request');
+            $host=$request->header('host');
+            if(! $request->secure()) {
+                return redirect()->secure($request->path());
+            }
 
-        if (substr($host, 0, 4) != 'www.') {
-            $request->headers->set('host', 'www.'.$host);
-            return Redirect::to($request->path());
+            if (substr($host, 0, 4) != 'www.') {
+                $request->headers->set('host', 'www.'.$host);
+                return Redirect::to($request->path());
+            }
         }
 
         return $next($request);
