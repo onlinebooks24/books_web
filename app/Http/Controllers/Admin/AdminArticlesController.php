@@ -101,40 +101,7 @@ class AdminArticlesController extends Controller
             $src = $img->getAttribute('src');
 
             if (preg_match('/data:image/', $src)) {
-                preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];
-                $filename = date("d") . '_' . $img->getAttribute('data-filename');
-                $filename = str_replace(' ', '_', $filename);
-                $general_directory = '/uploads/blog_images/';
-                $public_path = public_path() . $general_directory;
-                $year_folder = $public_path . date("Y");
-                $month_folder = $year_folder . '/' . date("m");
-
-                !file_exists($year_folder) && mkdir($year_folder, 0777);
-                !file_exists($month_folder) && mkdir($month_folder, 0777);
-                $folder_path = $general_directory . date('Y') . "/" . date('m') . "/";
-                $img_md5_value = md5_file($src);
-                $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
-
-                if (!empty($image_exist)) {
-                    $filename =  Carbon::now()->timestamp . '_' . $filename;
-                }
-
-                $upload = new Upload();
-                $upload->name = $filename;
-                $upload->folder_path = $folder_path;
-                $upload->md5_hash = $img_md5_value;
-                $upload->article_id = $article->id;
-                $upload->save();
-                $image = Image::make($src)
-                    // resize if required
-                    /* ->resize(300, 200) */
-                    ->encode($mimetype, 100)// encode file to the specified mimetype
-                    ->save(public_path($folder_path.$filename));
-
-                $new_src = $folder_path.$filename;
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $new_src);
+                $this->mime_type_image_save($src,$img,$article);
             } // <!--endif
         } // <!-
 
@@ -252,42 +219,9 @@ class AdminArticlesController extends Controller
             $src = $img->getAttribute('src');
 
             if (preg_match('/data:image/', $src)) {
-                preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];
-                $filename = date("d") . '_' . $img->getAttribute('data-filename');
-                $filename = str_replace(' ', '_', $filename);
-                $general_directory = '/uploads/blog_images/';
-                $public_path = public_path() . $general_directory ;
-                $year_folder = $public_path . date("Y");
-                $month_folder = $year_folder . '/' . date("m");
-
-                !file_exists($year_folder) && mkdir($year_folder, 0777);
-                !file_exists($month_folder) && mkdir($month_folder, 0777);
-                $folder_path = $general_directory . date('Y') . "/" . date('m') . "/";
-                $img_md5_value = md5_file($src);
-                $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
-
-                if (!empty($image_exist)) {
-                    $filename =  Carbon::now()->timestamp . '_' . $filename;
-                }
-
-                $upload = new Upload();
-                $upload->name = $filename;
-                $upload->folder_path = $folder_path;
-                $upload->md5_hash = $img_md5_value;
-                $upload->article_id = $article->id;
-                $upload->save();
-                $image = Image::make($src)
-                    // resize if required
-                    /* ->resize(300, 200) */
-                    ->encode($mimetype, 100)// encode file to the specified mimetype
-                    ->save(public_path($folder_path.$filename));
-
-                $new_src = $folder_path.$filename;
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $new_src);
-            } // <!--endif
-        } // <!-
+                $this->mime_type_image_save($src,$img,$article);
+            }
+        }
         $article->body = $dom->saveHTML();
 
         $article->update();
@@ -360,6 +294,43 @@ class AdminArticlesController extends Controller
     public function review_article(){
         $articles = Article::where('waiting_for_approval', true)->orderBy('created_at','desc')->Paginate(10);
         return view('admin.articles.review_article',['articles' => $articles]);
+    }
+
+    public function mime_type_image_save($src,$img,$article){
+        preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
+        $mimetype = $groups['mime'];
+        $filename = date("d") . '_' . $img->getAttribute('data-filename');
+        $filename = str_replace(' ', '_', $filename);
+        $general_directory = '/uploads/blog_images/';
+        $public_path = public_path() . $general_directory ;
+        $year_folder = $public_path . date("Y");
+        $month_folder = $year_folder . '/' . date("m");
+
+        !file_exists($year_folder) && mkdir($year_folder, 0777);
+        !file_exists($month_folder) && mkdir($month_folder, 0777);
+        $folder_path = $general_directory . date('Y') . "/" . date('m') . "/";
+        $img_md5_value = md5_file($src);
+        $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
+
+        if (!empty($image_exist)) {
+            $filename =  Carbon::now()->timestamp . '_' . $filename;
+        }
+
+        $upload = new Upload();
+        $upload->name = $filename;
+        $upload->folder_path = $folder_path;
+        $upload->md5_hash = $img_md5_value;
+        $upload->article_id = $article->id;
+        $upload->save();
+        $image = Image::make($src)
+            // resize if required
+            /* ->resize(300, 200) */
+            ->encode($mimetype, 100)// encode file to the specified mimetype
+            ->save(public_path($folder_path.$filename));
+
+        $new_src = $folder_path.$filename;
+        $img->removeAttribute('src');
+        $img->setAttribute('src', $new_src);
     }
 
 }
