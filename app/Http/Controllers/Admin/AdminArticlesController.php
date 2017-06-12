@@ -105,13 +105,14 @@ class AdminArticlesController extends Controller
                 $mimetype = $groups['mime'];
                 $filename = date("d") . '_' . $img->getAttribute('data-filename');
                 $filename = str_replace(' ', '_', $filename);
-                $public_path = public_path() . '/uploads/blog_images/';
+                $general_directory = '/uploads/blog_images/';
+                $public_path = public_path() . $general_directory;
                 $year_folder = $public_path . date("Y");
                 $month_folder = $year_folder . '/' . date("m");
 
                 !file_exists($year_folder) && mkdir($year_folder, 0777);
                 !file_exists($month_folder) && mkdir($month_folder, 0777);
-                $folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
+                $folder_path = $general_directory . date('Y') . "/" . date('m') . "/";
                 $img_md5_value = md5_file($src);
                 $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
 
@@ -255,13 +256,14 @@ class AdminArticlesController extends Controller
                 $mimetype = $groups['mime'];
                 $filename = date("d") . '_' . $img->getAttribute('data-filename');
                 $filename = str_replace(' ', '_', $filename);
-                $public_path = public_path() . '/uploads/blog_images/';
+                $general_directory = '/uploads/blog_images/';
+                $public_path = public_path() . $general_directory ;
                 $year_folder = $public_path . date("Y");
                 $month_folder = $year_folder . '/' . date("m");
 
                 !file_exists($year_folder) && mkdir($year_folder, 0777);
                 !file_exists($month_folder) && mkdir($month_folder, 0777);
-                $folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
+                $folder_path = $general_directory . date('Y') . "/" . date('m') . "/";
                 $img_md5_value = md5_file($src);
                 $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
 
