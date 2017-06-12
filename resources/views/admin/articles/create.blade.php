@@ -34,6 +34,12 @@
                 </select>
             </div>
 
+            <div class="form-group">
+                <div class="alert alert-success">
+                    <h5>Upload Thumbnail Image</h5>
+                    <input type="file" name="image">
+                </div>
+            </div>
             <div class="form-group"> <!-- Message field -->
                 <label class="control-label " for="message">Message</label>
                 <textarea class="form-control" id="summernote" name="body" required></textarea>

@@ -72,11 +72,9 @@
                     <input type="file" name="image">
                     <hr>
                     <h5>Previous Image</h5>
-                    @php
-                        if($image_exist){
-                    @endphp
+                    @if($image_exist)
                         <img class="img-responsive" src="{{$image_exist->folder_path.'/'.$image_exist->name}}">
-                    @php } @endphp
+                    @endif
                 </div>
             </div>
             <div class="col-sm-9">

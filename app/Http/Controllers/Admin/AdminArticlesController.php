@@ -77,10 +77,6 @@ class AdminArticlesController extends Controller
         $article->meta_description = $request['meta_description'];
         $article->conclusion = $request['conclusion'];
 
-        if(!empty(Input::file('image'))){
-            $this->saveThumbnail($article);
-        }
-
         $message = $request->input('body');
         $dom = new DomDocument();
         libxml_use_internal_errors(true);
@@ -101,6 +97,12 @@ class AdminArticlesController extends Controller
 
         $article->body = $dom->saveHTML();
         $article->save();
+
+        dd(Input::file('image'));
+
+        if(!empty(Input::file('image'))){
+            $this->saveThumbnail($article);
+        }
 
         foreach ($images as $img) {
             $src = $img->getAttribute('src');
