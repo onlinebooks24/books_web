@@ -75,6 +75,11 @@ class AdminArticlesController extends Controller
         $article->status = false;
         $article->waiting_for_approval = true;
         $article->meta_description = $request['meta_description'];
+        $article->conclusion = $request['conclusion'];
+
+        if(!empty(Input::file('image'))){
+            $this->saveThumbnail($article);
+        }
 
         $message = $request->input('body');
         $dom = new DomDocument();
@@ -175,23 +180,7 @@ class AdminArticlesController extends Controller
         $article->conclusion = $request['conclusion'];
 
         if(!empty(Input::file('image'))){
-            $fileName = Input::file('image')->getClientOriginalName();
-            $public_path = public_path() . '/uploads/blog_images/';
-            $year_folder = $public_path . date("Y");
-            $month_folder = $year_folder . '/' . date("m");
-            !file_exists($year_folder) && mkdir($year_folder, 0777);
-            !file_exists($month_folder) && mkdir($month_folder, 0777);
-            $destinationPath = public_path() ."/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
-            $folder_path = "/uploads/blog_images/" . date('Y') . "/" . date('m') . "/";
-            $fileName = $article->id.'_'.$fileName;
-            Input::file('image')->move($destinationPath, $fileName);
-            $upload = new Upload();
-            $upload->name = $fileName;
-            $upload->folder_path = $folder_path;
-            $upload->md5_hash = md5_file($destinationPath.$fileName);
-            $upload->article_id = $article->id;
-            $upload->save();
-            $article->thumbnail_id = $upload->id;
+            $this->saveThumbnail($article);
         }
 
         $message = $request->input('body');
@@ -299,7 +288,8 @@ class AdminArticlesController extends Controller
     public function mime_type_image_save($src,$img,$article){
         preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
         $mimetype = $groups['mime'];
-        $filename = date("d") . '_' . $img->getAttribute('data-filename');
+        $filename = $img->getAttribute('data-filename');
+        $filename = date("d") . '_' . $filename;
         $filename = str_replace(' ', '_', $filename);
         $general_directory = '/uploads/blog_images/';
         $public_path = public_path() . $general_directory ;
@@ -333,4 +323,32 @@ class AdminArticlesController extends Controller
         $img->setAttribute('src', $new_src);
     }
 
+    public function saveThumbnail($article){
+        $filename = Input::file('image')->getClientOriginalName();
+        $filename = date("d") . '_' . $filename;
+        $filename = str_replace(' ', '_', $filename);
+        $general_directory = '/uploads/blog_images/';
+        $public_path = public_path() . $general_directory ;
+        $year_folder = $public_path . date("Y");
+        $month_folder = $year_folder . '/' . date("m");
+
+        !file_exists($year_folder) && mkdir($year_folder, 0777);
+        !file_exists($month_folder) && mkdir($month_folder, 0777);
+        $folder_path = $general_directory . date('Y') . "/" . date('m') . "/";
+        $img_md5_value = md5_file(Input::file('image'));
+        $image_exist = Upload::where([['name', '=', $filename], ['folder_path', '=', $folder_path]])->first();
+
+        if (!empty($image_exist)) {
+            $filename =  Carbon::now()->timestamp . '_' . $filename;
+        }
+
+        $upload = new Upload();
+        $upload->name = $filename;
+        $upload->folder_path = $folder_path;
+        $upload->md5_hash = $img_md5_value;
+        $upload->article_id = $article->id;
+        $upload->save();
+        $article->thumbnail_id = $upload->id;
+        Input::file('image')->move(public_path($folder_path.$filename), $filename);
+    }
 }
