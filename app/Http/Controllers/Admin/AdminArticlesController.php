@@ -139,7 +139,10 @@ class AdminArticlesController extends Controller
         $article = Article::find($id);
         $categories = Category::all();
         $products = Product::where('article_id',$id)->get();
-        $image_exist = Upload::where('article_id', '=', $article->id)->orderBy('id','desc')->first();
+        $image_exist = null;
+        if(!empty($article->thumbnail_id)){
+            $image_exist = Upload::find($article->thumbnail_id);
+        }
 
         return view ('admin.articles.edit',['article'=>$article, 'categories'=>$categories,'products'=>$products,'image_exist'=>$image_exist]);
     }
