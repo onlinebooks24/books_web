@@ -98,8 +98,6 @@ class AdminArticlesController extends Controller
         $article->body = $dom->saveHTML();
         $article->save();
 
-        dd(Input::file('image'));
-
         if(!empty(Input::file('image'))){
             $this->saveThumbnail($article);
         }

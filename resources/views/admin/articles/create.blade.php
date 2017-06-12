@@ -7,7 +7,7 @@
 @section('content')
 <div class="row">
     <div class="alert alert-success">
-        <form method="post" action="{{ route('admin_articles.store') }}">
+        <form method="post" action="{{ route('admin_articles.store') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group"> <!-- Name field -->
                 <label class="control-label " for="name">Title</label>
