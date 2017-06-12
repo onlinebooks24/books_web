@@ -349,6 +349,6 @@ class AdminArticlesController extends Controller
         $upload->article_id = $article->id;
         $upload->save();
         $article->thumbnail_id = $upload->id;
-        Input::file('image')->move(public_path($folder_path.$filename), $filename);
+        Input::file('image')->move(public_path($folder_path), $filename);
     }
 }
