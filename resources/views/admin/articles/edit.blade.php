@@ -84,7 +84,7 @@
                         <textarea class="summernote" name="body">{!! $article->body !!}</textarea>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                        <button type="submit" class="btn btn-success btn-md" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@
     @foreach($products as $key => $product)
         <div class="row">
             <div class="col-md-3">
-                <div class="alert alert-success">
+                <div class="alert alert-warning">
                     <a target="_blank" href="http://www.amazon.com/dp/ASIN/{{$product->isbn}}">
                         <img src="{{ $product->image_url }}">
                     </a>
@@ -113,7 +113,7 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <div class="alert alert-success">
+                <div class="alert alert-warning">
                     <form action="" method="post" enctype="multipart/form-data" class="product_save">
                         {{ csrf_field() }}
                         <input name="_method" type="hidden" value="PUT">
@@ -129,9 +129,18 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="product_save btn btn-warning btn-lg" ><span class="glyphicon glyphicon-ok-sign"></span>Save</button>
+                            <button type="submit" class="product_save btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
                         </div>
                     </form>
+                    <div class="pull-right top-30">
+                        <form action="{{ route('admin_articles.product_destroy') }}">
+                            {{ csrf_field() }}
+                            <input name="_method" type="hidden" value="PUT">
+                            <input type="hidden" name="product_id" value="{{$product->id}}">
+                            <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -147,7 +156,28 @@
                 <textarea class="summernote" name="conclusion">{!! $article->conclusion !!}</textarea>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-warning btn-lg" ><span class="glyphicon glyphicon-ok-sign"></span>Save</button>
+                <button type="submit" class="btn btn-success btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="alert alert-info">
+        <form action="{{ route('admin_articles.product_add')}}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <input name="_method" type="hidden" value="PUT">
+            <input type="hidden" name="article_id" value="{{$article->id}}">
+            <div>
+                <label class="control-label " for="message">Add Product</label>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <input type="text" name="isbn" placeholder="ISBN NUMBER" class="form-control">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Add Product</button>
             </div>
         </form>
     </div>

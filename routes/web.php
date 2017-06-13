@@ -18,6 +18,14 @@ Route::group(['middleware' => ['web']] , function() {
 			'uses' => 'Admin\AdminArticlesController@product_save',
 			'as' => 'admin_articles.product_save'
 		]);
+		Route::any('/admin_articles/product_add/',[
+			'uses' => 'Admin\AdminArticlesController@product_add',
+			'as' => 'admin_articles.product_add'
+		]);
+		Route::any('/admin_articles/product_destroy/',[
+			'uses' => 'Admin\AdminArticlesController@product_destroy',
+			'as' => 'admin_articles.product_destroy'
+		]);
 		Route::any('/admin_articles/publish_or_unpublished/{id}',[
 			'uses' => 'Admin\AdminArticlesController@publish_or_unpublished',
 			'as' => 'admin_articles.publish_or_unpublished'
