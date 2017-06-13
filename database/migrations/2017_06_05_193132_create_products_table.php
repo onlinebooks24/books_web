@@ -21,8 +21,8 @@ class CreateProductsTable extends Migration
             $table->string('amazon_link');
             $table->string('image_url');
             $table->string('author_name')->nullable();
-            $table->integer('article_id');
-            $table->dateTime('publication_date');
+            $table->integer('article_id')->nullable();
+            $table->dateTime('publication_date')->nullable();
 
             $table->timestamps();
         });

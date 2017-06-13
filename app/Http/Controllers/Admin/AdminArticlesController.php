@@ -395,7 +395,12 @@ class AdminArticlesController extends Controller
                     }
                 }
 
-                $publication_date = $item['ItemAttributes']['PublicationDate'];
+                if(isset($item['ItemAttributes']['PublicationDate'])){
+                    $publication_date = $item['ItemAttributes']['PublicationDate'];
+                } else {
+                    $publication_date = null;
+                }
+
 
                 if( strlen($publication_date) == 7 ){
                     $publication_date = $publication_date. '-01';
