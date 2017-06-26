@@ -11,6 +11,7 @@
     <meta property="og:locale" content="en_US" >
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
     <meta name="google-site-verification" content="SshyPvUWMt9RvlmGX7X4AJtFpVhrCiejltTVOqRbe6o" />
+    <meta name="yandex-verification" content="85876cb37b3e3d2a" />
     <meta name="msvalidate.01" content="44E29CA719A9C2074B87ECF80ADDF5FD" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="www.onlinebooksreview.com">
