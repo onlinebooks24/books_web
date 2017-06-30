@@ -19,7 +19,7 @@ class ArticleController extends Controller
     {
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
-        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(10);
+        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(18);
         $uploads = Upload::all();
         return view('frontend.articles.index',['categories'=>$categories,'articles'=>$articles,'uploads'=>$uploads]);
     }
@@ -92,7 +92,7 @@ class ArticleController extends Controller
 
     public function getSinglePost($slug)
     {
-        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(10);
+        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(18);
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
         $article = Article::where('slug' , $slug)->first();
