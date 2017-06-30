@@ -92,7 +92,7 @@ class ArticleController extends Controller
 
     public function getSinglePost($slug)
     {
-        $articles = Article::orderBy('created_at','desc')->Paginate(10);
+        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(10);
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
         $article = Article::where('slug' , $slug)->first();
@@ -118,7 +118,9 @@ class ArticleController extends Controller
         $category = Category::where('slug' , $slug)->first();
         $uploads = Upload::all();
         if (!empty($category)){
-            $articles = Article::where('category_id' , $category->id)->orderBy('created_at','desc')->Paginate(5);
+            $articles = Article::where('category_id' , $category->id)
+                                    ->where('status', true)
+                                    ->orderBy('created_at','desc')->Paginate(5);
             return view('frontend.articles.category_articles',['articles'=> $articles,'categories' => $categories,'categoryName' => $category->name,'uploads' => $uploads ]);
         } else {
             return redirect()->route('blog.index');
