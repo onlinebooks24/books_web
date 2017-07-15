@@ -34,7 +34,7 @@
 
         <section>
             <!-- Blog Categories Well -->
-            <div class="border-block">
+            <div class="border-block hidden">
                 <h4>Article Categories</h4>
                 <div class="row">
                     <div class="col-lg-12">
