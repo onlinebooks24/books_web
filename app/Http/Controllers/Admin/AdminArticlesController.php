@@ -55,7 +55,8 @@ class AdminArticlesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request , [
-            'title' => 'required|unique:articles'
+            'title' => 'required|unique:articles',
+            'slug' => 'required|unique:articles'
         ]);
 
         $category_id = $request['category_id'];
@@ -65,12 +66,8 @@ class AdminArticlesController extends Controller
         $article->title = $request['title'];
         $article->user_id = Auth::user()->id ;
         $article->category_id = $category_id;
-        $slug = strtolower($request['title']);
+        $slug = strtolower($request['slug']);
         $slug = str_replace(' ', '-', $slug);
-        $slug_check = Article::where('slug' , $slug)->first();
-        if(!empty($slug_check)){
-            $slug = $slug.'_'.Carbon::now()->timestamp;
-        }
         $article->slug = $slug ;
         $article->keyword = $request['keyword'];
         $article->status = false;
@@ -157,21 +154,20 @@ class AdminArticlesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request , [
+            'title' => 'required',
+            'slug' => 'required'
+        ]);
+
         $article = Article::find($id);
+        $article->title = $request['title'];
 
-        if(!empty($request['title'])){
-            $article->title = $request['title'];
-
-            if (!$article->status){
-                $slug = strtolower($request['title']);
-                $slug = str_replace(' ', '-', $slug);
-                $slug_check = Article::where('slug' , $slug)->first();
-                if(!empty($slug_check)){
-                    $slug = $slug.'_'.Carbon::now()->timestamp;
-                }
-                $article->slug = $slug;
-            }
+        if (!$article->status){
+            $slug = strtolower($request['slug']);
+            $slug = str_replace(' ', '-', $slug);
+            $article->slug = $slug;
         }
+
 
         $article->user_id = Auth::user()->id ;
         if(!empty($request['category_id'])){

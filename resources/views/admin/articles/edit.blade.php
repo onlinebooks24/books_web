@@ -47,6 +47,11 @@
                 </div>
 
                 <div class="form-group"> <!-- Name field -->
+                    <label class="control-label " for="name">URL Slug</label>
+                    <input class="form-control" name="slug" type="text" value="{{ $article->slug }}" />
+                </div>
+
+                <div class="form-group"> <!-- Name field -->
                     <label class="control-label " for="name">Keyword</label>
                     <input class="form-control" name="keyword" type="text" value="{{ $article->keyword }}" required />
                 </div>

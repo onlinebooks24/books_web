@@ -15,6 +15,11 @@
             </div>
 
             <div class="form-group"> <!-- Name field -->
+                <label class="control-label " for="name">URL Slug</label>
+                <input class="form-control" name="slug" type="text" required />
+            </div>
+
+            <div class="form-group"> <!-- Name field -->
                 <label class="control-label " for="name">Keyword</label>
                 <input class="form-control" name="keyword" type="text" required />
             </div>
