@@ -25,11 +25,12 @@
         <div class="social-icon">
           <ul>
             <li>
-              <a href="https://facebook.com/onlinebooksreview"><i class="fa fa-facebook"></i></a>
+              <a target="_blank" href="https://facebook.com/onlinebooksreview"><i class="fa fa-facebook"></i></a>
             </li>
-            <li><a href="https://twitter.com/onlinebooks24"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="https://plus.google.com/102043538886861585624"><i class="fa fa-google-plus"></i></a></li>
-            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+            <li><a target="_blank" href="https://twitter.com/onlinebooks24"><i class="fa fa-twitter"></i></a></li>
+            <li><a target="_blank" href="https://plus.google.com/b/110233331450185953116/"><i class="fa fa-google-plus"></i></a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCFoPgOTE5HZ4yz5iB_g8WkA"><i class="fa fa-youtube"></i></a></li>
+            <li><a target="_blank" href="www.linkedin.com/company-beta/13346322"><i class="fa fa-linkedin"></i></a></li>
           </ul>
         </div>
       </div>
