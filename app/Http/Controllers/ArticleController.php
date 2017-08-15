@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
+use App\Models\Product;
 use Auth;
 use App\Models\Upload;
 
@@ -96,7 +97,8 @@ class ArticleController extends Controller
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
         $article = Article::where('slug' , $slug)->first();
-        $products = $article->products;
+//        $products = $article->products;
+        $products = Product::where('article_id',$article->id)->orderBy('publication_date','desc')->get();
         $uploads = Upload::all();
         if(empty(Auth::user())){
             $current_count = $article->count;
