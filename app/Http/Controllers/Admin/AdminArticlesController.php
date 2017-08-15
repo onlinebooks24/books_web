@@ -136,7 +136,7 @@ class AdminArticlesController extends Controller
     {
         $article = Article::find($id);
         $categories = Category::all();
-        $products = Product::where('article_id',$id)->orderBy('publication_date','desc')->get();
+        $products = Product::where('article_id',$id)->orderBy('created_at','desc')->get();
         $image_exist = null;
         if(!empty($article->thumbnail_id)){
             $image_exist = Upload::find($article->thumbnail_id);
