@@ -93,7 +93,7 @@ class ArticleController extends Controller
 
     public function getSinglePost($slug)
     {
-        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(18);
+        $articles = Article::where('status', true)->orderBy('created_at','asc')->Paginate(18);
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
         $article = Article::where('slug' , $slug)->first();
