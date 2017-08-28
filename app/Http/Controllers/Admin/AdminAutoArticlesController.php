@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use App\Helpers\Helper;
 use Auth;
+use Goutte\Client;
 
 class AdminAutoArticlesController extends Controller
 {
@@ -21,89 +22,145 @@ class AdminAutoArticlesController extends Controller
     public function index()
     {
         $input = Input::all();
+        $best_books = null;
 
         if(!empty($input)){
             $keyword = str_replace(' ', '_', $input['keyword']);
         }
 
         if(!empty($keyword)){
-            $search_query = [
-                'Operation' => 'ItemSearch',
-                'ResponseGroup' => 'Medium',
-                'Keywords' => $keyword,
-                'SearchIndex' => 'Books',
-            ];
-
-            $amazon_response = Helper::amazonAdAPI($search_query);
-            if(isset($amazon_response['Items']['Item'])){
-                $get_amazon_items = $amazon_response['Items']['Item'];
-            } else {
-                $get_amazon_items = null;
+            $title = "Best ".str_replace('_', ' ', $keyword)." Books";
+            $slug = str_replace(' ', '-',  strtolower($title));
+            $slug_check = Article::where('slug' , $slug)->first();
+            if(!empty($slug_check)){
+                $slug = $slug.'_'.Carbon::now()->timestamp;
             }
+            $article = new Article();
+            $article->title = $title;
+            $article->user_id = Auth::user()->id;
+            $article->body = "Here your will get some books of $title";
+            $article->category_id = 16;
+            $article->keyword = $title;
+            $article->status = false;
+            $article->waiting_for_approval = true;
+            $article->meta_description = "Get best $title books";
+            $article->slug = $slug;
+            $article->save();
 
-            if(!empty($get_amazon_items)){
-                $title = "Best ".str_replace('_', ' ', $keyword)." Books";
-                $slug = str_replace(' ', '-',  strtolower($title));
-                $slug_check = Article::where('slug' , $slug)->first();
-                if(!empty($slug_check)){
-                    $slug = $slug.'_'.Carbon::now()->timestamp;
+            for($i = 1; $i <= 3; $i++){
+                $search_query = [
+                    'Operation' => 'ItemSearch',
+                    'ResponseGroup' => 'Medium',
+                    'Keywords' => $keyword,
+                    'SearchIndex' => 'Books',
+                    'ItemPage' => $i
+                ];
+
+                $amazon_response = Helper::amazonAdAPI($search_query);
+                if(isset($amazon_response['Items']['Item'])){
+                    $get_amazon_items = $amazon_response['Items']['Item'];
+                } else {
+                    $get_amazon_items = null;
                 }
-                $article = new Article();
-                $article->title = $title;
-                $article->user_id = Auth::user()->id;
-                $article->body = "Here your will get some books of $title";
-                $article->category_id = 16;
-                $article->keyword = $title;
-                $article->status = false;
-                $article->waiting_for_approval = true;
-                $article->meta_description = "Get best $title books";
-                $article->slug = $slug;
-                $article->save();
 
-                foreach($get_amazon_items as $item){
-                    if(isset($item['EditorialReviews']['EditorialReview'])){
-                        $editorial_array = $item['EditorialReviews']['EditorialReview'];
-                    }
-                    $editorial_details = '';
-                    if(!isset($editorial_array['Content'])){
-                        foreach($editorial_array as $editorial_item){
-                            $editorial_details = $editorial_item['Content'];
+                if(!empty($get_amazon_items)){
+
+                    foreach($get_amazon_items as $item){
+                        $asin = $item['ASIN'];
+                        $best_books[$asin] = 1;
+                        $client = new Client();
+                        $crawler = $client->request('GET', "https://www.amazon.com/product-reviews/$asin/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1");
+                        $raking_review_dates = $crawler->filter('.review-date')->each(function ($node) {
+                            return substr($node->text(), -1);
+                        });
+
+                        $raking_total_review = $crawler->filter('.totalReviewCount')->each(function ($node) {
+                            return $node->text();
+                        });
+
+                        $raking_rating = $crawler->filter('.arp-rating-out-of-text')->each(function ($node) {
+                            return (int)((float)(substr($node->text(), 0, 3)) * 50);
+                        });
+
+                        $total_marks = array_merge($raking_review_dates, $raking_total_review, $raking_rating);
+
+                        foreach($total_marks as $mark){
+                            $best_books[$asin] += $mark;
                         }
-                    } else {
-                        $editorial_details = $editorial_array['Content'];
-                    }
 
-                    $author_name = null;
-                    if(isset($item['ItemAttributes']['Author'])){
-                        $author_name = $item['ItemAttributes']['Author'];
-                        if(is_array($author_name)){
-                            $author_name = implode(',', $author_name);
-                        }
+                        sleep(3);
                     }
-
-                    if(isset($item['ItemAttributes']['PublicationDate'])){
-                        $publication_date = $item['ItemAttributes']['PublicationDate'];
-                    } else {
-                        $publication_date = null;
-                    }
-
-                    if( strlen($publication_date) == 7 ){
-                        $publication_date = $publication_date. '-01';
-                    } elseif (strlen($publication_date) == 4) {
-                        $publication_date = $publication_date. '-01'.'-01';
-                    }
-
-                    $product = new Product();
-                    $product->isbn = $item['ASIN'];
-                    $product->product_title = $item['ItemAttributes']['Title'];
-                    $product->product_description = $editorial_details;
-                    $product->amazon_link = $item['DetailPageURL'];
-                    $product->image_url = $item['LargeImage']['URL'];
-                    $product->author_name = $author_name;
-                    $product->article_id = $article->id;
-                    $product->publication_date = $publication_date;
-                    $product->save();
                 }
+
+                if(!empty($best_books)){
+                    arsort($best_books);
+                    foreach($best_books as $key => $book_item){
+                        $isbn = $key;
+                        $article_id = $article->id;
+                        $search_query = [
+                            'Operation' => 'ItemLookup',
+                            'ResponseGroup' => 'Medium',
+                            'ItemId' => $isbn
+                        ];
+
+                        $amazon_response = Helper::amazonAdAPI($search_query);
+
+                        if(isset($amazon_response['Items']['Item'])){
+                            $get_amazon_items = $amazon_response['Items']['Item'];
+                        } else {
+                            $get_amazon_items = null;
+                        }
+
+                        if(!empty($get_amazon_items)){
+                            $item = $get_amazon_items ;
+                            if(isset($item['EditorialReviews']['EditorialReview'])){
+                                $editorial_array = $item['EditorialReviews']['EditorialReview'];
+                            }
+                            $editorial_details = '';
+                            if(!isset($editorial_array['Content'])){
+                                foreach($editorial_array as $editorial_item){
+                                    $editorial_details = $editorial_item['Content'];
+                                }
+                            } else {
+                                $editorial_details = $editorial_array['Content'];
+                            }
+
+                            $author_name = null;
+                            if(isset($item['ItemAttributes']['Author'])){
+                                $author_name = $item['ItemAttributes']['Author'];
+                                if(is_array($author_name)){
+                                    $author_name = implode(',', $author_name);
+                                }
+                            }
+
+                            if(isset($item['ItemAttributes']['PublicationDate'])){
+                                $publication_date = $item['ItemAttributes']['PublicationDate'];
+                            } else {
+                                $publication_date = null;
+                            }
+
+
+                            if( strlen($publication_date) == 7 ){
+                                $publication_date = $publication_date. '-01';
+                            } elseif (strlen($publication_date) == 4) {
+                                $publication_date = $publication_date. '-01'.'-01';
+                            }
+
+                            $product = new Product();
+                            $product->isbn = $item['ASIN'];
+                            $product->product_title = $item['ItemAttributes']['Title'];
+                            $product->product_description = $editorial_details;
+                            $product->amazon_link = $item['DetailPageURL'];
+                            $product->image_url = $item['LargeImage']['URL'];
+                            $product->author_name = $author_name;
+                            $product->article_id = $article_id;
+                            $product->publication_date = $publication_date;
+                            $product->save();
+                        }
+                        sleep(3);
+                    }
+                }
+
             }
         }
         return view('admin.auto_articles.index');
