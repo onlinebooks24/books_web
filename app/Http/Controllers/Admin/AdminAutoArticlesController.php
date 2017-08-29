@@ -21,6 +21,8 @@ class AdminAutoArticlesController extends Controller
      */
     public function index()
     {
+
+
         $input = Input::all();
         $best_books = null;
 
@@ -29,7 +31,7 @@ class AdminAutoArticlesController extends Controller
         }
 
         if(!empty($keyword)){
-            $title = "Best ".str_replace('_', ' ', $keyword)." Books";
+            $title = str_replace('_', ' ', $keyword);
             $slug = str_replace(' ', '-',  strtolower($title));
             $slug_check = Article::where('slug' , $slug)->first();
             if(!empty($slug_check)){
@@ -47,7 +49,7 @@ class AdminAutoArticlesController extends Controller
             $article->slug = $slug;
             $article->save();
 
-            for($i = 1; $i <= 3; $i++){
+            for($i = 1; $i <= 1; $i++){
                 $search_query = [
                     'Operation' => 'ItemSearch',
                     'ResponseGroup' => 'Medium',
@@ -67,34 +69,66 @@ class AdminAutoArticlesController extends Controller
 
                     foreach($get_amazon_items as $item){
                         $asin = $item['ASIN'];
-                        $best_books[$asin] = 1;
-                        $client = new Client();
-                        $crawler = $client->request('GET', "https://www.amazon.com/product-reviews/$asin/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1");
-                        $raking_review_dates = $crawler->filter('.review-date')->each(function ($node) {
-                            return substr($node->text(), -1);
+                        $best_books = $this->getRankingFromAmazonReview($best_books, $asin);
+                    }
+                }
+            }
+
+            $client = new Client();
+            $total_suggested_books = null;
+            $google_keyword = str_replace(' ', '+',  strtolower($title));
+            for($i=0; $i <= 1; $i++){
+                $crawler = $client->request('GET', "https://www.google.com/search?q=$google_keyword&ie=utf-8&oe=utf-8&client=firefox-b&start=$i");
+                $total_suggested_books =   $crawler->filter('.r a')->each(function ($node) {
+                    $link_string = $node->attr('href');
+                    $link_string = str_replace('/url?q=', '', $link_string);
+                    $link_string = substr($link_string, 0, strpos($link_string, "&sa="));
+                    $pathinfo = pathinfo($link_string);
+                    $domain_name = parse_url($link_string)['host'];
+                    if( !isset($pathinfo['extension']) && strpos($link_string, '.amazon.') == false){
+                        $next_client = new Client();
+                        $next_crawler = $next_client->request('GET', $link_string);
+                        $collect_books = $next_crawler->filter('body a')->each(function ($next_node) {
+                            $general_link_string = $next_node->attr('href');
+
+                            if (strpos($general_link_string, '.amazon.') !== false) {
+                                if (preg_match("/\/[^\/]{10}\//", $general_link_string. "/", $matches)) {
+                                    if(isset($matches[0])){
+                                        return str_replace('/', '',$matches[0]);
+                                    }
+                                }
+                            }
                         });
-
-                        $raking_total_review = $crawler->filter('.totalReviewCount')->each(function ($node) {
-                            return $node->text();
-                        });
-
-                        $raking_rating = $crawler->filter('.arp-rating-out-of-text')->each(function ($node) {
-                            return (int)((float)(substr($node->text(), 0, 3)) * 50);
-                        });
-
-                        $total_marks = array_merge($raking_review_dates, $raking_total_review, $raking_rating);
-
-                        foreach($total_marks as $mark){
-                            $best_books[$asin] += $mark;
+                        $suggest_books = null;
+                        foreach( array_filter($collect_books) as $book_item){
+                            $book_item = (string)$book_item;
+                            if(isset($suggest_books[$book_item])){
+                                $suggest_books[$book_item] += 10;
+                            } else {
+                                $suggest_books[$book_item] = 10;
+                            }
                         }
+                        return $suggest_books;
 
-                        sleep(2);
+                    }
+                });
+                $i += 9;
+            }
+
+            foreach(array_filter($total_suggested_books) as $total_suggested_book){
+                foreach($total_suggested_book as $book_item => $ranking_value){
+                    $best_books = $this->getRankingFromAmazonReview($best_books, $book_item);
+                    if(isset($best_books[$book_item])){
+                        $best_books[$book_item] += $ranking_value;
+                    } else {
+                        $best_books[$book_item] = $ranking_value;
                     }
                 }
             }
 
             if(!empty($best_books)){
                 arsort($best_books);
+                dd($best_books);
                 foreach($best_books as $key => $book_item){
                     $isbn = $key;
                     $article_id = $article->id;
@@ -230,5 +264,35 @@ class AdminAutoArticlesController extends Controller
     public function destroy($id)
     {
 
+    }
+
+    public function getRankingFromAmazonReview($best_books, $asin){
+        $client = new Client();
+        $crawler = $client->request('GET', "https://www.amazon.com/product-reviews/$asin/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1");
+        $raking_review_dates = $crawler->filter('.review-date')->each(function ($node) {
+            return (int)substr($node->text(), -1);
+        });
+
+        $raking_total_review = $crawler->filter('.totalReviewCount')->each(function ($node) {
+            return (int)$node->text();
+        });
+
+        $raking_rating = $crawler->filter('.arp-rating-out-of-text')->each(function ($node) {
+            return (int)((float)(substr($node->text(), 0, 3)) * 50);
+        });
+
+        $total_marks = array_merge($raking_review_dates, $raking_total_review, $raking_rating);
+
+        foreach($total_marks as $mark){
+            if(isset($best_books[$asin])){
+                $best_books[(string)$asin] += $mark;
+            } else {
+                $best_books[(string)$asin] = 1;
+            }
+        }
+
+        sleep(2);
+
+        return $best_books;
     }
 }
