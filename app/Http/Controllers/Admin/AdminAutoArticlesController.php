@@ -21,8 +21,6 @@ class AdminAutoArticlesController extends Controller
      */
     public function index()
     {
-
-
         $input = Input::all();
         $best_books = null;
 
@@ -49,7 +47,7 @@ class AdminAutoArticlesController extends Controller
             $article->slug = $slug;
             $article->save();
 
-            for($i = 1; $i <= 1; $i++){
+            for($i = 1; $i <= 3; $i++){
                 $search_query = [
                     'Operation' => 'ItemSearch',
                     'ResponseGroup' => 'Medium',
@@ -128,7 +126,6 @@ class AdminAutoArticlesController extends Controller
 
             if(!empty($best_books)){
                 arsort($best_books);
-                dd($best_books);
                 foreach($best_books as $key => $book_item){
                     $isbn = $key;
                     $article_id = $article->id;
@@ -148,49 +145,60 @@ class AdminAutoArticlesController extends Controller
 
                     if(!empty($get_amazon_items)){
                         $item = $get_amazon_items ;
-                        if(isset($item['EditorialReviews']['EditorialReview'])){
-                            $editorial_array = $item['EditorialReviews']['EditorialReview'];
-                        }
-                        $editorial_details = '';
-                        if(!isset($editorial_array['Content'])){
-                            foreach($editorial_array as $editorial_item){
-                                $editorial_details = $editorial_item['Content'];
-                            }
-                        } else {
-                            $editorial_details = $editorial_array['Content'];
-                        }
 
-                        $author_name = null;
-                        if(isset($item['ItemAttributes']['Author'])){
-                            $author_name = $item['ItemAttributes']['Author'];
-                            if(is_array($author_name)){
-                                $author_name = implode(',', $author_name);
+                        $keyword_array = explode(" ", strtolower($input['keyword']));
+                        $match_count = 0;
+                        foreach($keyword_array as $keyword_item){
+                            if (strpos(strtolower($item['ItemAttributes']['Title']), $keyword_item) !== false) {
+                                $match_count++;
                             }
                         }
 
-                        if(isset($item['ItemAttributes']['PublicationDate'])){
-                            $publication_date = $item['ItemAttributes']['PublicationDate'];
-                        } else {
-                            $publication_date = null;
+                        if ($match_count > 0) {
+                            if(isset($item['EditorialReviews']['EditorialReview'])){
+                                $editorial_array = $item['EditorialReviews']['EditorialReview'];
+                            }
+                            $editorial_details = '';
+                            if(!isset($editorial_array['Content'])){
+                                foreach($editorial_array as $editorial_item){
+                                    $editorial_details = $editorial_item['Content'];
+                                }
+                            } else {
+                                $editorial_details = $editorial_array['Content'];
+                            }
+
+                            $author_name = null;
+                            if(isset($item['ItemAttributes']['Author'])){
+                                $author_name = $item['ItemAttributes']['Author'];
+                                if(is_array($author_name)){
+                                    $author_name = implode(',', $author_name);
+                                }
+                            }
+
+                            if(isset($item['ItemAttributes']['PublicationDate'])){
+                                $publication_date = $item['ItemAttributes']['PublicationDate'];
+                            } else {
+                                $publication_date = null;
+                            }
+
+
+                            if( strlen($publication_date) == 7 ){
+                                $publication_date = $publication_date. '-01';
+                            } elseif (strlen($publication_date) == 4) {
+                                $publication_date = $publication_date. '-01'.'-01';
+                            }
+
+                            $product = new Product();
+                            $product->isbn = $item['ASIN'];
+                            $product->product_title = $item['ItemAttributes']['Title'];
+                            $product->product_description = $editorial_details;
+                            $product->amazon_link = $item['DetailPageURL'];
+                            $product->image_url = $item['LargeImage']['URL'];
+                            $product->author_name = $author_name;
+                            $product->article_id = $article_id;
+                            $product->publication_date = $publication_date;
+                            $product->save();
                         }
-
-
-                        if( strlen($publication_date) == 7 ){
-                            $publication_date = $publication_date. '-01';
-                        } elseif (strlen($publication_date) == 4) {
-                            $publication_date = $publication_date. '-01'.'-01';
-                        }
-
-                        $product = new Product();
-                        $product->isbn = $item['ASIN'];
-                        $product->product_title = $item['ItemAttributes']['Title'];
-                        $product->product_description = $editorial_details;
-                        $product->amazon_link = $item['DetailPageURL'];
-                        $product->image_url = $item['LargeImage']['URL'];
-                        $product->author_name = $author_name;
-                        $product->article_id = $article_id;
-                        $product->publication_date = $publication_date;
-                        $product->save();
                     }
                     sleep(2);
                 }
