@@ -115,10 +115,10 @@ class AdminAutoArticlesController extends Controller
 
             foreach(array_filter($total_suggested_books) as $total_suggested_book){
                 foreach($total_suggested_book as $book_item => $ranking_value){
-                    $best_books = $this->getRankingFromAmazonReview($best_books, $book_item);
                     if(isset($best_books[$book_item])){
                         $best_books[$book_item] += $ranking_value;
                     } else {
+                        $best_books = $this->getRankingFromAmazonReview($best_books, $book_item);
                         $best_books[$book_item] = $ranking_value;
                     }
                 }
