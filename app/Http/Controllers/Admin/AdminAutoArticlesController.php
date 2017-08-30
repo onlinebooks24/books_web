@@ -114,13 +114,15 @@ class AdminAutoArticlesController extends Controller
             }
 
             foreach(array_filter($total_suggested_books) as $total_suggested_book){
+                $count = count($total_suggested_book);
                 foreach($total_suggested_book as $book_item => $ranking_value){
                     if(isset($best_books[$book_item])){
-                        $best_books[$book_item] += $ranking_value;
+                        $best_books[$book_item] += $ranking_value + $count;
                     } else {
                         $best_books = $this->getRankingFromAmazonReview($best_books, $book_item);
-                        $best_books[$book_item] = $ranking_value;
+                        $best_books[$book_item] = $ranking_value + $count;
                     }
+                    $count--;
                 }
             }
 
@@ -286,7 +288,7 @@ class AdminAutoArticlesController extends Controller
         });
 
         $raking_rating = $crawler->filter('.arp-rating-out-of-text')->each(function ($node) {
-            return (int)((float)(substr($node->text(), 0, 3)) * 50);
+            return (int)((float)(substr($node->text(), 0, 3)) * 10);
         });
 
         $total_marks = array_merge($raking_review_dates, $raking_total_review, $raking_rating);
