@@ -70,6 +70,7 @@ class AdminAutoArticlesController extends Controller
                         $best_books = $this->getRankingFromAmazonReview($best_books, $asin);
                     }
                 }
+                sleep(2);
             }
 
             $client = new Client();
