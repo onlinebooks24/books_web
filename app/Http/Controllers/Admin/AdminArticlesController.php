@@ -421,8 +421,10 @@ class AdminArticlesController extends Controller
 
     public function product_destroy(Request $request){
         $product_id = $request['product_id'];
+        $product_order = $request['product_order'] - 1;
         $product = Product::find($product_id);
         $product->delete();
-        return redirect()->back()->with(['success' => 'Product Deleted successfully']);
+        $previousUrl = app('url')->previous();
+        return redirect()->to($previousUrl.'#'.$product_order)->with(['success' => 'Product Deleted successfully']);
     }
 }
