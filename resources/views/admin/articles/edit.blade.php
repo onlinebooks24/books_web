@@ -190,7 +190,23 @@
 
 @endsection
 
-@section('run_custom_js_file')
+@section('run_custom_jquery')
+
+    <script>
+        $(".product_save").submit(function(event){
+            event.preventDefault();
+
+            $.ajax({
+                url:'{!!URL::route('admin_articles.product_save')!!}',
+                type:'POST',
+                data:$(this).serialize(),
+                success:function(result){
+                    alert('success');
+                    $("#response").text(result);
+                }
+            });
+        });
+    </script>
 
 @endsection
 
@@ -246,19 +262,6 @@
             {{--});--}}
         {{--});--}}
 
-        $(".product_save").submit(function(event){
-            event.preventDefault();
-
-            $.ajax({
-                url:'{!!URL::route('admin_articles.product_save')!!}',
-                type:'POST',
-                data:$(this).serialize(),
-                success:function(result){
-                    alert('success');
-                    $("#response").text(result);
-                }
-            });
-        });
 
 
     </script>
