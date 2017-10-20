@@ -134,6 +134,10 @@
                         </div>
 
                         <div class="form-group">
+                            <span>Created at: </span>
+                            <span>
+                                <input class="form-control bottom5" name="created_at" type="text" value="{{ $product->created_at }}" />
+                            </span>
                             <button type="submit" class="product_save btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
                         </div>
                     </form>

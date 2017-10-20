@@ -251,6 +251,7 @@ class AdminArticlesController extends Controller
         $product_id = $request['product_id'];
         $product = Product::find($product_id);
         $product->product_description = $request['product_description'];
+        $product->created_at = $request['created_at'];
         $product->save();
     }
 
