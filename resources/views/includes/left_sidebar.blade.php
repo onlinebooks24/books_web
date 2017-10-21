@@ -33,24 +33,6 @@
         </section>
 
         <section>
-            <!-- Blog Categories Well -->
-            <div class="border-block hidden">
-                <h4>Article Categories</h4>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ul class="list-unstyled">
-                            @foreach($categories as $category)
-                                <li style="text-transform: capitalize;"><a href="{{ route('category.post',['slug' => $category->slug ])}}">{{ $category->name }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-                <!-- /.row -->
-            </div>
-        </section>
-
-        <section>
             <div class="border-block">
                 <h4>Popular Articles</h4>
                 <div class="row">
@@ -75,6 +57,24 @@
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </section>
+
+        <section>
+            <!-- Blog Categories Well -->
+            <div class="border-block">
+                <h4>Article Categories</h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-unstyled">
+                            @foreach($categories as $category)
+                                <li style="text-transform: capitalize;"><a href="{{ route('category.post',['slug' => $category->slug ])}}">{{ $category->name }}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
