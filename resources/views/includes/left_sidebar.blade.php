@@ -61,7 +61,7 @@
                                     <div class="row">
                                         <div class="col-md-2 nopadding">
                                             @if(!empty($article->uploads->first()))
-                                                <p class="img-responsive" align="center"><img src="{{ $article->uploads->first()->folder_path.'/'.$article->uploads->first()->name }}"></p>
+                                                <p style="width: 58px; height: 45px " align="center"><img src="{{ $article->uploads->first()->folder_path.'/'.$article->uploads->first()->name }}"></p>
                                             @endif
                                         </div>
 
