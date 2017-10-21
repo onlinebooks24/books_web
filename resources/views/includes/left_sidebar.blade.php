@@ -58,11 +58,21 @@
                         <ul class="list-unstyled">
                             @foreach($articles->reverse() as $article)
                                 <div class="popular-post">
-                                    <div class="popular-post-title">
-                                        <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
-                                    </div>
-                                    <div class="popular-post-time">
-                                        published on {{ $article->created_at->format('m-d-Y') }}
+                                    <div class="row">
+                                        <div class="col-md-2 nopadding">
+                                            @if(!empty($article->uploads->first()))
+                                                <p class="img-responsive" align="center"><img src="{{ $article->uploads->first()->folder_path.'/'.$article->uploads->first()->name }}"></p>
+                                            @endif
+                                        </div>
+
+                                        <div class="col-md-10 pleft5">
+                                            <div class="popular-post-title">
+                                                <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
+                                            </div>
+                                            <div class="popular-post-time">
+                                                published on {{ $article->created_at->format('m-d-Y') }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
