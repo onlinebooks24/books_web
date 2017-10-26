@@ -292,7 +292,7 @@ class AdminAutoArticlesController extends Controller
             return (int)((float)(substr($node->text(), 0, 3)) * 10);
         });
 
-        $total_marks = array_merge($raking_review_dates, $raking_total_review, $raking_rating);
+        $total_marks = array_merge($raking_review_dates*2, $raking_total_review, $raking_rating);
 
         foreach($total_marks as $mark){
             if(isset($best_books[$asin])){
