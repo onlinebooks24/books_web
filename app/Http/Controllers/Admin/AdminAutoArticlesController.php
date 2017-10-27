@@ -75,7 +75,8 @@ class AdminAutoArticlesController extends Controller
 
             $client = new Client();
             $total_suggested_books = null;
-            $google_keyword = str_replace(' ', '+',  strtolower($title));
+            $google_keyword = 'best+' . str_replace(' ', '+',  strtolower($title));
+            dd($google_keyword);
             for($i=0; $i <= 1; $i++){
                 $crawler = $client->request('GET', "https://www.google.com/search?q=$google_keyword&ie=utf-8&oe=utf-8&client=firefox-b&start=$i");
                 $total_suggested_books =   $crawler->filter('.r a')->each(function ($node) {
@@ -281,7 +282,7 @@ class AdminAutoArticlesController extends Controller
         $client = new Client();
         $crawler = $client->request('GET', "https://www.amazon.com/product-reviews/$asin/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1");
         $raking_review_dates = $crawler->filter('.review-date')->each(function ($node) {
-            return (int)substr($node->text(), -1);
+            return (int)substr($node->text(), -1)*2;
         });
 
         $raking_total_review = $crawler->filter('.totalReviewCount')->each(function ($node) {
@@ -292,7 +293,7 @@ class AdminAutoArticlesController extends Controller
             return (int)((float)(substr($node->text(), 0, 3)) * 10);
         });
 
-        $total_marks = array_merge($raking_review_dates*2, $raking_total_review, $raking_rating);
+        $total_marks = array_merge($raking_review_dates, $raking_total_review, $raking_rating);
 
         foreach($total_marks as $mark){
             if(isset($best_books[$asin])){
