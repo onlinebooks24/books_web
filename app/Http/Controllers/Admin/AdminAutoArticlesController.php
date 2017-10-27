@@ -76,7 +76,6 @@ class AdminAutoArticlesController extends Controller
             $client = new Client();
             $total_suggested_books = null;
             $google_keyword = 'best+' . str_replace(' ', '+',  strtolower($title));
-            dd($google_keyword);
             for($i=0; $i <= 1; $i++){
                 $crawler = $client->request('GET', "https://www.google.com/search?q=$google_keyword&ie=utf-8&oe=utf-8&client=firefox-b&start=$i");
                 $total_suggested_books =   $crawler->filter('.r a')->each(function ($node) {
