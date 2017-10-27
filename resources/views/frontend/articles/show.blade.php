@@ -19,7 +19,7 @@
                     <hr>
                     @foreach($uploads as $upload)
                         @php if($upload->id == $article->thumbnail_id){ @endphp
-                        <p class="img-responsive" align="center"><img src="{{ $upload->folder_path.'/'.$upload->name }}" width="600px" height="350px"></p>
+                        <p class="img-responsive" align="center"><img src="{{ $upload->folder_path.'/'.$upload->name }}"></p>
                         @php } @endphp
                     @endforeach
                     <p>{!! $article->body !!}</p>
@@ -29,7 +29,9 @@
                                 <h2 style="color: #337ab7; line-height:1.4">{{ ++$key }}. {{ $product->product_title }}</h2>
                             </div>
                             <p align="center">
-                                <img src="{{ $product->image_url }}">
+                                <a rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">
+                                    <img src="{{ $product->image_url }}">
+                                </a>
                                 <br>
                             </p>
                             <div>{!! $product->product_description !!} </div>

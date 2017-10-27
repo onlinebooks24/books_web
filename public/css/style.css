@@ -146,6 +146,11 @@ img {
 
 /* Main Section */
 
+.nopadding {
+    margin: 0;
+    padding: 0;
+}
+
 .brand-title {
     font-weight: bold;
 }

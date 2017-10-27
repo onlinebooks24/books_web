@@ -100,7 +100,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="alert alert-warning">
-                    <a target="_blank" href="http://www.amazon.com/dp/ASIN/{{$product->isbn}}">
+                    <a name="{{$key + 1}}" target="_blank" href="http://www.amazon.com/dp/ASIN/{{$product->isbn}}">
                         <img src="{{ $product->image_url }}">
                     </a>
                 </div>
@@ -134,6 +134,10 @@
                         </div>
 
                         <div class="form-group">
+                            <span>Created at: </span>
+                            <span>
+                                <input class="form-control bottom5" name="created_at" type="text" value="{{ $product->created_at }}" />
+                            </span>
                             <button type="submit" class="product_save btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
                         </div>
                     </form>
@@ -142,6 +146,7 @@
                             {{ csrf_field() }}
                             <input name="_method" type="hidden" value="PUT">
                             <input type="hidden" name="product_id" value="{{$product->id}}">
+                            <input type="hidden" name="product_order" value="{{ $key }}">
                             <input type="submit" class="btn btn-sm btn-danger" value="Delete">
                         </form>
                     </div>
@@ -189,12 +194,30 @@
 
 @endsection
 
-@section('run_custom_js_file')
-    <script type="text/javascript" src="{{ asset('summernote/summernote.js')}}" ></script>
-    <script  type="text/javascript"  src="{{ asset('summernote/summernote-image-attributes.js') }}" ></script>
+@section('run_custom_jquery')
+
+    <script>
+        $(".product_save").submit(function(event){
+            event.preventDefault();
+
+            $.ajax({
+                url:'{!!URL::route('admin_articles.product_save')!!}',
+                type:'POST',
+                data:$(this).serialize(),
+                success:function(result){
+                    alert('success');
+                    $("#response").text(result);
+                }
+            });
+        });
+    </script>
+
 @endsection
 
-@section('run_custom_jquery')
+@section('run_emergency_js')
+    <script type="text/javascript" src="{{ asset('summernote/summernote.js')}}" ></script>
+    <script  type="text/javascript"  src="{{ asset('summernote/summernote-image-attributes.js') }}" ></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -243,19 +266,6 @@
             {{--});--}}
         {{--});--}}
 
-        $(".product_save").submit(function(event){
-            event.preventDefault();
-
-            $.ajax({
-                url:'{!!URL::route('admin_articles.product_save')!!}',
-                type:'POST',
-                data:$(this).serialize(),
-                success:function(result){
-                    alert('success');
-                    $("#response").text(result);
-                }
-            });
-        });
 
 
     </script>

@@ -21,7 +21,7 @@
             <div class="border-block">
                 <h4>Article Search</h4>
                 <div class="input-group">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" placeholder="Search">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">
                     <span class="glyphicon glyphicon-search"></span>
@@ -33,15 +33,30 @@
         </section>
 
         <section>
-            <!-- Blog Categories Well -->
-            <div class="border-block hidden">
-                <h4>Article Categories</h4>
+            <div class="border-block">
+                <h4>Popular Articles</h4>
                 <div class="row">
                     <div class="col-lg-12">
                         <ul class="list-unstyled">
-                            @foreach($categories as $category)
-                                <li style="text-transform: capitalize;"><a href="{{ route('category.post',['slug' => $category->slug ])}}">{{ $category->name }}</a>
-                                </li>
+                            @foreach($articles->reverse() as $article)
+                                <div class="popular-post">
+                                    <div class="row">
+                                        <div class="col-md-2 nopadding">
+                                            @if(!empty($article->uploads->first()))
+                                                <p align="center"><img style="width: 58px; height: 45px" src="{{ $article->uploads->first()->folder_path.'/'.$article->uploads->first()->name }}"></p>
+                                            @endif
+                                        </div>
+
+                                        <div class="col-md-10 pleft5">
+                                            <div class="popular-post-title">
+                                                <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
+                                            </div>
+                                            <div class="popular-post-time">
+                                                published on {{ $article->created_at->format('m-d-Y') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         </ul>
                     </div>
@@ -51,20 +66,15 @@
         </section>
 
         <section>
+            <!-- Blog Categories Well -->
             <div class="border-block">
-                <h4>Popular Articles</h4>
+                <h4>Article Categories</h4>
                 <div class="row">
                     <div class="col-lg-12">
                         <ul class="list-unstyled">
-                            @foreach($articles->reverse() as $article)
-                                <div class="popular-post">
-                                    <div class="popular-post-title">
-                                        <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
-                                    </div>
-                                    <div class="popular-post-time">
-                                        published on {{ $article->created_at->format('m-d-Y') }}
-                                    </div>
-                                </div>
+                            @foreach($categories as $category)
+                                <li style="text-transform: capitalize;"><a href="{{ route('category.post',['slug' => $category->slug ])}}">{{ $category->name }}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
