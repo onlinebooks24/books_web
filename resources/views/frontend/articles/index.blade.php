@@ -23,7 +23,7 @@
                         <p align="center" class="thumbnail-image"><img class="img-responsive" src="{{ $upload->folder_path.'/'.$upload->name }}"></p>
                     @php } @endphp
                     @endforeach
-                    <div>{!! Helper::readMoreHelper($article->body) !!}</div>
+                    <div class="top10">{!! Helper::readMoreHelper($article->body) !!}</div>
                     <div class="clearfix"></div>
 
                     <a class="btn btn-primary" style="float: right;" href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}"> Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
