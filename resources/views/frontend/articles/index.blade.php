@@ -20,7 +20,7 @@
                     <hr>
                     @foreach($uploads as $upload)
                     @php if($upload->id == $article->thumbnail_id){ @endphp
-                        <p class="img-responsive" align="center"><img src="{{ $upload->folder_path.'/'.$upload->name }}"></p>
+                        <p align="center" style="max-width: 600px"><img class="img-responsive" src="{{ $upload->folder_path.'/'.$upload->name }}"></p>
                     @php } @endphp
                     @endforeach
                     <div>{!! Helper::readMoreHelper($article->body) !!}</div>
