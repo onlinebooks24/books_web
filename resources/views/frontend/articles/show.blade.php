@@ -19,7 +19,7 @@
                     <hr>
                     @foreach($uploads as $upload)
                         @php if($upload->id == $article->thumbnail_id){ @endphp
-                        <p class="img-responsive" align="center"><img src="{{ $upload->folder_path.'/'.$upload->name }}"></p>
+                        <p align="center" class="thumbnail-image"><img class="img-responsive" src="{{ $upload->folder_path.'/'.$upload->name }}"></p>
                         @php } @endphp
                     @endforeach
                     <p>{!! $article->body !!}</p>
