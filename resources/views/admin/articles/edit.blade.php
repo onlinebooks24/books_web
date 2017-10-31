@@ -142,12 +142,12 @@
                         </div>
                     </form>
                     <div class="pull-right top-30">
-                        <form action="{{ route('admin_articles.product_destroy') }}">
+                        <form action="" method="post" enctype="multipart/form-data" class="product_delete">
                             {{ csrf_field() }}
                             <input name="_method" type="hidden" value="PUT">
                             <input type="hidden" name="product_id" value="{{$product->id}}">
                             <input type="hidden" name="product_order" value="{{ $key }}">
-                            <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                            <button type="submit" class="btn btn-danger btn" ><span class="glyphicon glyphicon-remove-sign"></span> Delete</button>
                         </form>
                     </div>
 
@@ -209,6 +209,19 @@
                     $("#response").text(result);
                 }
             });
+        });
+
+        $('.product_delete').submit(function(event){
+           event.preventDefault();
+            $.ajax({
+                url:'{!!URL::route('admin_articles.product_destroy')!!}',
+                type:'POST',
+                data:$(this).serialize(),
+                success:function(result){
+                }
+            });
+            $(this).addClass('hidden');
+
         });
     </script>
 
