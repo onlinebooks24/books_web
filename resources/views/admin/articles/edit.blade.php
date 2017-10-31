@@ -116,6 +116,8 @@
                 <div>
                     {{ $product->publication_date }}
                 </div>
+
+                <div class="top10"><a href="https://www.amazon.com/product-reviews/{{ $product->isbn }}/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1" target="_blank" class="btn-sm btn-success view-product" >View Review</a></div>
             </div>
             <div class="col-md-9">
                 <div class="alert alert-warning">
@@ -223,6 +225,10 @@
             $(this).addClass('hidden');
 
         });
+
+        $('.view-product').click(function(){
+            $(this).removeClass('btn-success').addClass('btn-info');
+        })
     </script>
 
 @endsection
