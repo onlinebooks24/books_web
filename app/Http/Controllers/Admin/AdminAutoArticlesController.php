@@ -191,12 +191,22 @@ class AdminAutoArticlesController extends Controller
                                 $publication_date = $publication_date. '-01'.'-01';
                             }
 
+                            if (isset($item['LargeImage']['URL'])){
+                                $product_image = $item['LargeImage']['URL'];
+                            } elseif(isset($item['MediumImage']['URL'])) {
+                                $product_image = $item['MediumImage']['URL'];
+                            } elseif (isset($item['SmallImage']['URL'])){
+                                $product_image = $item['SmallImage']['URL'];
+                            } else {
+                                $product_image = '';
+                            }
+
                             $product = new Product();
                             $product->isbn = $item['ASIN'];
                             $product->product_title = $item['ItemAttributes']['Title'];
                             $product->product_description = $editorial_details;
                             $product->amazon_link = $item['DetailPageURL'];
-                            $product->image_url = $item['LargeImage']['URL'];
+                            $product->image_url = $product_image;
                             $product->author_name = $author_name;
                             $product->article_id = $article_id;
                             $product->publication_date = $publication_date;
