@@ -31,7 +31,7 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('created_at','desc')->Paginate(10);
+        $articles = Article::orderBy('created_at','desc')->Paginate(50);
         return view('admin.articles.index',['articles' => $articles]);
     }
 
@@ -135,7 +135,7 @@ class AdminArticlesController extends Controller
     public function edit($id)
     {
         $article = Article::find($id);
-        $categories = Category::all();
+        $categories = Category::orderBy('name', 'desc')->get();
         $products = Product::where('article_id',$id)->orderBy('created_at','asc')->get();
         $image_exist = null;
         if(!empty($article->thumbnail_id)){
