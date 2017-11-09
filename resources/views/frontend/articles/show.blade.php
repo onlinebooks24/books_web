@@ -30,7 +30,7 @@
                             </div>
                             <p align="center">
                                 <a rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">
-                                    <img src="{{ $product->image_url }}">
+                                    <img alt="{{ $product->product_title }}" src="{{ $product->image_url }}">
                                 </a>
                                 <br>
                             </p>
