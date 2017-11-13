@@ -26,7 +26,7 @@
                     @if( count($products) > 0 )
                         @foreach($products as $key=>$product)
                             <div class="bottom20">
-                                <h2 style="color: #337ab7; line-height:1.4">{{ ++$key }}. <a href="{{ $product->amazon_link }}" rel="nofollow" target="_blank">{{ $product->product_title }}</a></h2>
+                                <h2 style="color: #337ab7; line-height:1.4">{{ ++$key }}. <a href="{{ $product->amazon_link }}" name="{{ $product->isbn }}" rel="nofollow" target="_blank">{{ $product->product_title }}</a></h2>
                             </div>
                             <p align="center">
                                 <a rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">
