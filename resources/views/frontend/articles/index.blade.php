@@ -25,7 +25,7 @@
                     @endforeach
                     <div class="top10">{!! Helper::readMoreHelper($article->body) !!}</div>
                     <div class="clearfix"></div>
-php artisan serve
+
                     <a class="btn btn-primary" style="float: right;" href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}"> Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
                     <div class="clearfix"></div>
                 </div>
