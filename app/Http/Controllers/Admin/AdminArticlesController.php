@@ -31,7 +31,7 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('created_at','desc')->Paginate(10);
+        $articles = Article::orderBy('created_at','desc')->Paginate(50);
         return view('admin.articles.index',['articles' => $articles]);
     }
 
@@ -135,7 +135,7 @@ class AdminArticlesController extends Controller
     public function edit($id)
     {
         $article = Article::find($id);
-        $categories = Category::all();
+        $categories = Category::orderBy('name', 'asc')->get();
         $products = Product::where('article_id',$id)->orderBy('created_at','asc')->get();
         $image_exist = null;
         if(!empty($article->thumbnail_id)){
@@ -422,10 +422,7 @@ class AdminArticlesController extends Controller
 
     public function product_destroy(Request $request){
         $product_id = $request['product_id'];
-        $product_order = $request['product_order'] - 1;
         $product = Product::find($product_id);
         $product->delete();
-        $previousUrl = app('url')->previous();
-        return redirect()->to($previousUrl.'#'.$product_order)->with(['success' => 'Product Deleted successfully']);
     }
 }

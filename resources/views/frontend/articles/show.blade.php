@@ -19,18 +19,18 @@
                     <hr>
                     @foreach($uploads as $upload)
                         @php if($upload->id == $article->thumbnail_id){ @endphp
-                        <p class="img-responsive" align="center"><img src="{{ $upload->folder_path.'/'.$upload->name }}"></p>
+                        <p align="center" class="thumbnail-image"><img class="img-responsive" src="{{ $upload->folder_path.'/'.$upload->name }}"></p>
                         @php } @endphp
                     @endforeach
                     <p>{!! $article->body !!}</p>
                     @if( count($products) > 0 )
                         @foreach($products as $key=>$product)
                             <div class="bottom20">
-                                <h2 style="color: #337ab7; line-height:1.4">{{ ++$key }}. {{ $product->product_title }}</h2>
+                                <h2 style="color: #337ab7; line-height:1.4">{{ ++$key }}. <a href="{{ $product->amazon_link }}" name="{{ $product->isbn }}" rel="nofollow" target="_blank">{{ $product->product_title }}</a></h2>
                             </div>
                             <p align="center">
                                 <a rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">
-                                    <img src="{{ $product->image_url }}">
+                                    <img alt="{{ $product->product_title }}" src="{{ $product->image_url }}">
                                 </a>
                                 <br>
                             </p>

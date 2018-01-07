@@ -116,6 +116,8 @@
                 <div>
                     {{ $product->publication_date }}
                 </div>
+
+                <div class="top10"><a href="https://www.amazon.com/product-reviews/{{ $product->isbn }}/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1" target="_blank" class="btn-sm btn-success view-product" >View Review</a></div>
             </div>
             <div class="col-md-9">
                 <div class="alert alert-warning">
@@ -142,12 +144,12 @@
                         </div>
                     </form>
                     <div class="pull-right top-30">
-                        <form action="{{ route('admin_articles.product_destroy') }}">
+                        <form action="" method="post" enctype="multipart/form-data" class="product_delete">
                             {{ csrf_field() }}
                             <input name="_method" type="hidden" value="PUT">
                             <input type="hidden" name="product_id" value="{{$product->id}}">
                             <input type="hidden" name="product_order" value="{{ $key }}">
-                            <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                            <button type="submit" class="btn btn-danger btn" ><span class="glyphicon glyphicon-remove-sign"></span> Delete</button>
                         </form>
                     </div>
 
@@ -210,6 +212,23 @@
                 }
             });
         });
+
+        $('.product_delete').submit(function(event){
+           event.preventDefault();
+            $.ajax({
+                url:'{!!URL::route('admin_articles.product_destroy')!!}',
+                type:'POST',
+                data:$(this).serialize(),
+                success:function(result){
+                }
+            });
+            $(this).addClass('hidden');
+
+        });
+
+        $('.view-product').click(function(){
+            $(this).removeClass('btn-success').addClass('btn-info');
+        })
     </script>
 
 @endsection

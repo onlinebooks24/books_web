@@ -97,6 +97,9 @@ class ArticleController extends Controller
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
         $article = Article::where('slug' , $slug)->first();
+        if(!isset($article)){
+            return redirect(route('blog.index'));
+        }
         $products = Product::where('article_id',$article->id)->orderBy('created_at','asc')->get();
         $uploads = Upload::all();
         if(empty(Auth::user())){
