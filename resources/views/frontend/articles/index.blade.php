@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Online Books Review
+    Online Books Review - Get review of best books
 @endsection
 
 @section('content')
