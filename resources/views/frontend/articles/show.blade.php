@@ -28,16 +28,21 @@
                             <div class="bottom20">
                                 <h2 style="color: #337ab7; line-height:1.4">{{ ++$key }}. <a href="{{ $product->amazon_link }}" name="{{ $product->isbn }}" rel="nofollow" target="_blank">{{ $product->product_title }}</a></h2>
                             </div>
-                            <p align="center">
-                                <a rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">
-                                    <img alt="{{ $product->product_title }}" src="{{ $product->image_url }}">
-                                </a>
-                                <br>
-                            </p>
-                            <div>{!! $product->product_description !!} </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <a rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">
+                                        <img alt="{{ $product->product_title }}" src="{{ $product->image_url }}">
+                                    </a>
+                                </div>
 
-                            <div class="affiliate_group">
-                                <a class="amazon_button" rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">View</a>
+                                <div class="col-md-7">
+                                    <div>{!! $product->product_description !!} </div>
+                                    <div class="text-center top10">
+                                        <a class="amazon_button" rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">View Book</a>
+                                    </div>
+                                </div>
+
+                                <br>
                             </div>
                             <hr>
                             <div class="clearfix"></div>
