@@ -33,6 +33,18 @@
                                     <a rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">
                                         <img alt="{{ $product->product_title }}" src="{{ $product->image_url }}">
                                     </a>
+                                    <div class="top10">
+                                        <strong>Author:</strong> {{ $product->author_name }}
+                                    </div>
+
+                                    <div class="top5">
+                                        <strong>Published at:</strong>
+                                        {{ \Carbon\Carbon::parse($product->publication_date)->format('d/m/Y')}}
+                                    </div>
+
+                                    <div class="top5">
+                                        <strong>ISBN:</strong> {{ $product->isbn }}
+                                    </div>
                                 </div>
 
                                 <div class="col-md-7">
