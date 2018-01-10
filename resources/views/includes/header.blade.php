@@ -1,39 +1,243 @@
-<nav class="navbar navbar-default">
-  <div class="container">
+<!-- Preloader -->
+<div class="loader-mask">
+  <div class="loader">
+    <div></div>
+  </div>
+</div>
 
-    <div class="row">
-      <div class="col-md-9">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand brand-title" href="{{ route('blog.index') }}">
-            <i class="fa fa-book" aria-hidden="true"></i>
-            Online Books Review</a>
-        </div>
+<!-- Bg Overlay -->
+<div class="content-overlay"></div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-          </ul>
-        </div>
+<!-- Subscribe Modal -->
+<div class="modal fade" id="subscribe-modal" tabindex="-1" role="dialog" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="subscribeModalLabel">Subscribe for Newsletter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="col-md-3">
-        <div class="social-icon">
-          <ul>
-            <li>
-              <a target="_blank" href="https://facebook.com/onlinebooksreview"><i class="fa fa-facebook"></i></a>
-            </li>
-            <li><a target="_blank" href="https://twitter.com/onlinebooks24"><i class="fa fa-twitter"></i></a></li>
-            <li><a target="_blank" href="https://plus.google.com/b/110233331450185953116/"><i class="fa fa-google-plus"></i></a></li>
-            <li><a target="_blank" href="https://www.youtube.com/channel/UCFoPgOTE5HZ4yz5iB_g8WkA"><i class="fa fa-youtube"></i></a></li>
-            <li><a target="_blank" href="https://www.linkedin.com/company-beta/13346322"><i class="fa fa-linkedin"></i></a></li>
-          </ul>
-        </div>
+      <div class="modal-body">
+        <form class="mc4wp-form" method="post">
+          <div class="mc4wp-form-fields">
+            <p>
+              <i class="mc4wp-form-icon ui-email"></i>
+              <input type="email" name="EMAIL" placeholder="Your email" required="">
+            </p>
+            <p>
+              <input type="submit" class="btn btn-md btn-color" value="Subscribe">
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-</nav>
+</div> <!-- end subscribe modal -->
+
+
+<!-- Mobile Sidenav -->
+<header class="sidenav" id="sidenav">
+  <!-- Search -->
+  <div class="sidenav__search-mobile">
+    <form method="get" class="sidenav__search-mobile-form">
+      <input type="search" class="sidenav__search-mobile-input" placeholder="Search..." aria-label="Search input">
+      <button type="submit" class="sidenav__search-mobile-submit" aria-label="Submit search">
+        <i class="ui-search"></i>
+      </button>
+    </form>
+  </div>
+
+  <nav>
+    <ul class="sidenav__menu" role="menubar">
+      <li>
+        <a href="index.html" class="sidenav__menu-link">Home</a>
+        <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
+        <ul class="sidenav__menu-dropdown">
+          <li><a href="index.html" class="sidenav__menu-link">Home Demo 1</a></li>
+          <li><a href="index-2.html" class="sidenav__menu-link">Home Demo 2</a></li>
+          <li><a href="index-3.html" class="sidenav__menu-link">Home Demo 3</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="#" class="sidenav__menu-link">Posts</a>
+        <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
+        <ul class="sidenav__menu-dropdown">
+          <li><a href="single-post.html" class="sidenav__menu-link">Gallery Post</a></li>
+          <li><a href="single-post.html" class="sidenav__menu-link">Video Post</a></li>
+          <li><a href="single-post.html" class="sidenav__menu-link">Audio Post</a></li>
+          <li><a href="single-post.html" class="sidenav__menu-link">Quote Post</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="#" class="sidenav__menu-link">Pages</a>
+        <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
+        <ul class="sidenav__menu-dropdown">
+          <li><a href="about.html" class="sidenav__menu-link">About</a></li>
+          <li><a href="contact.html" class="sidenav__menu-link">Contact</a></li>
+          <li><a href="404.html" class="sidenav__menu-link">404</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="#" class="sidenav__menu-link">Features</a>
+        <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
+        <ul class="sidenav__menu-dropdown">
+          <li><a href="lazyload.html" class="sidenav__menu-link">Lazyload</a></li>
+          <li><a href="shortcodes.html" class="sidenav__menu-link">Shortcodes</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="#" class="sidenav__menu-link">Purchase</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="socials sidenav__socials ">
+    <a class="social-facebook" href="#" target="_blank" aria-label="facebook">
+      <i class="ui-facebook"></i>
+    </a>
+    <a class="social-twitter" href="#" target="_blank" aria-label="twitter">
+      <i class="ui-twitter"></i>
+    </a>
+    <a class="social-youtube" href="#" target="_blank" aria-label="youtube">
+      <i class="ui-youtube"></i>
+    </a>
+  </div>
+</header> <!-- end mobile sidenav -->
+
+<main class="main oh" id="main">
+
+<!-- Navigation -->
+<header class="nav">
+
+  <div class="nav__holder nav--sticky">
+    <div class="container relative">
+
+      <div class="flex-parent">
+
+        <!-- Mobile Menu Button -->
+        <button class="nav-icon-toggle" id="nav-icon-toggle" aria-label="Open mobile menu">
+            <span class="nav-icon-toggle__box">
+              <span class="nav-icon-toggle__inner"></span>
+            </span>
+        </button> <!-- end mobile menu button -->
+
+        <!-- Logo -->
+        <a href="{{ route('blog.index') }}" style="color: white; font-size: 20px; font-weight: bold" class="logo">
+          Online Books Review
+        </a>
+
+        <!-- Nav-wrap -->
+        <nav class="flex-child nav__wrap d-none d-lg-block">
+          <ul class="nav__menu">
+
+            <li class="nav__dropdown active">
+              <a href="{{ route('blog.index') }}">Home</a>
+              <ul class="nav__dropdown-menu">
+                <li>
+                  <a href="index.html">Home Demo 1</a>
+                </li>
+                <li>
+                  <a href="index-2.html">Home Demo 2</a>
+                </li>
+                <li>
+                  <a href="index-3.html">Home Demo 3</a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav__dropdown">
+              <a href="categories.html">Posts</a>
+              <ul class="nav__dropdown-menu">
+                <li><a href="single-post.html">Gallery Post</a></li>
+                <li><a href="single-post.html">Video Post</a></li>
+                <li><a href="single-post.html">Audio Post</a></li>
+                <li><a href="single-post.html">Quote Post</a></li>
+              </ul>
+            </li>
+
+            <li class="nav__dropdown">
+              <a href="catalog.html">Pages</a>
+              <ul class="nav__dropdown-menu">
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="404.html">404</a></li>
+              </ul>
+            </li>
+
+            <li class="nav__dropdown">
+              <a href="catalog.html">Features</a>
+              <ul class="nav__dropdown-menu">
+                <li><a href="lazyload.html">Lazy Load</a></li>
+                <li><a href="shortcodes.html">Shortcodes</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="#">Purchase</a>
+            </li>
+
+
+          </ul> <!-- end menu -->
+        </nav> <!-- end nav-wrap -->
+
+        <!-- Nav Right -->
+        <div class="nav__right nav--align-right d-none d-lg-flex">
+
+          <!-- Socials -->
+          <div class="nav__right-item socials socials--nobase nav__socials ">
+            <a class="social-linkedin" href="https://www.linkedin.com/company-beta/13346322" target="_blank">
+              <i class="ui-linkedin"></i>
+            </a>
+            <a class="social-pinterest" href="https://www.pinterest.com/onlinebooksr/" target="_blank">
+              <i class="ui-pinterest"></i>
+            </a>
+            <a class="social-facebook" href="https://facebook.com/onlinebooksreview" target="_blank">
+              <i class="ui-facebook"></i>
+            </a>
+            <a class="social-twitter" href="https://twitter.com/onlinebooks24" target="_blank">
+              <i class="ui-twitter"></i>
+            </a>
+            <a class="social-youtube" href="https://www.youtube.com/channel/UCFoPgOTE5HZ4yz5iB_g8WkA" target="_blank">
+              <i class="ui-youtube"></i>
+            </a>
+            <a class="social-google-plus" href="https://plus.google.com/b/110233331450185953116/" target="_blank">
+              <i class="ui-google-plus"></i>
+            </a>
+          </div>
+
+          <div class="nav__right-item">
+            <a href="" class="nav__subscribe" data-toggle="modal" data-target="#subscribe-modal">Subscribe</a>
+          </div>
+
+          <!-- Search -->
+          <div class="nav__right-item nav__search">
+            <a href="#" class="nav__search-trigger" id="nav__search-trigger">
+              <i class="ui-search nav__search-trigger-icon"></i>
+            </a>
+            <div class="nav__search-box" id="nav__search-box">
+              <form class="nav__search-form">
+                <input type="text" placeholder="Search an article" class="nav__search-input">
+                <button type="submit" class="nav__search-button btn btn-md btn-color btn-button">
+                  <i class="ui-search nav__search-icon"></i>
+                </button>
+              </form>
+            </div>
+
+          </div>
+
+        </div> <!-- end nav right -->
+
+      </div> <!-- end flex-parent -->
+    </div> <!-- end container -->
+
+  </div>
+</header> <!-- end navigation -->
+
+<div class="main-container" id="main-container">
+
