@@ -44,10 +44,13 @@
                     </div>
 
                     <div class="entry__img-holder">
-                        <figure>
-                            <img src="img/blog/single_post_featured_img.jpg" alt="" class="entry__img">
-                            <figcaption>A photo collection samples</figcaption>
-                        </figure>
+                        @foreach($uploads as $upload)
+                            @php if($upload->id == $article->thumbnail_id){ @endphp
+                            <figure>
+                                <img src="{{ $upload->folder_path.'/'.$upload->name }}" alt="" class="entry__img">
+                            </figure>
+                            @php } @endphp
+                        @endforeach
                     </div>
 
                     <div class="entry__article-holder">
