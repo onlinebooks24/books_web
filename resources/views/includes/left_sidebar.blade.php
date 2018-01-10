@@ -11,7 +11,7 @@
                         <div class="widget-popular-posts__img-holder">
                             <span class="widget-popular-posts__number">{{ $key + 1 }}</span>
                             <div class="thumb-container">
-                                <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">
+                                <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">
                                     @if(!empty($article->uploads->first()))
                                         <img data-src="{{ $article->uploads->first()->folder_path.'/'.$article->uploads->first()->name }}" src="{{ $article->uploads->first()->folder_path.'/'.$article->uploads->first()->name }}" alt="" class="lazyload">
                                     @endif
@@ -20,7 +20,7 @@
                         </div>
                         <div class="widget-popular-posts__entry">
                             <h3 class="widget-popular-posts__entry-title">
-                                <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
+                                <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
                             </h3>
                         </div>
                     </article>

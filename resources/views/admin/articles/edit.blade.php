@@ -9,7 +9,7 @@
         <div class="alert alert-info">
             <strong>Update Articles</strong>
             <div class="pull-right top-5">
-                <a target="_blank" class="btn btn-info" href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">View</a>
+                <a target="_blank" class="btn btn-info" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a>
                 @if(Auth::user()->roleType->name == 'admin')
                 <a class="btn btn-success" href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
                     @if($article->status)

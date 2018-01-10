@@ -55,7 +55,7 @@
 				@endif
 			</a>
 		</td>
-		<td><a target="_blank" href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">View</a></td>
+		<td><a target="_blank" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a></td>
 	</tr>
 
 	<div class="modal fade" id="delete{{$key}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">

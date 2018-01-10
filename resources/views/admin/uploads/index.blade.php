@@ -39,7 +39,7 @@
                     @foreach($uploads as $key => $upload)
                         <tr>
                             <td>{{ $upload->name }}</td>
-                            <td><a target="_blank" href="{{ route('articles.single' , [ 'slug' => $upload->article->slug ])}}">{{ $upload->article->title }}</a></td>
+                            <td><a target="_blank" href="{{ route('articles.show' , [ 'slug' => $upload->article->slug ])}}">{{ $upload->article->title }}</a></td>
                             <td>
                                 <a target="_blank" href="{{ $upload->folder_path. $upload->name }}">
                                     <img style="width:300px" src="{{ $upload->folder_path. $upload->name }}">

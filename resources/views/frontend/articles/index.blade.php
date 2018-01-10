@@ -83,7 +83,7 @@
                 @foreach($articles as $article)
                     <article class="entry post-list">
                         <div class="entry__img-holder post-list__img-holder">
-                            <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">
+                            <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">
                                 <div class="thumb-container">
                                     @foreach($uploads as $upload)
                                         @php if($upload->id == $article->thumbnail_id){ @endphp
@@ -98,7 +98,7 @@
                             <div class="entry__header">
                                 <a href="{{ route('category.post',['slug' => $article->category->slug ])}}" class="entry__meta-category">{{ $article->category->name }}</a>
                                 <h2 class="entry__title">
-                                    <a href="{{ route('articles.single' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
+                                    <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
                                 </h2>
                                 <ul class="entry__meta">
                                     <li class="entry__meta-date">

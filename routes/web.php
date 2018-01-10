@@ -47,7 +47,7 @@ Route::group(['middleware' => ['web']] , function() {
 
 	Route::get('/articles/{slug}', [
 		'uses' => 'ArticleController@show',
-		'as' => 'articles.single'
+		'as' => 'articles.show'
 	]);
 
 	Route::resource('articles' , 'ArticleController');
