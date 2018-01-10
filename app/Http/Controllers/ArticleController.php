@@ -20,7 +20,7 @@ class ArticleController extends Controller
     {
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
-        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(18);
+        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(20);
         $uploads = Upload::all();
         return view('frontend.articles.index',['categories'=>$categories,'articles'=>$articles,'uploads'=>$uploads]);
     }
