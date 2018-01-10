@@ -46,7 +46,7 @@ Route::group(['middleware' => ['web']] , function() {
 
 
 	Route::get('/articles/{slug}', [
-		'uses' => 'ArticleController@getSinglePost',
+		'uses' => 'ArticleController@show',
 		'as' => 'articles.single'
 	]);
 

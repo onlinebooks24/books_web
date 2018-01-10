@@ -52,9 +52,28 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $articles = Article::where('status', true)->orderBy('created_at','asc')->Paginate(18);
+        $categories = Category::where('category_status', true)
+            ->orderBy('created_at','desc')->get();
+        $article = Article::where('slug' , $slug)->first();
+        if(!isset($article)){
+            return redirect(route('blog.index'));
+        }
+        $products = Product::where('article_id',$article->id)->orderBy('created_at','asc')->get();
+        $uploads = Upload::all();
+        if(empty(Auth::user())){
+            $current_count = $article->count;
+            $article->count = $current_count + 1 ;
+            $article->save();
+        }
+
+        return view('frontend.articles.show',[ 'article'=>$article,
+            'articles' => $articles,
+            'categories' => $categories,
+            'products' => $products,
+            'uploads' => $uploads]);
     }
 
     /**
@@ -89,30 +108,6 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function getSinglePost($slug)
-    {
-        $articles = Article::where('status', true)->orderBy('created_at','asc')->Paginate(18);
-        $categories = Category::where('category_status', true)
-            ->orderBy('created_at','desc')->get();
-        $article = Article::where('slug' , $slug)->first();
-        if(!isset($article)){
-            return redirect(route('blog.index'));
-        }
-        $products = Product::where('article_id',$article->id)->orderBy('created_at','asc')->get();
-        $uploads = Upload::all();
-        if(empty(Auth::user())){
-            $current_count = $article->count;
-            $article->count = $current_count + 1 ;
-            $article->save();
-        }
-
-        return view('frontend.articles.show',[ 'article'=>$article,
-                                        'articles' => $articles,
-                                        'categories' => $categories,
-                                        'products' => $products,
-                                         'uploads' => $uploads]);
     }
 
     public function getCategoryPost($slug)
