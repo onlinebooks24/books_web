@@ -3392,3 +3392,21 @@ input.sidenav__search-mobile-input:-ms-input-placeholder {
 	margin: 10px 34px 10px 0; }
 
 /*# sourceMappingURL=style.css.map */
+
+/*Custom design start*/
+
+.amazon_button {
+	background-color: #f90;
+	background-image: linear-gradient(to top, #ff9900 60%, #ffbb44 100%);
+	border-radius: 0.4em;
+	box-shadow: 1px 1px 2px #888888;
+	color: #fff !important;
+	display: inline-block;
+	font-family: Arial;
+	font-size: 89%;
+	font-weight: bold;
+	padding: 0.7em;
+	text-align: center;
+	text-decoration: none;
+	width: 104px;
+}
