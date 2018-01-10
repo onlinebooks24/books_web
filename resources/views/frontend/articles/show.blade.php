@@ -112,6 +112,14 @@
                                 @endif
                             </div>
 
+                            <div>
+                               {{ $article->conclusion }}
+                            </div>
+
+                            <div>
+                                Thanks for reading this post. If you have any opinion don't hesitate to comment here. Also please subscribe our newsletter to get more updates.
+                            </div>
+
                             <!-- tags -->
                             <div class="entry__tags">
                                 Tags: <a href="#" rel="tag">{{ $article->category->name }}</a>
