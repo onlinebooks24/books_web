@@ -11,22 +11,19 @@
 
                 <div class="col-lg-3 col-md-6">
                     <div class="widget">
-                        <img src="img/logo_light.png" srcset="img/logo_light.png 1x, img/logo_light@2x.png 2x" class="logo__img" alt="">
-                        <p class="mt-20">We bring you the best Premium WordPress Themes.</p>
-
-                        <div class="socials mt-20">
-                            <a href="#" class="social-facebook" aria-label="facebook"><i class="ui-facebook"></i></a>
-                            <a href="#" class="social-twitter" aria-label="twitter"><i class="ui-twitter"></i></a>
-                            <a href="#" class="social-google-plus" aria-label="google+"><i class="ui-google"></i></a>
-                            <a href="#" class="social-instagram" aria-label="instagram"><i class="ui-instagram"></i></a>
-                        </div>
+                        <h4 style="color: white">OnlineBooksReview</h4>
+                        <p class="mt-20">You will get reviews and recommendation of best online books. Get suggestion of buying best books from online.</p>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="widget-title white">twitter feed</h4>
-                    <div class="tweets-container">
-                        <div id="tweets"></div>
+                    <h4 class="widget-title white">Be Social</h4>
+                    <div class="white">Stay with us</div>
+                    <div class="socials mt-20">
+                        <a href="#" class="social-facebook" aria-label="facebook"><i class="ui-facebook"></i></a>
+                        <a href="#" class="social-twitter" aria-label="twitter"><i class="ui-twitter"></i></a>
+                        <a href="#" class="social-google-plus" aria-label="google+"><i class="ui-google"></i></a>
+                        <a href="#" class="social-instagram" aria-label="instagram"><i class="ui-instagram"></i></a>
                     </div>
                 </div>
 
@@ -44,7 +41,7 @@
 
                 <div class="col-lg-3 col-md-6">
                     <div class="widget widget__newsletter">
-                        <h4 class="widget-title white">subscribe to deothemes</h4>
+                        <h4 class="widget-title white">subscribe</h4>
                         <p>Join our Newsletter</p>
 
                         <form class="mc4wp-form" method="post">
@@ -69,7 +66,7 @@
     <div class="footer__bottom">
         <div class="container text-center">
             <span class="copyright">
-              <p>© 2017 <a href="#"><b style="color: #87B832">Online Books Review</b></a>, All Rights Reserved.</p>
+              <p>© 2018 <a href="#"><b style="color: #87B832">Online Books Review</b></a>, All Rights Reserved.</p>
             </span>
         </div>
     </div> <!-- end bottom footer -->
@@ -84,3 +81,4 @@
 <script type="text/javascript" src="js/owl-carousel.min.js"></script>
 <script type="text/javascript" src="js/modernizr.min.js"></script>
 <script type="text/javascript" src="js/scripts.js"></script>
+
