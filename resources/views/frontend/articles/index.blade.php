@@ -116,6 +116,14 @@
                     </article>
                 @endforeach
 
+                    <!-- Pagination -->
+                <div class="pagination clearfix">
+                    <div class="pagination__link right">
+                        <a href="#" class="btn btn-lg btn-color">
+                            <span>Older Posts</span>
+                        </a>
+                    </div>
+                </div>
             </div> <!-- end posts -->
 
             @include('includes.left_sidebar')
