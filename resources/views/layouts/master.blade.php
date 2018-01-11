@@ -43,9 +43,6 @@
 
 @yield('content')
 
-<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/bootstrap.min.js')}}"></script>
-
 @if (env('APP_ENV') == 'production' && empty(Auth::user()))
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

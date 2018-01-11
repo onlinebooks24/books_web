@@ -75,6 +75,7 @@
 </main> <!-- end main-wrapper -->
 
 <!-- jQuery Scripts -->
+<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/easing.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/owl-carousel.min.js') }}"></script>
