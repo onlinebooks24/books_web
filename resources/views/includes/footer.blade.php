@@ -26,7 +26,7 @@
                 <div class="col-lg-3 col-md-6">
                     <h4 class="widget-title white">twitter feed</h4>
                     <div class="tweets-container">
-                        Here is feed
+                        <div id="tweets"></div>
                     </div>
                 </div>
 

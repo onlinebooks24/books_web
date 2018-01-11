@@ -54,19 +54,6 @@
                     </div>
 
                     <div class="entry__article-holder">
-
-                        <!-- Share -->
-                        <div class="entry__share">
-                            <div class="entry__share-inner">
-                                <div class="socials">
-                                    <a href="#" class="social-facebook entry__share-social" aria-label="facebook"><i class="ui-facebook"></i></a>
-                                    <a href="#" class="social-twitter entry__share-social" aria-label="twitter"><i class="ui-twitter"></i></a>
-                                    <a href="#" class="social-google-plus entry__share-social" aria-label="google+"><i class="ui-google"></i></a>
-                                    <a href="#" class="social-instagram entry__share-social" aria-label="instagram"><i class="ui-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div> <!-- share -->
-
                         <div class="entry__article">
                             <div>
                                 {!! $article->body !!}
@@ -180,17 +167,26 @@
 
                 <!-- Comments -->
                 <div class="entry-comments mt-30">
-                    <div class="fb-comments" data-href=" <?php echo('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>" data-width="100%" data-numposts="5"></div>
+                    <div id="disqus_thread"></div>
                     <script>
-                        (function(d, s, id) {
-                            var js, fjs = d.getElementsByTagName(s)[0];
-                            if (d.getElementById(id)) return;
-                            js = d.createElement(s); js.id = id;
-                            js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8&appId=935252503278915";
-                            fjs.parentNode.insertBefore(js, fjs);
-                        }(document, 'script', 'facebook-jssdk'));
+
+                        /**
+                         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                        /*
+                         var disqus_config = function () {
+                         this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                         this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                         };
+                         */
+                        (function() { // DON'T EDIT BELOW THIS LINE
+                            var d = document, s = d.createElement('script');
+                            s.src = 'https://onlinebooksreview.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
                     </script>
-                    <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>
+                    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
                 </div> <!-- end comments -->
 
             </div> <!-- end col -->
@@ -204,4 +200,9 @@
 
 @include('includes.footer')
 
+@endsection
+
+@section('run_custom_js_file')
+    <script id="dsq-count-scr" src="//onlinebooksreview.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>
 @endsection
