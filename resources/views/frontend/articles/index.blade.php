@@ -11,53 +11,28 @@
 <section class="hero">
     <div id="owl-hero" class="owl-carousel owl-theme">
 
-        <div class="hero__slide">
-            <article class="hero__slide-entry entry">
-                <div class="thumb-bg-holder" style="background-image: url(img/blog/featured_img_1.jpg)">
-                    <a href="single-post.html" class="thumb-url"></a>
-                    <div class="bottom-gradient"></div>
-                </div>
+        @foreach($related_articles as $related_article)
+            <div class="hero__slide">
+                <article class="hero__slide-entry entry">
+                    @foreach($uploads as $upload)
+                        @php if($upload->id == $related_article->thumbnail_id){ @endphp
+                            <div class="thumb-bg-holder" style="border: 1px solid grey; background-image: url({{ $upload->folder_path.'/'.$upload->name }})">
+                                <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}" class="thumb-url"></a>
+                                <div class="bottom-gradient"></div>
+                            </div>
+                        @php } @endphp
+                    @endforeach
 
-                <div class="thumb-text-holder">
-                    <a href="categories.html" class="entry__meta-category entry__meta-category--label">Startups</a>
-                    <h2 class="thumb-entry-title">
-                        <a href="single-post.html">Technology's impact on marketing</a>
-                    </h2>
-                </div>
-            </article>
-        </div>
 
-        <div class="hero__slide">
-            <article class="hero__slide-entry entry">
-                <div class="thumb-bg-holder" style="background-image: url(img/blog/featured_img_2.jpg)">
-                    <a href="single-post.html" class="thumb-url"></a>
-                    <div class="bottom-gradient"></div>
-                </div>
-
-                <div class="thumb-text-holder">
-                    <a href="categories.html" class="entry__meta-category entry__meta-category--label">Startups</a>
-                    <h2 class="thumb-entry-title">
-                        <a href="single-post.html">the Age of Artificial Intelligence</a>
-                    </h2>
-                </div>
-            </article>
-        </div>
-
-        <div class="hero__slide">
-            <article class="hero__slide-entry entry">
-                <div class="thumb-bg-holder" style="background-image: url(img/blog/featured_img_3.jpg)">
-                    <a href="single-post.html" class="thumb-url"></a>
-                    <div class="bottom-gradient"></div>
-                </div>
-
-                <div class="thumb-text-holder">
-                    <a href="categories.html" class="entry__meta-category entry__meta-category--label">Startups</a>
-                    <h2 class="thumb-entry-title">
-                        <a href="single-post.html">The Most Powerful Thing You Can Do Is Be Yourself</a>
-                    </h2>
-                </div>
-            </article>
-        </div>
+                    <div class="thumb-text-holder">
+                        <a href="{{ route('category.post',['slug' => $related_article->category->slug ])}}" class="entry__meta-category entry__meta-category--label">{{$related_article->category->name}}</a>
+                        <h2 class="thumb-entry-title">
+                            <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}">{{ $related_article->title }}</a>
+                        </h2>
+                    </div>
+                </article>
+            </div>
+        @endforeach
 
     </div> <!-- end owl -->
 </section> <!-- end hero slider -->

@@ -1,11 +1,11 @@
-@if(route('blog.index') == Request::url())
-<!-- Preloader -->
-<div class="loader-mask">
-  <div class="loader">
-    <div></div>
-  </div>
-</div>
-@endif
+{{--@if(route('blog.index') == Request::url())--}}
+{{--<!-- Preloader -->--}}
+{{--<div class="loader-mask">--}}
+  {{--<div class="loader">--}}
+    {{--<div></div>--}}
+  {{--</div>--}}
+{{--</div>--}}
+{{--@endif--}}
 
 <!-- Bg Overlay -->
 <div class="content-overlay"></div>

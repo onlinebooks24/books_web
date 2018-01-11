@@ -38,7 +38,7 @@
                             </li>
                             <li>
                                 <span>in</span>
-                                <a href="categories.html" class="entry__meta-category">{{ $article->category->name }}</a>
+                                <a href="{{ route('category.post',['slug' => $article->category->slug ])}}" class="entry__meta-category">{{ $article->category->name }}</a>
                             </li>
                         </ul>
                     </div>
@@ -153,7 +153,7 @@
                             @foreach($related_articles as $related_article)
                                 <div class="col-md-4">
                                 <article class="related-posts__entry entry">
-                                    <a href="single-post.html">
+                                    <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}">
                                         <div class="thumb-container">
                                             @foreach($uploads as $upload)
                                                 @php if($upload->id == $related_article->thumbnail_id){ @endphp
@@ -164,7 +164,7 @@
                                     </a>
                                     <div class="related-posts__text-holder">
                                         <h2 class="related-posts__entry-title">
-                                            <a href="single-post.html">{{ $related_article->title }}</a>
+                                            <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}">{{ $related_article->title }}</a>
                                         </h2>
                                     </div>
                                 </article>
