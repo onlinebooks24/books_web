@@ -64,9 +64,15 @@
 
 <!-- Ad Banner 728 -->
 <div class="text-center">
-    <a href="#">
-        <img src="img/blog/placeholder_728.jpg" alt="">
-    </a>
+    <!-- Onlinebooksreview_homepage_display -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1505016841070170"
+         data-ad-slot="3311761530"
+         data-ad-format="auto"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </div>
 
 
@@ -136,3 +142,6 @@
 
 @endsection
 
+@section('run_custom_js_file')
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+@endsection
