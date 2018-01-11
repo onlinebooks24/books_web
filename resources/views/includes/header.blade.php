@@ -73,13 +73,13 @@
   </nav>
 
   <div class="socials sidenav__socials ">
-    <a class="social-facebook" href="#" target="_blank" aria-label="facebook">
+    <a class="social-facebook" href="https://facebook.com/onlinebooksreview" target="_blank" aria-label="facebook">
       <i class="ui-facebook"></i>
     </a>
-    <a class="social-twitter" href="#" target="_blank" aria-label="twitter">
+    <a class="social-twitter" href="https://twitter.com/onlinebooks24" target="_blank" aria-label="twitter">
       <i class="ui-twitter"></i>
     </a>
-    <a class="social-youtube" href="#" target="_blank" aria-label="youtube">
+    <a class="social-youtube" href="https://www.youtube.com/channel/UCFoPgOTE5HZ4yz5iB_g8WkA" target="_blank" aria-label="youtube">
       <i class="ui-youtube"></i>
     </a>
   </div>

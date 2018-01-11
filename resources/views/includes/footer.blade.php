@@ -20,10 +20,10 @@
                     <h4 class="widget-title white">Be Social</h4>
                     <div class="white">Stay with us</div>
                     <div class="socials mt-20">
-                        <a href="#" class="social-facebook" aria-label="facebook"><i class="ui-facebook"></i></a>
-                        <a href="#" class="social-twitter" aria-label="twitter"><i class="ui-twitter"></i></a>
-                        <a href="#" class="social-google-plus" aria-label="google+"><i class="ui-google"></i></a>
-                        <a href="#" class="social-instagram" aria-label="instagram"><i class="ui-instagram"></i></a>
+                        <a href="https://facebook.com/onlinebooksreview" class="social-facebook" aria-label="facebook"><i class="ui-facebook"></i></a>
+                        <a href="https://twitter.com/onlinebooks24" class="social-twitter" aria-label="twitter"><i class="ui-twitter"></i></a>
+                        <a href="https://plus.google.com/b/110233331450185953116/" class="social-google-plus" aria-label="google+"><i class="ui-google"></i></a>
+                        <a href="https://www.linkedin.com/company-beta/13346322" class="social-linkedin" aria-label="linkedin"><i class="ui-linkedin"></i></a>
                     </div>
                 </div>
 
