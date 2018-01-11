@@ -99,7 +99,9 @@
 
                                             <div class="col-md-7">
                                                 <div>{!! $product->product_description !!} </div>
-                                                <div class="text-center top10">
+                                                <div class="clearfix"></div>
+                                                <p></p>
+                                                <div class="text-center">
                                                     <a class="amazon_button" rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">View Book</a>
                                                 </div>
                                             </div>
@@ -149,48 +151,26 @@
                     <div class="related-posts">
                         <h5 class="related-posts__title">You might like</h5>
                         <div class="row row-20">
-                            <div class="col-md-4">
+                            @foreach($related_articles as $related_article)
+                                <div class="col-md-4">
                                 <article class="related-posts__entry entry">
                                     <a href="single-post.html">
                                         <div class="thumb-container">
-                                            <img src="img/blog/grid_post_img_3.jpg" data-src="img/blog/grid_post_img_3.jpg" alt="" class="entry__img lazyload">
+                                            @foreach($uploads as $upload)
+                                                @php if($upload->id == $related_article->thumbnail_id){ @endphp
+                                                <img src="{{ $upload->folder_path.'/'.$upload->name }}" style="height: 120px" data-src="{{ $upload->folder_path.'/'.$upload->name }}" alt="" class="entry__img lazyload">
+                                                @php } @endphp
+                                            @endforeach
                                         </div>
                                     </a>
                                     <div class="related-posts__text-holder">
                                         <h2 class="related-posts__entry-title">
-                                            <a href="single-post.html">VR and playable on a console makes it a great option to PC related VR headsets</a>
+                                            <a href="single-post.html">{{ $related_article->title }}</a>
                                         </h2>
                                     </div>
                                 </article>
                             </div>
-                            <div class="col-md-4">
-                                <article class="related-posts__entry entry">
-                                    <a href="single-post.html">
-                                        <div class="thumb-container">
-                                            <img src="img/blog/grid_post_img_4.jpg" data-src="img/blog/grid_post_img_4.jpg" alt="" class="entry__img lazyload">
-                                        </div>
-                                    </a>
-                                    <div class="related-posts__text-holder">
-                                        <h2 class="related-posts__entry-title">
-                                            <a href="single-post.html">NASA is best known for building rockets and spacecraft</a>
-                                        </h2>
-                                    </div>
-                                </article>
-                            </div>
-                            <div class="col-md-4">
-                                <article class="related-posts__entry entry">
-                                    <a href="single-post.html">
-                                        <div class="thumb-container">
-                                            <img src="img/blog/grid_post_img_5.jpg" data-src="img/blog/grid_post_img_5.jpg" alt="" class="entry__img lazyload">
-                                        </div>
-                                    </a>
-                                    <div class="related-posts__text-holder">
-                                        <h2 class="related-posts__entry-title">
-                                            <a href="single-post.html">Digital cameras are always changing, adding new features</a>
-                                        </h2>
-                                    </div>
-                                </article>
-                            </div>
+                            @endforeach
                         </div>
                     </div> <!-- end related posts -->
 

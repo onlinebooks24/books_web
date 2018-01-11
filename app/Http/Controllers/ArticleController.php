@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Product;
 use Auth;
 use App\Models\Upload;
+use DB;
 
 class ArticleController extends Controller
 {
@@ -58,6 +59,11 @@ class ArticleController extends Controller
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
         $article = Article::where('slug' , $slug)->first();
+
+        $related_articles = Article::where('status', true) ->orderBy(DB::raw('RAND()'))
+            ->take(3)
+            ->get();
+
         if(!isset($article)){
             return redirect(route('blog.index'));
         }
@@ -73,7 +79,8 @@ class ArticleController extends Controller
             'articles' => $articles,
             'categories' => $categories,
             'products' => $products,
-            'uploads' => $uploads]);
+            'uploads' => $uploads,
+            'related_articles' => $related_articles]);
     }
 
     /**
