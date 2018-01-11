@@ -23,8 +23,7 @@ class ArticleController extends Controller
             ->orderBy('created_at','desc')->get();
         $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(25);
 
-        $related_articles = Article::where('status', true) ->orderBy(DB::raw('RAND()'))
-            ->take(3)
+        $related_articles = Article::whereIn('id', [153,81,109])->orderBy('id', 'asc')
             ->get();
 
         $uploads = Upload::all();
