@@ -111,7 +111,7 @@
         </div>
     </div>
 
-    <div class="widget top10 bottom10">
+    <div class="widget top10 bottom20">
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <!-- OnlineBooksreview article show right sidebar -->
         <ins class="adsbygoogle"

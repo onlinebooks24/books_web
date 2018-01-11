@@ -98,13 +98,31 @@
                 @endforeach
 
                     <!-- Pagination -->
-                <div class="pagination clearfix">
-                    <div class="pagination__link right">
-                        <a href="#" class="btn btn-lg btn-color">
-                            <span>Older Posts</span>
-                        </a>
-                    </div>
-                </div>
+
+
+                <nav>
+                    <ul class="pager">
+                        @if($articles->currentPage() !== 1)
+                            <div class="pagination clearfix">
+                                <div class="pagination__link left">
+                                    <a href="{{ $articles->previousPageUrl() }}" class="btn btn-lg btn-color">
+                                        <span>Newer</span>
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($articles->currentPage() !== $articles->lastPage() && $articles->hasPages())
+                            <div class="pagination clearfix top-25">
+                                <div class="pagination__link right top-30">
+                                    <a href="{{ $articles->nextPageUrl() }}" class="btn btn-lg btn-color">
+                                        <span>Older</span>
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
+                    </ul>
+                </nav>
             </div> <!-- end posts -->
 
             @include('includes.left_sidebar')
