@@ -75,10 +75,9 @@
 </main> <!-- end main-wrapper -->
 
 <!-- jQuery Scripts -->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/easing.min.js"></script>
-<script type="text/javascript" src="js/owl-carousel.min.js"></script>
-<script type="text/javascript" src="js/modernizr.min.js"></script>
-<script type="text/javascript" src="js/scripts.js"></script>
+<script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/easing.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/owl-carousel.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/modernizr.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
 
