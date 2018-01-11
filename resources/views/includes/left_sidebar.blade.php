@@ -111,4 +111,17 @@
         </div>
     </div>
 
+    <div class="widget top10 bottom10">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- OnlineBooksreview article show right sidebar -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1505016841070170"
+             data-ad-slot="6631171390"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
 </aside> <!-- end sidebar -->

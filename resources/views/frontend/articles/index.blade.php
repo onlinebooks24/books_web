@@ -63,7 +63,7 @@
 </section> <!-- end hero slider -->
 
 <!-- Ad Banner 728 -->
-<div class="text-center">
+<div class="text-center top-30">
     <!-- Onlinebooksreview_homepage_display -->
     <ins class="adsbygoogle"
          style="display:block"

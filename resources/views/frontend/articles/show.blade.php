@@ -87,9 +87,8 @@
                                             <div class="col-md-7">
                                                 <div>{!! $product->product_description !!} </div>
                                                 <div class="clearfix"></div>
-                                                <p></p>
                                                 <div class="text-center">
-                                                    <a class="amazon_button" rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">View Book</a>
+                                                    <a class="amazon_button top5" rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">View Book</a>
                                                 </div>
                                             </div>
 
@@ -97,6 +96,19 @@
                                         </div>
                                         <hr>
                                         <div class="clearfix"></div>
+
+                                        @if($key == 7)
+                                            <!-- OnlineBooksReview Article middle display -->
+                                            <ins class="adsbygoogle"
+                                                 style="display:block"
+                                                 data-ad-client="ca-pub-1505016841070170"
+                                                 data-ad-slot="2448383802"
+                                                 data-ad-format="auto"></ins>
+                                            <script>
+                                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                            </script>
+                                            <hr>
+                                        @endif
                                     @endforeach
                                 @endif
                             </div>
@@ -193,7 +205,6 @@
 
             <!-- Sidebar -->
             @include('includes.left_sidebar')
-
         </div> <!-- end row -->
     </div> <!-- end container -->
 </section> <!-- end content -->
@@ -205,4 +216,5 @@
 @section('run_custom_js_file')
     <script id="dsq-count-scr" src="//onlinebooksreview.disqus.com/count.js" async></script>
     <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 @endsection
