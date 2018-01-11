@@ -52,49 +52,23 @@
 
   <nav>
     <ul class="sidenav__menu" role="menubar">
+
       <li>
-        <a href="index.html" class="sidenav__menu-link">Home</a>
-        <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
-        <ul class="sidenav__menu-dropdown">
-          <li><a href="index.html" class="sidenav__menu-link">Home Demo 1</a></li>
-          <li><a href="index-2.html" class="sidenav__menu-link">Home Demo 2</a></li>
-          <li><a href="index-3.html" class="sidenav__menu-link">Home Demo 3</a></li>
-        </ul>
+        <a href="{{ route('blog.index') }}" class="sidenav__menu-link">Home</a>
       </li>
 
       <li>
-        <a href="#" class="sidenav__menu-link">Posts</a>
-        <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
-        <ul class="sidenav__menu-dropdown">
-          <li><a href="single-post.html" class="sidenav__menu-link">Gallery Post</a></li>
-          <li><a href="single-post.html" class="sidenav__menu-link">Video Post</a></li>
-          <li><a href="single-post.html" class="sidenav__menu-link">Audio Post</a></li>
-          <li><a href="single-post.html" class="sidenav__menu-link">Quote Post</a></li>
-        </ul>
+        <a href="/advertise-us" class="sidenav__menu-link">Advertise Us</a>
       </li>
 
       <li>
-        <a href="#" class="sidenav__menu-link">Pages</a>
-        <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
-        <ul class="sidenav__menu-dropdown">
-          <li><a href="about.html" class="sidenav__menu-link">About</a></li>
-          <li><a href="contact.html" class="sidenav__menu-link">Contact</a></li>
-          <li><a href="404.html" class="sidenav__menu-link">404</a></li>
-        </ul>
+        <a href="/privacy-policy" class="sidenav__menu-link">Privacy Policy</a>
       </li>
 
       <li>
-        <a href="#" class="sidenav__menu-link">Features</a>
-        <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
-        <ul class="sidenav__menu-dropdown">
-          <li><a href="lazyload.html" class="sidenav__menu-link">Lazyload</a></li>
-          <li><a href="shortcodes.html" class="sidenav__menu-link">Shortcodes</a></li>
-        </ul>
+        <a href="/contact" class="sidenav__menu-link">Request for books review</a>
       </li>
 
-      <li>
-        <a href="#" class="sidenav__menu-link">Purchase</a>
-      </li>
     </ul>
   </nav>
 
@@ -139,51 +113,19 @@
 
             <li class="nav__dropdown active">
               <a href="{{ route('blog.index') }}">Home</a>
-              <ul class="nav__dropdown-menu">
-                <li>
-                  <a href="index.html">Home Demo 1</a>
-                </li>
-                <li>
-                  <a href="index-2.html">Home Demo 2</a>
-                </li>
-                <li>
-                  <a href="index-3.html">Home Demo 3</a>
-                </li>
-              </ul>
-            </li>
-
-            <li class="nav__dropdown">
-              <a href="categories.html">Posts</a>
-              <ul class="nav__dropdown-menu">
-                <li><a href="single-post.html">Gallery Post</a></li>
-                <li><a href="single-post.html">Video Post</a></li>
-                <li><a href="single-post.html">Audio Post</a></li>
-                <li><a href="single-post.html">Quote Post</a></li>
-              </ul>
-            </li>
-
-            <li class="nav__dropdown">
-              <a href="catalog.html">Pages</a>
-              <ul class="nav__dropdown-menu">
-                <li><a href="categories.html">Categories</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="404.html">404</a></li>
-              </ul>
-            </li>
-
-            <li class="nav__dropdown">
-              <a href="catalog.html">Features</a>
-              <ul class="nav__dropdown-menu">
-                <li><a href="lazyload.html">Lazy Load</a></li>
-                <li><a href="shortcodes.html">Shortcodes</a></li>
-              </ul>
             </li>
 
             <li>
-              <a href="#">Purchase</a>
+              <a href="/advertise-us">Advertise Us</a>
             </li>
 
+            <li>
+              <a href="/privacy-policy">Privacy Policy</a>
+            </li>
+
+            <li>
+              <a href="/contact">Request for books review</a>
+            </li>
 
           </ul> <!-- end menu -->
         </nav> <!-- end nav-wrap -->
