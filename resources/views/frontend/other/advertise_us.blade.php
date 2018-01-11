@@ -5,7 +5,11 @@
 
 @section('content')
     @include('includes.header')
-    <div class="container">
+    <br>
+    <br>
+    <br>
+
+    <div class="container bottom30">
         <div class="row-fluid">
             <div class="span9">
 

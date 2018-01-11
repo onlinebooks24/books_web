@@ -5,6 +5,7 @@
 
 @section('content')
     @include('includes.header')
+    <br>
     <div class="container">
         <div class="row-fluid">
             <div class="span9">

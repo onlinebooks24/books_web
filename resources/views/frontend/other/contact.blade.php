@@ -5,7 +5,9 @@
 
 @section('content')
     @include('includes.header')
-    <div class="container">
+    <br>
+    <br>
+    <div class="container bottom30">
         <div class="row-fluid">
             <div class="span9">
 
@@ -15,9 +17,14 @@
                         <h2>Contact Us</h2>
                         <p>For all inquiries, please contact us at the e-mail address below:</p><p>Email: <a style="font-size:16px" href="#">onlinebooksreview{at}gmail.com</a></p>
 
-                        <h4>
-                            <strong><a style="float:right" href="/">Back to homepage</a></strong>
-                        </h4><table class="table table-striped">
+                        <div class="top30">
+                            <h4>
+                                <strong><a class="pull-right" style="float:right" href="/">Back to homepage</a></strong>
+                            </h4>
+                        </div>
+
+
+                        <table class="table table-striped">
                             <tbody>
 
 
@@ -33,4 +40,9 @@
         </div> <!--row -->
         @include('includes.footer')
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 @endsection
