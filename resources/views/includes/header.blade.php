@@ -111,7 +111,7 @@
         <nav class="flex-child nav__wrap d-none d-lg-block">
           <ul class="nav__menu">
 
-            <li class="nav__dropdown active">
+            <li class="nav__dropdown">
               <a href="{{ route('blog.index') }}">Home</a>
             </li>
 
@@ -123,7 +123,7 @@
               <a href="/privacy-policy">Privacy Policy</a>
             </li>
 
-            <li>
+            <li class="btn ">
               <a href="/contact">Request for books review</a>
             </li>
 
