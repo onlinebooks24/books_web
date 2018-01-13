@@ -70,6 +70,10 @@ Route::group(['middleware' => ['web']] , function() {
 		return View::make('frontend.other.privacy_policy');
 	});
 
+	Route::get('/refund-policy/' , function(){
+		return View::make('frontend.other.refund_policy');
+	});
+
 	Route::get('/basicemail', [
 		'uses' => 'MailController@basic_email',
 		'as' => 'mail'

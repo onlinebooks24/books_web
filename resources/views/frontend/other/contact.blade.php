@@ -16,6 +16,13 @@
                     <div class="col-xs-6 col-xs-offset-3">
                         <h2>Contact Us</h2>
                         <p>For all inquiries, please contact us at the e-mail address below:</p><p>Email: <a style="font-size:16px" href="#">onlinebooksreview{at}gmail.com</a></p>
+                        <div>Office Address:</div>
+
+                        <div>Online Books Review</div>
+
+                        <div>Comilla, Bangladesh.</div>
+
+                        <div>Phone: +8801794570194</div>
 
                         <div class="top30">
                             <h4>
