@@ -39,7 +39,7 @@
                     <input type="email" name="EMAIL" placeholder="Your email" required="">
                 </p>
                 <p>
-                    <input type="submit" class="btn btn-md btn-color" value="Subscribe">
+                    <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">
                 </p>
             </div>
         </form>

@@ -51,7 +51,7 @@
                                     <input type="email" name="EMAIL" placeholder="Your email" required="">
                                 </p>
                                 <p>
-                                    <input type="submit" class="btn btn-md btn-color" value="Subscribe">
+                                    <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">
                                 </p>
                             </div>
                         </form>
@@ -81,4 +81,11 @@
 <script type="text/javascript" src="{{ asset('js/owl-carousel.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/modernizr.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
+
+<script>
+    $('.btn-subscribe').click(function(e){
+        e.preventDefault();
+    })
+
+</script>
 

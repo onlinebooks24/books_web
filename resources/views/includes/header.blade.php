@@ -28,7 +28,7 @@
               <input type="email" name="EMAIL" placeholder="Your email" required="">
             </p>
             <p>
-              <input type="submit" class="btn btn-md btn-color" value="Subscribe">
+              <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">
             </p>
           </div>
         </form>
@@ -156,7 +156,7 @@
           </div>
 
           <div class="nav__right-item">
-            <a href="" class="nav__subscribe" data-toggle="modal" data-target="#subscribe-modal">Subscribe</a>
+            <a href="" class="nav__subscribe btn-subscribe" data-toggle="modal" data-target="#subscribe-modal">Subscribe</a>
           </div>
 
           <!-- Search -->

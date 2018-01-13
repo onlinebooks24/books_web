@@ -140,7 +140,7 @@
                                 <div class="mc4wp-form-fields">
                                     <i class="mc4wp-form-icon ui-email"></i>
                                     <input type="email" name="EMAIL" placeholder="Your email" required="">
-                                    <input type="submit" class="btn btn-md btn-color" value="Subscribe">
+                                    <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">
                                 </div>
                             </form>
                         </div>
