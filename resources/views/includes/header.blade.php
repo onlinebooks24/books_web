@@ -65,6 +65,10 @@
         <a href="/privacy-policy" class="sidenav__menu-link">Privacy Policy</a>
       </li>
 
+      <li class="nav__dropdown">
+        <a href="/add-your-books" class="sidenav__menu-link">Add your books</a>
+      </li>
+
     </ul>
   </nav>
 
@@ -120,7 +124,7 @@
             </li>
 
             <li style="background: grey">
-              <a href="/add-your-books" class="badge">Add your books</a>
+              <a href="/add-your-books">Add your books</a>
             </li>
 
           </ul> <!-- end menu -->
