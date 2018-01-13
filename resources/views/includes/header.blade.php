@@ -53,20 +53,16 @@
   <nav>
     <ul class="sidenav__menu" role="menubar">
 
-      <li>
+      <li class="nav__dropdown">
         <a href="{{ route('blog.index') }}" class="sidenav__menu-link">Home</a>
       </li>
 
-      <li>
+      <li class="nav__dropdown">
         <a href="/advertise-us" class="sidenav__menu-link">Advertise Us</a>
       </li>
 
-      <li>
+      <li class="nav__dropdown">
         <a href="/privacy-policy" class="sidenav__menu-link">Privacy Policy</a>
-      </li>
-
-      <li>
-        <a href="/contact" class="sidenav__menu-link">Request for books review</a>
       </li>
 
     </ul>
@@ -120,10 +116,6 @@
             </li>
 
             <li>
-              <a href="/privacy-policy">Privacy Policy</a>
-            </li>
-
-            <li class="btn ">
               <a href="/contact">Request for books review</a>
             </li>
 
