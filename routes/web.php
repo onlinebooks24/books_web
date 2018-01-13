@@ -66,6 +66,10 @@ Route::group(['middleware' => ['web']] , function() {
 		return View::make('frontend.other.contact');
 	});
 
+	Route::get('/add-your-books/' , function(){
+		return View::make('frontend.other.add_your_books');
+	});
+
 	Route::get('/privacy-policy/' , function(){
 		return View::make('frontend.other.privacy_policy');
 	});

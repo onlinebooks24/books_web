@@ -100,7 +100,7 @@
 
         <!-- Logo -->
         <a href="{{ route('blog.index') }}" style="color: white; font-size: 20px; font-weight: bold" class="logo">
-          Online Books Review
+          OnlineBooksReview
         </a>
 
         <!-- Nav-wrap -->
@@ -112,11 +112,15 @@
             </li>
 
             <li>
-              <a href="/advertise-us">Advertise Us</a>
+              <a href="/advertise-us">Advertise</a>
             </li>
 
-            <li>
-              <a href="/contact">Request for books review</a>
+            <li class="nav__dropdown">
+              <a href="/privacy-policy">Privacy</a>
+            </li>
+
+            <li style="background: grey">
+              <a href="/add-your-books" class="badge">Add your books</a>
             </li>
 
           </ul> <!-- end menu -->
