@@ -40,7 +40,7 @@ class AmazonCategory extends Command
      */
     public function handle()
     {
-        $node_list =  [5];
+        $node_list =  [173507];
 
         while(!empty($node_list)){
             foreach($node_list as $node_item){
@@ -95,6 +95,14 @@ class AmazonCategory extends Command
             $slug = strtolower($category_name);
             $slug = str_replace('&', 'and', $slug);
             $slug = str_replace(' ', '-', $slug);
+            $slug_check = Category::where('slug' ,  $slug)->get();
+            $slug_check_count = count($slug_check);
+            if($slug_check_count > 0){
+                $collect_parent = Category::where('browse_node_id', $now_parent_is)->first();
+                $slug = $slug. '-' . $collect_parent->slug;
+                $category_name = $category_name. '(' . $collect_parent->name . ')';
+            }
+
             $category_db = new Category();
             $category_db->browse_node_id = $browse_node_id;
             $category_db->name = $category_name;
@@ -102,6 +110,7 @@ class AmazonCategory extends Command
             $category_db->order_id = $order_id;
             $category_db->parent_id = $now_parent_is;
             $category_db->save();
+            \Log::info("----------------------. $category_db->name");
         }
     }
 }
