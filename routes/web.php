@@ -58,6 +58,11 @@ Route::group(['middleware' => ['web']] , function() {
 		'as' => 'category.post'
 	]);
 
+	Route::get('/category_json/{parent_id}' , [
+		'uses' => 'ArticleController@CategoryJson',
+		'as' => 'category.browse_parent_id'
+	]);
+
 	Route::get('/advertise-us/' , function(){
 		return View::make('frontend.other.advertise_us');
 	});

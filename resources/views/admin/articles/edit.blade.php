@@ -63,13 +63,14 @@
 
                 <div class="form-group">
                     <label class="control-label">Select Category</label>
-                    <select class="form-control" name="category_id">
+                    <select class="form-control category_select" name="category_id">
                         <option value="">Select Category</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id}}" {{ $article->category_id == $category->id ? 'selected'  : '' }} > {{ $category->name }} </option>
+                            <option value="{{ $category->id}}" data-browse-node-id="{{ $category->browse_node_id }}" {{ $article->category_id == $category->id ? 'selected'  : '' }} > {{ $category->name }} </option>
                         @endforeach
                     </select>
                 </div>
+                <div class="add-more-category"></div>
             </div>
             <div class="col-sm-3">
                 <div class="alert alert-success">
@@ -229,6 +230,27 @@
         $('.view-product').click(function(){
             $(this).removeClass('btn-success').addClass('btn-info');
         })
+
+
+        $('.category_select').on('change', function() {
+            var parent_id = $(this).find(':selected').data('browse-node-id');
+
+            $.ajax("/category_json/" + parent_id , {
+                success: function(data) {
+                    var option_value =  '<div class="form-group">' +
+                            '<select class="form-control category_select" name="category_id">';
+                    $.each(data, function(i, item) {
+                        option_value += '<option value="'+ item.id +'" data-browse-node-id="' + item.browse_node_id +'">' + item.name + '</option>';
+                    });
+
+                        option_value += '</select>' +
+                                    '</div>';
+
+                    $('.add-more-category').append(option_value);
+                }
+            });
+        })
+
     </script>
 
 @endsection
@@ -270,22 +292,6 @@
                 $('.summernote').summernote('code', null);
             });
         });
-
-        {{--$('.product_save').on('submit', function (e) {--}}
-            {{--e.preventDefault();--}}
-            {{--var product_description = $('.product_description').html();--}}
-            {{--$.ajax({--}}
-                {{--type: "POST",--}}
-                {{--url: '{!!URL::route('admin_articles.product_save')!!}',--}}
-                {{--data: {product_description : product_description},--}}
-                {{--dataType: "json",--}}
-                {{--success: function( msg ) {--}}
-                    {{--$(".product_description").html(msg);--}}
-                {{--}--}}
-            {{--});--}}
-        {{--});--}}
-
-
 
     </script>
 @endsection

@@ -141,4 +141,20 @@ class ArticleController extends Controller
             return redirect()->route('blog.index');
         }
     }
+
+    public function CategoryJson($parent_id){
+        $categories = Category::where('parent_id', $parent_id)->get();
+
+        $temp = [];
+        $category_json = null;
+
+        foreach($categories as $category){
+            $temp['id'] = $category->id;
+            $temp['name'] = $category->name;
+            $temp['browse_node_id'] = $category->browse_node_id;
+            $category_json[] = $temp;
+        }
+
+        return response()->json($category_json);
+    }
 }
