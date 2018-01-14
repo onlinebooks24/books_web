@@ -40,7 +40,7 @@ class AmazonCategory extends Command
      */
     public function handle()
     {
-        $node_list =  [173507];
+        $node_list =  [4366];
 
         while(!empty($node_list)){
             foreach($node_list as $node_item){
@@ -99,8 +99,12 @@ class AmazonCategory extends Command
             $slug_check_count = count($slug_check);
             if($slug_check_count > 0){
                 $collect_parent = Category::where('browse_node_id', $now_parent_is)->first();
-                $slug = $slug. '-' . $collect_parent->slug;
-                $category_name = $category_name. '(' . $collect_parent->name . ')';
+                if(empty($collect_parent)){
+                    $slug = $slug. '-' . rand(10, 99);
+                } else {
+                    $slug = $slug. '-' . $collect_parent->slug;
+                    $category_name = $category_name. '(' . $collect_parent->name . ')';
+                }
             }
 
             $category_db = new Category();
