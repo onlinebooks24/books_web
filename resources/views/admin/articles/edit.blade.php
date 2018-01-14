@@ -61,9 +61,12 @@
                     <textarea class="form-control" name="meta_description" type="text" required>{{ $article->meta_description }}</textarea>
                 </div>
 
-                <input type="hidden" value="5" name="category_id" class="category_id_value">
+                <input type="hidden" value="{{ $article->category_id }}" name="category_id" class="category_id_value">
+
+                <div class="top10 bottom5">Already you have selected <strong>{{ $article->category->name }}</strong>. If you want to change, please select again</div>
+
                 <div class="form-group category-box">
-                    <label class="control-label">Select Category</label>
+                    <div>Select category here:</div>
                     <select class="form-control category_select" data-value="1">
                         <option value="">Select Category</option>
                         @foreach ($categories as $category)
@@ -71,7 +74,6 @@
                         @endforeach
                     </select>
                 </div>
-
             </div>
             <div class="col-sm-3">
                 <div class="alert alert-success">
@@ -232,6 +234,38 @@
             $(this).removeClass('btn-success').addClass('btn-info');
         })
 
+        $(document).ready(function() {
+
+            $('.summernote').summernote({
+                height : '300px' ,
+                placeholder : 'Enter Text Here...' ,
+                popover: {
+                    image: [
+                        ['custom', ['imageAttributes']],
+                        ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+                        ['float', ['floatLeft', 'floatRight', 'floatNone']],
+                        ['remove', ['removeMedia']]
+                    ],
+                },
+                lang: 'en-US',
+                imageAttributes:{
+                    imageDialogLayout:'default', // default|horizontal
+                    icon:'<i class="note-icon-pencil"/>',
+                    removeEmpty:false // true = remove attributes | false = leave empty if present
+                },
+                displayFields:{
+                    imageBasic:true,  // show/hide Title, Source, Alt fields
+                    imageExtra:false, // show/hide Alt, Class, Style, Role fields
+                    linkBasic:true,   // show/hide URL and Target fields for link
+                    linkExtra:false   // show/hide Class, Rel, Role fields for link
+                }
+            });
+
+
+            $('#clear').on('click' , function(){
+                $('.summernote').summernote('code', null);
+            });
+        });
 
         $('.category-box').on('change', ".category_select" , function() {
             var parent_id = $(this).find(':selected').data('browse-node-id');
@@ -269,43 +303,7 @@
 
 @endsection
 
-@section('run_emergency_js')
+@section('run_custom_js_file')
     <script type="text/javascript" src="{{ asset('summernote/summernote.js')}}" ></script>
     <script  type="text/javascript"  src="{{ asset('summernote/summernote-image-attributes.js') }}" ></script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            $('.summernote').summernote({
-                height : '300px' ,
-                placeholder : 'Enter Text Here...' ,
-                popover: {
-                    image: [
-                        ['custom', ['imageAttributes']],
-                        ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
-                        ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                        ['remove', ['removeMedia']]
-                    ],
-                },
-                lang: 'en-US',
-                imageAttributes:{
-                    imageDialogLayout:'default', // default|horizontal
-                    icon:'<i class="note-icon-pencil"/>',
-                    removeEmpty:false // true = remove attributes | false = leave empty if present
-                },
-                displayFields:{
-                    imageBasic:true,  // show/hide Title, Source, Alt fields
-                    imageExtra:false, // show/hide Alt, Class, Style, Role fields
-                    linkBasic:true,   // show/hide URL and Target fields for link
-                    linkExtra:false   // show/hide Class, Rel, Role fields for link
-                }
-            });
-
-
-            $('#clear').on('click' , function(){
-                $('.summernote').summernote('code', null);
-            });
-        });
-
-    </script>
 @endsection

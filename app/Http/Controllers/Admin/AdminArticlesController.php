@@ -42,7 +42,7 @@ class AdminArticlesController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::where('parent_id', '1000')->get();
         return view('admin.articles.create', compact('categories'));
     }
 
