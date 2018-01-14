@@ -61,16 +61,16 @@
                     <textarea class="form-control" name="meta_description" type="text" required>{{ $article->meta_description }}</textarea>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group category-box">
                     <label class="control-label">Select Category</label>
-                    <select class="form-control category_select" name="category_id">
+                    <select class="form-control category_select" name="category_id" data-value="1">
                         <option value="">Select Category</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id}}" data-browse-node-id="{{ $category->browse_node_id }}" {{ $article->category_id == $category->id ? 'selected'  : '' }} > {{ $category->name }} </option>
                         @endforeach
                     </select>
                 </div>
-                <div class="add-more-category"></div>
+
             </div>
             <div class="col-sm-3">
                 <div class="alert alert-success">
@@ -232,21 +232,30 @@
         })
 
 
-        $('.category_select').on('change', function() {
+        $('.category-box').on('change', ".category_select" , function() {
             var parent_id = $(this).find(':selected').data('browse-node-id');
+            var current_category_select = $(this).data('value');
+            var category_select_count = $('.category_select').length;
 
-            $.ajax("/category_json/" + parent_id , {
+            if (current_category_select != category_select_count){
+             $('.category_select').slice(current_category_select-category_select_count).remove();
+            }
+
+            $.ajax("/category_json/" + parent_id, {
                 success: function(data) {
-                    var option_value =  '<div class="form-group">' +
-                            '<select class="form-control category_select" name="category_id">';
-                    $.each(data, function(i, item) {
-                        option_value += '<option value="'+ item.id +'" data-browse-node-id="' + item.browse_node_id +'">' + item.name + '</option>';
-                    });
+                    category_select_count = category_select_count + 1;
+                    if (typeof(data.length)  === "undefined"){
+
+                    } else {
+                        var option_value =
+                                '<select class="form-control category_select" name="category_id" data-value="' + category_select_count + '">';
+                        $.each(data, function(i, item) {
+                            option_value += '<option value="'+ item.id +'" data-browse-node-id="' + item.browse_node_id +'">' + item.name + '</option>';
+                        });
 
                         option_value += '</select>' +
-                                    '</div>';
-
-                    $('.add-more-category').append(option_value);
+                        $('.category-box').append(option_value);
+                    }
                 }
             });
         })
