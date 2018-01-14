@@ -239,6 +239,7 @@
 
             if (current_category_select != category_select_count){
              $('.category_select').slice(current_category_select-category_select_count).remove();
+                category_select_count = $('.category_select').length;
             }
 
             $.ajax("/category_json/" + parent_id, {
