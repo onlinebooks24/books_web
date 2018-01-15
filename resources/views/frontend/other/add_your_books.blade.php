@@ -1,7 +1,7 @@
 @extends('layouts.master')
-@section('title') Advertise us| Online Books Review @endsection
-@section('meta_description') Advertise us @endsection
-@section('meta_keyword') Advertise us @endsection
+@section('title') Add Your Books | Online Books Review @endsection
+@section('meta_description') Add Your Books @endsection
+@section('meta_keyword') Add Your Books @endsection
 
 @section('content')
     @include('includes.header')

@@ -83,6 +83,11 @@ Route::group(['middleware' => ['web']] , function() {
 		return View::make('frontend.other.refund_policy');
 	});
 
+
+	Route::get('/terms-of-service/' , function(){
+		return View::make('frontend.other.terms_of_service');
+	});
+
 	Route::get('/basicemail', [
 		'uses' => 'MailController@basic_email',
 		'as' => 'mail'

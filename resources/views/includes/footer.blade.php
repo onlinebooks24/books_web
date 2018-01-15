@@ -35,6 +35,7 @@
                             <li><a href="/advertise-us">Advertise Us</a></li>
                             <li><a href="/privacy-policy">Privacy Policy</a></li>
                             <li><a href="/refund-policy">Refund Policy</a></li>
+                            <li><a href="/terms-of-service">Terms of service</a></li>
                             <li><a href="/contact">Contact</a></li>
                         </ul>
                     </div>
