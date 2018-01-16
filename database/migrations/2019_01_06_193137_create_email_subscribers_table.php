@@ -17,14 +17,14 @@ class CreateEmailSubscribersTable extends Migration
     {
         Schema::create('email_subscribers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('full_name');
+            $table->string('full_name')->nullable();
             $table->string('email');
             $table->boolean('subscribe')->default(false);
             $table->boolean('temporary')->default(false);
             $table->integer('click_count')->default(0);
             $table->integer('email_count')->default(0);
             $table->string('source');
-            $table->dateTime('last_send_email');
+            $table->dateTime('last_send_email')->nullable();
 
             $table->timestamps();
         });

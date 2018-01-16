@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
 use App\Models\Product;
+use App\Models\EmailSubscriber;
 use Auth;
 use App\Models\Upload;
 use DB;
@@ -156,5 +157,30 @@ class ArticleController extends Controller
         }
 
         return response()->json($category_json);
+    }
+
+    public function EmailSubscriber(Request $request){
+        $email = $request['email'];
+
+        $check_email_exist = EmailSubscriber::where('email', $email)->first();
+
+        if(empty($check_email_exist)){
+            $email_subscriber = new EmailSubscriber();
+
+            $email_subscriber->full_name = null;
+            $email_subscriber->email = $email;
+            $email_subscriber->temporary = false;
+            $email_subscriber->subscribe = true;
+            $email_subscriber->	source = 's';  // from our site
+
+            $email_subscriber->save();
+
+            $email_subscriber_message = 'success';
+
+        } else {
+            $email_subscriber_message = 'exist';
+        }
+
+        return view('frontend.email_subscribers.email_subscribe_confirmation', compact('email_subscriber_message'));
     }
 }

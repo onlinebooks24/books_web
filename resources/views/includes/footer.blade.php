@@ -86,7 +86,7 @@
 
 <script>
     $('.btn-subscribe').click(function(e){
-        e.preventDefault();
+//        e.preventDefault();
     })
 
 </script>

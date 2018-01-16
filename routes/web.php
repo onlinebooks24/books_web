@@ -58,9 +58,14 @@ Route::group(['middleware' => ['web']] , function() {
 		'as' => 'category.post'
 	]);
 
-	Route::get('/category_json/{parent_id}' , [
+	Route::get('/category-json/{parent_id}' , [
 		'uses' => 'ArticleController@CategoryJson',
 		'as' => 'category.browse_parent_id'
+	]);
+
+	Route::any('/email-subscribe/' , [
+		'uses' => 'ArticleController@EmailSubscriber',
+		'as' => 'email.subscribe'
 	]);
 
 	Route::get('/advertise-us/' , function(){

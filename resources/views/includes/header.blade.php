@@ -21,11 +21,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="mc4wp-form" method="post">
+        <form class="mc4wp-form" action="{{ route('email.subscribe') }}" method="post">
+          {{ csrf_field() }}
           <div class="mc4wp-form-fields">
             <p>
               <i class="mc4wp-form-icon ui-email"></i>
-              <input type="email" name="EMAIL" placeholder="Your email" required="">
+              <input type="email" name="email" placeholder="Your email" required="">
             </p>
             <p>
               <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">

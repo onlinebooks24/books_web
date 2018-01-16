@@ -116,7 +116,7 @@
                 category_select_count = $('.category_select').length;
             }
 
-            $.ajax("/category_json/" + parent_id, {
+            $.ajax("/category-json/" + parent_id, {
                 success: function(data) {
                     category_select_count = category_select_count + 1;
                     if (typeof(data.length)  === "undefined"){
