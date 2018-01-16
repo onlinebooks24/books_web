@@ -117,7 +117,7 @@
                 }
 
                 window.setTimeout(function(){
-                    alert("Thanks for subscribe.");
+                    alert("Thanks for subscribing to our newsletter.");
                 }, 1000);
 
             }
