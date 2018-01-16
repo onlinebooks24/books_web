@@ -98,7 +98,7 @@
     } else {
         setTimeout(function() {
             $('#subscribe-modal').modal();
-        }, 20000);
+        }, 40000);
     }
 
     $('.btn-subscribe').click(function(e){
