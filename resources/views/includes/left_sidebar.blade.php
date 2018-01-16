@@ -36,7 +36,7 @@
             <div class="mc4wp-form-fields">
                 <p>
                     <i class="mc4wp-form-icon ui-email"></i>
-                    <input type="email" name="EMAIL" placeholder="Your email" required="">
+                    <input type="email" name="email" class="update_email" placeholder="Your email" required="">
                 </p>
                 <p>
                     <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">

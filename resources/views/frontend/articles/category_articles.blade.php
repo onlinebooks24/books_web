@@ -1,17 +1,19 @@
 @extends('layouts.master')
 
 @section('title')
-  {{ $categoryName }} | OnlineBooksReview
+  {{ $category->name }} | OnlineBooksReview
 @endsection
 
 @section('content')
 @include('includes.header')
 
+<div class="category_id" data-value="{{ $category->id }}"></div>
+
 <section class="section-wrap pt-50 pb-30">
     <div class="container">
         @if(!empty(Request::Segment(1)))
             <div class="alert alert-info">
-                <strong>Category : </strong> {{ $categoryName }} . Show All Articles.
+                <strong>Category : </strong> {{ $category->name }} . Show All Articles.
             </div>
         @endif
         <div class="row">
@@ -76,7 +78,7 @@
       <div class="col-md-8 full-box">
          @if(!empty(Request::Segment(1)))
             <div class="alert alert-info">
-              <strong>Category : </strong> {{ $categoryName }} . Show All Articles.
+              <strong>Category : </strong> {{ $category->name }} . Show All Articles.
             </div>
          @endif
          @foreach($articles as $article)

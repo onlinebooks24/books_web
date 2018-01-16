@@ -26,7 +26,7 @@
           <div class="mc4wp-form-fields">
             <p>
               <i class="mc4wp-form-icon ui-email"></i>
-              <input type="email" name="email" placeholder="Your email" required="">
+              <input type="email" class="email" name="email" placeholder="Your email" required="">
             </p>
             <p>
               <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">
@@ -157,7 +157,7 @@
           </div>
 
           <div class="nav__right-item">
-            <a href="" class="nav__subscribe btn-subscribe" data-toggle="modal" data-target="#subscribe-modal">Subscribe</a>
+            <a href="" class="nav__subscribe" data-toggle="modal" data-target="#subscribe-modal">Subscribe</a>
           </div>
 
           <!-- Search -->

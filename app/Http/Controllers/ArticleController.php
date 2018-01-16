@@ -143,7 +143,7 @@ class ArticleController extends Controller
             $articles = Article::where('category_id' , $category->id)
                                     ->where('status', true)
                                     ->orderBy('created_at','desc')->Paginate(5);
-            return view('frontend.articles.category_articles',['articles'=> $articles,'categories' => $categories,'categoryName' => $category->name,'uploads' => $uploads ]);
+            return view('frontend.articles.category_articles',['articles'=> $articles,'categories' => $categories,'category' => $category,'uploads' => $uploads ]);
         } else {
             return redirect()->route('blog.index');
         }

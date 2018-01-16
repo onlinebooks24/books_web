@@ -50,7 +50,7 @@
                             <div class="mc4wp-form-fields">
                                 <p>
                                     <i class="mc4wp-form-icon ui-email"></i>
-                                    <input type="email" name="EMAIL" placeholder="Your email" required="">
+                                    <input type="email" name="email" class="update_email" placeholder="Your email" required="">
                                 </p>
                                 <p>
                                     <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">
@@ -83,11 +83,49 @@
 <script type="text/javascript" src="{{ asset('js/owl-carousel.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/modernizr.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('/js/js.cookie.min.js') }}"></script>
 
 <script>
+    if(Cookies.get('email') != undefined){
+        var category_id = $('.category_id').data('value');
+        var email = Cookies.get('email');
+        if(category_id != undefined){
+            $.ajax("/update-category-subscriber?email=" + email + "&category_id=" + category_id, {
+                success: function(data) {
+                }
+            });
+        }
+    } else {
+        setTimeout(function() {
+            $('#subscribe-modal').modal();
+        }, 20000);
+    }
+
     $('.btn-subscribe').click(function(e){
-//        e.preventDefault();
+        e.preventDefault();
+        var email = $('.email').val();
+        var category_id = $('.category_id').data('value');
+        $.ajax("/subscribe-now?email=" + email, {
+            success: function(data) {
+                $('.close').click();
+
+                if(category_id != undefined){
+                    $.ajax("/update-category-subscriber?email=" + email + "&category_id=" + category_id, {
+                        success: function(data) {
+                        }
+                    });
+                }
+
+                window.setTimeout(function(){
+                    alert("Thanks for subscribe.");
+                }, 1000);
+
+            }
+        });
     })
 
+    $('.update_email').on('blur', function() {
+        $('.email').val($(this).val());
+    });
 </script>
 

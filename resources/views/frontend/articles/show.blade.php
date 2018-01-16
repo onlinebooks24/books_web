@@ -140,7 +140,7 @@
                             <form class="mc4wp-form" method="post">
                                 <div class="mc4wp-form-fields">
                                     <i class="mc4wp-form-icon ui-email"></i>
-                                    <input type="email" name="EMAIL" placeholder="Your email" required="">
+                                    <input type="email" name="email" class="update_email" placeholder="Your email" required="">
                                     <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">
                                 </div>
                             </form>
@@ -218,22 +218,5 @@
     <script id="dsq-count-scr" src="//onlinebooksreview.disqus.com/count.js" async></script>
     <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script src="{{ asset('/js/js.cookie.min.js') }}"></script>
 @endsection
 
-@section('run_custom_jquery')
-    <script>
-        if(Cookies.get('email') != undefined){
-            var category_id = $('.category_id').data('value');
-            var email = Cookies.get('email');
-            $.ajax("/update-category-subscriber?email=" + email + "&category_id=" + category_id, {
-                success: function(data) {
-                }
-            });
-        } else {
-            setTimeout(function() {
-                $('#subscribe-modal').modal();
-            }, 20000);
-        }
-    </script>
-@endsection
