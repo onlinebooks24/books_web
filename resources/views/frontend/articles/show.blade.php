@@ -6,6 +6,7 @@
 @section('content')
 @include('includes.header')
 
+    <div class="category_id" data-value="{{ $article->category->id }}"></div>
         <!-- Content -->
 <section class="section-wrap pt-60 pb-20">
     <div class="container">
@@ -217,4 +218,29 @@
     <script id="dsq-count-scr" src="//onlinebooksreview.disqus.com/count.js" async></script>
     <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="{{ asset('/js/js.cookie.min.js') }}"></script>
+@endsection
+
+@section('run_custom_jquery')
+    <script>
+        //        setTimeout(function() {
+        //            alert('hello');
+        //        }, 20000);
+
+        alert(Cookies.get('email'));
+        if(Cookies.get('email') != undefined){
+            var category_id = $('.category_id').data('value');
+            var email = Cookies.get('email');
+            alert('cbc');
+            $.ajax("/update-category-subscriber?email=" + email + "&category_id=" + category_id, {
+                success: function(data) {
+                    alert('success');
+                }
+            });
+        } else {
+            alert('no');
+        }
+
+
+    </script>
 @endsection

@@ -63,9 +63,14 @@ Route::group(['middleware' => ['web']] , function() {
 		'as' => 'category.browse_parent_id'
 	]);
 
-	Route::any('/email-subscribe/' , [
-		'uses' => 'ArticleController@EmailSubscriber',
-		'as' => 'email.subscribe'
+	Route::any('/subscribe-now/' , [
+		'uses' => 'EmailSubscriberController@SubscribeNow',
+		'as' => 'email.subscribe_now'
+	]);
+
+	Route::any('/update-category-subscriber/' , [
+		'uses' => 'EmailSubscriberController@UpdateCategorySubscriber',
+		'as' => 'email.update_category_subscriber'
 	]);
 
 	Route::get('/advertise-us/' , function(){

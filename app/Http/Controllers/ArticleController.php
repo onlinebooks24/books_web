@@ -63,34 +63,40 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($slug, Request $request)
     {
-        $articles = Article::where('status', true)->orderBy('created_at','asc')->Paginate(18);
-        $categories = Category::where('category_status', true)
-            ->orderBy('created_at','desc')->get();
-        $article = Article::where('slug' , $slug)->first();
+        if(empty($request['email'])){
+            $articles = Article::where('status', true)->orderBy('created_at','asc')->Paginate(18);
+            $categories = Category::where('category_status', true)
+                ->orderBy('created_at','desc')->get();
+            $article = Article::where('slug' , $slug)->first();
 
-        $related_articles = Article::where('status', true) ->orderBy(DB::raw('RAND()'))
-            ->take(3)
-            ->get();
+            $related_articles = Article::where('status', true) ->orderBy(DB::raw('RAND()'))
+                ->take(3)
+                ->get();
 
-        if(!isset($article)){
-            return redirect(route('blog.index'));
+            if(!isset($article)){
+                return redirect(route('blog.index'));
+            }
+            $products = Product::where('article_id',$article->id)->orderBy('created_at','asc')->get();
+            $uploads = Upload::all();
+            if(empty(Auth::user())){
+                $current_count = $article->count;
+                $article->count = $current_count + 1 ;
+                $article->save();
+            }
+
+            return view('frontend.articles.show',[ 'article'=>$article,
+                'articles' => $articles,
+                'categories' => $categories,
+                'products' => $products,
+                'uploads' => $uploads,
+                'related_articles' => $related_articles]);
+        } else {
+            setcookie("email", $request['email'], 2147483647);
+            return redirect()->to(url()->current());
         }
-        $products = Product::where('article_id',$article->id)->orderBy('created_at','asc')->get();
-        $uploads = Upload::all();
-        if(empty(Auth::user())){
-            $current_count = $article->count;
-            $article->count = $current_count + 1 ;
-            $article->save();
-        }
 
-        return view('frontend.articles.show',[ 'article'=>$article,
-            'articles' => $articles,
-            'categories' => $categories,
-            'products' => $products,
-            'uploads' => $uploads,
-            'related_articles' => $related_articles]);
     }
 
     /**
@@ -159,28 +165,4 @@ class ArticleController extends Controller
         return response()->json($category_json);
     }
 
-    public function EmailSubscriber(Request $request){
-        $email = $request['email'];
-
-        $check_email_exist = EmailSubscriber::where('email', $email)->first();
-
-        if(empty($check_email_exist)){
-            $email_subscriber = new EmailSubscriber();
-
-            $email_subscriber->full_name = null;
-            $email_subscriber->email = $email;
-            $email_subscriber->temporary = false;
-            $email_subscriber->subscribe = true;
-            $email_subscriber->	source = 's';  // from our site
-
-            $email_subscriber->save();
-
-            $email_subscriber_message = 'success';
-
-        } else {
-            $email_subscriber_message = 'exist';
-        }
-
-        return view('frontend.email_subscribers.email_subscribe_confirmation', compact('email_subscriber_message'));
-    }
 }

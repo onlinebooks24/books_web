@@ -21,7 +21,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="mc4wp-form" action="{{ route('email.subscribe') }}" method="post">
+        <form class="mc4wp-form" action="{{ route('email.subscribe_now') }}" method="post">
           {{ csrf_field() }}
           <div class="mc4wp-form-fields">
             <p>
