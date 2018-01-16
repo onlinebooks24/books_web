@@ -223,24 +223,17 @@
 
 @section('run_custom_jquery')
     <script>
-        //        setTimeout(function() {
-        //            alert('hello');
-        //        }, 20000);
-
-        alert(Cookies.get('email'));
         if(Cookies.get('email') != undefined){
             var category_id = $('.category_id').data('value');
             var email = Cookies.get('email');
-            alert('cbc');
             $.ajax("/update-category-subscriber?email=" + email + "&category_id=" + category_id, {
                 success: function(data) {
-                    alert('success');
                 }
             });
         } else {
-            alert('no');
+            setTimeout(function() {
+                $('#subscribe-modal').modal();
+            }, 20000);
         }
-
-
     </script>
 @endsection
