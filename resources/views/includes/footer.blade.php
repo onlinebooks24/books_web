@@ -105,27 +105,37 @@
         e.preventDefault();
         var email = $('.email').val();
         var category_id = $('.category_id').data('value');
-        $.ajax("/subscribe-now?email=" + email, {
-            success: function(data) {
-                $('.close').click();
+        if(isEmail(email)){
+            $.ajax("/subscribe-now?email=" + email, {
+                success: function(data) {
+                    $('.close').click();
 
-                if(category_id != undefined){
-                    $.ajax("/update-category-subscriber?email=" + email + "&category_id=" + category_id, {
-                        success: function(data) {
-                        }
-                    });
+                    if(category_id != undefined){
+                        $.ajax("/update-category-subscriber?email=" + email + "&category_id=" + category_id, {
+                            success: function(data) {
+                            }
+                        });
+                    }
+
+                    window.setTimeout(function(){
+                        alert("Thanks for subscribing to our newsletter.");
+                    }, 1000);
+
                 }
-
-                window.setTimeout(function(){
-                    alert("Thanks for subscribing to our newsletter.");
-                }, 1000);
-
-            }
-        });
-    })
+            });
+        } else {
+            alert('Email address is invalid.');
+        }
+    });
 
     $('.update_email').on('blur', function() {
         $('.email').val($(this).val());
     });
+
+    function isEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    }
+
 </script>
 
