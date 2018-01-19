@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Models\ProductOrder;
 use App\Models\SiteCost;
 use App\Models\SiteCostType;
@@ -47,6 +48,11 @@ class AdminSiteCostsController extends Controller
         $amount = $request['amount'];
         $when_paid = $request['when_paid'];
         $article_id = $request['article_id'];
+
+        if(!empty($article_id)){
+            $article = Article::find($article_id);
+            $when_paid = $article->created_at;
+        }
 
         $site_cost = new SiteCost();
         $site_cost->description = $description;
