@@ -17,8 +17,8 @@ class AdminProductOrdersController extends Controller
      */
     public function index()
     {
-
-        return view('admin.product_orders.index');
+        $product_orders = ProductOrder::orderBy('created_at','desc')->Paginate(50);
+        return view('admin.product_orders.index', compact('product_orders'));
     }
 
     /**

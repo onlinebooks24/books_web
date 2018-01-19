@@ -33,6 +33,8 @@
        
        <th>Title</th>
        <th>Count</th>
+       <th>Orders</th>
+       <th>Fee</th>
        <th>Edit</th>
        <th>Delete</th>
        <th>Publish</th>
@@ -44,6 +46,17 @@
 	<tr>
 		<td>{{ $article->title }}</td>
 		<td>{{ $article->count }}</td>
+		<td>{{ count($article->product_orders) }}</td>
+		<td>
+			<div class="hidden">{{ $fee = 0 }}</div>
+			@if(!empty($article->product_orders))
+				@foreach($article->product_orders as $item)
+					<div class="hidden">{{ $fee += $item->ad_fees }}</div>
+				@endforeach
+			@endif
+
+			{{ $fee * 80 }} BDT
+		</td>
 		<td><a href="{{ route('admin_articles.edit', $article->id) }}"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
 		<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete{{++$key}}" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
 		<td>
