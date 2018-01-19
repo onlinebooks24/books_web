@@ -1,8 +1,7 @@
 <?php
-
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
-use App\Models\RoleType;
-use App\User;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,21 +12,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $role_type_list = [
-            [
-            'id' => 1,
-            'name' => 'admin'
-            ],
-            [
-                'id' => 2,
-                'name' => 'editor'
-            ],
-        ];
+        Model::unguard();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->command->info('----- Running Role Type Data Seeder -----');
+        $this->call(RoleTypeSeeder::class);
+        $this->call(SiteCostTypeSeeder::class);
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $role_type = DB::table('role_types')->insert($role_type_list);
+        $this->command->info('----- Seeding Completed -----');
 
-        $user = User::first();
-        $user->role_type_id = '1';
-        $user->update();
+        Model::reguard();
     }
 }
