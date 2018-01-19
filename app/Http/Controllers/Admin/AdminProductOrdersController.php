@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\ProductOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -48,8 +49,14 @@ class AdminProductOrdersController extends Controller
             $ad_fees = $item['@attributes']['AdFees'];
             $manually_inserted_on_article = false;
 
-            $product_id = 1;
-            $article_id = 1;
+            $product_id = null;
+            $article_id = null;
+            $check_product_exist = Product::where('isbn', $product_number)->first();
+
+            if(!empty($check_product_exist)){
+                $product_id = $check_product_exist->id;
+                $article_id = $check_product_exist->article->id;
+            }
 
             $product_order = new ProductOrder();
             $product_order->product_number = $product_number;
