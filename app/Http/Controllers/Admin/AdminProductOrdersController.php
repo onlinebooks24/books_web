@@ -88,7 +88,7 @@ class AdminProductOrdersController extends Controller
 
         Session::flash('message', $flash_message);
 
-        return view('admin.product_orders.index');
+        return redirect()->to(route('admin_product_orders.index'));
     }
 
     /**
