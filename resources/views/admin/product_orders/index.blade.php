@@ -43,7 +43,7 @@
                                 <td>{{ $product_order->product_number }}</td>
                                 <td>{{ $product_order->title }}</td>
                                 <td>{{ Carbon\Carbon::parse($product_order->shipment_date)->toFormattedDateString() }}</td>
-                                <td>{{ $product_order->ad_fees }}</td>
+                                <td>{{ $product_order->ad_fees * 80 }} BDT</td>
                                 <td>{{ $product_order->manually_inserted_on_article }}</td>
                                 <td>
                                     @if(!empty($product_order->article_id))
