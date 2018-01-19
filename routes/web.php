@@ -38,6 +38,7 @@ Route::group(['middleware' => ['web']] , function() {
 		Route::resource('/admin_uploads','Admin\AdminUploadsController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
 		Route::resource('/admin_product_orders','Admin\AdminProductOrdersController');
+		Route::resource('/admin_site_costs','Admin\AdminSiteCostsController');
 	});
 
 	Route::get('/', [
