@@ -30,10 +30,14 @@
                 @foreach($site_costs as $site_cost)
                     <tr>
                         <td>{{ $site_cost->description }}</td>
-                        <td>{{ $product_order->site_cost_type_id }}</td>
-                        <td>{{ $product_order->amount }} BDT</td>
-                        <td>{{ $product_order->when_paid }} </td>
-                        <td>{{ $product_order->article_id }}</td>
+                        <td>{{ $site_cost->site_cost_type->name }}</td>
+                        <td>{{ $site_cost->amount }} BDT</td>
+                        <td>{{ $site_cost->when_paid }} </td>
+                        <td>
+                            @if(!empty($site_cost->article))
+                                {{ $site_cost->article->title }}
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

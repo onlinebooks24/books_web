@@ -31,4 +31,9 @@ class Article extends Model
     {
         return $this->hasMany('App\Models\ProductOrder');
     }
+
+    public function site_costs()
+    {
+        return $this->hasMany('App\Models\SiteCost');
+    }
 }

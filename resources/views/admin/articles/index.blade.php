@@ -30,11 +30,12 @@
     <div class="table-responsive">         
 	  <table id="mytable" class="table table-bordred table-striped">    
        <thead>
-       
+       <th>id</th>
        <th>Title</th>
        <th>Count</th>
        <th>Orders</th>
        <th>Fee</th>
+       <th>Site Cost</th>
        <th>Edit</th>
        <th>Delete</th>
        <th>Publish</th>
@@ -44,6 +45,7 @@
 
     @foreach($articles as $key => $article)
 	<tr>
+		<td>{{ $article->id }}</td>
 		<td>{{ $article->title }}</td>
 		<td>{{ $article->count }}</td>
 		<td>{{ count($article->product_orders) }}</td>
@@ -56,6 +58,17 @@
 			@endif
 
 			{{ $fee * 80 }} BDT
+		</td>
+
+		<td>
+			<div class="hidden">{{ $cost = 0 }}</div>
+			@if(!empty($article->site_costs))
+				@foreach($article->site_costs as $item)
+					<div class="hidden">{{ $cost += $item->amount }}</div>
+				@endforeach
+			@endif
+
+			{{ $cost }} BDT
 		</td>
 		<td><a href="{{ route('admin_articles.edit', $article->id) }}"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
 		<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete{{++$key}}" ><span class="glyphicon glyphicon-trash"></span></button></p></td>

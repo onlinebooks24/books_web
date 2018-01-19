@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ProductOrder;
 use App\Models\SiteCost;
+use App\Models\SiteCostType;
 use Illuminate\Http\Request;
 use Session;
 
@@ -28,7 +29,8 @@ class AdminSiteCostsController extends Controller
      */
     public function create()
     {
-        //
+        $site_cost_types = SiteCostType::all();
+        return view('admin.site_costs.create', compact('site_cost_types'));
     }
 
     /**
@@ -39,9 +41,25 @@ class AdminSiteCostsController extends Controller
      */
     public function store(Request $request)
     {
+
+        $description = $request['description'];
+        $site_cost_type_id = $request['site_cost_type_id'];
+        $amount = $request['amount'];
+        $when_paid = $request['when_paid'];
+        $article_id = $request['article_id'];
+
+        $site_cost = new SiteCost();
+        $site_cost->description = $description;
+        $site_cost->site_cost_type_id = $site_cost_type_id;
+        $site_cost->amount = $amount;
+        $site_cost->when_paid = $when_paid;
+        $site_cost->article_id = $article_id;
+        $site_cost->save();
+
+        $flash_message = 'Successfully Saved';
         Session::flash('message', $flash_message);
 
-        return view('admin.product_orders.index');
+        return redirect()->to(route('admin_site_costs.index'));
     }
 
     /**
