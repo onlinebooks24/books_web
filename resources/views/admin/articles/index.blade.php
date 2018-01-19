@@ -32,6 +32,7 @@
        <thead>
        <th>id</th>
        <th>Title</th>
+       <th>User</th>
        <th>Count</th>
        <th>Orders</th>
        <th>Fee</th>
@@ -47,6 +48,7 @@
 	<tr>
 		<td>{{ $article->id }}</td>
 		<td>{{ $article->title }}</td>
+		<td>{{ $article->user->name }}</td>
 		<td>{{ Carbon\Carbon::parse($article->created_at)->toFormattedDateString() }}</td>
 		<td>{{ $article->count }}</td>
 		<td>{{ count($article->product_orders) }}</td>
