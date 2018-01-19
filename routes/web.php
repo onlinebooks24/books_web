@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web']] , function() {
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
 		Route::resource('/admin_uploads','Admin\AdminUploadsController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
+		Route::resource('/admin_product_orders','Admin\AdminProductOrdersController');
 	});
 
 	Route::get('/', [
