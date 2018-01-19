@@ -25,6 +25,7 @@ class CreateProductOrdersTable extends Migration
             $table->boolean('manually_inserted_on_article')->default(false); // suppose we have not included a product
             // in the python article. but user has bought is. we will manually insert this product on the article.
             $table->integer('article_id')->nullable();
+            $table->integer('product_type')->default(1);
             $table->timestamps();
         });
     }

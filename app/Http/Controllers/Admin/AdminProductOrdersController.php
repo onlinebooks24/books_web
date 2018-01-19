@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductOrder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use Session;
 
 class AdminProductOrdersController extends Controller
 {
@@ -42,36 +42,49 @@ class AdminProductOrdersController extends Controller
         $xmlResponse = file_get_contents($request['product_orders_file']);
         $xmlResponse = simplexml_load_string($xmlResponse);
         $xmlArray = json_decode(json_encode($xmlResponse), true);
+        $successfully_import_count = 0;
+        $failed_import_count = 0;
+
         foreach($xmlArray['Items']['Item'] as $item){
             $product_number = $item['@attributes']['ASIN'];
             $title = $item['@attributes']['title'];
             $shipment_date = $item['@attributes']['DateShipped'];
             $ad_fees = $item['@attributes']['AdFees'];
             $manually_inserted_on_article = false;
-
             $product_id = null;
             $article_id = null;
-            $check_product_exist = Product::where('isbn', $product_number)->first();
 
-            if(!empty($check_product_exist)){
-                $product_id = $check_product_exist->id;
-                $article_id = $check_product_exist->article->id;
+            $check_product_order_exist = ProductOrder::where('product_number', $product_number)
+                                                        ->where('shipment_date', $shipment_date)->first();
+            if(empty($check_product_order_exist)){
+                $check_product_exist = Product::where('isbn', $product_number)->first();
+
+                if(!empty($check_product_exist)){
+                    $product_id = $check_product_exist->id;
+                    $article_id = $check_product_exist->article->id;
+                }
+
+                $product_order = new ProductOrder();
+                $product_order->product_number = $product_number;
+                $product_order->title = $title;
+                $product_order->product_id = $product_id;
+                $product_order->shipment_date = $shipment_date;
+                $product_order->ad_fees = $ad_fees;
+                $product_order->manually_inserted_on_article = $manually_inserted_on_article;
+                $product_order->article_id = $article_id;
+                $product_order->product_type = 1; //Planning to add product type like amazon, ebay
+                $product_order->save();
+                $successfully_import_count++ ;
+            } else {
+                $failed_import_count++;
             }
-
-            $product_order = new ProductOrder();
-            $product_order->product_number = $product_number;
-            $product_order->title = $title;
-            $product_order->product_id = $product_id;
-            $product_order->shipment_date = $shipment_date;
-            $product_order->ad_fees = $ad_fees;
-            $product_order->manually_inserted_on_article = $manually_inserted_on_article;
-            $product_order->article_id = $article_id;
-            $product_order->save();
         }
 
+        $flash_message = "Successfully imported =>". $successfully_import_count . " and failed imported =>". $failed_import_count;
 
+        Session::flash('message', $flash_message);
 
-        dd('sb');
+        return view('admin.product_orders.index');
     }
 
     /**
