@@ -47,6 +47,7 @@
 	<tr>
 		<td>{{ $article->id }}</td>
 		<td>{{ $article->title }}</td>
+		<td>{{ Carbon\Carbon::parse($article->updated_at)->toFormattedDateString() }}</td>
 		<td>{{ $article->count }}</td>
 		<td>{{ count($article->product_orders) }}</td>
 		<td>
