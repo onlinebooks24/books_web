@@ -15,9 +15,13 @@ class AdminProductOrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $product_orders = ProductOrder::orderBy('created_at','desc')->Paginate(50);
+        if($request['unlinked'] == 'yes'){
+            $product_orders = ProductOrder::where('article_id', null)->orderBy('created_at','desc')->Paginate(50);
+        } else {
+            $product_orders = ProductOrder::orderBy('created_at','desc')->Paginate(50);
+        }
         return view('admin.product_orders.index', compact('product_orders'));
     }
 

@@ -19,6 +19,7 @@
         <li {{ Request::is('articles') ? 'class=active' : ''}}><a href="{{ route('admin_articles.index') }}">Articles</a></li>
         <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_auto_articles.index') }}">Auto Articles</a></li>
         <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_uploads.index') }}">Uploads</a></li>
+        <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_product_orders.index') }}">All Orders</a></li>
         @endif
         <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_articles.review_article') }}">Review Articles</a></li>
       </ul>

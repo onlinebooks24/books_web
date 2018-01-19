@@ -31,7 +31,7 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('created_at','desc')->Paginate(50);
+        $articles = Article::orderBy('created_at','desc')->Paginate(100);
         return view('admin.articles.index',['articles' => $articles]);
     }
 

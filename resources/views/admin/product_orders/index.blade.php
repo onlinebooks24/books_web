@@ -15,9 +15,18 @@
                 <input type="file" name="product_orders_file" placeholder="Please upload only amazon xml">
                 <input type="submit">
             </form>
+                <div class="pull-left">
+                    <h2>{{ app('request')->input('unlinked')? 'Unlinked' : 'All' }} product order Lists {{ $product_orders->total() }}</h2>
+                </div>
 
-                <h2>Product order Lists</h2>
-                <table class="table">
+                <div class="pull-right">
+                    @if(empty(app('request')->input('unlinked')))
+                        <a class="btn btn-success" href="{{ route('admin_product_orders.index') }}?unlinked=yes">View unlinked Product</a>
+                    @else
+                        <a class="btn btn-danger" href="{{ route('admin_product_orders.index') }}">View All Product</a>
+                    @endif
+                </div>
+                <table id="mytable" class="table table-bordred table-striped">
                     <thead>
                         <tr>
                             <th>Product Number</th>
@@ -45,19 +54,7 @@
                         @endforeach
                     </tbody>
                 </table>
-
-                <section>
-                    <nav>
-                        <ul class="pager">
-                            @if($product_orders->currentPage() !== 1)
-                                <li class="previous"><a href="{{ $product_orders->previousPageUrl() }}"><span aria-hidden="true">&larr;</span>Newer</a></li>
-                            @endif
-                            @if($product_orders->currentPage() !== $product_orders->lastPage() && $product_orders->hasPages())
-                                <li class="next"><a href="{{ $product_orders->nextPageUrl() }}">Older <span aria-hidden="true">&rarr;</span></a></li>
-                            @endif
-                        </ul>
-                    </nav>
-                </section>
+                {!! $product_orders->appends(\Input::except('page'))->render() !!}
         </div>
     </div>
 
