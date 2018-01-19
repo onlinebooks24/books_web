@@ -85,7 +85,7 @@
              <h2>
                   <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
               </h2>
-              <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }}  by <span class="author-name">{{$article->user->name }}</span></p>
+              <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }}  by <span class="author-name">onlinebooksreview</span></p>
               <!-- <hr>
               <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
              @foreach($uploads as $upload)

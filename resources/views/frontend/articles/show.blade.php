@@ -30,7 +30,7 @@
                                     <a href="#" class="entry-author__url">
                                         <img src="img/blog/author.png" class="entry-author__img" alt="">
                                         <span>by</span>
-                                        <span class="entry-author__name">{{ $article->user->name }}</span>
+                                        <span class="entry-author__name">onlinebooksreview</span>
                                     </a>
                                 </div>
                             </li>

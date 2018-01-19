@@ -86,7 +86,7 @@
                                         {{ $article->created_at->format('m-d-Y') }}
                                     </li>
                                     <li class="entry__meta-author">
-                                        by <a href="#">{{ $article->user->name }}</a>
+                                        by <a href="#">onlinebooksreview</a>
                                     </li>
                                 </ul>
                             </div>

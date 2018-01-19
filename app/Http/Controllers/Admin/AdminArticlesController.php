@@ -21,6 +21,7 @@ use Date;
 use App\Models\Upload;
 use App\Models\Product;
 use App\Helpers\Helper;
+use App\User;
 
 class AdminArticlesController extends Controller
 {
@@ -134,6 +135,7 @@ class AdminArticlesController extends Controller
      */
     public function edit($id)
     {
+        $users = User::all();
         $article = Article::find($id);
         $categories = Category::where('parent_id', '1000')->orderBy('name','asc')->get();
         $products = Product::where('article_id',$id)->orderBy('created_at','asc')->get();
@@ -142,7 +144,11 @@ class AdminArticlesController extends Controller
             $image_exist = Upload::find($article->thumbnail_id);
         }
 
-        return view ('admin.articles.edit',['article'=>$article, 'categories'=>$categories,'products'=>$products,'image_exist'=>$image_exist]);
+        return view ('admin.articles.edit',['article'=>$article,
+            'categories'=>$categories,
+            'products'=>$products,
+            'image_exist'=>$image_exist,
+            'users' => $users]);
     }
 
     /**
@@ -161,6 +167,7 @@ class AdminArticlesController extends Controller
 
         $article = Article::find($id);
         $article->title = $request['title'];
+        $article->user_id = $request['user_id'];
 
         if (!$article->status){
             $slug = strtolower($request['slug']);
@@ -169,7 +176,7 @@ class AdminArticlesController extends Controller
         }
 
 
-        $article->user_id = Auth::user()->id ;
+        $article->user_id = $request['user_id'] ;
         if(!empty($request['category_id'])){
             $article->category_id = $request['category_id'];
         }

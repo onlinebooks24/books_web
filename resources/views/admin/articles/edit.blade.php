@@ -61,6 +61,18 @@
                     <textarea class="form-control" name="meta_description" type="text" required>{{ $article->meta_description }}</textarea>
                 </div>
 
+                @if(Auth::user()->roleType->name == 'admin')
+                    <div class="form-group">
+                        <div>Select Username here:</div>
+                        <select class="form-control" name="user_id" data-value="1">
+                            <option value="">Select Username</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id}}" {{ $article->user_id == $user->id ? 'selected'  : '' }} > {{ $user->name }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+
                 <input type="hidden" value="{{ $article->category_id }}" name="category_id" class="category_id_value">
 
                 <div class="top10 bottom5">Already you have selected <strong>{{ $article->category->name }}</strong>. If you want to change, please select again</div>
