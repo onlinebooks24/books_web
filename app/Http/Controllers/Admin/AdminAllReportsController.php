@@ -34,8 +34,19 @@ class AdminAllReportsController extends Controller
 
         $site_costs = SiteCost::all();
 
+        $all_costs = [];
+        $total_costs = 0;
+        $tmp_cost = 0;
+
+        foreach($site_costs as $site_cost){
+            $cost_type_name = $site_cost->site_cost_type->name;
+            $all_costs[(string)$cost_type_name] = $tmp_cost + $site_cost->amount;
+            $tmp_cost = $site_cost->amount;
+            $total_costs += $site_cost->amount;
+        }
+
         return view('admin.all_reports.index', compact('total_sell_from_article',
-            'site_costs', 'total_sell_from_non_article', 'total_whole_sell'));
+            'site_costs', 'total_sell_from_non_article', 'total_whole_sell', 'all_costs', 'total_costs'));
     }
 
     /**

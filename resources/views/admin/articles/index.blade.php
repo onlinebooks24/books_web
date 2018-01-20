@@ -61,7 +61,7 @@
 				@endforeach
 			@endif
 
-			{{ $fee * 80 }} BDT
+			{{ $fee * config('constants.dollar_rate') }} BDT
 		</td>
 
 		<td>

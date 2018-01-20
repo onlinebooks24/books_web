@@ -17,20 +17,25 @@
                 <a class="btn btn-success" href="{{ route('admin_site_costs.create') }}">Add New Cost</a>
             </div>
 
+            <div class="clearfix"></div>
             <div class="row">
-                <div class="col-md-12">
-                    <div>
-                        Total whole sell: {{ $total_whole_sell * 80 }} BDT
+                <div class="col-md-6">
+                    <h5>Sell and Cost</h5>
+                    <div class="alert alert-info">
+                        Total whole sell: {{ $total_whole_sell * config('constants.dollar_rate') }} BDT
                     </div>
-                    <div>
-                        Total sell from article: {{ $total_sell_from_article * 80 }} BDT
+                    <div class="alert alert-success">
+                        Total sell from article: {{ $total_sell_from_article * config('constants.dollar_rate') }} BDT
                     </div>
-                    <div>
-                        Total sell from non articles: {{ $total_sell_from_non_article * 80 }} BDT
+                    <div class="alert alert-success">
+                        Total sell from non articles: {{ $total_sell_from_non_article * config('constants.dollar_rate') }} BDT
                     </div>
-                    <div>
-                        Total cost on articles: {{ $total_sell_from_non_article }} BDT
-                    </div>
+
+
+                    <div class="alert alert-info">Total Cost: {{ $total_costs }} BDT</div>
+                    @foreach($all_costs as $key=> $value)
+                        <div class="alert alert-danger">{{ $key }} cost: {{ $value }} BDT</div>
+                    @endforeach
                 </div>
             </div>
         </div>
