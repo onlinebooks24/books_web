@@ -10,11 +10,35 @@
                 <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
             @endif
 
-            <form action="{{ route('admin_product_orders.store') }}" method="post" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                <input type="file" name="product_orders_file" placeholder="Please upload only amazon xml">
-                <input type="submit">
-            </form>
+                <div class="pull-left">
+                    <div class="well pull-left">
+                        <div>Upload here earning xml file</div>
+                        <form action="{{ route('admin_product_orders.store') }}" method="post" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <input type="hidden" name="xml_type" value="earning">
+                                <input type="file" name="product_orders_file" class="form-control" placeholder="Please upload only amazon xml">
+                            </div>
+                            <input type="submit" class="btn btn-success">
+                        </form>
+                    </div>
+
+                    <div class="well pull-left left10">
+                        <div>Upload here bounty xml file</div>
+                        <form action="{{ route('admin_product_orders.store') }}" method="post" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <input type="hidden" name="xml_type" value="bounty">
+                                <input type="file" name="product_orders_file" class="form-control" placeholder="Please upload only amazon xml">
+                            </div>
+                            <input type="submit" class="btn btn-success">
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
+
                 <div class="pull-left">
                     <h2>{{ app('request')->input('unlinked')? 'Unlinked' : 'All' }} product order Lists {{ $product_orders->total() }}</h2>
                 </div>
