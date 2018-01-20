@@ -20,7 +20,7 @@
             <div class="clearfix"></div>
             <div class="row">
                 <div class="col-md-6">
-                    <h5>Sell and Cost</h5>
+                    <h5>Sell:</h5>
                     <div class="alert alert-info">
                         Total whole sell: {{ $total_whole_sell * config('constants.dollar_rate') }} BDT
                     </div>
@@ -31,7 +31,9 @@
                         Total sell from non articles: {{ $total_sell_from_non_article * config('constants.dollar_rate') }} BDT
                     </div>
 
-
+                    <h5>
+                        Cost:
+                    </h5>
                     <div class="alert alert-info">
                         <div class="bottom5">Total Cost: {{ $total_costs }} BDT</div>
                         @foreach($individual_cost as $key => $value)
