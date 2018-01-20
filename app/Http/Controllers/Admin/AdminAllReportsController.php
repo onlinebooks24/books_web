@@ -58,6 +58,7 @@ class AdminAllReportsController extends Controller
         }
 
         $articles = Article::where('status', true)->orderBy('created_at', 'desc')->get();
+        $last_article = Article::where('status', true)->orderBy('id', 'desc')->first();
 
         $total_articles = [];
         $individual_articles = [];
@@ -76,12 +77,11 @@ class AdminAllReportsController extends Controller
                 $individual_articles[(string)$username] = 0;
             }
             $individual_articles[(string)$username] += 1;
-
         }
 
         return view('admin.all_reports.index', compact('total_sell_from_article',
             'site_costs', 'total_sell_from_non_article', 'total_whole_sell',
-            'all_costs', 'total_costs', 'articles', 'total_articles', 'individual_costs',
+            'all_costs', 'total_costs', 'articles', 'last_article', 'total_articles', 'individual_costs',
         'individual_articles'));
     }
 

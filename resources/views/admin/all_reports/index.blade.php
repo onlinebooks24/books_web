@@ -9,12 +9,12 @@
             @if(Session::has('message'))
                 <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
             @endif
-            <div class="pull-left">
+            <div>
                 <h2>All Reports</h2>
             </div>
 
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('admin_site_costs.create') }}">Add New Cost</a>
+            <div class="text-center">
+                <h2 class="alert alert-danger">Last You have published a article {{$last_article->created_at->diffForHumans()}}. Publish new article as early as possible.</h2>
             </div>
 
             <div class="clearfix"></div>
