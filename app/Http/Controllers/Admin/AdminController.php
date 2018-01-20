@@ -11,7 +11,7 @@ class AdminController extends Controller
 
 	public function index()
 	{
-		return view('admin.index');
+		return redirect()->to(route('admin_all_reports.index'));
 	}
 
     public function getlogout()

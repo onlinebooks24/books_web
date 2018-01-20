@@ -101,7 +101,7 @@
 
 
                 <nav>
-                    <ul class="pager">
+                    <ul class="pager top10">
                         @if($articles->currentPage() !== 1)
                             <div class="pagination clearfix">
                                 <div class="pagination__link left">
