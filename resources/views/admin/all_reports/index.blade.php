@@ -37,6 +37,16 @@
                         <div class="alert alert-danger">{{ $key }} cost: {{ $value }} BDT</div>
                     @endforeach
                 </div>
+                <div class="col-md-6">
+                    <h5>Article publish ratio</h5>
+                    <div class="row">
+                        @foreach($total_articles as $key => $value)
+                            <div class="col-md-6">
+                                <div class="alert alert-success">{{ $key }}: {{ $value }}</div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
     </div>

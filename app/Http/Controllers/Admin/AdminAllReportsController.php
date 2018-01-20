@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use Session;
+use Carbon\Carbon;
 use App\Models\ProductOrder;
 use App\Models\SiteCost;
 
@@ -36,17 +38,31 @@ class AdminAllReportsController extends Controller
 
         $all_costs = [];
         $total_costs = 0;
-        $tmp_cost = 0;
 
-        foreach($site_costs as $site_cost){
+        foreach($site_costs as $key => $site_cost){
             $cost_type_name = $site_cost->site_cost_type->name;
-            $all_costs[(string)$cost_type_name] = $tmp_cost + $site_cost->amount;
-            $tmp_cost += $site_cost->amount;
+            if(!isset($all_costs[(string)$cost_type_name])){
+                $all_costs[(string)$cost_type_name] = 0;
+            }
+
+            $all_costs[(string)$cost_type_name] += $site_cost->amount;
             $total_costs += $site_cost->amount;
+        }
+        $articles = Article::orderBy('created_at', 'desc')->get();
+
+        $total_articles = [];
+
+        foreach($articles as $article){
+            $date = Carbon::parse($article->created_at)->format('Y_F');
+            if(!isset($total_articles[(string)$date])){
+                $total_articles[(string)$date] = 0;
+            }
+            $total_articles[(string)$date] += 1;
         }
 
         return view('admin.all_reports.index', compact('total_sell_from_article',
-            'site_costs', 'total_sell_from_non_article', 'total_whole_sell', 'all_costs', 'total_costs'));
+            'site_costs', 'total_sell_from_non_article', 'total_whole_sell',
+            'all_costs', 'total_costs', 'articles', 'total_articles'));
     }
 
     /**
