@@ -41,6 +41,7 @@ class AdminAllReportsController extends Controller
         foreach($site_costs as $site_cost){
             $cost_type_name = $site_cost->site_cost_type->name;
             $all_costs[(string)$cost_type_name] = $tmp_cost + $site_cost->amount;
+            dd($all_costs);
             $tmp_cost = $site_cost->amount;
             $total_costs += $site_cost->amount;
         }
