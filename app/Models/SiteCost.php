@@ -16,4 +16,9 @@ class SiteCost extends Model
         return $this->belongsTo('App\Models\SiteCostType');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
 }

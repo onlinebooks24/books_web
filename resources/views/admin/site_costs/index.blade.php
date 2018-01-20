@@ -23,6 +23,7 @@
                     <th>Site Cost Type</th>
                     <th>Amount</th>
                     <th>When Paid</th>
+                    <th>User</th>
                     <th>Article</th>
                 </tr>
                 </thead>
@@ -33,6 +34,7 @@
                         <td>{{ $site_cost->site_cost_type->name }}</td>
                         <td>{{ $site_cost->amount }} BDT</td>
                         <td>{{ $site_cost->when_paid }} </td>
+                        <td>{{ $site_cost->user->name }} </td>
                         <td>
                             @if(!empty($site_cost->article))
                                 {{ $site_cost->article->title }}
