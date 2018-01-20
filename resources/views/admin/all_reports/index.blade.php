@@ -32,7 +32,13 @@
                     </div>
 
 
-                    <div class="alert alert-info">Total Cost: {{ $total_costs }} BDT</div>
+                    <div class="alert alert-info">
+                        <div class="bottom5">Total Cost: {{ $total_costs }} BDT</div>
+                        @foreach($individual_cost as $key => $value)
+                            <span class="btn btn-success">{{ $key }} cost: {{ $value }} BDT</span>
+                        @endforeach
+                    </div>
+
                     @foreach($all_costs as $key=> $value)
                         <div class="alert alert-danger">{{ $key }} cost: {{ $value }} BDT</div>
                     @endforeach

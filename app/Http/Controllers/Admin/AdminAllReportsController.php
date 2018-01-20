@@ -37,17 +37,26 @@ class AdminAllReportsController extends Controller
         $site_costs = SiteCost::all();
 
         $all_costs = [];
+        $individual_cost = [];
         $total_costs = 0;
 
         foreach($site_costs as $key => $site_cost){
             $cost_type_name = $site_cost->site_cost_type->name;
+            $username = $site_cost->user->name;
             if(!isset($all_costs[(string)$cost_type_name])){
                 $all_costs[(string)$cost_type_name] = 0;
             }
-
             $all_costs[(string)$cost_type_name] += $site_cost->amount;
+
+            if(!isset($individual_cost[(string)$username])){
+                $individual_cost[(string)$username] = 0;
+            }
+
+            $individual_cost[(string)$username] += $site_cost->amount;
+
             $total_costs += $site_cost->amount;
         }
+
         $articles = Article::where('status', true)->orderBy('created_at', 'desc')->get();
 
         $total_articles = [];
@@ -62,7 +71,7 @@ class AdminAllReportsController extends Controller
 
         return view('admin.all_reports.index', compact('total_sell_from_article',
             'site_costs', 'total_sell_from_non_article', 'total_whole_sell',
-            'all_costs', 'total_costs', 'articles', 'total_articles'));
+            'all_costs', 'total_costs', 'articles', 'total_articles', 'individual_cost'));
     }
 
     /**
