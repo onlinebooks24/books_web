@@ -44,11 +44,11 @@
                         </ul>
                     </div>
 
-                    <div class="entry__img-holder">
+                    <div class="entry__img-holder text-center">
                         @foreach($uploads as $upload)
                             @php if($upload->id == $article->thumbnail_id){ @endphp
                             <figure>
-                                <img src="{{ $upload->folder_path.'/'.$upload->name }}" alt="" class="entry__img">
+                                <img src="{{ $upload->folder_path.'/'.$upload->name }}" alt="" class="img-responsive">
                             </figure>
                             @php } @endphp
                         @endforeach
