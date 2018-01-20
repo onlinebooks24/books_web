@@ -32,7 +32,7 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('created_at','desc')->Paginate(100);
+        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(100);
         return view('admin.articles.index',['articles' => $articles]);
     }
 
@@ -269,6 +269,7 @@ class AdminArticlesController extends Controller
             $article->status = false;
         } else {
             $article->waiting_for_approval = false;
+            $article->created_at = Carbon::now();
             $article->status = true;
         }
 

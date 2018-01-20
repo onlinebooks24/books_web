@@ -33,6 +33,7 @@
        <th>id</th>
        <th>Title</th>
        <th>User</th>
+       <th>Created at</th>
        <th>Count</th>
        <th>Orders</th>
        <th>Fee</th>
