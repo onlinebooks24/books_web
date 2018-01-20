@@ -37,7 +37,7 @@ class AdminAllReportsController extends Controller
         $site_costs = SiteCost::all();
 
         $all_costs = [];
-        $individual_cost = [];
+        $individual_costs = [];
         $total_costs = 0;
 
         foreach($site_costs as $key => $site_cost){
@@ -48,11 +48,11 @@ class AdminAllReportsController extends Controller
             }
             $all_costs[(string)$cost_type_name] += $site_cost->amount;
 
-            if(!isset($individual_cost[(string)$username])){
-                $individual_cost[(string)$username] = 0;
+            if(!isset($individual_costs[(string)$username])){
+                $individual_costs[(string)$username] = 0;
             }
 
-            $individual_cost[(string)$username] += $site_cost->amount;
+            $individual_costs[(string)$username] += $site_cost->amount;
 
             $total_costs += $site_cost->amount;
         }
@@ -60,6 +60,7 @@ class AdminAllReportsController extends Controller
         $articles = Article::where('status', true)->orderBy('created_at', 'desc')->get();
 
         $total_articles = [];
+        $individual_articles = [];
 
         foreach($articles as $article){
             $date = Carbon::parse($article->created_at)->format('Y_F');
@@ -67,11 +68,21 @@ class AdminAllReportsController extends Controller
                 $total_articles[(string)$date] = 0;
             }
             $total_articles[(string)$date] += 1;
+
+
+            $username = $article->user->name;
+
+            if(!isset($individual_articles[(string)$username])){
+                $individual_articles[(string)$username] = 0;
+            }
+            $individual_articles[(string)$username] += 1;
+
         }
 
         return view('admin.all_reports.index', compact('total_sell_from_article',
             'site_costs', 'total_sell_from_non_article', 'total_whole_sell',
-            'all_costs', 'total_costs', 'articles', 'total_articles', 'individual_cost'));
+            'all_costs', 'total_costs', 'articles', 'total_articles', 'individual_costs',
+        'individual_articles'));
     }
 
     /**

@@ -36,7 +36,7 @@
                     </h5>
                     <div class="alert alert-info">
                         <div class="bottom5">Total Cost: {{ $total_costs }} BDT</div>
-                        @foreach($individual_cost as $key => $value)
+                        @foreach($individual_costs as $key => $value)
                             <span class="btn btn-success">{{ $key }} cost: {{ $value }} BDT</span>
                         @endforeach
                     </div>
@@ -51,6 +51,15 @@
                         @foreach($total_articles as $key => $value)
                             <div class="col-md-6">
                                 <div class="alert alert-success">{{ $key }}: {{ $value }}</div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <h5>Who has written articles</h5>
+                    <div class="row">
+                        @foreach($individual_articles as $key => $value)
+                            <div class="col-md-5 btn btn-warning top5 left5">
+                                <div>{{ $key }}: {{ $value }}</div>
                             </div>
                         @endforeach
                     </div>
