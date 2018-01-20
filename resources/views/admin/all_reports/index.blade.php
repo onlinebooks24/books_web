@@ -23,7 +23,7 @@
                         Total sell from article: {{ $total_sell_from_article * 80 }} BDT
                     </div>
                     <div>
-                        Total sell from non articles: {{ $total_sell_from_non_article }} BDT
+                        Total sell from non articles: {{ $total_sell_from_non_article * 80 }} BDT
                     </div>
                     <div>
                         Total cost on articles: {{ $total_sell_from_non_article }} BDT
