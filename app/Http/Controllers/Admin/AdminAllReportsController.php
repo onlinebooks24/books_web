@@ -48,7 +48,7 @@ class AdminAllReportsController extends Controller
             $all_costs[(string)$cost_type_name] += $site_cost->amount;
             $total_costs += $site_cost->amount;
         }
-        $articles = Article::orderBy('created_at', 'desc')->get();
+        $articles = Article::where('status', true)->orderBy('created_at', 'desc')->get();
 
         $total_articles = [];
 
