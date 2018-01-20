@@ -33,12 +33,11 @@
        <th>id</th>
        <th>Title</th>
        <th>User</th>
-       <th>Count</th>
+	   <th>Created at</th>
+	   <th>Count</th>
        <th>Orders</th>
        <th>Fee</th>
        <th>Site Cost</th>
-	   <th>who is</th>
-	   <th>Created at</th>
 	   <th>Edit</th>
        <th>Delete</th>
        <th>Publish</th>
@@ -75,13 +74,7 @@
 
 			{{ $cost }} BDT
 		</td>
-		<td>
-			@if(!empty($article->site_costs))
-				@foreach($article->site_costs as $item)
-					{{ $item->description }}
-				@endforeach
-			@endif
-		</td>
+
 		<td><a href="{{ route('admin_articles.edit', $article->id) }}"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
 		<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete{{++$key}}" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
 		<td>
