@@ -21,23 +21,26 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5>Sell:</h5>
-                    <div class="alert alert-info">
-                        Total whole sell: {{ $total_whole_sell * config('constants.dollar_rate') }} BDT
-                    </div>
                     <div class="alert alert-success">
-                        Total sell from article: {{ $total_sell_from_article * config('constants.dollar_rate') }} BDT
+                        <div class="bottom5">
+                            Total whole sell: {{ $total_whole_sell * config('constants.dollar_rate') }} BDT
+                        </div>
+                        <span class="btn btn-success">
+                            Total sell from article: {{ $total_sell_from_article * config('constants.dollar_rate') }} BDT
+                        </span>
+                        <span class="btn btn-success">
+                            Total sell from non articles: {{ $total_sell_from_non_article * config('constants.dollar_rate') }} BDT
+                        </span>
                     </div>
-                    <div class="alert alert-success">
-                        Total sell from non articles: {{ $total_sell_from_non_article * config('constants.dollar_rate') }} BDT
-                    </div>
+
 
                     <h5>
                         Cost:
                     </h5>
-                    <div class="alert alert-info">
+                    <div class="alert alert-danger">
                         <div class="bottom5">Total Cost: {{ $total_costs }} BDT</div>
                         @foreach($individual_costs as $key => $value)
-                            <span class="btn btn-success">{{ $key }} cost: {{ $value }} BDT</span>
+                            <span class="btn btn-danger">{{ $key }} cost: {{ $value }} BDT</span>
                         @endforeach
                     </div>
 
@@ -50,7 +53,7 @@
                     <div class="row">
                         @foreach($total_articles as $key => $value)
                             <div class="col-md-6">
-                                <div class="alert alert-success">{{ $key }}: {{ $value }}</div>
+                                <div class="alert alert-info">{{ $key }}: {{ $value }}</div>
                             </div>
                         @endforeach
                     </div>
