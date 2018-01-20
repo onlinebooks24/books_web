@@ -110,7 +110,8 @@ class AdminProductOrdersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product_order = ProductOrder::find($id);
+        return view('admin.product_orders.edit', compact('product_order'));
     }
 
     /**
@@ -120,9 +121,23 @@ class AdminProductOrdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update()
+    public function update(Request $request, $id)
     {
+        $product_order = ProductOrder::find($id);
+        $product_order->product_number = $request['product_number'];
+        $product_order->title = $request['title'];
+        $product_order->product_id = $request['product_id'];
+        $product_order->shipment_date = $request['shipment_date'];
+        $product_order->ad_fees = $request['ad_fees'];
+        $product_order->manually_inserted_on_article = $request['manually_inserted_on_article'];
+        $product_order->article_id = $request['article_id'];
+        $product_order->product_type = $request['product_type'];
+        $product_order->save();
 
+        $flash_message = 'Successfully updated';
+        Session::flash('message', $flash_message);
+
+        return redirect()->to(route('admin_product_orders.index') . '?unlinked=yes');
     }
 
     /**
