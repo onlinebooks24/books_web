@@ -19,6 +19,7 @@ class AdminAllReportsController extends Controller
     {
         $product_orders = ProductOrder::all();
 
+        $total_whole_sell = 0;
         $total_sell_from_article = 0;
         $total_sell_from_non_article = 0;
         foreach($product_orders as $product_order){
@@ -29,10 +30,12 @@ class AdminAllReportsController extends Controller
             }
         }
 
+        $total_whole_sell = $total_sell_from_non_article + $total_sell_from_article;
+
         $site_costs = SiteCost::all();
 
         return view('admin.all_reports.index', compact('total_sell_from_article',
-            'site_costs', 'total_sell_from_non_article'));
+            'site_costs', 'total_sell_from_non_article', 'total_whole_sell'));
     }
 
     /**

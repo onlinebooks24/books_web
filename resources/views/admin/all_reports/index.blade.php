@@ -20,6 +20,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div>
+                        Total whole sell: {{ $total_whole_sell * 80 }} BDT
+                    </div>
+                    <div>
                         Total sell from article: {{ $total_sell_from_article * 80 }} BDT
                     </div>
                     <div>
