@@ -28,6 +28,7 @@ class CreateSiteCostTypesTable extends Migration
             $table->integer('amount')->nullable();
             $table->dateTime('when_paid');
             $table->integer('article_id')->nullable();
+            $table->integer('user_id')->default(1);
             $table->timestamps();
         });
     }

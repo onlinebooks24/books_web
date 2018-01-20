@@ -29,6 +29,9 @@
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="article_id" name="article_id">
                 </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="user_id" value="1"  name="user_id">
+                </div>
                 <input type="submit" value="submit">
             </form>
         </div>

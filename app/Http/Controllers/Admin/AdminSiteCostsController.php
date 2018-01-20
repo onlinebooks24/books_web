@@ -48,6 +48,7 @@ class AdminSiteCostsController extends Controller
         $amount = $request['amount'];
         $when_paid = $request['when_paid'];
         $article_id = $request['article_id'];
+        $user_id = $request['user_id'];
 
         if(!empty($article_id)){
             $article = Article::find($article_id);
@@ -60,6 +61,7 @@ class AdminSiteCostsController extends Controller
         $site_cost->amount = $amount;
         $site_cost->when_paid = $when_paid;
         $site_cost->article_id = $article_id;
+        $site_cost->user_id = $user_id;
         $site_cost->save();
 
         $flash_message = 'Successfully Saved';
