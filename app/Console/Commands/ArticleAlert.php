@@ -38,10 +38,10 @@ class ArticleAlert extends Command
      */
     public function handle()
     {
-        $voice_message = "I am from online books review. Please complete javascript article as soon as possible.";
+        $voice_message = "I am from online books review. Please publish new article as soon as possible ";
         $voice_message =  $voice_message. 'I again repeat '. $voice_message;
 
-        $voice_message_url = route('voice_call.call_template', $voice_message);
+        $voice_message_url = 'https://www.onlinebooksreview.com/voice_call/call_template/'. $voice_message;
 
         $client = new RestClient("MAMDY4ZJNJYTQ0MZJKMZ", "ZjFiNDNjMDNkOTEzNmJjMmVjYjJiZTc2OTViMmFi");
         $call_made = $client->calls->create(
