@@ -22,6 +22,8 @@ class CreateRoleTypesTable extends Migration
 
         Schema::table('users', function($table) {
             $table->integer('role_type_id');
+            $table->boolen('suspend')->default(false);
+            $table->string('phone')->nullable();
         });
     }
 
