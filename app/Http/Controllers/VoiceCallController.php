@@ -15,14 +15,14 @@ class VoiceCallController extends Controller
      */
     public function index(){
         $voice_message = "I am from online books review. Please complete javascript article as soon as possible.";
-        $voice_message =  $voice_message. 'I repeat '. $voice_message;
+        $voice_message =  $voice_message. 'I again repeat '. $voice_message;
 
         $voice_message_url = route('voice_call.call_template', $voice_message);
 
         $client = new RestClient("MAMDY4ZJNJYTQ0MZJKMZ", "ZjFiNDNjMDNkOTEzNmJjMmVjYjJiZTc2OTViMmFi");
         $call_made = $client->calls->create(
             '+14154847489',
-            ['+8801670633325'],
+            ['+8801823387518'],
             $voice_message_url,
             'GET'
         );
