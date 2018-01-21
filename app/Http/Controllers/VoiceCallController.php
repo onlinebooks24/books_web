@@ -14,8 +14,8 @@ class VoiceCallController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-//        $accountId = 'AC77bc03c12cfc693c2370916305199de9';
-//        $token = '1c69bd849e86cd12e3aec1d042241091';
+//        $accountId = env('twilioKeyAccountId');
+//        $token = env('twilioKeySecret');
 //        $fromNumber = '+16138006902';
 //        $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
 //        $test = $twilio->call('+8801996476778', function ($message) {
@@ -29,18 +29,21 @@ class VoiceCallController extends Controller
         $created = new Carbon($last_article->created_at);
         $now = Carbon::now();
         $difference = ($created->diff($now)->days);
+        global $voice_message;
         $voice_message = "Hi Mashpy. Hope you are fine. I am from online books review. Please publish new article as soon as possible ";
         $voice_message =  $voice_message. 'I again repeat '. $voice_message;
 
         if($difference >= 1){
-            $accountId = 'AC77bc03c12cfc693c2370916305199de9';
-            $token = '1c69bd849e86cd12e3aec1d042241091';
+            $accountId = env('twilioKeyAccountId');
+            $token = env('twilioKeySecret');
             $fromNumber = '+16138006902';
-            $phone_no = '+880670633325';
+            $phone_no = '+8801670633325';
             $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
-            $url = 'https://www.onlinebooksreview.com//voice_call/call_template/' . $voice_message;
-            dd($url);
-            $twilio->call($phone_no, $url);
+            $test = $twilio->call($phone_no, function ($message) {
+                $message->say('av');
+            });
+
+            dd($test);
         }
 
 

@@ -46,8 +46,8 @@ class ArticleAlert extends Command
         $difference = ($created->diff($now)->days);
 
         if($difference >= 1){
-            $accountId = 'AC77bc03c12cfc693c2370916305199de9';
-            $token = '1c69bd849e86cd12e3aec1d042241091';
+            $accountId = env('twilioKeyAccountId');
+            $token = env('twilioKeySecret');
             $fromNumber = '+16138006902';
             $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
             $test = $twilio->call('+8801670633325', function ($message) {
