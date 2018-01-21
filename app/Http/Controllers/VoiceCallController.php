@@ -33,7 +33,7 @@ class VoiceCallController extends Controller
         $voice_message = "Hi Mashpy. Hope you are fine. I am from online books review. Please publish new article as soon as possible ";
         $voice_message =  $voice_message. 'I again repeat '. $voice_message;
 
-        if($difference >= 1){
+        if($difference >= 1 || true){
             $accountId = env('twilioKeyAccountId');
             $token = env('twilioKeySecret');
             $fromNumber = '+16138006902';
