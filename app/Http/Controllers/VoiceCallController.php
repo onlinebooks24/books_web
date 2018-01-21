@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Plivo\RestClient;
-use Plivo\XML\Response;
 use Auth;
 
 class VoiceCallController extends Controller
@@ -14,6 +12,15 @@ class VoiceCallController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+        $accountId = 'AC77bc03c12cfc693c2370916305199de9';
+        $token = '1c69bd849e86cd12e3aec1d042241091';
+        $fromNumber = '+16138006902';
+        $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+        $test = $twilio->call('+8801670633325', function ($message) {
+            $message->say('Listen this song:');
+            $message->play('http://banglasongs.fusionbd.com/downloads/download.php?file=mp3/bangla/Pritom-Pritom_Hasan/04.Mayer_Kole-Pritom_ft._Momtaz_FusionBD.Com.mp3', ['loop' => 1]);
+        });
+
 //        $voice_message = "I am from online books review. Please complete javascript article as soon as possible.";
 //        $voice_message =  $voice_message. 'I again repeat '. $voice_message;
 //
