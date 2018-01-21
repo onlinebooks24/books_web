@@ -15,7 +15,7 @@
 
                     <div class="col-xs-6 col-xs-offset-3">
                         <h2>Add Your Books</h2>
-                        <p>If you want to add your book, please contact us at the e-mail address below:</p><p>Email: <a style="font-size:16px" href="mailto:onlinebooksreview@gmail.com">onlinebooksreview@gmail.com</a></p>
+                        <p>If you want to add your book, please contact us at the e-mail address below:</p><p>Email: <a style="font-size:16px" href="mailto:info@onlinebooksreview.com">info@onlinebooksreview.com</a></p>
                         <br>
                         <br>
                         <br>
