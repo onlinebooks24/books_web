@@ -104,6 +104,16 @@ Route::group(['middleware' => ['web']] , function() {
 		return View::make('frontend.other.terms_of_service');
 	});
 
+	Route::get('/voice_call/' , [
+		'uses' => 'VoiceCallController@index',
+		'as' => 'voice_call.index'
+	]);
+
+	Route::get('/voice_call/call_template' , [
+		'uses' => 'VoiceCallController@call_template',
+		'as' => 'voice_call.call_template'
+	]);
+
 	Route::get('/basicemail', [
 		'uses' => 'MailController@basic_email',
 		'as' => 'mail'
