@@ -58,7 +58,7 @@ class AdminAllReportsController extends Controller
         }
 
         $articles = Article::where('status', true)->orderBy('created_at', 'desc')->get();
-        $last_article = Article::where('status', true)->orderBy('id', 'desc')->first();
+        $last_article = Article::where('status', true)->orderBy('created_at', 'desc')->first();
 
         $total_articles = [];
         $individual_articles = [];
