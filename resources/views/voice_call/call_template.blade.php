@@ -1,5 +1,5 @@
 <Response>
     <Speak>
-        Congratulations! You've made your first outbound call!
+        {{ $voice_message }}
     </Speak>
 </Response>

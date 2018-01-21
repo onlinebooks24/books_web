@@ -14,9 +14,10 @@ class VoiceCallController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $voice_message_url = route('voice_call.call_template');
+        $voice_message = "I am from online books review. Please complete javascript article as soon as possible.";
+        $voice_message =  $voice_message. 'I repeat '. $voice_message;
 
-//        dd($voice_message_url);
+        $voice_message_url = route('voice_call.call_template', $voice_message);
 
         $client = new RestClient("MAMDY4ZJNJYTQ0MZJKMZ", "ZjFiNDNjMDNkOTEzNmJjMmVjYjJiZTc2OTViMmFi");
         $call_made = $client->calls->create(
@@ -31,8 +32,8 @@ class VoiceCallController extends Controller
 
     }
 
-    public function call_template(){
-        $content = view('voice_call.call_template');
+    public function call_template($voice_message){
+        $content = view('voice_call.call_template', compact('voice_message'));
 
         return response($content, 200)
             ->header('Content-Type', 'text/xml');

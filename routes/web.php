@@ -109,7 +109,7 @@ Route::group(['middleware' => ['web']] , function() {
 		'as' => 'voice_call.index'
 	]);
 
-	Route::get('/voice_call/call_template' , [
+	Route::get('/voice_call/call_template/{voice_message}' , [
 		'uses' => 'VoiceCallController@call_template',
 		'as' => 'voice_call.call_template'
 	]);
