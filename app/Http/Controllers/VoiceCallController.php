@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Foundation\Auth\User;
 
 class VoiceCallController extends Controller
 {
@@ -25,27 +26,34 @@ class VoiceCallController extends Controller
 
 
         $last_article = Article::where('status', true)->orderBy('created_at', 'desc')->first();
-
+        $last_article_published_at = Carbon::parse($last_article->created_at)->format('l jS \\of F Y ');
         $created = new Carbon($last_article->created_at);
         $now = Carbon::now();
         $difference = ($created->diff($now)->days);
-        global $voice_message;
-        $voice_message = "Hi Mashpy. Hope you are fine. I am from online books review. Please publish new article as soon as possible ";
-        $voice_message =  $voice_message. 'I again repeat '. $voice_message;
 
-        if($difference >= 1 || true){
+        $send_call = null;
+
+        if($difference >= 1){
             $accountId = env('twilioKeyAccountId');
             $token = env('twilioKeySecret');
             $fromNumber = '+16138006902';
-            $phone_no = '+8801670633325';
-            $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
-            $test = $twilio->call($phone_no, function ($message) {
-                $message->say('av');
-            });
 
-            dd($test);
+            $admin_users = User::whereIn('id', [1,2])->get();
+
+            foreach($admin_users as $user){
+                $voice_message = ",.. Hi, $user->name. Hope you are fine. I am from online books review. "
+                    . " Last time you have published article on ". $last_article_published_at
+                    . ". Please publish new article, as soon as possible. Bye Bye. Take care.";
+
+                $phone_no = $user->phone;
+                $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+                $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
+                    $message->say($voice_message, ['voice' => 'woman', 'language' => 'en']);
+                });
+            }
         }
 
+        dd($send_call);
 
     }
 
