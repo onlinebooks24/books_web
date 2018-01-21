@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('----- Running Role Type Data Seeder -----');
         $this->call(RoleTypeSeeder::class);
         $this->call(SiteCostTypeSeeder::class);
+        $this->call(NotificationTypeSeeder::class);
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $this->command->info('----- Seeding Completed -----');
