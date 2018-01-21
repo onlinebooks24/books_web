@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
 use App\Models\Product;
-use App\Models\EmailSubscriber;
+use App\Models\ProductOrder;
 use Auth;
 use App\Models\Upload;
 use DB;
@@ -71,6 +71,11 @@ class ArticleController extends Controller
                 ->orderBy('created_at','desc')->get();
             $article = Article::where('slug' , $slug)->first();
 
+            $ordered_product_articles = ProductOrder::select('product_number', 'title')
+                                        ->where('article_id', $article->id)
+                                        ->where('manually_inserted_on_article', true)
+                                        ->distinct('product_number')->get();
+
             $related_articles = Article::where('status', true) ->orderBy(DB::raw('RAND()'))
                 ->take(3)
                 ->get();
@@ -91,7 +96,8 @@ class ArticleController extends Controller
                 'categories' => $categories,
                 'products' => $products,
                 'uploads' => $uploads,
-                'related_articles' => $related_articles]);
+                'related_articles' => $related_articles,
+                'ordered_product_articles' => $ordered_product_articles]);
         } else {
             setcookie("email", $request['email'], 2147483647);
             return redirect()->to(url()->current());

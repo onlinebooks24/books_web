@@ -118,6 +118,18 @@
                                {{ $article->conclusion }}
                             </div>
 
+                            @if(count($ordered_product_articles) > 0)
+                            <div style="border: 1px dashed grey; padding: 10px">
+                                <div>Also you can check these books:</div>
+                                @foreach($ordered_product_articles as $item)
+                                    <li>
+                                        <a class="bottom5" href="http://www.amazon.com/dp/{{$item->product_number}}/?tag=onlinebooksre-20" target="_blank">{{ $item->title }}</a>
+                                    </li>
+                                @endforeach
+                            </div>
+                            <br>
+                            @endif
+
                             <div>
                                 Thanks for reading this post. If you have any opinion don't hesitate to comment here. Also please subscribe our newsletter to get more updates.
                             </div>
