@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Plivo\RestClient;
+use App\Models\Article;
+use Carbon\Carbon;
 
 class ArticleAlert extends Command
 {
@@ -38,17 +40,25 @@ class ArticleAlert extends Command
      */
     public function handle()
     {
-        $voice_message = "I am from online books review. Please publish new article as soon as possible ";
-        $voice_message =  $voice_message. 'I again repeat '. $voice_message;
+        $last_article = Article::where('status', true)->orderBy('created_at', 'desc')->first();
 
-        $voice_message_url = 'https://www.onlinebooksreview.com/voice_call/call_template/'. $voice_message;
+        $created = new Carbon($last_article->created_at);
+        $now = Carbon::now();
+        $difference = ($created->diff($now)->days);
+        if($difference >= 1){
+            $voice_message = "Hi Mashpy. Hope you are fine. I am from online books review. Please publish new article as soon as possible ";
+            $voice_message =  $voice_message. 'I again repeat '. $voice_message;
 
-        $client = new RestClient("MAMDY4ZJNJYTQ0MZJKMZ", "ZjFiNDNjMDNkOTEzNmJjMmVjYjJiZTc2OTViMmFi");
-        $call_made = $client->calls->create(
-            '+14154847489',
-            ['+8801670633325'],
-            $voice_message_url,
-            'GET'
-        );
+            $voice_message_url = 'https://www.onlinebooksreview.com/voice_call/call_template/'. $voice_message;
+
+            $client = new RestClient("MAMDY4ZJNJYTQ0MZJKMZ", "ZjFiNDNjMDNkOTEzNmJjMmVjYjJiZTc2OTViMmFi");
+            $call_made = $client->calls->create(
+                '+14154847489',
+                ['+8801670633325'],
+                $voice_message_url,
+                'GET'
+            );
+        }
+
     }
 }

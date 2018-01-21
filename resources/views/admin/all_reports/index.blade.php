@@ -14,7 +14,7 @@
             </div>
 
             <div class="text-center">
-                <h2 class="alert alert-danger">Last You have published a article {{$last_article->created_at->diffForHumans()}}. Publish new article as early as possible.</h2>
+                <h2 class="alert alert-danger">Last You have published a article {{dd($last_article->created_at->diffForHumans())}}. Publish new article as early as possible.</h2>
             </div>
 
             <div class="clearfix"></div>

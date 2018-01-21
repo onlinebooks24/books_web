@@ -60,6 +60,11 @@ class AdminAllReportsController extends Controller
         $articles = Article::where('status', true)->orderBy('created_at', 'desc')->get();
         $last_article = Article::where('status', true)->orderBy('created_at', 'desc')->first();
 
+        $created = new Carbon($last_article->created_at);
+        $now = Carbon::now();
+        $difference = ($created->diff($now)->days);
+            dd($difference >= 1);
+
         $total_articles = [];
         $individual_articles = [];
 
