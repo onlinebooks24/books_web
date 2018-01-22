@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\NotificationType;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Session;
 use Carbon\Carbon;
 use App\Models\SchedulerJob;
+use App\User;
 
 class AdminSchedulerJobsController extends Controller
 {
@@ -32,7 +32,8 @@ class AdminSchedulerJobsController extends Controller
     public function create()
     {
         $notification_types = NotificationType::orderBy('created_at', 'desc')->get();
-        $users = User::where('role_type_id', '2')->get();
+        $users = User::where('role_type_id', '2')
+                        ->orwhere('role_type_id', '1')->get();
         return view('admin.scheduler_jobs.create', compact('notification_types', 'users'));
     }
 
@@ -51,23 +52,38 @@ class AdminSchedulerJobsController extends Controller
         $notification_type_id = $request['notification_type_id'];
         $deadline = $request['deadline'];
         $article_id = $request['article_id'];
+        $user_id = $request['user_id'];
+        $phone_no = $request['phone_no'];
 
-//        if(!empty($article_id)){
-//            $article = Article::find($article_id);
-//            $when_paid = $article->created_at;
-//        }
+        if(empty($user_id)){
+            $phone_no = $request['phone_no'];
+        }
 
-        $scheduler_job = new SchedulerJob();
-        $scheduler_job->task_description = $task_description;
-        $scheduler_job->short_message = $short_message;
-        $scheduler_job->task_completed = $task_completed;
-        $scheduler_job->notification_interval = $notification_interval;
-        $scheduler_job->notification_type_id = $notification_type_id;
-        $scheduler_job->deadline = $deadline;
-        $scheduler_job->article_id = $article_id;
-        $scheduler_job->save();
+        if(empty($phone_no)){
+            $user = User::find($user_id);
+            if(!empty($user)){
+                $phone_no = $user->phone;
+            }
+        }
 
-        $flash_message = 'Successfully Saved';
+
+        if(!empty($phone_no)){
+            $scheduler_job = new SchedulerJob();
+            $scheduler_job->task_description = $task_description;
+            $scheduler_job->short_message = $short_message;
+            $scheduler_job->task_completed = $task_completed;
+            $scheduler_job->notification_interval = $notification_interval;
+            $scheduler_job->notification_type_id = $notification_type_id;
+            $scheduler_job->deadline = $deadline;
+            $scheduler_job->article_id = $article_id;
+            $scheduler_job->user_id = $user_id;
+            $scheduler_job->phone_no = $phone_no;
+            $scheduler_job->save();
+            $flash_message = 'Successfully Saved';
+        } else {
+            $flash_message = 'Something wrong on mobile no';
+        }
+
         Session::flash('message', $flash_message);
 
         return redirect()->to(route('admin_scheduler_jobs.index'));

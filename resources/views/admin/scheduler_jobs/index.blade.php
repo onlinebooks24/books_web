@@ -37,14 +37,17 @@
                                 <td>{{ $scheduler_job->notification_interval }}</td>
                                 <td>{{ $scheduler_job->notification_type->name }}</td>
                                 <td>{{ Carbon\Carbon::parse($scheduler_job->deadline)->toFormattedDateString() }}</td>
-                                <td>{{ $scheduler_job->article_id }}</td>
                                 <td>
                                     @if(!empty($scheduler_job->article_id))
                                         {{ $scheduler_job->article->title }}
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $scheduler_job->user_id }}
+                                    @if(empty($scheduler_job->user_id))
+                                        {{ $scheduler_job->phone_no }}
+                                    @else
+                                        {{ $scheduler_job->user->name }}
+                                    @endif
                                 </td>
                                 <td>
                                     @if(empty($scheduler_job->article_id))

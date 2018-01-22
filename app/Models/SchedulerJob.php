@@ -15,4 +15,9 @@ class SchedulerJob extends Model
     {
         return $this->belongsTo('App\Models\NotificationType');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
