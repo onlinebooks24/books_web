@@ -139,7 +139,7 @@ class AdminArticlesController extends Controller
         $article = Article::find($id);
         $categories = Category::where('parent_id', '1000')->orderBy('name','asc')->get();
         $products = Product::where('article_id',$id)->orderBy('created_at','asc')->get();
-        $uploads = Upload::where('article_id', $article->id)->orderBy('created_at','desc')->Paginate(10);
+        $uploads = Upload::where('article_id', $article->id)->orderBy('created_at','desc')->get();
 
         $image_exist = null;
         if(!empty($article->thumbnail_id)){
