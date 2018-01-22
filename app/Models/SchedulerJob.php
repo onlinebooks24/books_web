@@ -10,4 +10,9 @@ class SchedulerJob extends Model
     {
         return $this->belongsTo('App\Models\Article');
     }
+
+    public function notification_type()
+    {
+        return $this->belongsTo('App\Models\NotificationType');
+    }
 }

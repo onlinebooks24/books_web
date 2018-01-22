@@ -27,6 +27,12 @@ class NotificationTypeSeeder extends Seeder
                 'name'       => 'sms_twilio',
                 'created_at' => $date_time,
                 'updated_at' => $date_time
+            ],
+            [
+                'id'       => '3',
+                'name'       => 'both_voice_twilio_and_sms',
+                'created_at' => $date_time,
+                'updated_at' => $date_time
             ]
         ]);
     }

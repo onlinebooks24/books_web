@@ -28,9 +28,13 @@ class CreateSchedulerJobsTable extends Migration
             $table->boolean('task_completed')->default(false);
             $table->integer('notification_interval')->default(24);
             $table->integer('notification_type_id')->default(1);
-            $table->dateTime('last_notification');
-            $table->dateTime('deadline');
-            $table->integer('article_id');
+            $table->dateTime('last_notification')->nullable();
+            $table->dateTime('deadline')->nullable();
+            $table->integer('article_id')->nullable();
+            $table->string('notification_status')->nullable();
+            $table->string('transaction_no')->nullable();
+            $table->integer('user_id')->nullable();
+            $table->string('phone_no')->nullable();
             $table->timestamps();
         });
     }

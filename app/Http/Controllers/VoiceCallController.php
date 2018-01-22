@@ -15,16 +15,17 @@ class VoiceCallController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-//        $accountId = env('twilioKeyAccountId');
-//        $token = env('twilioKeySecret');
-//        $fromNumber = '+16138006902';
-//        $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
-//        $test = $twilio->call('+8801996476778', function ($message) {
-//            $message->say('Hi Faria. Hope you are fine. I am from online books review. Please publish new article as soon as possible. Ok. For today. take care. Bye bye.');
-//        });
-//        dd($test);
-
-
+        $accountId = env('twilioKeyAccountId');
+        $token = env('twilioKeySecret');
+        $fromNumber = '+8801670633325';
+        $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+        $test = $twilio->call('+8801715692122', function ($message) {
+            $message->say('Hi Faria. Hope you are fine. I am from online books review. Please publish new article as soon as possible. Ok. For today. take care. Bye bye.');
+        });
+        dd($test);
+//        $sdk = $twilio->getTwilio();
+//dd($sdk->account->calls);
+//        $twilio = new LoggingDecorator($psrLogger, new \Aloha\Twilio\Dummy());
 
     }
 

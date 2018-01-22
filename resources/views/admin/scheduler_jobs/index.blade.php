@@ -11,17 +11,19 @@
             @endif
 
             <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('admin_scheduler_jobs.create') }}">Add new task</a>
+                <a class="btn btn-success" href="{{ route('admin_scheduler_jobs.create') }}">Add new notification</a>
             </div>
             <table id="mytable" class="table table-bordred table-striped">
                 <thead>
                 <tr>
-                    <th>Product Number</th>
-                    <th>Title</th>
-                    <th>Shipment date</th>
-                    <th>Ad Fees</th>
-                    <th>Manually inserted</th>
-                    <th>Article</th>
+                    <th>Task_description</th>
+                    <th>Short_message</th>
+                    <th>Task completed</th>
+                    <th>Notification interval</th>
+                    <th>Notification type</th>
+                    <th>Deadline</th>
+                    <th>Article Title</th>
+                    <th>User</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -29,15 +31,20 @@
                     @if(count($scheduler_jobs) > 0)
                         @foreach($scheduler_jobs as $scheduler_job)
                             <tr>
-                                <td>{{ $scheduler_job->product_number }}</td>
-                                <td>{{ $scheduler_job->title }}</td>
-                                <td>{{ Carbon\Carbon::parse($scheduler_job->shipment_date)->toFormattedDateString() }}</td>
-                                <td>{{ $scheduler_job->ad_fees * config('constants.dollar_rate') }} BDT</td>
-                                <td>{{ $scheduler_job->manually_inserted_on_article }}</td>
+                                <td>{{ $scheduler_job->task_description }}</td>
+                                <td>{{ $scheduler_job->short_message }}</td>
+                                <td>{{ $scheduler_job->task_completed }}</td>
+                                <td>{{ $scheduler_job->notification_interval }}</td>
+                                <td>{{ $scheduler_job->notification_type->name }}</td>
+                                <td>{{ Carbon\Carbon::parse($scheduler_job->deadline)->toFormattedDateString() }}</td>
+                                <td>{{ $scheduler_job->article_id }}</td>
                                 <td>
                                     @if(!empty($scheduler_job->article_id))
                                         {{ $scheduler_job->article->title }}
                                     @endif
+                                </td>
+                                <td>
+                                    {{ $scheduler_job->user_id }}
                                 </td>
                                 <td>
                                     @if(empty($scheduler_job->article_id))
