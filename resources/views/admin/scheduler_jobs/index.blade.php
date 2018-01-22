@@ -36,7 +36,11 @@
                                 <td>{{ $scheduler_job->task_completed }}</td>
                                 <td>{{ $scheduler_job->notification_interval }}</td>
                                 <td>{{ $scheduler_job->notification_type->name }}</td>
-                                <td>{{ Carbon\Carbon::parse($scheduler_job->deadline)->toFormattedDateString() }}</td>
+                                <td>
+                                    @if(!empty($scheduler_job->deadline))
+                                    {{ Carbon\Carbon::parse($scheduler_job->deadline)->toFormattedDateString() }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if(!empty($scheduler_job->article_id))
                                         {{ $scheduler_job->article->title }}

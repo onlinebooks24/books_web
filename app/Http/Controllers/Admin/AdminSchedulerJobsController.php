@@ -58,10 +58,6 @@ class AdminSchedulerJobsController extends Controller
         $article = null;
         $username = 'Dear,';
 
-        if(empty($user_id)){
-            $phone_no = $request['phone_no'];
-        }
-
         if(empty($phone_no)){
             $user = User::find($user_id);
             if(!empty($user)){
@@ -74,23 +70,37 @@ class AdminSchedulerJobsController extends Controller
             $article = Article::find($article_id);
             $voice_message = ",.. Hi, $username. Hope you are fine. I am from online books review. "
                 . " You task was to work on ". $article->title
-                . ". Please try to complete this article as soon as possible. Bye Bye. Take care.";
-        }
+                . ". Please try to complete this article as soon as possible and inform to Mashpy. Bye Bye. Take care.";
+        } //if you update here voice message, also update on SchedulerJobAlert.php command.
 
         if(!empty($short_message)){
             $voice_message = $short_message;
         }
 
         if(!empty($phone_no) && !empty($voice_message)){
-            $accountId = env('twilioKeyAccountId');
+            if(empty($deadline)){
+                $accountId = env('twilioKeyAccountId');
 
-            $token = env('twilioKeySecret');
-            $fromNumber = config('constants.twilio_from_number');
+                $token = env('twilioKeySecret');
+                $fromNumber = config('constants.twilio_from_number');
 
-            $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
-            $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
-                $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
-            });
+                $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+                $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
+                    $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
+                });
+
+                //Please remove it later.
+                if ($phone_no != '+8801670633325' || $phone_no != '+8801823387518'){
+                    $voice_message = 'Copy call to you.'. $voice_message;
+                    $call_to_admin = $twilio->call($phone_no, function ($message) use ($voice_message) {
+                        $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
+                    });
+                }
+                //Please remove it later.
+
+            } else {
+                $task_completed = false;
+            }
 
             $scheduler_job = new SchedulerJob();
             $scheduler_job->task_description = $task_description;
@@ -101,7 +111,7 @@ class AdminSchedulerJobsController extends Controller
             $scheduler_job->deadline = $deadline;
             $scheduler_job->article_id = $article_id;
             $scheduler_job->user_id = $user_id;
-            $scheduler_job->phone_no = $phone_no;
+            $scheduler_job->phone_no = $request['phone_no'];
             $scheduler_job->save();
             $flash_message = 'Successfully Saved';
         } else {

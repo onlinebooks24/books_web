@@ -43,6 +43,17 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Deadline</label>
+                    <input class="form-control" type="date" placeholder="deadline"  name="deadline">
+                </div>
+
+                <div class="form-group">
+                    <label>Notification Interval</label>
+                    <input class="form-control" type="text" placeholder="notification_interval" name="notification_interval" value="24">
+                    <div class="red">It will count by hour</div>
+                </div>
+
+                <div class="form-group">
                     <label>Task Completed</label>
                     <select name="task_completed" class="form-control">
                         <option value="1">Yes</option>
@@ -50,11 +61,7 @@
                     </select>
                     <div class="red">If task is completed we will not send notification again by cronjob</div>
                 </div>
-                <div class="form-group">
-                    <label>Notification Interval</label>
-                    <input class="form-control" type="text" placeholder="notification_interval" name="notification_interval" value="24">
-                    <div class="red">It will count by hour</div>
-                </div>
+
                 <div class="form-group">
                     <label>Notification Type</label>
                     <select name="notification_type_id" class="form-control">
@@ -62,10 +69,6 @@
                         <option value="{{ $notification_type->id }}">{{ $notification_type->name }}</option>
                         @endforeach
                     </select>
-                </div>
-                <div class="form-group">
-                    <label>Deadline</label>
-                    <input class="form-control" type="date" placeholder="deadline"  name="deadline">
                 </div>
 
                 <input type="submit" value="submit">
