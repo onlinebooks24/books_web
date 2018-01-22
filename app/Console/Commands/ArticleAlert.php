@@ -65,6 +65,21 @@ class ArticleAlert extends Command
                 $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
                     $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
                 });
+
+                $task_description = 'article_shortage';
+                $short_message = $voice_message;
+                $task_completed = true;
+                $notification_type_id = 1;
+                $user_id = $user->id;
+
+                $scheduler_job = new SchedulerJob();
+                $scheduler_job->task_description = $task_description;
+                $scheduler_job->short_message = $short_message;
+                $scheduler_job->task_completed = $task_completed;
+                $scheduler_job->notification_type_id = $notification_type_id;
+                $scheduler_job->user_id = $user_id;
+                $scheduler_job->transaction_no = $send_call->sid;
+                $scheduler_job->save();
             }
         }
     }

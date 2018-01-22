@@ -57,6 +57,7 @@ class AdminSchedulerJobsController extends Controller
         $phone_no = $request['phone_no'];
         $article = null;
         $username = 'Dear,';
+        $send_call = null;
 
         if(empty($phone_no)){
             $user = User::find($user_id);
@@ -111,6 +112,7 @@ class AdminSchedulerJobsController extends Controller
             $scheduler_job->deadline = $deadline;
             $scheduler_job->article_id = $article_id;
             $scheduler_job->user_id = $user_id;
+            $scheduler_job->transaction_no = $send_call->sid;
             $scheduler_job->phone_no = $request['phone_no'];
             $scheduler_job->save();
             $flash_message = 'Successfully Saved';

@@ -19,10 +19,10 @@ class VoiceCallController extends Controller
         $token = env('twilioKeySecret');
         $fromNumber = '+8801670633325';
         $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
-        $test = $twilio->call('+8801715692122', function ($message) {
+        $test = $twilio->call('+8801670633325', function ($message) {
             $message->say('Hi Faria. Hope you are fine. I am from online books review. Please publish new article as soon as possible. Ok. For today. take care. Bye bye.');
         });
-        dd($test);
+        dd($test->sid);
 //        $sdk = $twilio->getTwilio();
 //dd($sdk->account->calls);
 //        $twilio = new LoggingDecorator($psrLogger, new \Aloha\Twilio\Dummy());

@@ -42,6 +42,7 @@ class SchedulerJobAlert extends Command
     public function handle()
     {
         $unfinished_scheduler_jobs = SchedulerJob::where('task_completed', false)->get();
+        $send_call = null;
 
         foreach($unfinished_scheduler_jobs as $item){
             $short_message = $item->short_message;
@@ -99,6 +100,7 @@ class SchedulerJobAlert extends Command
                     //Please remove it later.
 
                     $item->task_completed = true;
+                    $item->transaction_no = $send_call->sid;
                     $item->update();
                 }
             }
