@@ -101,6 +101,8 @@ class SchedulerJobAlert extends Command
 
                     $item->task_completed = true;
                     $item->transaction_no = $send_call->sid;
+                    $item->last_notification = Carbon::now();
+                    $item->count += 1;
                     $item->update();
                 }
             }

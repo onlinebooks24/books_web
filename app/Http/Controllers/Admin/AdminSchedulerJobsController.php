@@ -109,10 +109,12 @@ class AdminSchedulerJobsController extends Controller
             $scheduler_job->task_completed = $task_completed;
             $scheduler_job->notification_interval = $notification_interval;
             $scheduler_job->notification_type_id = $notification_type_id;
+            $scheduler_job->last_notification = Carbon::now();
             $scheduler_job->deadline = $deadline;
             $scheduler_job->article_id = $article_id;
             $scheduler_job->user_id = $user_id;
             $scheduler_job->transaction_no = $send_call->sid;
+            $scheduler_job->count += 1;
             $scheduler_job->phone_no = $request['phone_no'];
             $scheduler_job->save();
             $flash_message = 'Successfully Saved';

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Article;
+use App\Models\SchedulerJob;
 use App\User;
 use Carbon\Carbon;
 
@@ -61,25 +62,29 @@ class ArticleAlert extends Command
                     . ". Please publish new article, as soon as possible. Bye Bye. Take care.";
 
                 $phone_no = $user->phone;
-                $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
-                $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
-                    $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
-                });
+                if(!empty($phone_no)){
+                    $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+                    $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
+                        $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
+                    });
 
-                $task_description = 'article_shortage';
-                $short_message = $voice_message;
-                $task_completed = true;
-                $notification_type_id = 1;
-                $user_id = $user->id;
+                    $task_description = 'article_shortage';
+                    $short_message = $voice_message;
+                    $task_completed = true;
+                    $notification_type_id = 1;
+                    $user_id = $user->id;
 
-                $scheduler_job = new SchedulerJob();
-                $scheduler_job->task_description = $task_description;
-                $scheduler_job->short_message = $short_message;
-                $scheduler_job->task_completed = $task_completed;
-                $scheduler_job->notification_type_id = $notification_type_id;
-                $scheduler_job->user_id = $user_id;
-                $scheduler_job->transaction_no = $send_call->sid;
-                $scheduler_job->save();
+                    $scheduler_job = new SchedulerJob();
+                    $scheduler_job->task_description = $task_description;
+                    $scheduler_job->short_message = $short_message;
+                    $scheduler_job->task_completed = $task_completed;
+                    $scheduler_job->notification_type_id = $notification_type_id;
+                    $scheduler_job->last_notification = Carbon::now();
+                    $scheduler_job->user_id = $user_id;
+                    $scheduler_job->count += 1;
+                    $scheduler_job->transaction_no = $send_call->sid;
+                    $scheduler_job->save();
+                }
             }
         }
     }

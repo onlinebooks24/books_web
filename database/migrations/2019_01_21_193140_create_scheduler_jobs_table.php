@@ -33,6 +33,7 @@ class CreateSchedulerJobsTable extends Migration
             $table->integer('article_id')->nullable();
             $table->string('notification_status')->nullable();
             $table->string('transaction_no')->nullable();
+            $table->integer('count')->default(0);
             $table->integer('user_id')->nullable();
             $table->string('phone_no')->nullable();
             $table->timestamps();
