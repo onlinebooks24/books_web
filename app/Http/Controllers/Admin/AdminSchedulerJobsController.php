@@ -86,14 +86,16 @@ class AdminSchedulerJobsController extends Controller
                 $fromNumber = config('constants.twilio_from_number');
 
                 $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
-//                $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
-//                    $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
-//                });
+                $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
+                    $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
+                });
 
                 //Please remove it later.
-                if ($phone_no != '+8801670633325' || $phone_no != '+8801823387518'){
+                $admin_number = config('constants.admin_number');
+
+                if ($phone_no != $admin_number || $phone_no != '+8801823387518'){
                     $voice_message = 'Copy call to you.'. $voice_message;
-                    $call_to_admin = $twilio->call('+8801670633325', function ($message) use ($voice_message) {
+                    $call_to_admin = $twilio->call($admin_number, function ($message) use ($voice_message) {
                         $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
                     });
                 }
