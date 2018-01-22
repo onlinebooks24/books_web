@@ -86,8 +86,13 @@ class AdminUploadsController extends Controller
         if(!$upload){
             return redirect()->back()->with(['fail' => 'Page not found !']);
         }
-        unlink(public_path($upload->folder_path.$upload->name));
+
+        $path = $upload->folder_path.$upload->name;
+        if(file_exists(public_path($path))){
+            unlink(public_path($path));
+        }
+
         $upload->delete();
-        return redirect()->back()->with(['success' => 'Category Deleted Successfully.']);
+        return redirect()->back()->with(['success' => 'Image Deleted Successfully.']);
     }
 }

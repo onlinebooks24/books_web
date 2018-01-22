@@ -97,6 +97,8 @@
                         <img class="img-responsive" src="{{$image_exist->folder_path.'/'.$image_exist->name}}">
                     @endif
                 </div>
+
+                <div class="alert alert-warning">Total {{ count($uploads) }} images. You can view bottom of this page.</div>
             </div>
             <div class="col-sm-9">
                 <div class="alert alert-success">
@@ -208,6 +210,49 @@
                 <button type="submit" class="btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Add Product</button>
             </div>
         </form>
+    </div>
+
+    <div class="row">
+        @foreach($uploads as $key => $upload)
+            <div class="col-md-6">
+                <div>{{ $upload->name }}</div>
+                <div>
+                    <a target="_blank" href="{{ $upload->folder_path. $upload->name }}">
+                        <img style="width:300px" src="{{ $upload->folder_path. $upload->name }}">
+                    </a>
+                </div>
+                <div class="top10">
+                    <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger" data-title="Delete" data-toggle="modal" data-target="#delete{{++$key}}" >Delete</button></p></td>
+                </div>
+            </div>
+
+            <div class="modal fade" id="delete{{$key}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{{ route('admin_uploads.destroy' , $upload->id)}}" method="POST">
+                            {{ csrf_field() }}
+                            <input name="_method" type="hidden" value="DELETE">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                                <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record? </div>
+
+                            </div>
+                            <div class="modal-footer ">
+                                <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+        @endforeach
     </div>
 
 @endsection

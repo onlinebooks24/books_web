@@ -139,6 +139,8 @@ class AdminArticlesController extends Controller
         $article = Article::find($id);
         $categories = Category::where('parent_id', '1000')->orderBy('name','asc')->get();
         $products = Product::where('article_id',$id)->orderBy('created_at','asc')->get();
+        $uploads = Upload::where('article_id', $article->id)->orderBy('created_at','desc')->Paginate(10);
+
         $image_exist = null;
         if(!empty($article->thumbnail_id)){
             $image_exist = Upload::find($article->thumbnail_id);
@@ -148,7 +150,8 @@ class AdminArticlesController extends Controller
             'categories'=>$categories,
             'products'=>$products,
             'image_exist'=>$image_exist,
-            'users' => $users]);
+            'users' => $users,
+            'uploads' => $uploads]);
     }
 
     /**
