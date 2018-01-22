@@ -30,6 +30,7 @@ class AdminSchedulerJobsController extends Controller
      */
     public function create()
     {
+        return view('admin.scheduler_jobs.create');
     }
 
     /**
