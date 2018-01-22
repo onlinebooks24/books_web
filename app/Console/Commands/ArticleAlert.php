@@ -51,7 +51,7 @@ class ArticleAlert extends Command
         if($difference >= 1){
             $accountId = env('twilioKeyAccountId');
             $token = env('twilioKeySecret');
-            $fromNumber = '+16138006902';
+            $fromNumber = config('constants.twilio_from_number');
 
             $admin_users = User::whereIn('id', [1,2])->get();
 
@@ -63,7 +63,7 @@ class ArticleAlert extends Command
                 $phone_no = $user->phone;
                 $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
                 $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
-                    $message->say($voice_message, ['voice' => 'woman', 'language' => 'en']);
+                    $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
                 });
             }
         }

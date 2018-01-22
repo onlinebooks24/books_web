@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Models\NotificationType;
 use Illuminate\Http\Request;
 use Session;
@@ -54,6 +55,8 @@ class AdminSchedulerJobsController extends Controller
         $article_id = $request['article_id'];
         $user_id = $request['user_id'];
         $phone_no = $request['phone_no'];
+        $article = null;
+        $username = 'Dear,';
 
         if(empty($user_id)){
             $phone_no = $request['phone_no'];
@@ -63,11 +66,32 @@ class AdminSchedulerJobsController extends Controller
             $user = User::find($user_id);
             if(!empty($user)){
                 $phone_no = $user->phone;
+                $username = $user->name;
             }
         }
 
+        if(!empty($article_id)){
+            $article = Article::find($article_id);
+            $voice_message = ",.. Hi, $username. Hope you are fine. I am from online books review. "
+                . " You task was to work on ". $article->title
+                . ". Please try to complete this article as soon as possible. Bye Bye. Take care.";
+        }
 
-        if(!empty($phone_no)){
+        if(!empty($short_message)){
+            $voice_message = $short_message;
+        }
+
+        if(!empty($phone_no) && !empty($voice_message)){
+            $accountId = env('twilioKeyAccountId');
+
+            $token = env('twilioKeySecret');
+            $fromNumber = config('constants.twilio_from_number');
+
+            $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+            $send_call = $twilio->call($phone_no, function ($message) use ($voice_message) {
+                $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
+            });
+
             $scheduler_job = new SchedulerJob();
             $scheduler_job->task_description = $task_description;
             $scheduler_job->short_message = $short_message;
@@ -81,7 +105,7 @@ class AdminSchedulerJobsController extends Controller
             $scheduler_job->save();
             $flash_message = 'Successfully Saved';
         } else {
-            $flash_message = 'Something wrong on mobile no';
+            $flash_message = 'Something wrong on mobile no or voice message';
         }
 
         Session::flash('message', $flash_message);

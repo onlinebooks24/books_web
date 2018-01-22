@@ -16,14 +16,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Short Message</label>
-                    <textarea class="form-control" type="text" placeholder="short_message" name="short_message"></textarea>
+                    <label>Article id</label>
+                    <input class="form-control" type="text" placeholder="aritcle id"  name="article_id">
+                    <div class="red">if u write article id here then we will send them our own template sms. if u can send customize sms by writting on short_message field</div>
                 </div>
 
                 <div class="form-group">
-                    <label>Article id</label>
-                    <input class="form-control" type="text" placeholder="aritcle id"  name="article_id">
-                    <div>if u write article id here then we will send them our own template sms. if u can send customize sms by writting on short_message field</div>
+                    <label>Short Message</label>
+                    <textarea class="form-control" type="text" placeholder="if you want to send customize sms, write here" name="short_message"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -34,18 +34,26 @@
                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
+                    <div class="red">Select user or write phone no</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone no</label>
+                    <input class="form-control" type="text" placeholder="if you do not want to select username, write phone no here"  name="phone_no">
                 </div>
 
                 <div class="form-group">
                     <label>Task Completed</label>
                     <select name="task_completed" class="form-control">
-                        <option value="0">No</option>
                         <option value="1">Yes</option>
+                        <option value="0">No</option>
                     </select>
+                    <div class="red">If task is completed we will not send notification again by cronjob</div>
                 </div>
                 <div class="form-group">
                     <label>Notification Interval</label>
-                    <input class="form-control" type="text" placeholder="notification_interval" name="notification_interval" value="2">
+                    <input class="form-control" type="text" placeholder="notification_interval" name="notification_interval" value="24">
+                    <div class="red">It will count by hour</div>
                 </div>
                 <div class="form-group">
                     <label>Notification Type</label>
@@ -60,10 +68,6 @@
                     <input class="form-control" type="date" placeholder="deadline"  name="deadline">
                 </div>
 
-                <div class="form-group">
-                    <label>Phone no</label>
-                    <input class="form-control" type="text" placeholder="if you do not want to select username, write phone no here"  name="phone_no">
-                </div>
                 <input type="submit" value="submit">
             </form>
         </div>
