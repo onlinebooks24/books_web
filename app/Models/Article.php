@@ -36,4 +36,9 @@ class Article extends Model
     {
         return $this->hasMany('App\Models\SiteCost');
     }
+
+    public function thumbnail_image()
+    {
+        return $this->belongsTo('App\Models\Upload', 'thumbnail_id');
+    }
 }

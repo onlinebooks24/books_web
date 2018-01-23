@@ -354,6 +354,20 @@ class AdminArticlesController extends Controller
             $filename =  Carbon::now()->timestamp . '_' . $filename;
         }
 
+        $image = Input::file('image');
+        $filename  = time() . '.' . $image->getClientOriginalExtension();
+
+
+        $thumb_filename = 'obr_thumb_200_200_' . $filename;
+
+        Image::make($image->getRealPath())->resize(150, 150)->save(public_path($folder_path . $thumb_filename));
+        $upload = new Upload();
+        $upload->name = $thumb_filename;
+        $upload->folder_path = $folder_path;
+        $upload->md5_hash = $img_md5_value;
+        $upload->article_id = $article->id;
+        $upload->save();
+
         $upload = new Upload();
         $upload->name = $filename;
         $upload->folder_path = $folder_path;

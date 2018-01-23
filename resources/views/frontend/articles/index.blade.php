@@ -14,15 +14,10 @@
         @foreach($related_articles as $related_article)
             <div class="hero__slide">
                 <article class="hero__slide-entry entry">
-                    @foreach($uploads as $upload)
-                        @php if($upload->id == $related_article->thumbnail_id){ @endphp
-                            <div class="thumb-bg-holder" style="border: 1px solid grey; background-image: url({{ $upload->folder_path.'/'.$upload->name }})">
-                                <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}" class="thumb-url"></a>
-                                <div class="bottom-gradient"></div>
-                            </div>
-                        @php } @endphp
-                    @endforeach
-
+                    <div class="thumb-bg-holder" style="border: 1px solid grey; background-image: url({{ $related_article->thumbnail_image->folder_path . $related_article->thumbnail_image->name }})">
+                        <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}" class="thumb-url"></a>
+                        <div class="bottom-gradient"></div>
+                    </div>
 
                     <div class="thumb-text-holder">
                         <a href="{{ route('category.post',['slug' => $related_article->category->slug ])}}" class="entry__meta-category entry__meta-category--label">{{$related_article->category->name}}</a>
@@ -66,11 +61,7 @@
                         <div class="entry__img-holder post-list__img-holder">
                             <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">
                                 <div class="thumb-container">
-                                    @foreach($uploads as $upload)
-                                        @php if($upload->id == $article->thumbnail_id){ @endphp
-                                        <img data-src="{{ $upload->folder_path.'/'.$upload->name }}" src="{{ $upload->folder_path.'/'.$upload->name }}" class="entry__img lazyload" alt="{{ $article->title }}" />
-                                        @php } @endphp
-                                    @endforeach
+                                    <img data-src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" class="entry__img lazyload" alt="{{ $article->title }}" />
                                 </div>
                             </a>
                         </div>

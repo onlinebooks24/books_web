@@ -45,13 +45,9 @@
                     </div>
 
                     <div class="entry__img-holder text-center">
-                        @foreach($uploads as $upload)
-                            @php if($upload->id == $article->thumbnail_id){ @endphp
-                            <figure>
-                                <img src="{{ $upload->folder_path.'/'.$upload->name }}" alt="" class="img-responsive">
-                            </figure>
-                            @php } @endphp
-                        @endforeach
+                        <figure>
+                            <img src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" alt="" class="img-responsive">
+                        </figure>
                     </div>
 
                     <div class="entry__article-holder">
@@ -168,11 +164,7 @@
                                 <article class="related-posts__entry entry">
                                     <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}">
                                         <div class="thumb-container">
-                                            @foreach($uploads as $upload)
-                                                @php if($upload->id == $related_article->thumbnail_id){ @endphp
-                                                <img src="{{ $upload->folder_path.'/'.$upload->name }}" style="height: 120px" data-src="{{ $upload->folder_path.'/'.$upload->name }}" alt="" class="entry__img lazyload">
-                                                @php } @endphp
-                                            @endforeach
+                                            <img src="{{ $related_article->thumbnail_image->folder_path . $related_article->thumbnail_image->name }}" style="height: 120px" data-src="{{ $related_article->thumbnail_image->folder_path . $related_article->thumbnail_image->name }}" alt="" class="entry__img lazyload">
                                         </div>
                                     </a>
                                     <div class="related-posts__text-holder">

@@ -29,11 +29,7 @@
                                 <div class="entry__img-holder">
                                     <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">
                                         <div class="thumb-container">
-                                            @foreach($uploads as $upload)
-                                                @php if($upload->id == $article->thumbnail_id){ @endphp
-                                                    <img data-src="{{ $upload->folder_path.'/'.$upload->name }}" src="{{ $upload->folder_path.'/'.$upload->name }}" class="entry__img lazyload" alt="" />
-                                                @php } @endphp
-                                            @endforeach
+                                            <img data-src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" class="entry__img lazyload" alt="{{ $article->title }}" />
                                         </div>
                                     </a>
                                 </div>
@@ -88,11 +84,10 @@
               <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $article->created_at->format('m-d-Y') }}  by <span class="author-name">onlinebooksreview</span></p>
               <!-- <hr>
               <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
-             @foreach($uploads as $upload)
-                 @php if($upload->id == $article->thumbnail_id){ @endphp
-                 <p class="img-responsive" align="center"><img src="{{ $upload->folder_path.'/'.$upload->name }}" width="600px" height="350px"></p>
-                 @php } @endphp
-             @endforeach
+             <p class="img-responsive" align="center">
+                 <img src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" width="600px" height="350px">
+             </p>
+
               <p>{!! str_limit($article->body,400) !!}</p>
               <a class="btn btn-primary" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}" style="float: right;">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
               <div class="clearfix"></div>
