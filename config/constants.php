@@ -14,7 +14,7 @@ return [
     */
 
     'dollar_rate' => env('DOLLAR_RATE','80'),
-    'twilio_from_number' => env('TWILIO_FROM_NUMBER','+8801670633325'),
-    'admin_number' => env('ADMIN_NUMBER','+16138006902'),
+    'twilio_from_number' => env('TWILIO_FROM_NUMBER','+16138006902'),
+    'admin_number' => env('ADMIN_NUMBER','+8801670633325'),
 
 ];
