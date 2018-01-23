@@ -50,8 +50,8 @@ class SchedulerJobAlert extends Command
             $notification_interval = $item->notification_interval;
             $deadline = $item->deadline;
             $created = new Carbon($deadline);
-            $now = Carbon::now();
-            $diff_in_hours = $now->diffInHours($created);
+            $now = Carbon::now()->minute(0)->second(0);
+            $diff_in_hours = $now->diffInHours($created->minute(0)->second(0));
 
             if($diff_in_hours % $notification_interval == 0){
                 $article_id = $item->article_id;
