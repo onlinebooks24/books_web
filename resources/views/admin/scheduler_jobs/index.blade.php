@@ -20,7 +20,7 @@
                     <th>Short_message</th>
                     <th>Task completed</th>
                     <th>Notification interval</th>
-                    <th>Notification type</th>
+                    <th>Count</th>
                     <th>Deadline</th>
                     <th>Article Title</th>
                     <th>User</th>
@@ -35,7 +35,7 @@
                                 <td>{{ $scheduler_job->short_message }}</td>
                                 <td>{{ $scheduler_job->task_completed }}</td>
                                 <td>{{ $scheduler_job->notification_interval }}</td>
-                                <td>{{ $scheduler_job->notification_type->name }}</td>
+                                <td>{{ $scheduler_job->count }}</td>
                                 <td>
                                     @if(!empty($scheduler_job->deadline))
                                     {{ Carbon\Carbon::parse($scheduler_job->deadline)->format('l jS \\of F Y h:i:s A') }}
