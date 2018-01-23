@@ -355,16 +355,18 @@ class AdminArticlesController extends Controller
         }
 
         $image = Input::file('image');
-        $filename  = time() . '.' . $image->getClientOriginalExtension();
 
+        $thumb_filename = 'obr_thumb_250_250_' . $filename;
+        Image::make($image->getRealPath())->resize(250, 250, function ($constraint) {
+            $constraint->aspectRatio();
+            })->save(public_path($folder_path . $thumb_filename));
 
-        $thumb_filename = 'obr_thumb_200_200_' . $filename;
+        $thumb_md5 = md5_file(public_path($folder_path . $thumb_filename));
 
-        Image::make($image->getRealPath())->resize(150, 150)->save(public_path($folder_path . $thumb_filename));
         $upload = new Upload();
         $upload->name = $thumb_filename;
         $upload->folder_path = $folder_path;
-        $upload->md5_hash = $img_md5_value;
+        $upload->md5_hash = $thumb_md5;
         $upload->article_id = $article->id;
         $upload->save();
 

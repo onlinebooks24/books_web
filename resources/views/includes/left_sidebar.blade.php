@@ -12,8 +12,8 @@
                             <span class="widget-popular-posts__number">{{ $key + 1 }}</span>
                             <div class="thumb-container">
                                 <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">
-                                    @if(!empty($article->uploads->first()))
-                                        <img data-src="{{ $article->uploads->first()->folder_path.'/'.$article->uploads->first()->name }}" src="{{ $article->uploads->first()->folder_path.'/'.$article->uploads->first()->name }}" alt="" class="lazyload">
+                                    @if(isset($article->thumbnail_image))
+                                        <img data-src="{{ $article->thumbnail_image->folder_path . 'obr_thumb_250_250_' . $article->thumbnail_image->name }}" src="{{ $article->thumbnail_image->folder_path . 'obr_thumb_250_250_' . $article->thumbnail_image->name }}" alt="" class="lazyload">
                                     @endif
                                 </a>
                             </div>

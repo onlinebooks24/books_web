@@ -46,7 +46,9 @@
 
                     <div class="entry__img-holder text-center">
                         <figure>
-                            <img src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" alt="" class="img-responsive">
+                            @if(isset($article->thumbnail_image))
+                                <img src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" alt="" class="img-responsive">
+                            @endif
                         </figure>
                     </div>
 
@@ -164,7 +166,9 @@
                                 <article class="related-posts__entry entry">
                                     <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}">
                                         <div class="thumb-container">
-                                            <img src="{{ $related_article->thumbnail_image->folder_path . $related_article->thumbnail_image->name }}" style="height: 120px" data-src="{{ $related_article->thumbnail_image->folder_path . $related_article->thumbnail_image->name }}" alt="" class="entry__img lazyload">
+                                            @if(isset($related_article->thumbnail_image))
+                                                <img src="{{ $related_article->thumbnail_image->folder_path . 'obr_thumb_250_250_' . $related_article->thumbnail_image->name }}" style="height: 120px" data-src="{{ $related_article->thumbnail_image->folder_path . 'obr_thumb_250_250_' . $related_article->thumbnail_image->name }}" alt="" class="entry__img lazyload">
+                                            @endif
                                         </div>
                                     </a>
                                     <div class="related-posts__text-holder">

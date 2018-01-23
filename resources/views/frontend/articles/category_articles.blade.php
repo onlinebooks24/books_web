@@ -29,7 +29,9 @@
                                 <div class="entry__img-holder">
                                     <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">
                                         <div class="thumb-container">
+                                            @if(isset($article->thumbnail_image))
                                             <img data-src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" class="entry__img lazyload" alt="{{ $article->title }}" />
+                                            @endif
                                         </div>
                                     </a>
                                 </div>
@@ -85,7 +87,9 @@
               <!-- <hr>
               <img class="img-responsive" src="http://placehold.it/900x300" alt=""> -->
              <p class="img-responsive" align="center">
-                 <img src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" width="600px" height="350px">
+                 @if(isset($article->thumbnail_image))
+                    <img src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" width="600px" height="350px">
+                 @endif
              </p>
 
               <p>{!! str_limit($article->body,400) !!}</p>
