@@ -116,7 +116,9 @@ class AdminSchedulerJobsController extends Controller
             $scheduler_job->deadline = $deadline;
             $scheduler_job->article_id = $article_id;
             $scheduler_job->user_id = $user_id;
-            $scheduler_job->transaction_no = $send_call->sid;
+            if(isset($send_call->sid)){
+                $scheduler_job->transaction_no = $send_call->sid;
+            }
             $scheduler_job->count += 1;
             $scheduler_job->phone_no = $request['phone_no'];
             $scheduler_job->save();

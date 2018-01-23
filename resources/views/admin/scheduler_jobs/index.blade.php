@@ -38,7 +38,7 @@
                                 <td>{{ $scheduler_job->notification_type->name }}</td>
                                 <td>
                                     @if(!empty($scheduler_job->deadline))
-                                    {{ Carbon\Carbon::parse($scheduler_job->deadline)->toFormattedDateString() }}
+                                    {{ Carbon\Carbon::parse($scheduler_job->deadline)->format('l jS \\of F Y h:i:s A') }}
                                     @endif
                                 </td>
                                 <td>
