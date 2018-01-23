@@ -100,7 +100,10 @@ class SchedulerJobAlert extends Command
                     }
                     //Please remove it later.
 
-                    $item->task_completed = true;
+                    if($diff_in_hours == 0){
+                        $item->task_completed = true;
+                    }
+
                     $item->transaction_no = $send_call->sid;
                     $item->last_notification = Carbon::now();
                     $item->count += 1;
