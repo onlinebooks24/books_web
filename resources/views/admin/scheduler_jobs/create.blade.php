@@ -44,7 +44,8 @@
 
                 <div class="form-group">
                     <label>Deadline</label>
-                    <input class="form-control" type="date" placeholder="deadline"  name="deadline">
+                    <input class="form-control" type="datetime-local" placeholder="deadline"  name="deadline">
+                    <div>Current Time: {{  $current_time }}</div>
                 </div>
 
                 <div class="form-group">

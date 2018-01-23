@@ -35,7 +35,8 @@ class AdminSchedulerJobsController extends Controller
         $notification_types = NotificationType::orderBy('created_at', 'desc')->get();
         $users = User::where('role_type_id', '2')
                         ->orwhere('role_type_id', '1')->get();
-        return view('admin.scheduler_jobs.create', compact('notification_types', 'users'));
+        $current_time = Carbon::now();
+        return view('admin.scheduler_jobs.create', compact('notification_types', 'users', 'current_time'));
     }
 
     /**
