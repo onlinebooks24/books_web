@@ -170,7 +170,9 @@ class AdminArticlesController extends Controller
 
         $article = Article::find($id);
         $article->title = $request['title'];
-        $article->user_id = $request['user_id'];
+        if(!empty($request['user_id'])){
+            $article->user_id = $request['user_id'];
+        }
 
         if (!$article->status){
             $slug = strtolower($request['slug']);

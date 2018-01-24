@@ -71,6 +71,8 @@
                             @endforeach
                         </select>
                     </div>
+                @else
+                    <input type="hidden" name="user_id" value="{{ $article->user_id }}">
                 @endif
 
                 <input type="hidden" value="{{ $article->category_id }}" name="category_id" class="category_id_value">
