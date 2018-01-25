@@ -64,6 +64,7 @@ class AdminAllReportsController extends Controller
 
             $total_articles = [];
             $individual_articles = [];
+            $individual_revenue = [];
 
             foreach($articles as $article){
                 $date = Carbon::parse($article->created_at)->format('Y_F');
@@ -79,12 +80,26 @@ class AdminAllReportsController extends Controller
                     $individual_articles[(string)$username] = 0;
                 }
                 $individual_articles[(string)$username] += 1;
+
+                if(!isset($individual_revenue[(string)$username])){
+                    $individual_revenue[(string)$username] = 0;
+                }
+
+                $fee = 0;
+                if(!empty($article->product_orders)){
+                    foreach($article->product_orders as $item){
+                        $fee += $item->ad_fees;
+                    }
+                }
+
+                $individual_revenue[(string)$username] += $fee;
+
             }
 
             return view('admin.all_reports.index', compact('total_sell_from_article',
                 'site_costs', 'total_sell_from_non_article', 'total_whole_sell',
                 'all_costs', 'total_costs', 'articles', 'last_article', 'total_articles', 'individual_costs',
-                'individual_articles'));
+                'individual_articles', 'individual_revenue'));
         }
     }
 
