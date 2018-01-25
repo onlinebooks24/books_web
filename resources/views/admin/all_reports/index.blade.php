@@ -68,6 +68,9 @@
                                          Total Article: {{ $value }}
                                     </div>
                                     <div>
+                                        No Selling Article: {{ $individual_no_sell[$key] }}
+                                    </div>
+                                    <div>
                                         Total Cost: {{ $individual_cost[$key] }}
                                     </div>
                                     <div>
