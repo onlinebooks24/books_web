@@ -64,6 +64,7 @@ class AdminAllReportsController extends Controller
 
             $total_articles = [];
             $individual_articles = [];
+            $individual_cost = [];
             $individual_revenue = [];
 
             foreach($articles as $article){
@@ -80,6 +81,19 @@ class AdminAllReportsController extends Controller
                     $individual_articles[(string)$username] = 0;
                 }
                 $individual_articles[(string)$username] += 1;
+
+                if(!isset($individual_cost[(string)$username])){
+                    $individual_cost[(string)$username] = 0;
+                }
+
+                $cost = 0;
+                if(!empty($article->site_costs)){
+                    foreach($article->site_costs as $item){
+                        $cost += $item->amount;
+                    }
+                }
+
+                $individual_cost[(string)$username] += $cost;
 
                 if(!isset($individual_revenue[(string)$username])){
                     $individual_revenue[(string)$username] = 0;
@@ -99,7 +113,7 @@ class AdminAllReportsController extends Controller
             return view('admin.all_reports.index', compact('total_sell_from_article',
                 'site_costs', 'total_sell_from_non_article', 'total_whole_sell',
                 'all_costs', 'total_costs', 'articles', 'last_article', 'total_articles', 'individual_costs',
-                'individual_articles', 'individual_revenue'));
+                'individual_articles', 'individual_cost', 'individual_revenue'));
         }
     }
 

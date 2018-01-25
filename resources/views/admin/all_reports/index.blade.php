@@ -68,6 +68,9 @@
                                          Total Article: {{ $value }}
                                     </div>
                                     <div>
+                                        Total Cost: {{ $individual_cost[$key] }}
+                                    </div>
+                                    <div>
                                         Total Revenue: {{ $individual_revenue[$key] * config('constants.dollar_rate') }}
                                     </div>
                                 </div>
