@@ -62,7 +62,7 @@
                     <div class="row">
                         @foreach($individual_articles as $key => $value)
                             <div class="col-md-5 btn btn-warning top5 left5">
-                                <div class="btn btn-danger">
+                                <div class="alert alert-info">
                                     {{ $key }}
                                     <div>
                                          Total Article: {{ $value }}
