@@ -90,18 +90,18 @@ class SchedulerJobAlert extends Command
                         $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
                     });
 
-                    //Please remove it later.
-                    $admin_number = config('constants.admin_number');
-                    if ($phone_no != $admin_number || $phone_no != '+8801823387518'){
-                        $voice_message = 'Copy call to you.'. $voice_message;
-                        $call_to_admin = $twilio->call($admin_number, function ($message) use ($voice_message) {
-                            $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
-                        });
-                    }
-                    //Please remove it later.
-
                     if($diff_in_hours == 0){
                         $item->task_completed = true;
+
+                        //Please remove it later.
+                        $admin_number = config('constants.admin_number');
+                        if ($phone_no != $admin_number || $phone_no != '+8801823387518'){
+                            $voice_message = 'Copy call to you.'. $voice_message;
+                            $call_to_admin = $twilio->call($admin_number, function ($message) use ($voice_message) {
+                                $message->say(str_repeat($voice_message, 2), ['voice' => 'woman', 'language' => 'en']);
+                            });
+                        }
+                        //Please remove it later.
                     }
 
                     $item->transaction_no = $send_call->sid;
