@@ -24,6 +24,8 @@ class ArticleController extends Controller
             ->orderBy('created_at','desc')->get();
         $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(25);
 
+        $popular_articles = Article::where('status', true)->orderBy('count','desc')->Paginate(25);
+
         $related_articles = Article::whereIn('id', [153,81,109])->orderBy('id', 'asc')
             ->get();
 
@@ -32,7 +34,8 @@ class ArticleController extends Controller
                 ['categories' => $categories,
                 'articles' => $articles,
                 'uploads' => $uploads,
-                'related_articles' => $related_articles
+                'related_articles' => $related_articles,
+                'popular_articles' => $popular_articles
                 ]);
     }
 
@@ -71,6 +74,8 @@ class ArticleController extends Controller
                 ->orderBy('created_at','desc')->get();
             $article = Article::where('slug' , $slug)->first();
 
+            $popular_articles = Article::where('status', true)->orderBy('count','desc')->Paginate(25);
+
             $ordered_product_articles = ProductOrder::select('product_number', 'title')
                                         ->where('article_id', $article->id)
                                         ->where('manually_inserted_on_article', true)
@@ -97,7 +102,8 @@ class ArticleController extends Controller
                 'products' => $products,
                 'uploads' => $uploads,
                 'related_articles' => $related_articles,
-                'ordered_product_articles' => $ordered_product_articles]);
+                'ordered_product_articles' => $ordered_product_articles,
+                'popular_articles' => $popular_articles]);
         } else {
             setcookie("email", $request['email'], 2147483647);
             return redirect()->to(url()->current());
@@ -149,7 +155,14 @@ class ArticleController extends Controller
             $articles = Article::where('category_id' , $category->id)
                                     ->where('status', true)
                                     ->orderBy('created_at','desc')->Paginate(5);
-            return view('frontend.articles.category_articles',['articles'=> $articles,'categories' => $categories,'category' => $category,'uploads' => $uploads ]);
+            $popular_articles = Article::where('status', true)->orderBy('count','desc')->Paginate(25);
+
+            return view('frontend.articles.category_articles',
+                    ['articles'=> $articles,
+                    'categories' => $categories,
+                    'category' => $category,
+                    'uploads' => $uploads,
+                    'popular_articles' => $popular_articles]);
         } else {
             return redirect()->route('blog.index');
         }

@@ -5,7 +5,7 @@
     <div class="widget widget-popular-posts">
         <h4 class="widget-title sidebar__widget-title">Popular Posts</h4>
         <ul class="widget-popular-posts__list">
-            @foreach($articles as $key => $article)
+            @foreach($popular_articles as $key => $article)
                 <li>
                     <article class="clearfix">
                         <div class="widget-popular-posts__img-holder">
