@@ -53,7 +53,18 @@
                     <div class="row">
                         @foreach($total_articles as $key => $value)
                             <div class="col-md-6">
-                                <div class="alert alert-info">{{ $key }}: {{ $value }}</div>
+                                <div class="alert alert-info">
+                                    <span>{{ $key }}</span>
+                                    <div>Articles: {{ $value }}</div>
+                                    <div>
+                                        <span>Total sell:</span>
+                                        @if(isset($monthly_product_sell[$key]))
+                                            <span>{{ $monthly_product_sell[$key] * config('constants.dollar_rate') }} BDT</span>
+                                        @else
+                                            <span>0 BDT</span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>

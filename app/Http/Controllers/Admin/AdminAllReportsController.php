@@ -23,10 +23,15 @@ class AdminAllReportsController extends Controller
         if(Auth::user()->roleType->name == 'admin'){
             $product_orders = ProductOrder::all();
 
-            $total_whole_sell = 0;
             $total_sell_from_article = 0;
             $total_sell_from_non_article = 0;
             foreach($product_orders as $product_order){
+                $product_order_date = Carbon::parse($product_order->shipment_date)->format('Y_F');
+                if(!isset($monthly_product_sell[(string)$product_order_date])){
+                    $monthly_product_sell[(string)$product_order_date] = 0;
+                }
+                $monthly_product_sell[(string)$product_order_date] += 1;
+
                 if(empty($product_order->article_id)){
                     $total_sell_from_non_article += $product_order->ad_fees;
                 } else {
@@ -119,10 +124,14 @@ class AdminAllReportsController extends Controller
 
             }
 
-            return view('admin.all_reports.index', compact('total_sell_from_article',
-                'site_costs', 'total_sell_from_non_article', 'total_whole_sell',
-                'all_costs', 'total_costs', 'articles', 'last_article', 'total_articles', 'individual_costs',
-                'individual_articles', 'individual_cost', 'individual_revenue', 'individual_no_sell'));
+            return view('admin.all_reports.index',
+                compact('total_sell_from_article',
+                        'site_costs', 'total_sell_from_non_article', 'monthly_product_sell',
+                        'total_whole_sell', 'all_costs', 'total_costs',
+                        'articles', 'last_article', 'total_articles',
+                        'individual_costs', 'individual_articles',
+                        'individual_cost', 'individual_revenue',
+                        'individual_no_sell'));
         }
     }
 
