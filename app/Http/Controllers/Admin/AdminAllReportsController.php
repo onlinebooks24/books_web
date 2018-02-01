@@ -62,6 +62,12 @@ class AdminAllReportsController extends Controller
                 $individual_costs[(string)$username] += $site_cost->amount;
 
                 $total_costs += $site_cost->amount;
+
+                $site_cost_date = Carbon::parse($site_cost->when_paid)->format('Y_F');
+                if(!isset($monthly_site_cost[(string)$site_cost_date])){
+                    $monthly_site_cost[(string)$site_cost_date] = 0;
+                }
+                $monthly_site_cost[(string)$site_cost_date] += $site_cost->amount;
             }
 
             $articles = Article::where('status', true)->orderBy('created_at', 'desc')->get();
@@ -126,7 +132,8 @@ class AdminAllReportsController extends Controller
 
             return view('admin.all_reports.index',
                 compact('total_sell_from_article',
-                        'site_costs', 'total_sell_from_non_article', 'monthly_product_sell',
+                        'site_costs', 'total_sell_from_non_article',
+                        'monthly_product_sell', 'monthly_site_cost',
                         'total_whole_sell', 'all_costs', 'total_costs',
                         'articles', 'last_article', 'total_articles',
                         'individual_costs', 'individual_articles',

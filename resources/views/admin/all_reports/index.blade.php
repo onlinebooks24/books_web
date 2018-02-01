@@ -64,6 +64,14 @@
                                             <span>0 BDT</span>
                                         @endif
                                     </div>
+                                    <div>
+                                        <span>Total cost:</span>
+                                        @if(isset($monthly_site_cost[$key]))
+                                            <span>{{ $monthly_site_cost[$key] }} BDT</span>
+                                        @else
+                                            <span>0 BDT</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
