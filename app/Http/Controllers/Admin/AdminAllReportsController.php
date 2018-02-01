@@ -30,7 +30,7 @@ class AdminAllReportsController extends Controller
                 if(!isset($monthly_product_sell[(string)$product_order_date])){
                     $monthly_product_sell[(string)$product_order_date] = 0;
                 }
-                $monthly_product_sell[(string)$product_order_date] += 1;
+                $monthly_product_sell[(string)$product_order_date] += $product_order->ad_fees;
 
                 if(empty($product_order->article_id)){
                     $total_sell_from_non_article += $product_order->ad_fees;
