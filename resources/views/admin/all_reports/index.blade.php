@@ -54,9 +54,9 @@
                         @foreach($total_articles as $key => $value)
                             <div class="col-md-6">
                                 <div class="alert alert-info">
-                                    <span>{{ $key }}</span>
-                                    <div>Articles: {{ $value }}</div>
-                                    <div>
+                                    <div>{{ $key }}</div>
+                                    <div class="btn btn-warning top5">Articles: {{ $value }}</div>
+                                    <div class="btn btn-success top5">
                                         <span>Total sell:</span>
                                         @if(isset($monthly_product_sell[$key]))
                                             <span>{{ $monthly_product_sell[$key] * config('constants.dollar_rate') }} BDT</span>
@@ -64,7 +64,7 @@
                                             <span>0 BDT</span>
                                         @endif
                                     </div>
-                                    <div>
+                                    <div class="btn btn-danger top5">
                                         <span>Total cost:</span>
                                         @if(isset($monthly_site_cost[$key]))
                                             <span>{{ $monthly_site_cost[$key] }} BDT</span>
