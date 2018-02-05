@@ -91,7 +91,8 @@
 <!-- Navigation -->
 <header class="nav">
 
-  <div class="nav__holder nav--sticky">
+  <div class="nav__holder">
+    {{-- remove "nav--sticky" class --}}
     <div class="container relative">
 
       <div class="flex-parent">
