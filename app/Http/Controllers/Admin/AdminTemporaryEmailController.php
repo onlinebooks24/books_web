@@ -20,7 +20,7 @@ class AdminTemporaryEmailController extends Controller
         $client = new \GuzzleHttp\Client();
         $email = [];
 
-        $search_url = $client->get('https://api.github.com/search/code?per_page=80&order=desc&q=tensorflow&sort=indexed&access_token='. $access_token);
+        $search_url = $client->get('https://api.github.com/search/code?per_page=5&order=desc&q=tensorflow&sort=indexed&access_token='. $access_token);
         $event_json =  json_decode($search_url->getBody());
 
         foreach($event_json->items as $search_item) {
