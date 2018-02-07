@@ -40,6 +40,7 @@ Route::group(['middleware' => ['web']] , function() {
 		Route::resource('/admin_product_orders','Admin\AdminProductOrdersController');
 		Route::resource('/admin_site_costs','Admin\AdminSiteCostsController');
 		Route::resource('/admin_scheduler_jobs','Admin\AdminSchedulerJobsController');
+		Route::resource('/admin_temporary_email','Admin\AdminTemporaryEmailController');
 		Route::any('/admin_all_reports/',[
 			'uses' => 'Admin\AdminAllReportsController@index',
 			'as' => 'admin_all_reports.index'
