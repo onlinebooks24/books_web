@@ -17,7 +17,7 @@ class AdminCollectMailQueuesController extends Controller
     public function index(Request $request)
     {
         $collect_mail_queues = CollectMailQueue::orderBy('created_at','desc')->Paginate(100);;
-        return view('admin.collect_mail_queue.index', compact('collect_mail_queues'));
+        return view('admin.collect_mail_queues.index', compact('collect_mail_queues'));
     }
 
     /**
@@ -27,6 +27,7 @@ class AdminCollectMailQueuesController extends Controller
      */
     public function create()
     {
+        return view('admin.collect_mail_queues.create');
     }
 
     /**
@@ -37,6 +38,34 @@ class AdminCollectMailQueuesController extends Controller
      */
     public function store(Request $request)
     {
+        $topic = $request['topic'];
+        $category_id = $request['category_id'];
+        $article_id = $request['article_id'];
+        $custom_mail_template = $request['custom_mail_template'];
+        $run_count = $request['run_count'];
+        $last_time_run = $request['last_time_run'];
+        $run_cron_job = $request['run_cron_job'];
+        $when_cron_job_have_to_run = $request['when_cron_job_have_to_run'];
+        $limit_cron_job_attempt = $request['limit_cron_job_attempt'];
+
+        $collect_mail_queue = new CollectMailQueue();
+        $collect_mail_queue->topic = $topic;
+        $collect_mail_queue->category_id = $category_id;
+        $collect_mail_queue->article_id = $article_id;
+        $collect_mail_queue->custom_mail_template = $custom_mail_template;
+        $collect_mail_queue->run_count = $run_count;
+        $collect_mail_queue->last_time_run = $last_time_run;
+        $collect_mail_queue->run_cron_job = $run_cron_job;
+        $collect_mail_queue->when_cron_job_have_to_run = $when_cron_job_have_to_run;
+        $collect_mail_queue->limit_cron_job_attempt = $limit_cron_job_attempt;
+        $collect_mail_queue->save();
+
+        $flash_message = 'Created Successfully';
+
+        Session::flash('message', $flash_message);
+
+        return redirect()->to(route('admin_collect_mail_queues.index'));
+
     }
 
     /**

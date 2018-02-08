@@ -41,6 +41,7 @@
                   <span class="caret"></span></a>
               <ul class="dropdown-menu">
                   <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_scheduler_jobs.index') }}">Voice Call Scheduler</a></li>
+                  <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_collect_mail_queues.index') }}">Collect Mail Queue</a></li>
               </ul>
           </li>
         @endif
