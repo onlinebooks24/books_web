@@ -10,6 +10,7 @@ use App\Models\ProductOrder;
 use Auth;
 use App\Models\Upload;
 use DB;
+use Mail;
 
 class ArticleController extends Controller
 {
