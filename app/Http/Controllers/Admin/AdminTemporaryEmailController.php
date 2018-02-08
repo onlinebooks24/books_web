@@ -23,7 +23,7 @@ class AdminTemporaryEmailController extends Controller
         $email = [];
         $category_id = 5;
 
-        $search_url = $client->get('https://api.github.com/search/code?per_page=100&order=desc&q=tensorflow&sort=indexed&access_token='. $access_token);
+        $search_url = $client->get('https://api.github.com/search/code?per_page=20&order=desc&q=tensorflow&sort=indexed&access_token='. $access_token);
         $event_json =  json_decode($search_url->getBody());
 
         foreach($event_json->items as $search_item) {
@@ -35,43 +35,42 @@ class AdminTemporaryEmailController extends Controller
                 if(isset($item->payload->commits[0])){
                     $collect_email = $item->payload->commits[0]->author->email;
 
-                    if (filter_var($collect_email, FILTER_VALIDATE_EMAIL) &&
+                    if (!in_array($collect_email, $email) &&
+                        filter_var($collect_email, FILTER_VALIDATE_EMAIL) &&
                         strpos($collect_email, 'noreply') == false &&
                         strpos($collect_email, 'local') == false &&
                         strpos($collect_email, 'internal') == false ){
                         $email[] = $collect_email;
+
+                        $email_subscriber = EmailSubscriber::where('email', $item)->first();
+
+                        if(empty($email_subscriber)){
+                            $email_subscriber = new EmailSubscriber();
+                            $email_subscriber->full_name = null;
+                            $email_subscriber->email = $item;
+                            $email_subscriber->temporary = true;
+                            $email_subscriber->subscribe = true;
+                            $email_subscriber->	source = 'g';  // from our site
+
+                            $email_subscriber->save();
+
+                            $check_already_exist = EmailSubscriberCategory::where('email_subscriber_id', $email_subscriber->id )
+                                ->where('category_id', $category_id)->first();
+
+                            if(empty($check_already_exist)){
+                                $email_subscriber_category = new EmailSubscriberCategory();
+                                $email_subscriber_category->email_subscriber_id = $email_subscriber->id;
+                                $email_subscriber_category->category_id = $category_id;
+                                $email_subscriber_category->save();
+                            }
+                        }
                     }
                 }
             }
             sleep(1);
         };
 
-        foreach(array_unique($email) as $item){
-            $email_subscriber = EmailSubscriber::where('email', $item)->first();
-
-            if(empty($email_subscriber)){
-                $email_subscriber = new EmailSubscriber();
-                $email_subscriber->full_name = null;
-                $email_subscriber->email = $item;
-                $email_subscriber->temporary = true;
-                $email_subscriber->subscribe = true;
-                $email_subscriber->	source = 'g';  // from our site
-
-                $email_subscriber->save();
-
-                $check_already_exist = EmailSubscriberCategory::where('email_subscriber_id', $email_subscriber->id )
-                    ->where('category_id', $category_id)->first();
-
-                if(empty($check_already_exist)){
-                    $email_subscriber_category = new EmailSubscriberCategory();
-                    $email_subscriber_category->email_subscriber_id = $email_subscriber->id;
-                    $email_subscriber_category->category_id = $category_id;
-                    $email_subscriber_category->save();
-                }
-            }
-        }
-
-        dd(array_unique($email));
+        dd($email);
     }
 
     /**
