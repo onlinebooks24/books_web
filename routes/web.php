@@ -40,6 +40,7 @@ Route::group(['middleware' => ['web']] , function() {
 		Route::resource('/admin_product_orders','Admin\AdminProductOrdersController');
 		Route::resource('/admin_site_costs','Admin\AdminSiteCostsController');
 		Route::resource('/admin_scheduler_jobs','Admin\AdminSchedulerJobsController');
+		Route::resource('/admin_collect_mail_queues','Admin\AdminCollectMailQueuesController');
 		Route::resource('/admin_temporary_email','Admin\AdminTemporaryEmailController');
 		Route::any('/admin_all_reports/',[
 			'uses' => 'Admin\AdminAllReportsController@index',
@@ -105,16 +106,6 @@ Route::group(['middleware' => ['web']] , function() {
 	Route::get('/terms-of-service/' , function(){
 		return View::make('frontend.other.terms_of_service');
 	});
-
-	Route::get('/voice_call/' , [
-		'uses' => 'VoiceCallController@index',
-		'as' => 'voice_call.index'
-	]);
-
-	Route::get('/voice_call/call_template/{voice_message}' , [
-		'uses' => 'VoiceCallController@call_template',
-		'as' => 'voice_call.call_template'
-	]);
 
 	Route::get('/basicemail', [
 		'uses' => 'MailController@basic_email',
