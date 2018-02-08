@@ -15,14 +15,34 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         @if(Auth::user()->roleType->name == 'admin')
-        <li {{ Request::is('category') ? 'class=active' : ''}}><a href="{{ route('admin_category.index') }}">Category</a></li>
-        <li {{ Request::is('articles') ? 'class=active' : ''}}><a href="{{ route('admin_articles.index') }}">Articles</a></li>
-        <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_auto_articles.index') }}">Auto Articles</a></li>
-        <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_uploads.index') }}">Uploads</a></li>
-        <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_product_orders.index') }}">All Orders</a></li>
-        <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_site_costs.index') }}">All Costs</a></li>
-        <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_all_reports.index') }}">All Reports</a></li>
-        <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_scheduler_jobs.index') }}">All Scheduler</a></li>
+          <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Article Section
+                  <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                  <li {{ Request::is('articles') ? 'class=active' : ''}}><a href="{{ route('admin_articles.index') }}">Articles</a></li>
+                  <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_auto_articles.index') }}">Auto Articles</a></li>
+                  <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_uploads.index') }}">Uploads</a></li>
+                  <li {{ Request::is('category') ? 'class=active' : ''}}><a href="{{ route('admin_category.index') }}">Category</a></li>
+              </ul>
+          </li>
+
+          <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Report Section
+                  <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                  <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_all_reports.index') }}">All Reports</a></li>
+                  <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_product_orders.index') }}">All Orders</a></li>
+                  <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_site_costs.index') }}">All Costs</a></li>
+              </ul>
+          </li>
+
+          <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Scheduler Section
+                  <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                  <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_scheduler_jobs.index') }}">Voice Call Scheduler</a></li>
+              </ul>
+          </li>
         @endif
         <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_articles.review_article') }}">Review Articles</a></li>
       </ul>

@@ -24,10 +24,13 @@
             @endif
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-5">
+            <h2>Create Automatic Article</h2>
             <form action="">
-                <input type="text" name="keyword">
-                <input type="submit" value="submit">
+                <div class="form-group">
+                    <input type="text" placeholder="Write Article Keyword (don't write best)" class="form-control" name="keyword">
+                </div>
+                <input type="submit" class="btn btn-success" value="submit">
             </form>
         </div>
     </div>
