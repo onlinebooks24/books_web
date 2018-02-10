@@ -23,9 +23,9 @@ class AdminTemporaryEmailController extends Controller
         $total_request_attempt = CollectMailQueue::sum('limit_cron_job_attempt');
 
         $one_day = 86400; //second
-        $total_email_limit = 2;
+        $total_email_limit = 30;
 //        $average_sleep_time = $one_day/$total_request_attempt;
-        $average_sleep_time = 5;
+        $average_sleep_time = 1;
         $per_page = 100;
         $total_attempt = 0;
 
@@ -47,7 +47,7 @@ class AdminTemporaryEmailController extends Controller
                 }
             }
 
-        dd($total_attempt);
+        dd($total_attempt. 'abc');
     }
 
     /**
@@ -130,7 +130,7 @@ class AdminTemporaryEmailController extends Controller
         foreach($event_json->items as $search_item) {
             $username = $search_item->repository->owner->login;
 
-            if(!in_array($username, $username_array)){
+            if(!in_array($username, $username_array) && ($current_attempt != $current_attempt_limit)){
                 $username_array[] = $username;
                 $event_url = $client->get('https://api.github.com/users/'. $username .'/events/public?access_token='. $access_token);
                 $event_json =  json_decode($event_url->getBody());
@@ -174,10 +174,6 @@ class AdminTemporaryEmailController extends Controller
                     }
                 }
                 sleep($average_sleep_time);
-            }
-
-            if($current_attempt == $current_attempt_limit ){
-                break;
             }
         };
 
