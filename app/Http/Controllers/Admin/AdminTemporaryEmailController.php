@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CollectMailQueue;
 use Illuminate\Http\Request;
 use Session;
 use App\Models\EmailSubscriber;
@@ -17,10 +18,23 @@ class AdminTemporaryEmailController extends Controller
      */
     public function index(Request $request)
     {
+//        $collect_mail_queues = CollectMailQueue::where('run_cron_job', true)->get();
+//
+//        $one_day = 86400; //second
+//        $total_email_limit = 8000;
+//
+//
+//        foreach($collect_mail_queues as $queue_item){
+//            $count_attempt = $queue_item->limit_cron_job_attemp % 100;
+//                for($i = 0; $i < $count_attempt; $i++){
+//                    $ab = '';
+//                }
+//            }
 
         $access_token = env('githubToken');
         $client = new \GuzzleHttp\Client();
         $email = [];
+        $username_array = [];
         $category_id = 5;
 
         $search_url = $client->get('https://api.github.com/search/code?per_page=20&order=desc&q=tensorflow&sort=indexed&access_token='. $access_token);
@@ -28,46 +42,50 @@ class AdminTemporaryEmailController extends Controller
 
         foreach($event_json->items as $search_item) {
             $username = $search_item->repository->owner->login;
-            $event_url = $client->get('https://api.github.com/users/'. $username .'/events/public?access_token='. $access_token);
-            $event_json =  json_decode($event_url->getBody());
 
-            foreach($event_json as $item){
-                if(isset($item->payload->commits[0])){
-                    $collect_email = $item->payload->commits[0]->author->email;
+            if(!in_array($username, $username_array)){
+                $username_array[] = $username;
+                $event_url = $client->get('https://api.github.com/users/'. $username .'/events/public?access_token='. $access_token);
+                $event_json =  json_decode($event_url->getBody());
+                foreach($event_json as $item){
+                    if(isset($item->payload->commits[0])){
+                        $collect_email = $item->payload->commits[0]->author->email;
 
-                    if (!in_array($collect_email, $email) &&
-                        filter_var($collect_email, FILTER_VALIDATE_EMAIL) &&
-                        strpos($collect_email, 'noreply') == false &&
-                        strpos($collect_email, 'local') == false &&
-                        strpos($collect_email, 'internal') == false ){
-                        $email[] = $collect_email;
+                        if (!in_array($collect_email, $email) &&
+                            filter_var($collect_email, FILTER_VALIDATE_EMAIL) &&
+                            strpos($collect_email, 'noreply') == false &&
+                            strpos($collect_email, 'local') == false &&
+                            strpos($collect_email, 'internal') == false &&
+                            strpos($collect_email, 'google') == false){
+                            $email[] = $collect_email;
 
-                        $email_subscriber = EmailSubscriber::where('email', $item)->first();
+                            $email_subscriber = EmailSubscriber::where('email', $collect_email)->first();
 
-                        if(empty($email_subscriber)){
-                            $email_subscriber = new EmailSubscriber();
-                            $email_subscriber->full_name = null;
-                            $email_subscriber->email = $item;
-                            $email_subscriber->temporary = true;
-                            $email_subscriber->subscribe = true;
-                            $email_subscriber->	source = 'g';  // from our site
+                            if(empty($email_subscriber)){
+                                $email_subscriber = new EmailSubscriber();
+                                $email_subscriber->full_name = null;
+                                $email_subscriber->email = $collect_email;
+                                $email_subscriber->temporary = true;
+                                $email_subscriber->subscribe = true;
+                                $email_subscriber->	source = 'g';  // from our site
 
-                            $email_subscriber->save();
+                                $email_subscriber->save();
 
-                            $check_already_exist = EmailSubscriberCategory::where('email_subscriber_id', $email_subscriber->id )
-                                ->where('category_id', $category_id)->first();
+                                $check_already_exist = EmailSubscriberCategory::where('email_subscriber_id', $email_subscriber->id )
+                                    ->where('category_id', $category_id)->first();
 
-                            if(empty($check_already_exist)){
-                                $email_subscriber_category = new EmailSubscriberCategory();
-                                $email_subscriber_category->email_subscriber_id = $email_subscriber->id;
-                                $email_subscriber_category->category_id = $category_id;
-                                $email_subscriber_category->save();
+                                if(empty($check_already_exist)){
+                                    $email_subscriber_category = new EmailSubscriberCategory();
+                                    $email_subscriber_category->email_subscriber_id = $email_subscriber->id;
+                                    $email_subscriber_category->category_id = $category_id;
+                                    $email_subscriber_category->save();
+                                }
                             }
                         }
                     }
                 }
+                sleep(1);
             }
-            sleep(1);
         };
 
         dd($email);
