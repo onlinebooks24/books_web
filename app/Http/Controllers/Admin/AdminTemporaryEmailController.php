@@ -25,9 +25,10 @@ class AdminTemporaryEmailController extends Controller
         $one_day = 86400; //second
         $total_email_limit = 8000;
 //        $average_sleep_time = $one_day/$total_request_attempt;
-        $average_sleep_time = 1;
+        $average_sleep_time = 10;
         $per_page = 100;
         $total_attempt = [];
+        $total_attempt['total'] = 0;
         $count = 1;
 
         for($queue_system_loop = 0; $queue_system_loop < $count; $queue_system_loop++ ){
@@ -42,12 +43,13 @@ class AdminTemporaryEmailController extends Controller
                     $total_attempt[$queue_item->id] = 0;
                 }
 
-                if($total_attempt[$queue_item->id] < $current_attempt_limit){
+                if(($total_attempt[$queue_item->id] < $current_attempt_limit) && ($total_attempt['total'] <= $total_email_limit) ){
                     if($current_attempt_limit >= $total_email_limit){
                         $current_attempt_limit = $total_email_limit;
                     }
-                    $current_attempt_count = $this->ping_github($topic, $category_id, $per_page, $average_sleep_time, $collect_mail_queue_id, $current_attempt_limit);
-                    $total_attempt[$queue_item->id] += $current_attempt_count;
+                    $attempt_status = $this->ping_github($topic, $category_id, $per_page, $average_sleep_time, $collect_mail_queue_id, $current_attempt_limit);
+                    $total_attempt[$queue_item->id] += $attempt_status['current'];
+                    $total_attempt['total'] += $attempt_status['total'];
                     $status = true;
                 }
             }
@@ -133,7 +135,8 @@ class AdminTemporaryEmailController extends Controller
         $email = [];
         $username_array = [];
         $topic = str_replace(' ', '+', $topic);
-        $current_attempt = 0;
+        $attempt_status['current'] = 0;
+        $attempt_status['total'] = 0;
 
         $search_url = $client->get('https://api.github.com/search/code?per_page='. $per_page .'&order=desc&q='. $topic .'&sort=indexed&access_token='. $access_token);
         $event_json =  json_decode($search_url->getBody());
@@ -146,7 +149,7 @@ class AdminTemporaryEmailController extends Controller
                 $event_url = $client->get('https://api.github.com/users/'. $username .'/events/public?access_token='. $access_token);
                 $event_json =  json_decode($event_url->getBody());
                 foreach($event_json as $item){
-                    if(isset($item->payload->commits[0]) && ($current_attempt < $current_attempt_limit)){
+                    if(isset($item->payload->commits[0]) && ($attempt_status['current'] < $current_attempt_limit)){
                         $collect_email = $item->payload->commits[0]->author->email;
 
                         if (!in_array($collect_email, $email) &&
@@ -179,16 +182,17 @@ class AdminTemporaryEmailController extends Controller
                                     $email_subscriber_category->category_id = $category_id;
                                     $email_subscriber_category->save();
                                 }
-                                $current_attempt++;
+                                $attempt_status['current']++;
                                 break;
                             }
                         }
                     }
                 }
                 sleep($average_sleep_time);
+                $attempt_status['total']++;
             }
         };
 
-        return $current_attempt;
+        return $attempt_status;
     }
 }
