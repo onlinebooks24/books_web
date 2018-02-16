@@ -23,33 +23,42 @@ class AdminTemporaryEmailController extends Controller
         $total_request_attempt = CollectMailQueue::where('run_cron_job', true)->sum('limit_cron_job_attempt');
 
         $one_day = 86400; //second
-        $total_email_limit = 30;
+        $total_email_limit = 8000;
 //        $average_sleep_time = $one_day/$total_request_attempt;
         $average_sleep_time = 1;
         $per_page = 100;
-        $total_attempt = 0;
-        $count = 0;
+        $total_attempt = [];
+        $count = 1;
 
-        foreach($collect_mail_queues as $queue_item){
-            $topic = $queue_item->topic;
-            $category_id = $queue_item->category_id;
-            $collect_mail_queue_id = $queue_item->id;
-            $current_attempt_limit = $queue_item->limit_cron_job_attempt;
-            $count_attempt = $queue_item->limit_cron_job_attempt / $per_page;
+        for($queue_system_loop = 0; $queue_system_loop < $count; $queue_system_loop++ ){
+            $status = false;
+            foreach($collect_mail_queues as $queue_item){
+                $topic = $queue_item->topic;
+                $category_id = $queue_item->category_id;
+                $collect_mail_queue_id = $queue_item->id;
+                $current_attempt_limit = $queue_item->limit_cron_job_attempt;
 
-                for($i = 0; $i < $count_attempt; $i++){
-                    if($total_attempt <= $total_email_limit){
-                        if($current_attempt_limit >= $total_email_limit){
-                            $current_attempt_limit = $total_email_limit;
-                        }
-                        $current_attempt_count = $this->ping_github($topic, $category_id, $per_page, $average_sleep_time, $collect_mail_queue_id, $current_attempt_limit);
-                        $total_attempt += $current_attempt_count;
-                        $count++;
+                if(!isset($total_attempt[$queue_item->id])){
+                    $total_attempt[$queue_item->id] = 0;
+                }
+
+                if($total_attempt[$queue_item->id] < $current_attempt_limit){
+                    if($current_attempt_limit >= $total_email_limit){
+                        $current_attempt_limit = $total_email_limit;
                     }
+                    $current_attempt_count = $this->ping_github($topic, $category_id, $per_page, $average_sleep_time, $collect_mail_queue_id, $current_attempt_limit);
+                    $total_attempt[$queue_item->id] += $current_attempt_count;
+                    $status = true;
                 }
             }
 
-        dd($total_attempt. 'abc'. $count);
+            if($status){
+                $count++;
+            }
+        }
+
+        $total_attempt['count'] = $count;
+        dd($total_attempt);
     }
 
     /**
@@ -132,12 +141,12 @@ class AdminTemporaryEmailController extends Controller
         foreach($event_json->items as $search_item) {
             $username = $search_item->repository->owner->login;
 
-            if(!in_array($username, $username_array) && ($current_attempt <= $current_attempt_limit)){
+            if(!in_array($username, $username_array)){
                 $username_array[] = $username;
                 $event_url = $client->get('https://api.github.com/users/'. $username .'/events/public?access_token='. $access_token);
                 $event_json =  json_decode($event_url->getBody());
                 foreach($event_json as $item){
-                    if(isset($item->payload->commits[0])){
+                    if(isset($item->payload->commits[0]) && ($current_attempt < $current_attempt_limit)){
                         $collect_email = $item->payload->commits[0]->author->email;
 
                         if (!in_array($collect_email, $email) &&
@@ -156,7 +165,7 @@ class AdminTemporaryEmailController extends Controller
                                 $email_subscriber->email = $collect_email;
                                 $email_subscriber->temporary = true;
                                 $email_subscriber->subscribe = true;
-                                $email_subscriber->source = 'g';  // from our site
+                                $email_subscriber->source = 'g_'.$username.'_'.$topic;  // from our site
                                 $email_subscriber->collect_mail_queue_id = $collect_mail_queue_id;
 
                                 $email_subscriber->save();
@@ -171,6 +180,7 @@ class AdminTemporaryEmailController extends Controller
                                     $email_subscriber_category->save();
                                 }
                                 $current_attempt++;
+                                break;
                             }
                         }
                     }
