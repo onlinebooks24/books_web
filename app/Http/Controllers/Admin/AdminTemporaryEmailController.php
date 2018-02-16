@@ -23,9 +23,9 @@ class AdminTemporaryEmailController extends Controller
         $total_request_attempt = CollectMailQueue::where('run_cron_job', true)->sum('limit_cron_job_attempt');
 
         $one_day = 86400; //second
-        $total_email_limit = 8000;
 //        $average_sleep_time = $one_day/$total_request_attempt;
         $average_sleep_time = 10;
+        $total_email_limit = 8000;
         $per_page = 100;
         $total_attempt = [];
         $total_attempt['total'] = 0;
