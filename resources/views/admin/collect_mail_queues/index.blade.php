@@ -23,7 +23,6 @@
                     <th>run_count</th>
                     <th>last_time_run</th>
                     <th>run_cron_job</th>
-                    <th>when_cron_job_have_to_run</th>
                     <th>limit_cron_job_attempt</th>
                 </tr>
                 </thead>
@@ -38,7 +37,6 @@
                                 <td>{{ $item->run_count }}</td>
                                 <td>{{ $item->last_time_run }}</td>
                                 <td>{{ $item->run_cron_job }}</td>
-                                <td>{{ $item->when_cron_job_have_to_run }}</td>
                                 <td>{{ $item->limit_cron_job_attempt }}</td>
                             </tr>
                         @endforeach

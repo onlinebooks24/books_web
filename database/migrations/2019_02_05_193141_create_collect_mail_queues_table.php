@@ -20,12 +20,11 @@ class CreateCollectMailQueuesTable extends Migration
             $table->string('topic');
             $table->integer('category_id');
             $table->string('article_id');
+            $table->boolean('run_cron_job');
+            $table->integer('limit_cron_job_attempt');
             $table->text('custom_mail_template');
             $table->integer('run_count');
             $table->dateTime('last_time_run')->nullable();
-            $table->boolean('run_cron_job');
-            $table->dateTime('when_cron_job_have_to_run');
-            $table->integer('limit_cron_job_attempt');
             $table->timestamps();
         });
 

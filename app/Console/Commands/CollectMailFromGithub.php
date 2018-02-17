@@ -8,6 +8,7 @@ use Session;
 use App\Models\EmailSubscriber;
 use App\Models\EmailSubscriberCategory;
 use Mail;
+use Carbon\Carbon;
 
 class CollectMailFromGithub extends Command
 {
@@ -77,6 +78,7 @@ class CollectMailFromGithub extends Command
                     $status = true;
 
                     $queue_item->run_count += 1;
+                    $queue_item->last_time_run = Carbon::now();
                     $queue_item->save();
                 }
             }

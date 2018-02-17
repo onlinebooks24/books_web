@@ -41,11 +41,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label>when_cron_job_have_to_run</label>
-                    <input class="form-control" type="datetime-local" placeholder="when_cron_job_have_to_run" name="when_cron_job_have_to_run">
-                </div>
-
-                <div class="form-group">
                     <label>limit_cron_job_attempt</label>
                     <input class="form-control" type="text" placeholder="limit cronjob attempt per day" value="100" name="limit_cron_job_attempt">
                 </div>
