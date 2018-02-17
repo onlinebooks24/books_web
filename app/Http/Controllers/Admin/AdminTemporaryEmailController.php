@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\Models\EmailSubscriber;
 use App\Models\EmailSubscriberCategory;
+use Mail;
 
 class AdminTemporaryEmailController extends Controller
 {
@@ -24,7 +25,7 @@ class AdminTemporaryEmailController extends Controller
 
         $one_day = 86400; //second
 //        $average_sleep_time = $one_day/$total_request_attempt;
-        $average_sleep_time = 10;
+        $average_sleep_time = 1;
         $total_email_limit = 8000;
         $per_page = 100;
         $total_attempt = [];
@@ -51,6 +52,9 @@ class AdminTemporaryEmailController extends Controller
                     $total_attempt[$queue_item->id] += $attempt_status['current'];
                     $total_attempt['total'] += $attempt_status['total'];
                     $status = true;
+
+                    $queue_item->run_count += 1;
+                    $queue_item->save();
                 }
             }
 
@@ -60,6 +64,15 @@ class AdminTemporaryEmailController extends Controller
         }
 
         $total_attempt['count'] = $count;
+
+        Mail::send(['html'=>'mail_template.collect_mail_queue'], [], function ($message)
+        {
+            $message->subject('Cron job is finished for today');
+            $message->from('info@onlinebooksreview.com', 'OnlineBooksReview');
+
+            $message->to('mashpysays@gmail.com');
+        });
+
         dd($total_attempt);
     }
 

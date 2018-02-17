@@ -27,17 +27,17 @@
 
                 <div class="form-group">
                     <label>custom_mail_template</label>
-                    <input class="form-control" type="text" placeholder="custom_mail_template" name="custom_mail_template">
+                    <textarea class="form-control" type="text" placeholder="custom mail template" name="custom_mail_template"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label>run_count</label>
-                    <input class="form-control" type="text" placeholder="run_count" name="run_count">
+                    <input class="form-control" type="text" value="0" placeholder="run_count" name="run_count">
                 </div>
 
                 <div class="form-group">
                     <label>run_cron_job</label>
-                    <input class="form-control" type="text" placeholder="run_cron_job" name="run_cron_job">
+                    <input class="form-control" type="text" value="1" placeholder="run_cron_job" name="run_cron_job">
                 </div>
 
                 <div class="form-group">
@@ -47,7 +47,7 @@
 
                 <div class="form-group">
                     <label>limit_cron_job_attempt</label>
-                    <input class="form-control" type="text" placeholder="limit_cron_job_attempt" name="limit_cron_job_attempt">
+                    <input class="form-control" type="text" placeholder="limit cronjob attempt per day" value="100" name="limit_cron_job_attempt">
                 </div>
 
                 <input type="submit" value="submit">
