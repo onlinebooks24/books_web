@@ -45,7 +45,6 @@ class AdminCollectMailQueuesController extends Controller
         $run_count = $request['run_count'];
         $last_time_run = $request['last_time_run'];
         $run_cron_job = $request['run_cron_job'];
-        $when_cron_job_have_to_run = $request['when_cron_job_have_to_run'];
         $limit_cron_job_attempt = $request['limit_cron_job_attempt'];
 
         $collect_mail_queue = new CollectMailQueue();
@@ -56,7 +55,6 @@ class AdminCollectMailQueuesController extends Controller
         $collect_mail_queue->run_count = $run_count;
         $collect_mail_queue->last_time_run = $last_time_run;
         $collect_mail_queue->run_cron_job = $run_cron_job;
-        $collect_mail_queue->when_cron_job_have_to_run = $when_cron_job_have_to_run;
         $collect_mail_queue->limit_cron_job_attempt = $limit_cron_job_attempt;
         $collect_mail_queue->save();
 
