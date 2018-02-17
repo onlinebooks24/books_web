@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\AmazonCategory',
         'App\Console\Commands\ArticleAlert',
         'App\Console\Commands\CollectMailFromGithub',
+        'App\Console\Commands\CollectEmailAlert',
         'App\Console\Commands\SchedulerJobAlert',
         'App\Console\Commands\ThumbnailGenerate'
     ];
