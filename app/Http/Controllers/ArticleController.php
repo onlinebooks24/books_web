@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailSubscriber;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
@@ -107,6 +108,15 @@ class ArticleController extends Controller
                 'popular_articles' => $popular_articles]);
         } else {
             setcookie("email", $request['email'], 2147483647);
+            $email_subscriber = EmailSubscriber::where('email', $request['email'])->first();
+
+            if(!empty($email_subscriber)){
+                $email_subscriber->subscribe = true;
+                $email_subscriber->temporary = false;
+                $email_subscriber->click_count += 1;
+                $email_subscriber->save();
+            }
+
             return redirect()->to(url()->current());
         }
 

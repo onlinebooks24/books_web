@@ -433,10 +433,10 @@
                         <!--[if (mso)|(IE)]><td align="center" width="605" style=" width:605px; padding-right: 0px; padding-left: 0px; padding-top:25px; padding-bottom:25px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
                         <div class="col num12" style="padding-top: 7px; text-align: center; color: white; min-width: 320px;max-width: 605px;display: table-cell;vertical-align: top;">
                             <span class="font-size: 8px">
-                                © 2018 <a href="#" style="color: white"><b>Online Books Review</b></a>, All Rights Reserved.
+                                © 2018 <a href="#" style="color: white; text-decoration: none"><b>Online Books Review</b></a>, All Rights Reserved.
                             </span>
                             <div>
-                                <a style="font-size: 9px; color: white; text-align: center" href="#">unsubscribe</a>
+                                <a style="font-size: 9px; color: white; text-align: center" href="{{ route('email.unsubscribe') .'?email='. $email }}">unsubscribe</a>
                             </div>
                         </div>
                         <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->

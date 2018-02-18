@@ -34,6 +34,8 @@ class EmailSubscriberController extends Controller
             $email_subscriber_message = 'success';
 
         } else {
+            $check_email_exist->subscribe = true;
+            $check_email_exist->save();
             $email_subscriber_message = 'exist';
         }
 
@@ -44,7 +46,7 @@ class EmailSubscriberController extends Controller
         $email = $request['email'];
         $category_id = $request['category_id'];
 
-        $email_subscriber = EmailSubscriber::where('email', $email)->first();
+        $email_subscriber = EmailSubscriber::where(['email' => $email, 'subscribe' => true])->first();
 
         $result = false;
 
@@ -68,5 +70,20 @@ class EmailSubscriberController extends Controller
 
         return response()->json(['result' => $result]);
 
+    }
+
+    public function Unsubscribe(Request $request){
+        $email = $request['email'];
+
+        $email_subscriber = EmailSubscriber::where('email', $email)->first();
+
+        if(!empty($email_subscriber)){
+            $email_subscriber->subscribe = false;
+            $email_subscriber->save();
+
+            EmailSubscriberCategory::where('email_subscriber_id', $email_subscriber->id )->delete();
+        }
+
+        return view('frontend.email_subscribers.email_unsubscribe');
     }
 }

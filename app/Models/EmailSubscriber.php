@@ -10,4 +10,9 @@ class EmailSubscriber extends Model
     {
         return $this->belongsTo('App\Models\CollectMailQueue');
     }
+
+    public function email_subscriber_categories()
+    {
+        return $this->hasMany('App\Models\EmailSubscriberCategory');
+    }
 }

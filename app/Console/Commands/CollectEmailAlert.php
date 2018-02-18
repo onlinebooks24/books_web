@@ -41,7 +41,7 @@ class CollectEmailAlert extends Command
      */
     public function handle()
     {
-        $email_subscribers = EmailSubscriber::where([ 'subscribe' => true, 'temporary' => true])->get();
+        $email_subscribers = EmailSubscriber::where([ 'subscribe' => true, 'temporary' => true, 'last_send_email' => null])->get();
 
         foreach($email_subscribers as $email_subscriber){
             $email_data['email'] = $email_subscriber->email;
@@ -56,10 +56,22 @@ class CollectEmailAlert extends Command
 
                 $message->to($email_data['email']);
             });
-break;
+
+            $email_subscriber->email_count += 1;
+            $email_subscriber->last_send_email = Carbon::now();
+            $email_subscriber->save();
+
+
+            sleep(1);
         }
 
-        dd($email_subscribers);
+        Mail::send(['html'=>'mail_template.collect_mail_queue'], [], function ($message)
+        {
+            $message->subject('Collect article is finished for today');
+            $message->from('info@onlinebooksreview.com', 'OnlineBooksReview');
+
+            $message->to('mashpysays@gmail.com');
+        });
 
     }
 

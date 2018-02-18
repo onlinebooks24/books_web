@@ -139,8 +139,8 @@ class CollectMailFromGithub extends Command
                                 $email_subscriber->full_name = null;
                                 $email_subscriber->email = $collect_email;
                                 $email_subscriber->temporary = true;
-                                $email_subscriber->subscribe = true;
-                                $email_subscriber->source = 'g_'.$username.'_'.$topic;  // from our site
+                                $email_subscriber->subscribe = false;
+                                $email_subscriber->source = 'g_'.$username;  // from our site
                                 $email_subscriber->collect_mail_queue_id = $collect_mail_queue_id;
 
                                 $email_subscriber->save();

@@ -77,6 +77,11 @@ Route::group(['middleware' => ['web']] , function() {
 		'as' => 'email.subscribe_now'
 	]);
 
+	Route::any('/unsubscribe/' , [
+		'uses' => 'EmailSubscriberController@Unsubscribe',
+		'as' => 'email.unsubscribe'
+	]);
+
 	Route::any('/update-category-subscriber/' , [
 		'uses' => 'EmailSubscriberController@UpdateCategorySubscriber',
 		'as' => 'email.update_category_subscriber'
