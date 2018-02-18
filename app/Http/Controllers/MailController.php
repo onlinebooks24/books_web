@@ -17,7 +17,7 @@ class MailController extends Controller
             $message->subject('this is subject');
             $message->from('info@onlinebooksreview.com', 'OnlineBooksReview');
 
-            $message->to('chrisn@scotch.io');
+            $message->to('mashpysays@gmail.com');
 
         });
 

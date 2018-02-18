@@ -112,7 +112,7 @@ Route::group(['middleware' => ['web']] , function() {
 		return View::make('frontend.other.terms_of_service');
 	});
 
-	Route::get('/basicemail', [
+	Route::get('/basic_email', [
 		'uses' => 'MailController@basic_email',
 		'as' => 'mail'
 	]);
