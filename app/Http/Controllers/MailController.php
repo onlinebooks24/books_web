@@ -15,7 +15,7 @@ class MailController extends Controller
         Mail::send(['html'=>'mail_template.collect_mail_queue'], [], function ($message)
         {
             $message->subject('this is subject');
-            $message->from('info@onlinebooksreview.com', 'OnlineBooksReview');
+            $message->from('info@esljobslounge.com', 'ESL Jobs Lounge');
 
             $message->to('mashpysays@gmail.com');
 
