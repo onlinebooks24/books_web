@@ -62,7 +62,7 @@ class CollectEmailAlert extends Command
             $email_subscriber->save();
 
 
-            sleep(1);
+            sleep(10);
         }
 
         Mail::send(['html'=>'mail_template.collect_mail_queue'], [], function ($message)
