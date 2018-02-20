@@ -13,18 +13,19 @@
 //    ];
 
 
-if (env('APP_ENV') == 'production') {
+if (env('APP_ENV') != 'production') {
     return array(
         "driver" => env('SES_MAIL_DRIVER', 'smtp'),
         "host" => env('SES_MAIL_HOST', 'email-smtp.us-west-2.amazonaws.com'),
         "port" => env('SES_MAIL_PORT', '587'),
+        'encryption' => 'tls',
         "from" => array(
             "address" => "info@onlinebooksreview.com",
             "name" => "OnlineBooksReview"
         ),
         "username" => env('SES_MAIL_USERNAME'),
         "password" => env('SES_MAIL_PASSWORD'),
-        "sendmail" => "/usr/sbin/sendmail -bs",
+        'sendmail' => '/usr/sbin/sendmail -bs',
         "pretend" => false
     );
 
