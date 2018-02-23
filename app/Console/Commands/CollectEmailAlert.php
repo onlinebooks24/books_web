@@ -41,7 +41,7 @@ class CollectEmailAlert extends Command
      */
     public function handle()
     {
-        $email_subscribers = EmailSubscriber::where([ 'subscribe' => true, 'temporary' => true, 'last_send_email' => null])->get();
+        $email_subscribers = EmailSubscriber::where(['temporary' => true, 'last_send_email' => null])->get();
 
         foreach($email_subscribers as $email_subscriber){
             $email_data['email'] = $email_subscriber->email;
