@@ -49,7 +49,7 @@ class CollectMailFromGithub extends Command
 
         $one_day = 86400; //second
 //        $average_sleep_time = $one_day/$total_request_attempt;
-        $average_sleep_time = 1;
+        $average_sleep_time = 10;
         $total_email_limit = 8000;
         $per_page = 100;
         $total_attempt = [];
