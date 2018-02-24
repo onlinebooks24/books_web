@@ -86,6 +86,7 @@
 <script type="text/javascript"  src="{{ asset('/js/js.cookie.min.js') }}"></script>
 
 <script>
+    alert(Cookies.get('email'));
     if(Cookies.get('email') != undefined){
         var category_id = $('.category_id').data('value');
         var email = Cookies.get('email');
