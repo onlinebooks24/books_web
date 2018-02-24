@@ -107,6 +107,7 @@ class ArticleController extends Controller
                 'ordered_product_articles' => $ordered_product_articles,
                 'popular_articles' => $popular_articles]);
         } else {
+            unset($_COOKIE['email']));
             setcookie("email", $request['email'], 2147483647);
             $email_subscriber = EmailSubscriber::where('email', $request['email'])->first();
 
