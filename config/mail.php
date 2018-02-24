@@ -13,7 +13,7 @@
 //    ];
 
 
-if (env('APP_ENV') != 'production') {
+if (env('APP_ENV') == 'production') {
     return array(
         "driver" => env('SES_MAIL_DRIVER', 'smtp'),
         "host" => env('SES_MAIL_HOST', 'email-smtp.us-west-2.amazonaws.com'),
