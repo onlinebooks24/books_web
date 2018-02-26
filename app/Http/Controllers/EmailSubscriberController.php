@@ -80,6 +80,7 @@ class EmailSubscriberController extends Controller
 
         if(!empty($email_subscriber)){
             $email_subscriber->subscribe = false;
+            $email_subscriber->temporary = false;
             $email_subscriber->save();
 
             EmailSubscriberCategory::where('email_subscriber_id', $email_subscriber->id )->delete();
