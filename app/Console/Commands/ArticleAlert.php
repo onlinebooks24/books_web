@@ -49,7 +49,7 @@ class ArticleAlert extends Command
 
         $send_call = null;
 
-        if($difference >= 1){
+        if($difference >= 3){
             $accountId = env('twilioKeyAccountId');
             $token = env('twilioKeySecret');
             $fromNumber = config('constants.twilio_from_number');
