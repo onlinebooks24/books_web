@@ -17,6 +17,10 @@ class EmailSubscriberController extends Controller
     public function SubscribeNow(Request $request){
         $email = $request['email'];
 
+        if(empty($email)){
+            return redirect(route('blog.index'));
+        }
+
         setcookie("email", $email, 2147483647);
 
         $check_email_exist = EmailSubscriber::where('email', $email)->first();

@@ -76,6 +76,10 @@ class ArticleController extends Controller
                 ->orderBy('created_at','desc')->get();
             $article = Article::where('slug' , $slug)->first();
 
+            if(!isset($article)){
+                return redirect(route('blog.index'));
+            }
+
             $popular_articles = Article::where('status', true)->orderBy('count','desc')->Paginate(25);
 
             $ordered_product_articles = ProductOrder::select('product_number', 'title')
@@ -87,9 +91,6 @@ class ArticleController extends Controller
                 ->take(3)
                 ->get();
 
-            if(!isset($article)){
-                return redirect(route('blog.index'));
-            }
             $products = Product::where('article_id',$article->id)->orderBy('created_at','asc')->get();
             $uploads = Upload::all();
             if(empty(Auth::user())){
@@ -98,7 +99,7 @@ class ArticleController extends Controller
                 $article->save();
             }
 
-            return view('frontend.articles.show',[ 'article'=>$article,
+            return view('frontend.articles.show',[ 'article'=> $article,
                 'articles' => $articles,
                 'categories' => $categories,
                 'products' => $products,
