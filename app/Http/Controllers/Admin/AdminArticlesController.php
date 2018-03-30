@@ -295,7 +295,14 @@ class AdminArticlesController extends Controller
     }
 
     public function review_article(){
-        $articles = Article::where('waiting_for_approval', true)->orderBy('created_at','desc')->Paginate(10);
+        if(Auth::user()->roleType->name == 'admin'){
+            $articles = Article::where('status', false)->orderBy('created_at','desc')->Paginate(10);
+        } else {
+            $articles = Article::where('status', false)
+                ->where('user_id', Auth::user()->id)
+                ->orderBy('created_at','desc')
+                ->Paginate(10);
+        }
         return view('admin.articles.review_article',['articles' => $articles]);
     }
 

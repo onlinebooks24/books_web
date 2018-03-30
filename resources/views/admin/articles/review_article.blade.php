@@ -30,6 +30,7 @@
                 <thead>
 
                 <th>Title</th>
+                <th>Assigned</th>
                 <th>Edit</th>
                 @if(Auth::user()->roleType->name == 'admin')
                 <th>Delete</th>
@@ -42,6 +43,7 @@
                 @foreach($articles as $key => $article)
                 <tr>
                     <td>{{ $article->title }}</td>
+                    <td>{{ $article->user->name }}</td>
                     <td><a href="{{ route('admin_articles.edit', $article->id) }}"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
                     @if(Auth::user()->roleType->name == 'admin')
                     <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete{{++$key}}" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
