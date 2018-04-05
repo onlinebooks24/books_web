@@ -83,7 +83,7 @@ class AdminAutoArticlesController extends Controller
                     $link_string = str_replace('/url?q=', '', $link_string);
                     $link_string = substr($link_string, 0, strpos($link_string, "&sa="));
                     $pathinfo = pathinfo($link_string);
-                    $domain_name = parse_url($link_string)['host'];
+//                    $domain_name = parse_url($link_string)['host'];
                     if( !isset($pathinfo['extension']) && strpos($link_string, '.amazon.') == false){
                         $next_client = new Client();
                         $next_crawler = $next_client->request('GET', $link_string);
