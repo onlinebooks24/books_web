@@ -86,7 +86,7 @@ class AdminAutoArticlesController extends Controller
 //                    $domain_name = parse_url($link_string)['host'];
                     if( !isset($pathinfo['extension']) && strpos($link_string, '.amazon.') == false){
                         $next_client = new Client();
-                        $next_crawler = $next_client->request('GET', $link_string);
+                        $next_crawler = $next_client->request('GET', $link_string, ['verify' => false]);
                         $collect_books = $next_crawler->filter('body a')->each(function ($next_node) {
                             $general_link_string = $next_node->attr('href');
 
