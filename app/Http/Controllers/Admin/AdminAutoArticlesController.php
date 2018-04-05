@@ -77,7 +77,7 @@ class AdminAutoArticlesController extends Controller
             $total_suggested_books = null;
             $google_keyword = 'best+' . str_replace(' ', '+',  strtolower($title));
             for($i=0; $i <= 1; $i++){
-                $crawler = $client->request('GET', "https://www.google.com/search?q=$google_keyword&ie=utf-8&oe=utf-8&client=firefox-b&start=$i");
+                $crawler = $client->request('GET', "https://www.google.com/search?q=$google_keyword&ie=utf-8&oe=utf-8&client=firefox-b&start=$i", ['verify' => false]);
                 $total_suggested_books =   $crawler->filter('.r a')->each(function ($node) {
                     $link_string = $node->attr('href');
                     $link_string = str_replace('/url?q=', '', $link_string);
@@ -289,7 +289,7 @@ class AdminAutoArticlesController extends Controller
 
     public function getRankingFromAmazonReview($best_books, $asin){
         $client = new Client();
-        $crawler = $client->request('GET', "https://www.amazon.com/product-reviews/$asin/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1");
+        $crawler = $client->request('GET', "https://www.amazon.com/product-reviews/$asin/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1", ['verify' => false]);
         $raking_review_dates = $crawler->filter('.review-date')->each(function ($node) {
             return (int)substr($node->text(), -1)*2;
         });
