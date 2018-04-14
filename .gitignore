@@ -12,5 +12,4 @@ Homestead.yaml
 .DS_Store
 public/phpmyadmin/
 public/robots.txt
-public/sitemap.xml
 public/uploads/*
