@@ -24,7 +24,7 @@ class ArticleController extends Controller
     {
         $categories = Category::where('category_status', true)
             ->orderBy('created_at','desc')->get();
-        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(25);
+        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(27);
 
         $popular_articles = Article::where('status', true)->orderBy('count','desc')->Paginate(25);
 

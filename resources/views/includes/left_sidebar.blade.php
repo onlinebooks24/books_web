@@ -111,6 +111,15 @@
         </div>
     </div>
 
+    <div class="widget">
+        <h4 class="widget-title">Buy Kindle Ebook Reader</h4>
+        <div>
+            <a href="https://www.amazon.com/dp/B00OQVZDJM/?tag=onlinebooksre-20" target="_blank">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/71qVoGNiLcL._SX522_.jpg">
+            </a>
+        </div>
+    </div>
+
     <div class="widget top10 bottom20">
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <!-- OnlineBooksreview article show right sidebar -->
