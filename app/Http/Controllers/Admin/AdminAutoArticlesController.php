@@ -66,8 +66,10 @@ class AdminAutoArticlesController extends Controller
                 if(!empty($get_amazon_items)){
 
                     foreach($get_amazon_items as $item){
-                        $asin = $item['ASIN'];
-                        $best_books = $this->getRankingFromAmazonReview($best_books, $asin);
+                        if(isset($item['ASIN'])){
+                            $asin = $item['ASIN'];
+                            $best_books = $this->getRankingFromAmazonReview($best_books, $asin);
+                        }
                     }
                 }
                 sleep(2);
