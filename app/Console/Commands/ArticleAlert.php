@@ -54,7 +54,7 @@ class ArticleAlert extends Command
             $token = env('twilioKeySecret');
             $fromNumber = config('constants.twilio_from_number');
 
-            $admin_users = User::whereIn('id', [1,2])->get();
+            $admin_users = User::whereIn('id', [1])->get();
 
             foreach($admin_users as $user){
                 $voice_message = ",.. Hi, $user->name. Hope you are fine. I am from online books review. "
