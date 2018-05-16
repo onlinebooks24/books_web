@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('meta_description')
+    {{ $category->name }} | OnlineBooksReview
+@endsection
+
 @section('title')
   {{ $category->name }} | OnlineBooksReview
 @endsection
