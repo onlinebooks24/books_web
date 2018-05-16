@@ -64,7 +64,7 @@
                             <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">
                                 <div class="thumb-container">
                                     @if(isset($article->thumbnail_image))
-                                        <img data-src="{{ $article->thumbnail_image->folder_path  . 'obr_thumb_250_250_' .  $article->thumbnail_image->name }}" src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" class="entry__img lazyload" alt="{{ $article->title }}" />
+                                        <img data-src="{{ $article->thumbnail_image->folder_path  . 'obr_thumb_250_250_' .  $article->thumbnail_image->name }}" src="{{ $article->thumbnail_image->folder_path . 'obr_thumb_250_250_' . $article->thumbnail_image->name }}" class="entry__img lazyload" alt="{{ $article->title }}" />
                                     @endif
                                 </div>
                             </a>
