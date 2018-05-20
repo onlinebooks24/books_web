@@ -49,7 +49,7 @@
                     @endforeach
                 </div>
                 <div class="col-md-6">
-                    <h5>Article publish ratio</h5>
+                    <h5>Article publish ratio (Total {{ $articles->count() }})</h5>
                     <div class="row">
                         @foreach($total_articles as $key => $value)
                             <div class="col-md-6">
