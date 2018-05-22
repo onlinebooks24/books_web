@@ -79,8 +79,10 @@ class AdminAllReportsController extends Controller
             $individual_revenue = [];
             $individual_no_sell = [];
             $article_investment_return = [];
+            $article_view_count = 0;
 
             foreach($articles as $article){
+                $article_view_count +=  $article->count;
                 $date = Carbon::parse($article->created_at)->format('Y_F');
                 if(!isset($total_articles[(string)$date])){
                     $total_articles[(string)$date] = 0;
@@ -145,7 +147,8 @@ class AdminAllReportsController extends Controller
                         'articles', 'last_article', 'total_articles',
                         'individual_costs', 'individual_articles',
                         'individual_cost', 'individual_revenue',
-                        'individual_no_sell', 'article_investment_return'));
+                        'individual_no_sell', 'article_investment_return',
+                        'article_view_count'));
         }
     }
 
