@@ -26,11 +26,11 @@
 
                         <p>These 3rd party vendors are not affiliated with OnlineBooksReview and act on their own accord.</p>
 
-                        <p>You can always opt-out of DoubleClick cookie tracking with a small plugin provided by Google.</p>
+                        <p>You can always <a target="_blank" href="https://www.google.com/settings/ads/plugin">opt-out</a> of DoubleClick cookie tracking with a small plugin provided by Google.</p>
 
                         <p>Alternative cookies used by other 3rd parties aside from AdSense may require additional opt-out links. You can contact us directly with any additional questions.</p>
 
-                        <p>To learn more about 3rd party cookies please visit this page explaining how ad services like Google AdSense operate.</p>
+                        <p>To learn more about 3rd party cookies please visit <a href="http://www.google.com/policies/technologies/ads/" target="_blank">this page</a> explaining how ad services like Google AdSense operate.</p>
 
                         <p>OnlineBooksReview is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com.</p>
 
