@@ -152,7 +152,7 @@
 
                         <div class="form-group"> <!-- Message field -->
                             <label class="control-label " for="message">Product Description</label>
-                            <textarea class="summernote product_description" name="product_description">{!! $product->product_description !!}</textarea>
+                            <textarea class="summernote product_description" data-product="{{$product->id}}" name="product_description">{!! $product->product_description !!}</textarea>
                         </div>
 
                         <div class="form-group">
@@ -161,6 +161,7 @@
                                 <input class="form-control bottom5" name="created_at" type="text" value="{{ $product->created_at }}" />
                             </span>
                             <button type="submit" class="product_save btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+                            <div class="top5 hidden please-save save-request-{{$product->id}}"><span class="btn-sm btn-danger">Please Save</span></div>
                         </div>
                     </form>
 
@@ -274,6 +275,7 @@
                 success:function(result){
                     alert('success');
                     $("#response").text(result);
+                    $('.please-save').addClass('hidden');
                 }
             });
         });
@@ -358,7 +360,13 @@
                     }
                 }
             });
-        })
+        });
+
+        $(".product_description").on("summernote.change", function (e) {   // callback as jquery custom event
+            var product_id = $(this).data('product');
+
+            $('.save-request-' + product_id).removeClass('hidden');
+        });
 
     </script>
 
