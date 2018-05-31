@@ -2,7 +2,7 @@
 <html class="no-js" lang="">
 
 <head>
-  <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <title>Dashboard || OnlineBooksReview Web</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
