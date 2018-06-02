@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\AmazonCategory',
         'App\Console\Commands\ArticleAlert',
+        'App\Console\Commands\AutoVideoGenerate',
         'App\Console\Commands\CollectMailFromGithub',
         'App\Console\Commands\CollectEmailAlert',
         'App\Console\Commands\SchedulerJobAlert',

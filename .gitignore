@@ -7,7 +7,6 @@
 Homestead.json
 Homestead.yaml
 .env
-/public/uploads/blog_images/*
 .ftpquota
 .DS_Store
 public/phpmyadmin/
