@@ -224,7 +224,7 @@
 
 @section('run_custom_js_file')
     <script id="dsq-count-scr" src="//onlinebooksreview.disqus.com/count.js" async></script>
-    <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>
+    {{--<script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>--}}
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 @endsection
 
