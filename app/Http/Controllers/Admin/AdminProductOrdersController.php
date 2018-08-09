@@ -20,7 +20,7 @@ class AdminProductOrdersController extends Controller
     public function index(Request $request)
     {
         if($request['unlinked'] == 'yes'){
-            $product_orders = ProductOrder::where('article_id', null)->orderBy('created_at','desc')->Paginate(50);
+            $product_orders = ProductOrder::where('article_id', null)->orderBy('shipment_date','desc')->Paginate(50);
         } else {
             $product_orders = ProductOrder::orderBy('shipment_date','desc')->Paginate(50);
         }
