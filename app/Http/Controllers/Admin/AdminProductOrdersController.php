@@ -158,19 +158,19 @@ class AdminProductOrdersController extends Controller
 
         $product_title_array = explode(" ",$product_order->title);
 
-        $exclude_lists = ['the', 'a', 'with', 'to', 'for', 'how', 'in', 'book', ':', 'and', '&'];
+        $exclude_lists = ['the', 'a', 'with', 'to', 'for', 'how', 'in', 'book', ':', 'and', '&', 'Beginners'];
 
         $article_array = [];
 
         foreach($product_title_array as $product_title_item){
-            if(!array_search(strtolower($product_title_item), $exclude_lists)){
+            if(!in_array(strtolower($product_title_item), $exclude_lists)){
                 $article = Article::where('title', 'LIKE', "% $product_title_item %")->pluck('id')->toArray();
-                $article_array[$product_title_item] = $article;
-//                $article_array = array_unique(array_merge($article_array, $article));
+//                $article_array[$product_title_item] = $article;
+                $article_array = array_unique(array_merge($article_array, $article));
             }
         }
 
-        dd($article_array);
+//        dd($article_array);
 
         $suggestion_articles = Article::whereIn('id', $article_array)->get();
         return view('admin.product_orders.edit', compact('product_order', 'suggestion_articles'));
