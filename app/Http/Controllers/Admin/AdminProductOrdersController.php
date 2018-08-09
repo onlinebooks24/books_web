@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Models\Product;
 use App\Models\ProductOrder;
 use Illuminate\Http\Request;
@@ -154,7 +155,18 @@ class AdminProductOrdersController extends Controller
     public function edit($id)
     {
         $product_order = ProductOrder::find($id);
-        return view('admin.product_orders.edit', compact('product_order'));
+
+        $product_title_array = explode(" ",$product_order->title);
+
+        $article_array = [];
+
+        foreach($product_title_array as $product_title_item){
+            $article = Article::where('slug', 'LIKE', "%$product_title_item%")->pluck('id')->toArray();
+            $article_array = array_unique(array_merge($article_array, $article));
+        }
+
+        $suggestion_articles = Article::whereIn('id', $article_array)->get();
+        return view('admin.product_orders.edit', compact('product_order', 'suggestion_articles'));
     }
 
     /**
