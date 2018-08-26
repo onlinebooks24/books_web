@@ -80,6 +80,7 @@ class AdminAllReportsController extends Controller
             $individual_no_sell = [];
             $article_investment_return = [];
             $article_view_count = 0;
+            $monthly_article_view_count = [];
 
             foreach($articles as $article){
                 $article_view_count +=  $article->count;
@@ -89,6 +90,10 @@ class AdminAllReportsController extends Controller
                 }
                 $total_articles[(string)$date] += 1;
 
+                if(!isset($monthly_article_view_count[(string)$date])){
+                    $monthly_article_view_count[(string)$date] = 0;
+                }
+                $monthly_article_view_count[(string)$date] += $article->count;
 
                 $username = $article->user->name;
 
@@ -148,7 +153,7 @@ class AdminAllReportsController extends Controller
                         'individual_costs', 'individual_articles',
                         'individual_cost', 'individual_revenue',
                         'individual_no_sell', 'article_investment_return',
-                        'article_view_count'));
+                        'article_view_count', 'monthly_article_view_count'));
         }
     }
 

@@ -74,6 +74,15 @@
                                         @endif
                                     </div>
 
+                                    <div class="btn btn-default top5">
+                                        <span>Article View Count:</span>
+                                        @if(isset($monthly_article_view_count[$key]))
+                                            <span>{{ $monthly_article_view_count[$key] }}</span>
+                                        @else
+                                            <span>0</span>
+                                        @endif
+                                    </div>
+
                                     <div class="btn btn-danger top5">
                                         <span>Total cost:</span>
                                         @if(isset($monthly_site_cost[$key]))
