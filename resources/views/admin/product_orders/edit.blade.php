@@ -52,14 +52,14 @@
                         </div>
                         <div class="form-group">
                             <label>Article id</label>
-                            <input type="text" name="article_id" class="form-control" placeholder="article_id" value="{{ $product_order->article_id }}">
+                            <input type="text" name="article_id" class="form-control article-id-field" placeholder="article_id" value="{{ $product_order->article_id }}">
                         </div>
                         <div>
                             <div>
                                 Suggestion:
                             </div>
                             @foreach($suggestion_articles as $suggestion_article)
-                            <li>{{ $suggestion_article->id }} : <a target="_blank" href="{{ route('articles.show' , [ 'slug' => $suggestion_article->slug ])}}">{{ $suggestion_article->title }}</a></li>
+                            <li>{{ $suggestion_article->id }} : <a target="_blank" class="suggestion-article" data-article-id="{{ $suggestion_article->id }}" href="#">{{ $suggestion_article->title }}</a></li>
                             @endforeach
                         </div>
                         <br/>
@@ -68,7 +68,7 @@
                             <input type="text" name="product_type" class="form-control" placeholder="product_type" value="{{ $product_order->product_type }}">
                         </div>
 
-                        <input type="submit" value="update">
+                        <input type="submit" value="update" class="submit-form">
                     </form>
                 </div>
             </div>
@@ -81,5 +81,12 @@
 @endsection
 
 @section('run_custom_jquery')
-
+    <script>
+        $('.suggestion-article').click(function (e) {
+            e.preventDefault();
+            var article_id = $(this).data('article-id');
+            $('.article-id-field').val(article_id);
+            $('.submit-form').click();
+        });
+    </script>
 @endsection
