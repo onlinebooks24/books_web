@@ -77,7 +77,7 @@
                                 </td>
                                 <td>
                                     @if(empty($product_order->article_id))
-                                        <a href="{{ route('admin_product_orders.edit', $product_order ) }}">Edit</a>
+                                        <a target="_blank" href="{{ route('admin_product_orders.edit', $product_order ) }}">Edit</a>
                                     @endif
                                 </td>
                             </tr>
