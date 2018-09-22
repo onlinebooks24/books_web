@@ -99,6 +99,12 @@ class ArticleController extends Controller
                 $article->save();
             }
 
+            if($request['format'] == 'json'){
+                $json_data['article'] = $article;
+                $json_data['products'] = $article->products;
+                return response($json_data);
+            }
+
             return view('frontend.articles.show',[ 'article'=> $article,
                 'articles' => $articles,
                 'categories' => $categories,
