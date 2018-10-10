@@ -72,7 +72,7 @@ class AdminAllReportsController extends Controller
 
             $articles = Article::where('status', true)->orderBy('created_at', 'desc')->get();
             $last_article = Article::where('status', true)->orderBy('created_at', 'desc')->first();
-            $last_article = $last_article->created_at->diffForHumans();
+            $last_article = ($last_article->created_at->diff(Carbon::now())->days) . ' days ago';
 
             $total_articles = [];
             $individual_articles = [];
