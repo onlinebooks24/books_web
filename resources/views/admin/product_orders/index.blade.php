@@ -53,6 +53,7 @@
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
                         <tr>
+                            <th>id</th>
                             <th>Product Number</th>
                             <th>Title</th>
                             <th>Shipment date</th>
@@ -65,6 +66,7 @@
                     <tbody>
                         @foreach($product_orders as $product_order)
                             <tr>
+                                <td>{{ $product_order->id }}</td>
                                 <td>{{ $product_order->product_number }}</td>
                                 <td>{{ $product_order->title }}</td>
                                 <td>{{ Carbon\Carbon::parse($product_order->shipment_date)->toFormattedDateString() }}</td>

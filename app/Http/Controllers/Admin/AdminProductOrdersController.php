@@ -20,9 +20,9 @@ class AdminProductOrdersController extends Controller
     public function index(Request $request)
     {
         if($request['unlinked'] == 'yes'){
-            $product_orders = ProductOrder::where('article_id', null)->orderBy('shipment_date','desc')->Paginate(50);
+            $product_orders = ProductOrder::where('article_id', null)->orderBy('created_at','desc')->Paginate(50);
         } else {
-            $product_orders = ProductOrder::orderBy('shipment_date','desc')->Paginate(50);
+            $product_orders = ProductOrder::orderBy('created_at','desc')->Paginate(50);
         }
         return view('admin.product_orders.index', compact('product_orders'));
     }
@@ -70,6 +70,14 @@ class AdminProductOrdersController extends Controller
                     if(!empty($check_product_exist)){
                         $product_id = $check_product_exist->id;
                         $article_id = $check_product_exist->article->id;
+                    }
+
+                    $check_product_order_article = ProductOrder::where('product_number', $product_number)->first();
+
+                    if(!empty($check_product_order_article)){
+                        $product_id = $check_product_order_article->product_id;
+                        $article_id = $check_product_order_article->article_id;
+                        $manually_inserted_on_article = false;
                     }
 
                     $product_order = new ProductOrder();
