@@ -20,7 +20,7 @@ class AdminVideoMakerController extends Controller
 
     public function makeVideo($slug)
     {
-        $article_url_api = route('articles.show' , [ 'slug' => $slug ])."?format=json";
+        $article_url_api = "https://www.onlinebooksreview.com/articles/".$slug."?format=json";
         echo realpath($this->path);
         $this->path=public_path("/uploads/videos");
         $this->descriptor=$this->path."/video_desc.txt";
