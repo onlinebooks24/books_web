@@ -42,6 +42,10 @@ Route::group(['middleware' => ['web']] , function() {
 		Route::resource('/admin_scheduler_jobs','Admin\AdminSchedulerJobsController');
 		Route::resource('/admin_collect_mail_queues','Admin\AdminCollectMailQueuesController');
 		Route::resource('/admin_temporary_email','Admin\AdminTemporaryEmailController');
+		Route::any('/admin_video_maker/make_video/{slug}',[
+			'uses' => 'Admin\AdminVideoMakerController@makeVideo',
+			'as' => 'admin_video_maker.make_video'
+		]);
 		Route::any('/admin_all_reports/',[
 			'uses' => 'Admin\AdminAllReportsController@index',
 			'as' => 'admin_all_reports.index'

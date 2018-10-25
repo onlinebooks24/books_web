@@ -41,6 +41,7 @@
 	   <th>Edit</th>
        <th>Delete</th>
        <th>Publish</th>
+       <th>Video</th>
        <th>View</th>
        </thead>
     <tbody>
@@ -86,6 +87,7 @@
 				@endif
 			</a>
 		</td>
+		<td><a target="_blank" href="{{ route('admin_video_maker.make_video' , [ 'slug' => $article->slug ])}}">Make Video</a></td>
 		<td><a target="_blank" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a></td>
 	</tr>
 
