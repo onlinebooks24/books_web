@@ -21,9 +21,10 @@ class AdminVideoMakerController extends Controller
     public function makeVideo($slug)
     {
         $article_url_api = "https://www.onlinebooksreview.com/articles/".$slug."?format=json";
-        echo realpath($this->path);
+        
         $this->path=public_path("/uploads/videos");
         $this->descriptor=$this->path."/video_desc.txt";
+        echo realpath($this->path);
 
         $json=$this->get_from($article_url_api);
         $json2=$this->make_ready($json);
@@ -40,10 +41,10 @@ class AdminVideoMakerController extends Controller
         $option=array();
         $option[0]=array("high_quality",1);
         $option[1]=array("subtitle_type","\"render\"");
-        $option[2]=array("border",100);
+        $option[2]=array("border",110);
         $option[3]=array("sharpen",1);
         $option[4]=array("widescreen",1);
-        $option[5]=array("subtitle_font_size",20);
+        $option[5]=array("subtitle_font_size",18);
         $option[6]=array("subtitle_location_x",0);
         $option[7]=array("subtitle_location_y",60);
         $option[8]=array("subtitle_color","\"black\"");
@@ -119,7 +120,7 @@ class AdminVideoMakerController extends Controller
         $new_data["background"]=$this->file_downloader($old_data["background"],"back.jpeg");
         $new_data["audio"]=$this->file_downloader($old_data["audio"],"audio.mp3");
         $new_data["trans"]=$old_data["trans"];
-        $this->video_name=$old_data["article"]["slug"];
+        
         
         return json_encode($new_data);
         
@@ -152,6 +153,7 @@ class AdminVideoMakerController extends Controller
         $new_data["background"]=$this->path."/extra/back.jpeg";
         $new_data["audio"]=$this->path."/extra/audio.mp3";
         $new_data["trans"]="crossfade:1\n";
+        $this->video_name=$old_data["article"]["slug"];
         
         for($i=0;$i<sizeof($old_data["products"]);$i++)
         {
