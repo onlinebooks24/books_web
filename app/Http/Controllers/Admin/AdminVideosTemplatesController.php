@@ -15,7 +15,7 @@ class AdminVideosTemplatesController extends Controller
      */
     public function index()
     {
-        $videos_templates = VideosTemplate::all();
+        $videos_templates = VideosTemplate::paginate(10);
         return view('admin.videos_templates.index', compact('videos_templates'));
     }
 

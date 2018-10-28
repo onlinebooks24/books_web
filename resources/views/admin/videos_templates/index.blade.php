@@ -10,31 +10,39 @@
                 <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
             @endif
             <div class="pull-left">
-                <h2>All Site Costs</h2>
+                <h2>All Videos Templates</h2>
             </div>
 
             <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('admin_site_costs.create') }}">Add New Cost</a>
+                <a class="btn btn-success" href="{{ route('admin_videos_templates.create') }}">Add New Template</a>
             </div>
             <table id="mytable" class="table table-bordred table-striped">
                 <thead>
                 <tr>
-                    <th>Description</th>
-                    <th>Site Cost Type</th>
-                    
+                    <th>Template Name</th>
+                    <th>Introduction</th>
+                    <th>End</th>
+                    <th>Book Picture</th>
+                    <th>Book Description</th>
+                    <th>Background Image</th>
+                    <th>Audio Location</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($videos_templates as $video_template )
                     <tr>
-                        <td>{{ $video_template->id }}</td>
                         <td>{{ $video_template->template_name }}</td>
-                        
+                        <td>{{ $video_template->introduction }}</td>
+                        <td>{{ $video_template->end }}</td>
+                        <td>{{ $video_template->book_picture }}</td>
+                        <td>{{ $video_template->book_description }}</td>
+                        <td>{{ $video_template->background_image }}</td>
+                        <td>{{ $video_template->audio_location }}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            {!! $video_template->appends(\Input::except('page'))->render() !!}
+            {!! $videos_templates->appends(\Input::except('page'))->render() !!}
         </div>
     </div>
 
