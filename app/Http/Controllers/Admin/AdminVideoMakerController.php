@@ -41,12 +41,12 @@ class AdminVideoMakerController extends Controller
         $option=array();
         $option[0]=array("high_quality",1);
         $option[1]=array("subtitle_type","\"render\"");
-        $option[2]=array("border",110);
+        $option[2]=array("border",120);
         $option[3]=array("sharpen",1);
         $option[4]=array("widescreen",1);
-        $option[5]=array("subtitle_font_size",18);
+        $option[5]=array("subtitle_font_size",16);
         $option[6]=array("subtitle_location_x",0);
-        $option[7]=array("subtitle_location_y",60);
+        $option[7]=array("subtitle_location_y",75);
         $option[8]=array("subtitle_color","\"black\"");
         $option[9]=array("subtitle_outline_color","\"white\"");
         $fadein="fadein:1\n";
@@ -64,7 +64,7 @@ class AdminVideoMakerController extends Controller
             fwrite($file_desc,$option[$i][0]."=".$option[$i][1]."\n");
         }
         
-        fwrite($file_desc,realpath($audio).":1\n");
+        fwrite($file_desc,realpath($audio).":1:fadein:0:fadeout:2\n");
         fwrite($file_desc,"background:0::".realpath($background)."\n");
         fwrite($file_desc,"background:1\n");
         fwrite($file_desc,$fadein);
