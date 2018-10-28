@@ -8,29 +8,28 @@
     <div class="row">
         <div class="col-md-12">
             <h2>Add new cost</h2>
-            <form action="{{ route('admin_site_costs.store') }}" method="post">
+            <form action="{{ route('admin_videos_templates.store') }}" method="post">
                 {{ csrf_field() }}
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="description" name="description">
+                    <input class="form-control" type="text" value="Template 1" placeholder="template_name" name="template_name">
                 </div>
                 <div class="form-group">
-                    <select name="site_cost_type_id" class="form-control" >
-                        @foreach($site_cost_types as $site_cost_type)
-                            <option value="{{ $site_cost_type->id }}">{{ $site_cost_type->name }}</option>
-                        @endforeach
-                    </select>
+                    <input class="form-control" type="text" value="3" placeholder="introduction" name="introduction">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="amount" name="amount">
+                    <input class="form-control" type="text" value="3" placeholder="end" name="end">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="date" placeholder="when_paid" name="when_paid">
+                    <input class="form-control" type="text" value="4" placeholder="book_picture" name="book_picture">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="article_id" name="article_id">
+                    <input class="form-control" type="text" value="6" placeholder="book_description"  name="book_description">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="user_id" value="1"  name="user_id">
+                    <input class="form-control" type="text" placeholder="background_image"  name="background_image">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="audio_location"  name="audio_location">
                 </div>
                 <input type="submit" value="submit">
             </form>

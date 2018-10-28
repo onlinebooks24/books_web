@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\VideosTemplate;
+use Session;
 
 class AdminVideosTemplatesController extends Controller
 {
@@ -26,7 +27,7 @@ class AdminVideosTemplatesController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.videos_templates.create');
     }
 
     /**
@@ -37,7 +38,20 @@ class AdminVideosTemplatesController extends Controller
      */
     public function store(Request $request)
     {
+        $videos_template = new VideosTemplate();
+        $videos_template->template_name = $request->template_name;
+        $videos_template->introduction = $request->introduction;
+        $videos_template->end = $request->end;
+        $videos_template->book_picture = $request->book_picture;
+        $videos_template->book_description = $request->book_description;
+        $videos_template->background_image = $request->background_image;
+        $videos_template->audio_location = $request->audio_location;
+        $videos_template->save();
 
+        $flash_message = 'Successfully Saved';
+        Session::flash('message', $flash_message);
+
+        return redirect()->to(route('admin_videos_templates.index'));
     }
 
     /**
