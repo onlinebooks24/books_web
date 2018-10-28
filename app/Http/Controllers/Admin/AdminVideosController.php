@@ -29,7 +29,8 @@ class AdminVideosController extends Controller
     public function create(Request $request)
     {
         $article = Article::find($request->article_id);
-        return view('admin.videos.create', compact('article'));
+        $products = $article->products;
+        return view('admin.videos.create', compact('article', 'products'));
     }
 
     /**
