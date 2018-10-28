@@ -23,6 +23,8 @@
                   <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_auto_articles.index') }}">Auto Articles</a></li>
                   <li {{ Request::is('auto') ? 'class=active' : ''}}><a href="{{ route('admin_uploads.index') }}">Uploads</a></li>
                   <li {{ Request::is('category') ? 'class=active' : ''}}><a href="{{ route('admin_category.index') }}">Category</a></li>
+                  <li {{ Request::is('category') ? 'class=active' : ''}}><a href="{{ route('admin_videos.index') }}">Videos</a></li>
+                  <li {{ Request::is('category') ? 'class=active' : ''}}><a href="{{ route('admin_videos_templates.index') }}">Videos Templates</a></li>
               </ul>
           </li>
 
