@@ -18,8 +18,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\CollectMailFromGithub',
         'App\Console\Commands\CollectEmailAlert',
         'App\Console\Commands\SchedulerJobAlert',
-        'App\Console\Commands\ThumbnailGenerate',
-        'App\Console\Commands\VideoMake'
+        'App\Console\Commands\ThumbnailGenerate'
     ];
 
     /**

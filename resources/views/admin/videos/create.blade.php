@@ -16,13 +16,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label>Article Title</label>
-                    <input class="form-control" type="text" value="{{ $article->title }}" placeholder="article_id" name="article_title">
+                    <input class="form-control" type="text" value="{{ $article->title }}" placeholder="article_title" name="article_title">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="article_id" name="article_id">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="article_id" name="article_id">
+                    <input class="form-control" type="text" value="{{ $article->id }}" placeholder="article_id" name="article_id">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="video_template_id" name="video_template_id">
@@ -58,10 +55,6 @@
             </div>
             <div class="col-md-9">
                 <div class="alert alert-warning">
-                    <form action="" method="post" enctype="multipart/form-data" class="product_save">
-                        {{ csrf_field() }}
-                        <input name="_method" type="hidden" value="PUT">
-                        <input name="product_id" type="hidden" value="{{ $product->id }}">
                         <div class="form-group"> <!-- Name field -->
                             <label class="control-label " for="name"><span style="color: red;" >{{ ++$key }}. </span> Title</label>
                             <input class="form-control" name="title" type="text" value="{{ $product->product_title }}" disabled/>
@@ -71,8 +64,6 @@
                             <label class="control-label " for="message">Product Description</label>
                             <textarea class="summernote product_description" data-product="{{$product->id}}" name="product_description">{!! $product->product_description !!}</textarea>
                         </div>
-
-                    </form>
 
                 </div>
             </div>
