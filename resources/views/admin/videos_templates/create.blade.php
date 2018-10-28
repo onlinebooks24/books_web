@@ -2,12 +2,12 @@
 
 @section('content')
     <div class="bottom10 pull-right">
-        <a class="btn btn-info" href="{{ route('admin_site_costs.index') }}">All site costs</a>
+        <a class="btn btn-info" href="{{ route('admin_videos_templates.index') }}">All videos templates</a>
     </div>
 
     <div class="row">
         <div class="col-md-12">
-            <h2>Add new cost</h2>
+            <h2>Add new template</h2>
             <form action="{{ route('admin_videos_templates.store') }}" method="post">
                 {{ csrf_field() }}
                 <div class="form-group">

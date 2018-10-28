@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Video;
+use App\Models\Article;
+use Session;
 
 class AdminVideosController extends Controller
 {
@@ -14,7 +17,8 @@ class AdminVideosController extends Controller
      */
     public function index()
     {
-        
+        $videos = Video::paginate(10);
+        return view('admin.videos.index', compact('videos'));
     }
 
     /**
@@ -22,9 +26,10 @@ class AdminVideosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $article = Article::find($request->article_id);
+        return view('admin.videos.create', compact('article'));
     }
 
     /**
@@ -35,7 +40,17 @@ class AdminVideosController extends Controller
      */
     public function store(Request $request)
     {
+        $video = new Video();
+        $video->article_id = $request->article_id;
+        $video->video_template_id = $request->video_template_id;
+        $video->file_location = $request->file_location;
+        $video->youtube_link = $request->youtube_link;
+        $video->save();
 
+        $flash_message = 'Successfully Saved';
+        Session::flash('message', $flash_message);
+
+        return redirect()->to(route('admin_videos.index'));
     }
 
     /**

@@ -87,7 +87,7 @@
 				@endif
 			</a>
 		</td>
-		<td><a target="_blank" href="{{ route('admin_video_maker.make_video' , [ 'slug' => $article->slug ])}}">Make Video</a></td>
+		<td><a target="_blank" href="{{ route('admin_videos.create' , [ 'article_id' => $article->id ])}}">Make Video</a></td>
 		<td><a target="_blank" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a></td>
 	</tr>
 
