@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Video;
 use App\Models\Article;
 use Session;
+use Spatie\Browsershot\Browsershot;
 
 class AdminVideosController extends Controller
 {
@@ -42,13 +43,15 @@ class AdminVideosController extends Controller
     public function store(Request $request)
     {
         $article = Article::find($request->article_id);
-        $article_url_api = "https://www.onlinebooksreview.com/articles/".$article->slug."?format=json";
-        
+        $article_json_data['article'] = $article;
+        $article_json_data['products'] = $article->products;
+        $article_json_data = json_encode($article_json_data);
+
         $this->path=public_path("/uploads/videos");
         $this->descriptor=$this->path."/video_desc.txt";
         echo realpath($this->path);
 
-        $json=$this->get_from($article_url_api);
+        $json=$this->get_from($article_json_data);
         $json2=$this->make_ready($json);
         $ret=$this->make_desc($json2);
         echo "\n";
@@ -219,9 +222,9 @@ class AdminVideosController extends Controller
         
     }
     
-    private function get_from($url)
+    private function get_from($article_json_data)
     {
-        $json=file_get_contents($url);
+        $json= $article_json_data;
         $old_data=json_decode($json,true);
         $new_data=array();
         $new_data["title"]["text"]=$old_data["article"]["title"];
@@ -257,10 +260,12 @@ class AdminVideosController extends Controller
         fwrite($page,$code);
         fclose($page);
     
-        $cmd="xvfb-run --server-args=\"-screen 0, 710x400x24\" ";
-        $cmd=$cmd."cutycapt --min-width=710 --min-height=400 --url=file://".realpath($htm)." --out=".$this->path."/temp_data/".$name." 2>&1";
-        shell_exec($cmd);
-        sleep(10);
+//        $cmd="xvfb-run --server-args=\"-screen 0, 710x400x24\" ";
+//        $cmd=$cmd."cutycapt --min-width=710 --min-height=400 --url=file://".realpath($htm)." --out=".$this->path."/temp_data/".$name." 2>&1";
+//        shell_exec($cmd);
+
+        Browsershot::url("file://".realpath($htm))->save($this->path."/temp_data/".$name);
+//        sleep(10);
         return $this->path."/temp_data/".$name;
     }
 
