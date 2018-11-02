@@ -121,55 +121,29 @@ class AdminVideosController extends Controller
     private function make_desc($input)
     {
         $in_data=json_decode($input,true);
-        $option=array();
-        $option[0]=array("high_quality",1);
-        $option[1]=array("subtitle_type","\"render\"");
-        $option[2]=array("border",120);
-        $option[3]=array("sharpen",1);
-        $option[4]=array("widescreen",1);
-        $option[5]=array("subtitle_font_size",16);
-        $option[6]=array("subtitle_location_x",0);
-        $option[7]=array("subtitle_location_y",75);
-        $option[8]=array("subtitle_color","\"black\"");
-        $option[9]=array("subtitle_outline_color","\"white\"");
-        $fadein="fadein:1\n";
-        $fadeout="fadeout:1\n";
-        
-        $background=$in_data["background"];
-        $audio=$in_data["audio"];
-        $trans=$in_data["trans"];
-        
+        $this->audio=$in_data["audio"];
         
         $file_desc=fopen($this->descriptor,"w");
+
+        fwrite($file_desc,"file '".$in_data["background"]."'\n");
+        fwrite($file_desc,"duration 5"."\n");
+
         
-        for($i=0;$i<sizeof($option);$i++)
-        {
-            fwrite($file_desc,$option[$i][0]."=".$option[$i][1]."\n");
-        }
-        
-        fwrite($file_desc,realpath($audio).":1:fadein:0:fadeout:2\n");
-        fwrite($file_desc,"background:0::".realpath($background)."\n");
-        fwrite($file_desc,"background:1\n");
-        fwrite($file_desc,$fadein);
-        fwrite($file_desc,"title:".$in_data["title"]["duration"].":".$this->title_maker($in_data["title"]["text"])."\n");
-        fwrite($file_desc,$trans);
-        fwrite($file_desc,realpath($in_data["intro"]["img_name"]).":".$in_data["intro"]["duration"]."\n");
-        fwrite($file_desc,$trans);
+        fwrite($file_desc,"file '".realpath($in_data["intro"]["img_name"])."'\n");
+        fwrite($file_desc,"duration ".$in_data["intro"]["duration"]."\n");
         
         for($i=0;$i<sizeof($in_data["book"]);$i++)
         {
-            //fwrite($file_desc,realpath($in_data["book"][$i]["rank_img"]).":2\n");
-            //fwrite($file_desc,$trans);
-            fwrite($file_desc,realpath($in_data["book"][$i]["image"]["img_name"]).":".$in_data["book"][$i]["image"]["duration"].":".$in_data["book"][$i]["image"]["name"].":\n");
-            fwrite($file_desc,$trans);
-            fwrite($file_desc,realpath($in_data["book"][$i]["details"]["img_name"]).":".$in_data["book"][$i]["details"]["duration"]."\n");
-            fwrite($file_desc,$trans);
+            
+            fwrite($file_desc,"file '".realpath($in_data["book"][$i]["image"]["img_name"])."'\n");
+            fwrite($file_desc,"duration ".$in_data["book"][$i]["image"]["duration"]."\n");
+            fwrite($file_desc,"file '".realpath($in_data["book"][$i]["details"]["img_name"])."'\n");
+            fwrite($file_desc,"duration ".$in_data["book"][$i]["details"]["duration"]."\n");
         }
         
-        fwrite($file_desc,realpath($in_data["conclution"]["img_name"]).":".$in_data["conclution"]["duration"]."\n");
-        fwrite($file_desc,$fadeout);
-        fwrite($file_desc,"background:0\n");
-        fwrite($file_desc,"exit\n");
+        fwrite($file_desc,"file '".realpath($in_data["conclution"]["img_name"])."'\n");
+        fwrite($file_desc,"duration ".$in_data["conclution"]["duration"]."\n");
+        
         fclose($file_desc);
         
         return true;
@@ -178,31 +152,32 @@ class AdminVideosController extends Controller
 
     private function make_ready($input)
     {
+        $img_no=1;
         $old_data=json_decode($input,true);
         $new_data=array();
+        $new_data["background"]=$this->file_downloader($old_data["background"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
+        $new_data["audio"]=$this->file_downloader($old_data["audio"],"audio.mp3");
+        $new_data["trans"]=$old_data["trans"];
         $new_data["title"]["text"]=str_replace(":","\:",$old_data["title"]["text"]);
         $new_data["title"]["duration"]=$old_data["title"]["duration"];
-        $new_data["intro"]["img_name"]=$this->html2img($old_data["intro"]["text"],"intro.png");
+        $new_data["intro"]["img_name"]=$this->html2img($old_data["intro"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
         $new_data["intro"]["duration"]=$old_data["intro"]["duration"];
         
         for($i=0;$i<sizeof($old_data["book"]);$i++)
         {
-            //$new_data["book"][$i]["rank_img"]=rank_maker($i+1);
-            $new_data["book"][$i]["details"]["img_name"]=$this->html2img($old_data["book"][$i]["details"]["text"],"t".($i+1).".png");
+            $new_data["book"][$i]["details"]["img_name"]=$this->html2img($old_data["book"][$i]["details"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
             $new_data["book"][$i]["details"]["duration"]=$old_data["book"][$i]["details"]["duration"];
             
-            $new_data["book"][$i]["image"]["img_name"]=$this->file_downloader($old_data["book"][$i]["image"]["link"],"i".($i+1).".jpeg");
+            $new_data["book"][$i]["image"]["img_name"]=$this->file_downloader($old_data["book"][$i]["image"]["link"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
             $new_data["book"][$i]["image"]["duration"]=$old_data["book"][$i]["image"]["duration"];
             $new_data["book"][$i]["image"]["name"]=($i+1)."\: ".str_replace(":","\:",$old_data["book"][$i]["image"]["name"]);
             
         }
         
-        $new_data["conclution"]["img_name"]=$this->html2img($old_data["conclution"]["text"],"conc.png");
+        $new_data["conclution"]["img_name"]=$this->html2img($old_data["conclution"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
         $new_data["conclution"]["duration"]=$old_data["conclution"]["duration"];
         
-        $new_data["background"]=$this->file_downloader($old_data["background"],"back.jpeg");
-        $new_data["audio"]=$this->file_downloader($old_data["audio"],"audio.mp3");
-        $new_data["trans"]=$old_data["trans"];
+        
         
         
         return json_encode($new_data);
@@ -217,7 +192,8 @@ class AdminVideosController extends Controller
         }
         //$name="video_".rand(100,100000);
         $name=$this->video_name;
-        shell_exec("dvd-slideshow -n '".$name."' -o '".$this->path."' -f '".$this->path."/video_desc.txt' -mp4 -s 1920x1080");
+        shell_exec("ffmpeg -f concat -safe 0 -i '".$this->path."/video_desc.txt' -i '".$this->audio."' -vsync vfr -pix_fmt yuv420p -shortest '".$this->path."/".$name.".mp4'");
+
         return $this->path."/".$name.".mp4";
         
     }
@@ -264,7 +240,7 @@ class AdminVideosController extends Controller
 //        $cmd=$cmd."cutycapt --min-width=710 --min-height=400 --url=file://".realpath($htm)." --out=".$this->path."/temp_data/".$name." 2>&1";
 //        shell_exec($cmd);
 
-        Browsershot::url("file://".realpath($htm))->save($this->path."/temp_data/".$name);
+        Browsershot::url("file://".realpath($htm))->setScreenshotType('jpeg',100)->save($this->path."/temp_data/".$name);
 //        sleep(10);
         return $this->path."/temp_data/".$name;
     }
