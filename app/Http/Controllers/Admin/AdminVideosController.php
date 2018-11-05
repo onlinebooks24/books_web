@@ -192,7 +192,7 @@ class AdminVideosController extends Controller
         }
         //$name="video_".rand(100,100000);
         $name=$this->video_name;
-        shell_exec("ffmpeg -f concat -safe 0 -i '".$this->path."/video_desc.txt' -i '".$this->audio."' -vsync vfr -pix_fmt yuv420p -shortest '".$this->path."/".$name.".mp4'");
+        dd(shell_exec("ffmpeg -f concat -safe 0 -i '".$this->path."/video_desc.txt' -i '".$this->audio."' -vsync vfr -pix_fmt yuv420p  -y -shortest '".$this->path."/".$name.".mp4'"));
 
         return $this->path."/".$name.".mp4";
         
