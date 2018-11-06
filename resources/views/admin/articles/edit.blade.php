@@ -182,7 +182,7 @@
                             <button type="submit" class="product_save btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
                             <div class="top5 hidden please-save save-request-{{$product->id}}"><span class="btn-sm btn-danger">Please Save</span></div>
 
-                            <div class="pull-right">
+                            <div class="col-md-offset-8 top-25">
                                 <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn-sm btn-success view-review-here" >View Review Here</a></div>
                             </div>
                         </div>
