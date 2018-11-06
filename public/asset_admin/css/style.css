@@ -352,3 +352,8 @@ h2 {
     height: 350px;
     overflow: scroll;
 }
+.total-review-item{
+    border: 1px solid grey;
+    box-shadow: inset 0px 0px 2px 0px #c2c2c2;
+    padding: 10px;
+}

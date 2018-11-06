@@ -151,25 +151,27 @@
                             <input class="form-control" name="title" type="text" value="{{ $product->product_title }}" disabled/>
                         </div>
 
-                        <div class="form-group product-description"> <!-- Message field -->
-                            <label class="control-label " for="message">Product Description</label>
-                            <textarea class="summernote product_description" data-product="{{$product->id}}" name="product_description">{!! $product->product_description !!}</textarea>
-                        </div>
-
-                        <div class="product-review-box review-details-{{$product->isbn}} hidden">
-                            <div>
-                                <b>Total Review Count:</b> <span class="total-review-count"></span>
-                            </div>
-                            <div>
-                                <b>Total Rating:</b> <span class="total-rating"></span>
+                        <div class="product-box-{{ $product->isbn }}">
+                            <div class="form-group product-description"> <!-- Message field -->
+                                <label class="control-label " for="message">Product Description</label>
+                                <textarea class="summernote product_description" data-product="{{$product->id}}" name="product_description">{!! $product->product_description !!}</textarea>
                             </div>
 
-                            <div>
-                                <b>Total Rating details:</b> <span class="total-rating-details"></span>
-                            </div>
+                            <div class="product-review-box hidden">
+                                <div>
+                                    <b>Total Review Count:</b> <span class="total-review-count"></span>
+                                </div>
+                                <div>
+                                    <b>Total Rating:</b> <span class="total-rating"></span>
+                                </div>
 
-                            <div>
-                                <b>Total Review details:</b> <span class="total-review-details"></span>
+                                <div>
+                                    <b>Total Rating details:</b> <span class="total-rating-details"></span>
+                                </div>
+
+                                <div class="top5">
+                                    <b>Total Review details:</b> <div class="total-review-details"></div>
+                                </div>
                             </div>
                         </div>
 
@@ -391,36 +393,47 @@
             var review_isbn = $(this).data('review-isbn');
             $.ajax("/admin/admin_articles/product_review/" + review_isbn, {
                 success: function(data) {
-                    $('.product-description').addClass('hidden');
-                    $('.product-review-box').removeClass('hidden');
+                    var product_box = '.product-box-' + review_isbn + ' ';
 
-                    var review_details = '.review-details-' + review_isbn + ' ';
+                    $( product_box + '.product-description').addClass('hidden');
+                    $( product_box + '.product-review-box').removeClass('hidden');
 
-                    $( review_details + '.total-review-count').text(data.total_review_count);
-                    $( review_details + '.total-rating').text(data.total_rating);
+                    $( product_box + '.total-review-count').text(data.total_review_count);
+                    $( product_box + '.total-rating').text(data.total_rating);
 
                     var total_rating_details = '';
                     $.each(data.total_rating_details, function (index, value) {
-                        total_rating_details += '<div>';
-                        total_rating_details += value;
-                        total_rating_details += '</div>';
-                    });
-
-                    $(review_details + '.total-rating-details').html(total_rating_details);
-
-                    var total_review_details = '';
-                    $.each(data.total_review_details, function (index, value) {
-                        total_review_details += '<div>';
-                        total_review_details += value;
-                        total_review_details += '</div>';
-
-                        index = index + 1;
-                        if(index % 4 == 0){
-                            total_review_details += '</br>';
+                        if(index == 0){
+                            total_rating_details += '<div> 5 star: ' + value + '</div>';
+                        } else if (index == 1) {
+                            total_rating_details += '<div> 4 star: ' + value + '</div>';
+                        } else if(index == 2){
+                            total_rating_details += '<div> 3 star: ' + value + '</div>';
+                        } else if(index == 3){
+                            total_rating_details += '<div> 2 star: ' + value + '</div>';
+                        } else if (index == 4){
+                            total_rating_details += '<div> 1 star: ' + value + '</div>';
                         }
                     });
 
-                    $(review_details + '.total-review-details').html(total_review_details);
+                    $( product_box + '.total-rating-details').html(total_rating_details);
+
+                    var total_review_details = '';
+                    $.each(data.total_review_details, function (index, value) {
+                        index = index + 1;
+                        if(index % 4 == 1){
+                            total_review_details += '<div class="total-review-item"><div class="bottom5"><span class="btn-sm btn-danger">' + value + '</span></div>';
+                        } else if (index % 4 == 2) {
+                            total_review_details += '<div><strong>' + value + '</strong></div>';
+                        } else if(index % 4 == 3){
+                            total_review_details += '<div class="red">' + value + '</div>';
+                        } else if(index % 4 == 0){
+                            total_review_details += value;
+                            total_review_details += '</div>' + '</br>';
+                        }
+                    });
+
+                    $( product_box + '.total-review-details').html(total_review_details);
                 }
             });
         })
