@@ -22,6 +22,7 @@ use App\Models\Upload;
 use App\Models\Product;
 use App\Helpers\Helper;
 use App\User;
+use Goutte\Client;
 
 class AdminArticlesController extends Controller
 {
@@ -460,5 +461,38 @@ class AdminArticlesController extends Controller
         $product_id = $request['product_id'];
         $product = Product::find($product_id);
         $product->delete();
+    }
+
+    public function product_review($isbn){
+        $product_url = "https://www.amazon.com/product-reviews/". $isbn. "/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1";
+        $client = new Client();
+        $crawler = $client->request('GET', $product_url);
+        $json_data = null;
+        $total_review_count = $crawler->filter('.totalReviewCount')->each(function ($node) {
+            return $node->text();
+        });
+
+        $json_data['total_review_count'] = $total_review_count[0];
+
+        $total_rating = $crawler->filter('.arp-rating-out-of-text')->each(function ($node) {
+            return ((float)(substr($node->text(), 0, 3)));
+        });
+
+        $json_data['total_rating'] = $total_rating[0];
+
+        $total_rating_details = $crawler->filter('.histogram-review-count')->each(function ($node) {
+            return $node->text();
+        });
+
+        $json_data['total_rating_details'] = $total_rating_details;
+
+//        $total_review_details = $crawler->filter('#cm_cr-review_list .a-icon-alt , #cm_cr-review_list .a-color-base, .review-text')->each(function ($node) {
+        $total_review_details = $crawler->filter('#cm_cr-review_list .review-date,#cm_cr-review_list .review-title, #cm_cr-review_list .a-icon-alt, #cm_cr-review_list .review-text')->each(function ($node) {
+            return $node->text();
+        });
+
+        $json_data['total_review_details'] = $total_review_details;
+
+        return response()->json($json_data);
     }
 }

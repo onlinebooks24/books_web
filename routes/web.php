@@ -34,6 +34,10 @@ Route::group(['middleware' => ['web']] , function() {
 			'uses' => 'Admin\AdminArticlesController@review_article',
 			'as' => 'admin_articles.review_article'
 		]);
+		Route::any('/admin_articles/product_review/{isbn}',[
+			'uses' => 'Admin\AdminArticlesController@product_review',
+			'as' => 'admin_articles.product_review'
+		]);
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
 		Route::resource('/admin_uploads','Admin\AdminUploadsController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
