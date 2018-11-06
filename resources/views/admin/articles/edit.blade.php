@@ -9,6 +9,7 @@
         <div class="alert alert-info">
             <strong>Update Articles</strong>
             <div class="pull-right top-5">
+                <label id="minutes">00</label>:<label id="seconds">00</label>
                 <a target="_blank" class="btn btn-info" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a>
                 @if(Auth::user()->roleType->name == 'admin')
                 <a class="btn btn-success" href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
@@ -182,9 +183,9 @@
                             <button type="submit" class="product_save btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
                             <div class="top5 hidden please-save save-request-{{$product->id}}"><span class="btn-sm btn-danger">Please Save</span></div>
 
-                            <div class="col-md-offset-8 top-25">
-                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn-sm btn-success view-review-here" >View Review Here</a></div>
-                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn-sm btn-info view-description-here hidden" >View Description</a></div>
+                            <div class="col-md-offset-7 top-25">
+                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn btn-success view-review-here" >View Review Here</a></div>
+                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn btn-info view-description-here hidden" >View Description</a></div>
                             </div>
                         </div>
                         </div>
@@ -192,12 +193,12 @@
 
                     @if(Auth::user()->roleType->name == 'admin')
                         <div class="pull-right top-30">
-                            <form action="" method="post" enctype="multipart/form-data" class="product_delete">
+                            <form action="" method="post" enctype="multipart/form-data" data-isbn="{{ $product->isbn }}" class="product_delete">
                                 {{ csrf_field() }}
                                 <input name="_method" type="hidden" value="PUT">
                                 <input type="hidden" name="product_id" value="{{$product->id}}">
                                 <input type="hidden" name="product_order" value="{{ $key }}">
-                                <button type="submit" class="btn btn-danger btn" ><span class="glyphicon glyphicon-remove-sign"></span> Delete</button>
+                                <button type="submit" class="btn btn-danger btn"><span class="glyphicon glyphicon-remove-sign"></span> Delete</button>
                             </form>
                         </div>
                     @endif
@@ -310,12 +311,12 @@
             $.ajax({
                 url:'{!!URL::route('admin_articles.product_destroy')!!}',
                 type:'POST',
-                data:$(this).serialize(),
-                success:function(result){
-                }
+                data:$(this).serialize()
             });
             $(this).addClass('hidden');
-
+            var isbn = $(this).data('isbn');
+            var product_box = '.product-box-' + isbn;
+            $(product_box).addClass('btn-danger');
         });
 
         $('.view-product').click(function(){
@@ -463,6 +464,25 @@
 
         });
 
+        var minutesLabel = document.getElementById("minutes");
+        var secondsLabel = document.getElementById("seconds");
+        var totalSeconds = 0;
+        setInterval(setTime, 1000);
+
+        function setTime() {
+            ++totalSeconds;
+            secondsLabel.innerHTML = pad(totalSeconds % 60);
+            minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+        }
+
+        function pad(val) {
+            var valString = val + "";
+            if (valString.length < 2) {
+                return "0" + valString;
+            } else {
+                return valString;
+            }
+        }
     </script>
 
 @endsection
