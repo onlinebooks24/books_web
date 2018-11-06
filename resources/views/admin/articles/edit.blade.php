@@ -138,7 +138,6 @@
                 </div>
 
                 <div class="top10"><a href="https://www.amazon.com/product-reviews/{{ $product->isbn }}/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1" target="_blank" class="btn-sm btn-success view-product" >View Review</a></div>
-                <div class="top10"><a href="#" data-review-isbn="{{$product->isbn}}" class="btn-sm btn-success view-review-here" >View Review Here</a></div>
             </div>
             <div class="col-md-9">
                 <div class="alert alert-warning">
@@ -182,6 +181,10 @@
                             </span>
                             <button type="submit" class="product_save btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
                             <div class="top5 hidden please-save save-request-{{$product->id}}"><span class="btn-sm btn-danger">Please Save</span></div>
+
+                            <div class="pull-right">
+                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn-sm btn-success view-review-here" >View Review Here</a></div>
+                            </div>
                         </div>
                     </form>
 
