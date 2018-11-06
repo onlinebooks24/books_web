@@ -345,3 +345,10 @@ h2 {
 .red {
     color:red;
 }
+.product-review-box{
+    background-color: white;
+    color: black;
+    padding: 4px;
+    height: 350px;
+    overflow: scroll;
+}

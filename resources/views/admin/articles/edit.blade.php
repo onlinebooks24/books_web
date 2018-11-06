@@ -138,6 +138,7 @@
                 </div>
 
                 <div class="top10"><a href="https://www.amazon.com/product-reviews/{{ $product->isbn }}/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1" target="_blank" class="btn-sm btn-success view-product" >View Review</a></div>
+                <div class="top10"><a href="#" data-review-isbn="{{$product->isbn}}" class="btn-sm btn-success view-review-here" >View Review Here</a></div>
             </div>
             <div class="col-md-9">
                 <div class="alert alert-warning">
@@ -150,9 +151,26 @@
                             <input class="form-control" name="title" type="text" value="{{ $product->product_title }}" disabled/>
                         </div>
 
-                        <div class="form-group"> <!-- Message field -->
+                        <div class="form-group product-description"> <!-- Message field -->
                             <label class="control-label " for="message">Product Description</label>
                             <textarea class="summernote product_description" data-product="{{$product->id}}" name="product_description">{!! $product->product_description !!}</textarea>
+                        </div>
+
+                        <div class="product-review-box hidden">
+                            <div>
+                                <b>Total Review Count:</b> <span class="total-review-count"></span>
+                            </div>
+                            <div>
+                                <b>Total Rating:</b> <span class="total-rating"></span>
+                            </div>
+
+                            <div>
+                                <b>Total Rating details:</b> <span class="total-rating-details"></span>
+                            </div>
+
+                            <div>
+                                <b>Total Review details:</b> <span class="total-review-details"></span>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -367,6 +385,42 @@
 
             $('.save-request-' + product_id).removeClass('hidden');
         });
+
+        $('.view-review-here').click(function(e){
+            e.preventDefault();
+            var review_isbn = $(this).data('review-isbn');
+            $.ajax("/admin/admin_articles/product_review/" + review_isbn, {
+                success: function(data) {
+                    $('.product-description').addClass('hidden');
+                    $('.product-review-box').removeClass('hidden');
+                    $('.total-review-count').text(data.total_review_count);
+                    $('.total-rating').text(data.total_rating);
+
+                    var total_rating_details = '';
+                    $.each(data.total_rating_details, function (index, value) {
+                        total_rating_details += '<div>';
+                        total_rating_details += value;
+                        total_rating_details += '</div>';
+                    });
+
+                    $('.total-rating-details').html(total_rating_details);
+
+                    var total_review_details = '';
+                    $.each(data.total_review_details, function (index, value) {
+                        total_review_details += '<div>';
+                        total_review_details += value;
+                        total_review_details += '</div>';
+
+                        index = index + 1;
+                        if(index % 4 == 0){
+                            total_review_details += '</br>';
+                        }
+                    });
+
+                    $('.total-review-details').html(total_review_details);
+                }
+            });
+        })
 
     </script>
 
