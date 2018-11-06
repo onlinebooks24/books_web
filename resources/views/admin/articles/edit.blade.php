@@ -143,6 +143,8 @@
                 <div class="alert alert-warning">
                     <form action="" method="post" enctype="multipart/form-data" class="product_save">
                         {{ csrf_field() }}
+                        <div class="product-box-{{ $product->isbn }}">
+
                         <input name="_method" type="hidden" value="PUT">
                         <input name="product_id" type="hidden" value="{{ $product->id }}">
                         <div class="form-group"> <!-- Name field -->
@@ -150,27 +152,25 @@
                             <input class="form-control" name="title" type="text" value="{{ $product->product_title }}" disabled/>
                         </div>
 
-                        <div class="product-box-{{ $product->isbn }}">
-                            <div class="form-group product-description"> <!-- Message field -->
-                                <label class="control-label " for="message">Product Description</label>
-                                <textarea class="summernote product_description" data-product="{{$product->id}}" name="product_description">{!! $product->product_description !!}</textarea>
+                        <div class="form-group product-description"> <!-- Message field -->
+                            <label class="control-label " for="message">Product Description</label>
+                            <textarea class="summernote product_description" data-product="{{$product->id}}" name="product_description">{!! $product->product_description !!}</textarea>
+                        </div>
+
+                        <div class="product-review-box hidden">
+                            <div>
+                                <b>Total Review Count:</b> <span class="total-review-count"></span>
+                            </div>
+                            <div>
+                                <b>Total Rating:</b> <span class="total-rating"></span>
                             </div>
 
-                            <div class="product-review-box hidden">
-                                <div>
-                                    <b>Total Review Count:</b> <span class="total-review-count"></span>
-                                </div>
-                                <div>
-                                    <b>Total Rating:</b> <span class="total-rating"></span>
-                                </div>
+                            <div>
+                                <b>Total Rating details:</b> <span class="total-rating-details"></span>
+                            </div>
 
-                                <div>
-                                    <b>Total Rating details:</b> <span class="total-rating-details"></span>
-                                </div>
-
-                                <div class="top5">
-                                    <b>Total Review details:</b> <div class="total-review-details"></div>
-                                </div>
+                            <div class="top5">
+                                <b>Total Review details:</b> <div class="total-review-details"></div>
                             </div>
                         </div>
 
@@ -184,7 +184,9 @@
 
                             <div class="col-md-offset-8 top-25">
                                 <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn-sm btn-success view-review-here" >View Review Here</a></div>
+                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn-sm btn-info view-description-here hidden" >View Description</a></div>
                             </div>
+                        </div>
                         </div>
                     </form>
 
@@ -401,6 +403,9 @@
                     $( product_box + '.product-description').addClass('hidden');
                     $( product_box + '.product-review-box').removeClass('hidden');
 
+                    $( product_box + '.view-description-here').removeClass('hidden');
+                    $( product_box + '.view-review-here').addClass('hidden');
+
                     $( product_box + '.total-review-count').text(data.total_review_count);
                     $( product_box + '.total-rating').text(data.total_rating);
 
@@ -437,9 +442,26 @@
                     });
 
                     $( product_box + '.total-review-details').html(total_review_details);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Error: " + errorThrown + ' Product ISBN: ' + review_isbn);
                 }
+
             });
         })
+
+        $('.view-description-here').click(function(e){
+            e.preventDefault();
+            var review_isbn = $(this).data('review-isbn');
+            var product_box = '.product-box-' + review_isbn + ' ';
+
+            $( product_box + '.product-description').removeClass('hidden');
+            $( product_box + '.product-review-box').addClass('hidden');
+
+            $( product_box + '.view-description-here').addClass('hidden');
+            $( product_box + '.view-review-here').removeClass('hidden');
+
+        });
 
     </script>
 
