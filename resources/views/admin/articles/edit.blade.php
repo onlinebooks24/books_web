@@ -156,7 +156,7 @@
                             <textarea class="summernote product_description" data-product="{{$product->id}}" name="product_description">{!! $product->product_description !!}</textarea>
                         </div>
 
-                        <div class="product-review-box hidden">
+                        <div class="product-review-box review-details-{{$product->isbn}} hidden">
                             <div>
                                 <b>Total Review Count:</b> <span class="total-review-count"></span>
                             </div>
@@ -393,8 +393,11 @@
                 success: function(data) {
                     $('.product-description').addClass('hidden');
                     $('.product-review-box').removeClass('hidden');
-                    $('.total-review-count').text(data.total_review_count);
-                    $('.total-rating').text(data.total_rating);
+
+                    var review_details = '.review-details-' + review_isbn + ' ';
+
+                    $( review_details + '.total-review-count').text(data.total_review_count);
+                    $( review_details + '.total-rating').text(data.total_rating);
 
                     var total_rating_details = '';
                     $.each(data.total_rating_details, function (index, value) {
@@ -403,7 +406,7 @@
                         total_rating_details += '</div>';
                     });
 
-                    $('.total-rating-details').html(total_rating_details);
+                    $(review_details + '.total-rating-details').html(total_rating_details);
 
                     var total_review_details = '';
                     $.each(data.total_review_details, function (index, value) {
@@ -417,7 +420,7 @@
                         }
                     });
 
-                    $('.total-review-details').html(total_review_details);
+                    $(review_details + '.total-review-details').html(total_review_details);
                 }
             });
         })
