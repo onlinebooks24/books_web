@@ -357,3 +357,10 @@ h2 {
     box-shadow: inset 0px 0px 2px 0px #c2c2c2;
     padding: 10px;
 }
+.content-box{
+    border: 1px solid grey;
+    box-shadow: inset 0px 0px 2px 0px #c2c2c2;
+    padding: 10px;
+    background: white;
+    color: black;
+}

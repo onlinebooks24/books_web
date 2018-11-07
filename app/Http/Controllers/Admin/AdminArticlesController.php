@@ -139,7 +139,8 @@ class AdminArticlesController extends Controller
         $users = User::all();
         $article = Article::find($id);
         $categories = Category::where('parent_id', '1000')->orderBy('name','asc')->get();
-        $products = Product::where('article_id',$id)->orderBy('created_at','asc')->get();
+        $published_products = Product::where(['article_id' => $id, 'deleted' => false])->orderBy('created_at','asc')->get();
+        $deleted_products = Product::where(['article_id' => $id, 'deleted' => true])->orderBy('created_at','asc')->get();
         $uploads = Upload::where('article_id', $article->id)->orderBy('created_at','desc')->get();
 
         $image_exist = null;
@@ -148,9 +149,10 @@ class AdminArticlesController extends Controller
         }
 
         return view ('admin.articles.edit',['article'=>$article,
-            'categories'=>$categories,
-            'products'=>$products,
-            'image_exist'=>$image_exist,
+            'categories'=> $categories,
+            'published_products'=> $published_products,
+            'deleted_products'=> $deleted_products,
+            'image_exist'=> $image_exist,
             'users' => $users,
             'uploads' => $uploads]);
     }
@@ -277,6 +279,12 @@ class AdminArticlesController extends Controller
             $article->waiting_for_approval = false;
             $article->created_at = Carbon::now();
             $article->status = true;
+
+            $products = Product::where(['article_id' => $article->id, 'deleted' => true ])->get();
+
+            foreach($products as $product){
+                $product->delete();
+            }
         }
 
         $article->update();
@@ -460,7 +468,14 @@ class AdminArticlesController extends Controller
     public function product_destroy(Request $request){
         $product_id = $request['product_id'];
         $product = Product::find($product_id);
-        $product->delete();
+
+        if($product->deleted){
+            $product->delete();
+        } else {
+            $product->deleted = true;
+            $product->save();
+        }
+
     }
 
     public function product_review($isbn){

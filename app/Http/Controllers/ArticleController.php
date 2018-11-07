@@ -91,7 +91,7 @@ class ArticleController extends Controller
                 ->take(3)
                 ->get();
 
-            $products = Product::where('article_id',$article->id)->orderBy('created_at','asc')->get();
+            $products = Product::where(['article_id' => $article->id, 'deleted' => false])->orderBy('created_at','asc')->get();
             $uploads = Upload::all();
             if(empty(Auth::user())){
                 $current_count = $article->count;

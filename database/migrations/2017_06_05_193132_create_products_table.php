@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('author_name')->nullable();
             $table->integer('article_id')->nullable();
             $table->dateTime('publication_date')->nullable();
+            $table->boolen('deleted')->default(false);
 
             $table->timestamps();
         });
