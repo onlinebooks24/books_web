@@ -9,6 +9,7 @@ use App\Models\SiteCost;
 use App\Models\SiteCostType;
 use Illuminate\Http\Request;
 use Session;
+use Auth;
 
 class AdminSiteCostsController extends Controller
 {
@@ -19,8 +20,11 @@ class AdminSiteCostsController extends Controller
      */
     public function index(Request $request)
     {
-        $site_costs = SiteCost::orderBy('created_at', 'desc')->Paginate(50);
-        return view('admin.site_costs.index', compact('site_costs'));
+        if(Auth::user()->roleType->name == 'admin'){
+            $site_costs = SiteCost::orderBy('created_at', 'desc')->Paginate(50);
+            return view('admin.site_costs.index', compact('site_costs'));
+        }
+
     }
 
     /**

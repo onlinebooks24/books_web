@@ -14,7 +14,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        @if(Auth::user()->roleType->name == 'admin')
+        @if(Auth::user()->roleType->name != 'editor')
           <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Article Section
                   <span class="caret"></span></a>

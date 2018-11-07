@@ -24,6 +24,10 @@ class RoleTypeSeeder extends Seeder
                 'id' => 2,
                 'name' => 'editor'
             ],
+            [
+                'id' => 3,
+                'name' => 'sub_admin'
+            ],
         ];
 
         $role_type = DB::table('role_types')->insert($role_type_list);

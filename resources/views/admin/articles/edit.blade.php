@@ -62,7 +62,7 @@
                     <textarea class="form-control" name="meta_description" type="text" required>{{ $article->meta_description }}</textarea>
                 </div>
 
-                @if(Auth::user()->roleType->name == 'admin')
+                @if(Auth::user()->roleType->name != 'editor')
                     <div class="form-group">
                         <div>Select Username here:</div>
                         <select class="form-control" name="user_id" data-value="1">
@@ -183,15 +183,17 @@
                             <button type="submit" class="product_save btn btn-warning btn-md" ><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
                             <div class="top5 hidden please-save save-request-{{$product->id}}"><span class="btn-sm btn-danger">Please Save</span></div>
 
-                            <div class="col-md-offset-7 top-25">
-                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn btn-success view-review-here" >View Review Here</a></div>
-                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn btn-info view-description-here hidden" >View Description</a></div>
-                            </div>
+                            @if(Auth::user()->roleType->name != 'editor')
+                                <div class="col-md-offset-7 top-25">
+                                    <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn btn-success view-review-here" >View Review Here</a></div>
+                                    <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn btn-info view-description-here hidden" >View Description</a></div>
+                                </div>
+                            @endif
                         </div>
                         </div>
                     </form>
 
-                    @if(Auth::user()->roleType->name == 'admin')
+                    @if(Auth::user()->roleType->name != 'editor')
                         <div class="pull-right top-30">
                             <form action="" method="post" enctype="multipart/form-data" data-isbn="{{ $product->isbn }}" class="product_delete">
                                 {{ csrf_field() }}

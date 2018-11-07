@@ -9,6 +9,7 @@ use App\Models\ProductOrder;
 use Illuminate\Http\Request;
 use Session;
 use Carbon\Carbon;
+use Auth;
 
 class AdminProductOrdersController extends Controller
 {
@@ -19,12 +20,14 @@ class AdminProductOrdersController extends Controller
      */
     public function index(Request $request)
     {
-        if($request['unlinked'] == 'yes'){
-            $product_orders = ProductOrder::where('article_id', null)->orderBy('id','desc')->Paginate(50);
-        } else {
-            $product_orders = ProductOrder::orderBy('id','desc')->Paginate(50);
+        if(Auth::user()->roleType->name == 'admin'){
+            if($request['unlinked'] == 'yes'){
+                $product_orders = ProductOrder::where('article_id', null)->orderBy('id','desc')->Paginate(50);
+            } else {
+                $product_orders = ProductOrder::orderBy('id','desc')->Paginate(50);
+            }
+            return view('admin.product_orders.index', compact('product_orders'));
         }
-        return view('admin.product_orders.index', compact('product_orders'));
     }
 
     /**

@@ -35,9 +35,11 @@
        <th>User</th>
 	   <th>Created at</th>
 	   <th>Count</th>
-       <th>Orders</th>
+	   @if(Auth::user()->roleType->name == 'admin' )
+	   <th>Orders</th>
        <th>Fee</th>
        <th>Site Cost</th>
+	   @endif
 	   <th>Edit</th>
        <th>Delete</th>
        <th>Publish</th>
@@ -53,6 +55,7 @@
 		<td>{{ $article->user->name }}</td>
 		<td>{{ Carbon\Carbon::parse($article->created_at)->toFormattedDateString() }}</td>
 		<td>{{ $article->count }}</td>
+		@if(Auth::user()->roleType->name == 'admin' )
 		<td>{{ count($article->product_orders) }}</td>
 		<td>
 			<div class="hidden">{{ $fee = 0 }}</div>
@@ -75,6 +78,7 @@
 
 			{{ $cost }} BDT
 		</td>
+		@endif
 
 		<td><a href="{{ route('admin_articles.edit', $article->id) }}"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
 		<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete{{++$key}}" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
