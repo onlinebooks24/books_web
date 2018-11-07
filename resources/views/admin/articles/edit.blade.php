@@ -9,7 +9,9 @@
         <div class="alert alert-info">
             <strong>Update Articles</strong>
             <div class="pull-right top-5">
-                <label id="minutes">00</label>:<label id="seconds">00</label>
+                <span class="btn btn-success editor-spend-time"></span>
+                <span class="btn btn-info admin-spend-time"></span>
+                <span class="btn btn-danger sub-admin-spend-time"></span>
                 <a target="_blank" class="btn btn-info" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a>
                 @if(Auth::user()->roleType->name != 'editor')
                 <a class="btn btn-success" href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
@@ -387,25 +389,21 @@
 
         });
 
-        var minutesLabel = document.getElementById("minutes");
-        var secondsLabel = document.getElementById("seconds");
-        var totalSeconds = 0;
-        setInterval(setTime, 1000);
+        (function worker() {
+            $.ajax({
+                url: '/admin/admin_articles/edit_time_tracker/217',
+                success: function(data) {
+                    $('.editor-spend-time').text(data.editor_spend_time);
+                    $('.admin-spend-time').text(data.admin_spend_time);
+                    $('.sub-admin-spend-time').text(data.sub_admin_spend_time);
+                },
+                complete: function() {
+                    // Schedule the next request when the current one's complete
+                    setTimeout(worker, 5000);
+                }
+            });
+        })();
 
-        function setTime() {
-            ++totalSeconds;
-            secondsLabel.innerHTML = pad(totalSeconds % 60);
-            minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-        }
-
-        function pad(val) {
-            var valString = val + "";
-            if (valString.length < 2) {
-                return "0" + valString;
-            } else {
-                return valString;
-            }
-        }
     </script>
 
 @endsection

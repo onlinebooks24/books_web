@@ -510,4 +510,26 @@ class AdminArticlesController extends Controller
 
         return response()->json($json_data);
     }
+
+
+    public function edit_time_tracker($article_id){
+        $article = Article::find($article_id);
+
+        $role_type = Auth::user()->roleType->name;
+
+        $spend_time_type = $role_type. '_spend_time';
+
+        $spend_time = Carbon::createFromFormat('H:i:s', $article[$spend_time_type])
+                                ->addSeconds(5)->format('H:i:s');
+        $article[$spend_time_type]  = $spend_time;
+
+        $article->save();
+
+
+        $json_data['editor_spend_time'] = $article->editor_spend_time;
+        $json_data['admin_spend_time'] = $article->admin_spend_time;
+        $json_data['sub_admin_spend_time'] = $article->sub_admin_spend_time;
+
+        return response()->json($json_data);
+    }
 }

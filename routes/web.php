@@ -38,6 +38,10 @@ Route::group(['middleware' => ['web']] , function() {
 			'uses' => 'Admin\AdminArticlesController@product_review',
 			'as' => 'admin_articles.product_review'
 		]);
+		Route::any('/admin_articles/edit_time_tracker/{article_id}',[
+			'uses' => 'Admin\AdminArticlesController@edit_time_tracker',
+			'as' => 'admin_articles.edit_time_tracker'
+		]);
 		Route::resource('/admin_articles','Admin\AdminArticlesController');
 		Route::resource('/admin_uploads','Admin\AdminUploadsController');
 		Route::resource('/admin_auto_articles','Admin\AdminAutoArticlesController');
