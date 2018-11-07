@@ -11,7 +11,7 @@
             <div class="pull-right top-5">
                 <label id="minutes">00</label>:<label id="seconds">00</label>
                 <a target="_blank" class="btn btn-info" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a>
-                @if(Auth::user()->roleType->name == 'admin')
+                @if(Auth::user()->roleType->name != 'editor')
                 <a class="btn btn-success" href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
                     @if($article->status)
                         Unpublish Now
