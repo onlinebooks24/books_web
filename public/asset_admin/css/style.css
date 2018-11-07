@@ -364,3 +364,9 @@ h2 {
     background: white;
     color: black;
 }
+
+.user-spend-time{
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+}

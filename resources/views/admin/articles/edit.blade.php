@@ -9,9 +9,10 @@
         <div class="alert alert-info">
             <strong>Update Articles</strong>
             <div class="pull-right top-5">
-                <span class="btn btn-success editor-spend-time"></span>
-                <span class="btn btn-info admin-spend-time"></span>
-                <span class="btn btn-danger sub-admin-spend-time"></span>
+                Editor: <span class="btn btn-success editor-spend-time"></span>
+                Admin: <span class="btn btn-info admin-spend-time"></span>
+                Subadmin: <span class="btn btn-danger sub-admin-spend-time"></span>
+                <div data-article-id="{{ $article->id }}" data-user-type="{{ Auth::user()->roleType->name }}" class="user-spend-time btn btn-danger">00:00:00</div>
                 <a target="_blank" class="btn btn-info" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a>
                 @if(Auth::user()->roleType->name != 'editor')
                 <a class="btn btn-success" href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
@@ -390,15 +391,19 @@
         });
 
         (function worker() {
+            var user_type = $('.user-spend-time').data('user-type');
+            user_type = user_type.replace(/_/g, '-');
+            var article_id = $('.user-spend-time').data('article-id');
             $.ajax({
-                url: '/admin/admin_articles/edit_time_tracker/217',
+                url: '/admin/admin_articles/edit_time_tracker/' + article_id,
                 success: function(data) {
                     $('.editor-spend-time').text(data.editor_spend_time);
                     $('.admin-spend-time').text(data.admin_spend_time);
                     $('.sub-admin-spend-time').text(data.sub_admin_spend_time);
+                    var current_user_spend_time = $('.'+ user_type + '-spend-time').text();
+                    $('.user-spend-time').text(current_user_spend_time);
                 },
                 complete: function() {
-                    // Schedule the next request when the current one's complete
                     setTimeout(worker, 5000);
                 }
             });
