@@ -296,7 +296,7 @@ class AdminArticlesController extends Controller
     }
 
     public function review_article(){
-        if(Auth::user()->roleType->name == 'admin'){
+        if(Auth::user()->roleType->name != 'editor'){
             $articles = Article::where('status', false)->orderBy('created_at','desc')->Paginate(10);
         } else {
             $articles = Article::where('status', false)
