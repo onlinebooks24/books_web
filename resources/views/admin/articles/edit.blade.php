@@ -12,7 +12,7 @@
                 Editor: <span class="btn btn-success editor-spend-time"></span>
                 Admin: <span class="btn btn-info admin-spend-time"></span>
                 Subadmin: <span class="btn btn-danger sub-admin-spend-time"></span>
-                <div data-article-id="{{ $article->id }}" data-user-type="{{ Auth::user()->roleType->name }}" class="user-spend-time btn btn-danger">00:00:00</div>
+                <div data-article-id="{{ $article->id }}" data-user-type="{{ Auth::user()->roleType->name }}" class="user-spend-time btn-sm btn-danger">00:00:00</div>
                 <a target="_blank" class="btn btn-info" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a>
                 @if(Auth::user()->roleType->name != 'editor')
                 <a class="btn btn-success" href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
