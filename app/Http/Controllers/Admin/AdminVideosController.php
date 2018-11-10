@@ -42,21 +42,33 @@ class AdminVideosController extends Controller
      */
     public function store(Request $request)
     {
-        $article = Article::find($request->article_id);
-        $article_json_data['article'] = $article;
-        $article_json_data['products'] = $article->products;
-        $article_json_data = json_encode($article_json_data);
+        $html_description = $request->html_description;
 
-        $this->path=public_path("/uploads/videos");
-        $this->descriptor=$this->path."/video_desc.txt";
-        echo realpath($this->path);
+        $video_path = public_path("/uploads/videos");
+        $video_creator_script = $video_path. "/video_creator_script.txt";
+        $img_no = 1;
+        $file_desc = fopen($video_creator_script,"w");
+        $name = 'anc';
+        $audio = public_path("/uploads/videos/temp_data/audio.mp3");
 
-        $json=$this->get_from($article_json_data);
-        $json2=$this->make_ready($json);
-        $ret=$this->make_desc($json2);
-        echo "\n";
-        echo $this->make_video($ret);
-        echo "\n";
+        foreach($html_description as $html_item){
+            $htm = $video_path . "/temp_data/tm_pg.html";
+            $html_file = fopen($htm,"w");
+            fwrite($html_file,$html_item);
+            fclose($html_file);
+
+            $picture_name = "image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg";
+
+            Browsershot::url("file://".realpath($htm))->setScreenshotType('jpeg',100)->save($video_path."/temp_data/".$picture_name);
+            fwrite($file_desc,"file '".realpath($video_path."/temp_data/".$picture_name)."'\n");
+            fwrite($file_desc,"duration 5"."\n");
+        }
+
+        fclose($file_desc);
+
+        $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i '". $audio ."' -vsync vfr -pix_fmt yuv420p  -y -shortest '".$video_path."/".$name.".mp4'";
+
+        shell_exec($command);
 
         $video = new Video();
         $video->article_id = $request->article_id;
@@ -70,53 +82,6 @@ class AdminVideosController extends Controller
 
         return redirect()->to(route('admin_videos.index'));
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        
-    }
-
-
 
     private function make_desc($input)
     {
@@ -182,49 +147,6 @@ class AdminVideosController extends Controller
         
         return json_encode($new_data);
         
-    }
-    
-    private function make_video($flag)
-    {
-        if(!$flag)
-        {
-            exit(0);
-        }
-        $name=$this->video_name;
-        shell_exec("ffmpeg -f concat -safe 0 -i '".$this->path."/video_desc.txt' -i '".$this->audio."' -vsync vfr -pix_fmt yuv420p  -y -shortest '".$this->path."/".$name.".mp4'");
-
-        return $this->path."/".$name.".mp4";
-        
-    }
-    
-    private function get_from($article_json_data)
-    {
-        $json= $article_json_data;
-        $old_data=json_decode($json,true);
-        $new_data=array();
-        $new_data["title"]["text"]=$old_data["article"]["title"];
-        $new_data["title"]["duration"]=4;
-        $new_data["intro"]["text"]=$old_data["article"]["body"];
-        $new_data["intro"]["duration"]=5;
-        $new_data["conclution"]["text"]="Simple conclution";
-        $new_data["conclution"]["duration"]=6;
-        $new_data["background"]=$this->path."/extra/back.jpeg";
-
-        $new_data["audio"]=$this->path."/extra/audio.mp3";
-        $new_data["trans"]="crossfade:1\n";
-        $this->video_name=$old_data["article"]["slug"];
-        
-        for($i=0;$i<sizeof($old_data["products"]);$i++)
-        {
-            $new_data["book"][$i]["details"]["duration"]=6;
-            $new_data["book"][$i]["details"]["text"]=$old_data["products"][$i]["product_description"];
-            
-            $new_data["book"][$i]["image"]["duration"]=4;
-            $new_data["book"][$i]["image"]["name"]=$old_data["products"][$i]["product_title"];
-            $new_data["book"][$i]["image"]["link"]=$old_data["products"][$i]["image_url"];
-        }
-        
-        return json_encode($new_data);
     }
 
     private function html2img($string,$name, $template)
