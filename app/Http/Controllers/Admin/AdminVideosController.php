@@ -155,17 +155,17 @@ class AdminVideosController extends Controller
         $img_no=1;
         $old_data=json_decode($input,true);
         $new_data=array();
-        $new_data["background"]=$this->file_downloader($old_data["background"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
+        $new_data["background"]= $this->html2img($old_data["title"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg", "template_1");
         $new_data["audio"]=$this->file_downloader($old_data["audio"],"audio.mp3");
         $new_data["trans"]=$old_data["trans"];
         $new_data["title"]["text"]=str_replace(":","\:",$old_data["title"]["text"]);
         $new_data["title"]["duration"]=$old_data["title"]["duration"];
-        $new_data["intro"]["img_name"]=$this->html2img($old_data["intro"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
+        $new_data["intro"]["img_name"]=$this->html2img($old_data["intro"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg", "template_2");
         $new_data["intro"]["duration"]=$old_data["intro"]["duration"];
         
         for($i=0;$i<sizeof($old_data["book"]);$i++)
         {
-            $new_data["book"][$i]["details"]["img_name"]=$this->html2img($old_data["book"][$i]["details"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
+            $new_data["book"][$i]["details"]["img_name"]=$this->html2img($old_data["book"][$i]["details"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg", "template_2");
             $new_data["book"][$i]["details"]["duration"]=$old_data["book"][$i]["details"]["duration"];
             
             $new_data["book"][$i]["image"]["img_name"]=$this->file_downloader($old_data["book"][$i]["image"]["link"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
@@ -174,7 +174,7 @@ class AdminVideosController extends Controller
             
         }
         
-        $new_data["conclution"]["img_name"]=$this->html2img($old_data["conclution"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg");
+        $new_data["conclution"]["img_name"]=$this->html2img($old_data["conclution"]["text"],"image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg", "template_2");
         $new_data["conclution"]["duration"]=$old_data["conclution"]["duration"];
         
         
@@ -190,7 +190,6 @@ class AdminVideosController extends Controller
         {
             exit(0);
         }
-        //$name="video_".rand(100,100000);
         $name=$this->video_name;
         shell_exec("ffmpeg -f concat -safe 0 -i '".$this->path."/video_desc.txt' -i '".$this->audio."' -vsync vfr -pix_fmt yuv420p  -y -shortest '".$this->path."/".$name.".mp4'");
 
@@ -210,6 +209,7 @@ class AdminVideosController extends Controller
         $new_data["conclution"]["text"]="Simple conclution";
         $new_data["conclution"]["duration"]=6;
         $new_data["background"]=$this->path."/extra/back.jpeg";
+
         $new_data["audio"]=$this->path."/extra/audio.mp3";
         $new_data["trans"]="crossfade:1\n";
         $this->video_name=$old_data["article"]["slug"];
@@ -227,21 +227,56 @@ class AdminVideosController extends Controller
         return json_encode($new_data);
     }
 
-    private function html2img($string,$name)
+    private function html2img($string,$name, $template)
     {
         $htm=$this->path."/temp_data/tm_pg.html";
         $page=fopen($htm,"w");
-        $code='<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8" /><style>html {border-radius: 25px; background-color: white;border: 2px solid #73AD21;padding: 20px; }</style></head><body>';
-        $code=$code.$string."</body></html>";
+
+        if($template == 'template_1'){
+            $code='<html>
+                <head>
+                    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+                    <style>
+                        body{
+                            background-image: url(\'back.jpeg\');
+                        }
+
+                        .title {
+                            text-align: center;
+                            margin-top: 30px;
+                        }
+                    </style>
+                </head>
+
+            <body>
+                <h1 class="title">'
+                .$string.
+                '</h1>
+            </body>
+            </html>';
+        } else {
+            $code='<html>
+                <head>
+                    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+                    <style>
+                        body{
+                            background-image: url(\'back.jpeg\');
+                        }
+                    </style>
+                </head>
+
+            <body>
+                <div>'
+                .$string.
+                '</div>
+            </body>
+            </html>';
+        }
+
         fwrite($page,$code);
         fclose($page);
-    
-//        $cmd="xvfb-run --server-args=\"-screen 0, 710x400x24\" ";
-//        $cmd=$cmd."cutycapt --min-width=710 --min-height=400 --url=file://".realpath($htm)." --out=".$this->path."/temp_data/".$name." 2>&1";
-//        shell_exec($cmd);
 
         Browsershot::url("file://".realpath($htm))->setScreenshotType('jpeg',100)->save($this->path."/temp_data/".$name);
-//        sleep(10);
         return $this->path."/temp_data/".$name;
     }
 
@@ -250,33 +285,5 @@ class AdminVideosController extends Controller
         $dest=$this->path."/temp_data/".$name;
         copy($url,$dest);
         return $this->path."/temp_data/".$name;
-    }
-
-
-    //private function rank_maker($rank)
-    //{
-    //    $cmd="convert -size 710x400 -gravity center -font Helvetica caption:".$rank." temp_data/r".$rank.".jpeg";
-    //    shell_exec($cmd);
-    //    sleep(10);
-    //    return "./temp_data/"."r".$rank.".jpeg";
-    //}
-
-    private function title_maker($input)
-    {
-        $words=explode(" ",$input);
-        $new_string="";
-        for($i=1;$i<=sizeof($words);$i++)
-        {
-            $new_string=$new_string.$words[$i-1];
-            if(($i%4)==0)
-            {
-                $new_string=$new_string."\\n";
-            }
-            else
-            {
-                $new_string=$new_string." ";
-            }
-        }
-        return $new_string;
     }
 }
