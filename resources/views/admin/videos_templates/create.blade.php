@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-12">
             <h2>Add new template</h2>
-            <form action="{{ route('admin_videos_templates.store') }}" method="post">
+            <form action="{{ route('admin_videos_templates.store') }}" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <input class="form-control" type="text" value="Template 1" placeholder="template_name" name="template_name">
@@ -30,10 +30,12 @@
                     <textarea class="form-control summernote" placeholder="book_conclusion_html" name="book_conclusion_html"></textarea>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="background_image"  name="background_image">
+                    <label>Background Image (.jpeg)</label>
+                    <input class="form-control" type="file" placeholder="background_image"  name="background_image">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="audio_name"  name="audio_name">
+                    <label>Audio Name (.mp3)</label>
+                    <input class="form-control" type="file" placeholder="audio_name"  name="audio_name">
                 </div>
                 <input type="submit" value="submit" class="btn btn-success bottom30">
             </form>

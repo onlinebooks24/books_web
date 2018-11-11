@@ -18,11 +18,11 @@ class CreateVideosTable extends Migration
         Schema::create('videos_templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('template_name');
-            $table->text('book_title_html');
-            $table->text('book_description_html');
-            $table->text('book_conclusion_html');
-            $table->string('background_image');
-            $table->string('audio_name');
+            $table->text('book_title_html')->nullable();
+            $table->text('book_description_html')->nullable();
+            $table->text('book_conclusion_html')->nullable();
+            $table->string('background_image')->nullable();
+            $table->string('audio_name')->nullable();
             $table->timestamps();
         });
 
@@ -31,7 +31,7 @@ class CreateVideosTable extends Migration
             $table->integer('article_id');
             $table->integer('video_template_id');
             $table->string('video_name');
-            $table->string('youtube_link')->nullable();
+            $table->string('youtube_link');
             $table->timestamps();
         });
     }
