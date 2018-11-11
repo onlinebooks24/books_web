@@ -18,10 +18,9 @@ class CreateVideosTable extends Migration
         Schema::create('videos_templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('template_name');
-            $table->integer('introduction');
-            $table->integer('end');
-            $table->integer('book_picture');
-            $table->integer('book_description');
+            $table->text('book_title_html');
+            $table->text('book_description_html');
+            $table->text('book_conclusion_html');
             $table->string('background_image');
             $table->string('audio_location');
             $table->timestamps();

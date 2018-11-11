@@ -40,10 +40,9 @@ class AdminVideosTemplatesController extends Controller
     {
         $videos_template = new VideosTemplate();
         $videos_template->template_name = $request->template_name;
-        $videos_template->introduction = $request->introduction;
-        $videos_template->end = $request->end;
-        $videos_template->book_picture = $request->book_picture;
-        $videos_template->book_description = $request->book_description;
+        $videos_template->book_title_html = $request->book_title_html;
+        $videos_template->book_description_html = $request->book_description_html;
+        $videos_template->book_conclusion_html = $request->book_conclusion_html;
         $videos_template->background_image = $request->background_image;
         $videos_template->audio_location = $request->audio_location;
         $videos_template->save();

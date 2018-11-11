@@ -16,13 +16,18 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label>Article Title</label>
+                    <textarea name="html_description[]" class="summernote">{{ str_replace("%article_title%", $article->title , $videos_template->book_title_html) }}</textarea>
                     <input class="form-control" type="text" value="{{ $article->title }}" placeholder="article_title" name="article_title">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="text" value="{{ $article->id }}" placeholder="article_id" name="article_id">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="video_template_id" name="video_template_id">
+                    <select class="form-control" name="video_template_id">
+                        @foreach($videos_templates as $videos_template)
+                            <option value="{{ $videos_template->id }}">{{ $videos_template->template_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="file_location" name="file_location">
@@ -62,7 +67,7 @@
 
                                     <div class="form-group"> <!-- Message field -->
                                         <label class="control-label " for="message">Product Description</label>
-                                        <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{!! $product->product_description !!}</textarea>
+                                        <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{{ str_replace("%main_content%", $product->product_description , $videos_template->book_description_html) }}</textarea>
                                     </div>
 
                             </div>

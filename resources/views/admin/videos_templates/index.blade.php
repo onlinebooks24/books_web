@@ -20,11 +20,11 @@
                 <thead>
                 <tr>
                     <th>Template Name</th>
-                    <th>Introduction</th>
-                    <th>End</th>
-                    <th>Book Picture</th>
-                    <th>Book Description</th>
+                    <th>book_title_html</th>
+                    <th>book_description_html</th>
+                    <th>book_conclusion_html</th>
                     <th>Background Image</th>
+                    <th>Template html</th>
                     <th>Audio Location</th>
                 </tr>
                 </thead>
@@ -32,11 +32,11 @@
                 @foreach($videos_templates as $video_template )
                     <tr>
                         <td>{{ $video_template->template_name }}</td>
-                        <td>{{ $video_template->introduction }}</td>
-                        <td>{{ $video_template->end }}</td>
-                        <td>{{ $video_template->book_picture }}</td>
-                        <td>{{ $video_template->book_description }}</td>
+                        <td>{{ $video_template->book_title_html }}</td>
+                        <td>{{ $video_template->book_description_html }}</td>
+                        <td>{{ $video_template->book_conclusion_html }}</td>
                         <td>{{ $video_template->background_image }}</td>
+                        <td>{{ $video_template->template_html }}</td>
                         <td>{{ $video_template->audio_location }}</td>
                     </tr>
                 @endforeach
