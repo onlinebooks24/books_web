@@ -17,11 +17,8 @@
                 <div class="form-group">
                     <label>Article Title</label>
                     <textarea name="html_description[]" class="summernote">{{ str_replace("%article_title%", $article->title , $videos_template->book_title_html) }}</textarea>
-                    <input class="form-control" type="text" value="{{ $article->title }}" placeholder="article_title" name="article_title">
                 </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" value="{{ $article->id }}" placeholder="article_id" name="article_id">
-                </div>
+                <input class="form-control" type="hidden" value="{{ $article->id }}" placeholder="article_id" name="article_id">
                 <div class="form-group">
                     <select class="form-control" name="video_template_id">
                         @foreach($videos_templates as $videos_template)
@@ -30,46 +27,19 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="file_location" name="file_location">
+                    <input class="form-control" type="text" placeholder="video_name" name="video_name">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="youtube_link" name="youtube_link">
                 </div>
                 @foreach($products as $key => $product)
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="alert alert-warning">
-                                <a name="{{$key + 1}}" target="_blank" href="http://www.amazon.com/dp/ASIN/{{$product->isbn}}">
-                                    <img src="{{ $product->image_url }}">
-                                </a>
-                            </div>
-                            <label>ISBN:</label>
-                            <div>
-                                {{ $product->isbn }}
-                            </div>
-                            <label>Author Name:</label>
-                            <div>
-                                {{ $product->author_name }}
-                            </div>
-                            <label>Publication Date:</label>
-                            <div>
-                                {{ $product->publication_date }}
-                            </div>
-
-                            <div class="top10"><a href="https://www.amazon.com/product-reviews/{{ $product->isbn }}/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1" target="_blank" class="btn-sm btn-success view-product" >View Review</a></div>
-                        </div>
                         <div class="col-md-9">
                             <div class="alert alert-warning">
-                                    <div class="form-group"> <!-- Name field -->
-                                        <label class="control-label " for="name"><span style="color: red;" >{{ ++$key }}. </span> Title</label>
-                                        <input class="form-control" name="title" type="text" value="{{ $product->product_title }}" disabled/>
-                                    </div>
-
-                                    <div class="form-group"> <!-- Message field -->
-                                        <label class="control-label " for="message">Product Description</label>
-                                        <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{{ str_replace("%main_content%", $product->product_description , $videos_template->book_description_html) }}</textarea>
-                                    </div>
-
+                                <div class="form-group"> <!-- Message field -->
+                                    <label class="control-label " for="message">{{ $key + 1 }}. Product Description</label>
+                                    <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{{ str_replace(['%product_title%', '%product_image_url%', '%product_description%'], [$product->product_title, $product->image_url, $product->product_description] , $videos_template->book_description_html) }}</textarea>
+                                </div>
                             </div>
                         </div>
                     </div>

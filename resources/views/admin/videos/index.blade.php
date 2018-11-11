@@ -24,9 +24,9 @@
                 <tbody>
                 @foreach($videos as $video )
                     <tr>
-                        <td>{{ $video->article_id }}</td>
-                        <td>{{ $video->video_template_id }}</td>
-                        <td>{{ $video->file_location }}</td>
+                        <td>{{ $video->id }}</td>
+                        <td>{{ $video->video_template->template_name }}</td>
+                        <td>{{ $video->video_name }}</td>
                         <td>{{ $video->youtube_link }}</td>
                     </tr>
                 @endforeach

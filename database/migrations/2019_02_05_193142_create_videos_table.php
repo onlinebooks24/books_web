@@ -22,7 +22,7 @@ class CreateVideosTable extends Migration
             $table->text('book_description_html');
             $table->text('book_conclusion_html');
             $table->string('background_image');
-            $table->string('audio_location');
+            $table->string('audio_name');
             $table->timestamps();
         });
 
@@ -30,8 +30,8 @@ class CreateVideosTable extends Migration
             $table->increments('id');
             $table->integer('article_id');
             $table->integer('video_template_id');
-            $table->string('file_location');
-            $table->string('youtube_link');
+            $table->string('video_name');
+            $table->string('youtube_link')->nullable();
             $table->timestamps();
         });
     }

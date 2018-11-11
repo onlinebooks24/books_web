@@ -33,7 +33,7 @@
                     <input class="form-control" type="text" placeholder="background_image"  name="background_image">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="audio_location"  name="audio_location">
+                    <input class="form-control" type="text" placeholder="audio_name"  name="audio_name">
                 </div>
                 <input type="submit" value="submit" class="btn btn-success bottom30">
             </form>

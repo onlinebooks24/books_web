@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-    public function video_templates(){
+    public function video_template(){
         return $this->belongsTo('App\Models\VideosTemplate');
     }
 }

@@ -57,8 +57,10 @@ class AdminVideosController extends Controller
         $video_creator_script = $video_path. "/video_creator_script.txt";
         $img_no = 1;
         $file_desc = fopen($video_creator_script,"w");
-        $name = 'anc';
         $audio = public_path("/uploads/videos/temp_data/audio.mp3");
+
+        $article = Article::find($request->article_id);
+        $video_name = $article->slug . '.mp4';
 
         foreach($html_description as $html_item){
             $htm = $video_path . "/temp_data/tm_pg.html";
@@ -75,14 +77,14 @@ class AdminVideosController extends Controller
 
         fclose($file_desc);
 
-        $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i '". $audio ."' -vsync vfr -pix_fmt yuv420p  -y -shortest '".$video_path."/".$name.".mp4'";
+        $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i '". $audio ."' -vsync vfr -pix_fmt yuv420p  -y -shortest '".$video_path."/".$video_name;
 
         shell_exec($command);
 
         $video = new Video();
         $video->article_id = $request->article_id;
         $video->video_template_id = $request->video_template_id;
-        $video->file_location = $request->file_location;
+        $video->video_name = $video_name;
         $video->youtube_link = $request->youtube_link;
         $video->save();
 

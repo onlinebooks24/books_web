@@ -44,7 +44,7 @@ class AdminVideosTemplatesController extends Controller
         $videos_template->book_description_html = $request->book_description_html;
         $videos_template->book_conclusion_html = $request->book_conclusion_html;
         $videos_template->background_image = $request->background_image;
-        $videos_template->audio_location = $request->audio_location;
+        $videos_template->audio_name = $request->audio_name;
         $videos_template->save();
 
         $flash_message = 'Successfully Saved';

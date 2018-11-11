@@ -37,7 +37,7 @@
                         <td>{{ $video_template->book_conclusion_html }}</td>
                         <td>{{ $video_template->background_image }}</td>
                         <td>{{ $video_template->template_html }}</td>
-                        <td>{{ $video_template->audio_location }}</td>
+                        <td>{{ $video_template->audio_name }}</td>
                     </tr>
                 @endforeach
                 </tbody>
