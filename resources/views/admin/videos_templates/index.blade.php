@@ -24,8 +24,8 @@
                     <th>book_description_html</th>
                     <th>book_conclusion_html</th>
                     <th>Background Image</th>
-                    <th>Template html</th>
                     <th>Audio Location</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,8 +36,8 @@
                         <td>{{ $video_template->book_description_html }}</td>
                         <td>{{ $video_template->book_conclusion_html }}</td>
                         <td>{{ $video_template->background_image }}</td>
-                        <td>{{ $video_template->template_html }}</td>
                         <td>{{ $video_template->audio_name }}</td>
+                        <td><a href="{{ route('admin_videos_templates.edit', $video_template->id) }}">Edit</a> </td>
                     </tr>
                 @endforeach
                 </tbody>
