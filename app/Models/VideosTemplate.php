@@ -14,7 +14,7 @@ class VideosTemplate extends Model
     }
 
     public function getAudioLocationAttribute(){
-        $audio_location = public_path('uploads/videos/templates/'. $this->template_name . $this->audio_name);
+        $audio_location = public_path('uploads/videos/templates/'. $this->template_name .'/'. $this->audio_name);
         return $audio_location;
     }
 }

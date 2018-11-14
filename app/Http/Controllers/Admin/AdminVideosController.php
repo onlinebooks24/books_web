@@ -53,11 +53,13 @@ class AdminVideosController extends Controller
     {
         $html_description = $request->html_description;
 
+        $video_template = VideosTemplate::find($request->video_template_id);
+
         $video_path = public_path("/uploads/videos");
         $video_creator_script = $video_path. "/video_creator_script.txt";
         $img_no = 1;
         $file_desc = fopen($video_creator_script,"w");
-        $audio = public_path("/uploads/videos/temp_data/audio.mp3");
+        $audio_location = $video_template->audio_location;
 
         $article = Article::find($request->article_id);
         $video_name = $article->slug . '.mp4';
@@ -77,7 +79,7 @@ class AdminVideosController extends Controller
 
         fclose($file_desc);
 
-        $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i '". $audio ."' -vsync vfr -pix_fmt yuv420p  -y -shortest '".$video_path."/".$video_name;
+        $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i ". $audio_location ." -vsync vfr -pix_fmt yuv420p  -y -shortest ".$video_path."/".$video_name;
 
         shell_exec($command);
 
