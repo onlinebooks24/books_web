@@ -15,18 +15,18 @@
             <table id="mytable" class="table table-bordred table-striped">
                 <thead>
                 <tr>
-                    <th>Article ID</th>
-                    <th>Video Template ID</th>
-                    <th>File Location</th>
+                    <th>Article Name</th>
+                    <th>Video Name</th>
+                    <th>Download Link</th>
                     <th>Youtube Link</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($videos as $video )
                     <tr>
-                        <td>{{ $video->id }}</td>
+                        <td>{{ $video->article->title }}</td>
                         <td>{{ $video->video_template->template_name }}</td>
-                        <td>{{ $video->video_name }}</td>
+                        <td><a href="{{ $video->video_link }}">Download</a></td>
                         <td>{{ $video->youtube_link }}</td>
                     </tr>
                 @endforeach
