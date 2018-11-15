@@ -42,6 +42,7 @@ class AdminVideosTemplatesController extends Controller
         $template_name = strtolower(str_replace(' ', '_', $request->template_name));
         $videos_template->template_name = $template_name;
         $videos_template->book_title_html = $request->book_title_html;
+        $videos_template->book_image_html = $request->book_image_html;
         $videos_template->book_description_html = $request->book_description_html;
         $videos_template->book_conclusion_html = $request->book_conclusion_html;
 
@@ -102,6 +103,7 @@ class AdminVideosTemplatesController extends Controller
         $template_name = strtolower(str_replace(' ', '_', $request->template_name));
         $videos_template->template_name = $template_name;
         $videos_template->book_title_html = $request->book_title_html;
+        $videos_template->book_image_html = $request->book_image_html;
         $videos_template->book_description_html = $request->book_description_html;
         $videos_template->book_conclusion_html = $request->book_conclusion_html;
 

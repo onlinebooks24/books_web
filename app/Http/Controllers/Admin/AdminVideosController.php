@@ -87,7 +87,7 @@ class AdminVideosController extends Controller
             $image_name = "image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg";
             $new_image_file = $temp_html_dir.$image_name;
 
-            Browsershot::url("file://".$temp_html_file)->setScreenshotType('jpeg',100)->save($new_image_file);
+            Browsershot::url("file://".$temp_html_file)->setScreenshotType('jpeg',100)->windowSize(1920, 1080)->save($new_image_file);
             fwrite($file_desc,"file '".$new_image_file."'\n");
             fwrite($file_desc,"duration ". $duration_array[$key] ."\n");
         }

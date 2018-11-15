@@ -18,6 +18,7 @@
                     <label>Article Title (shortcode: %article_title%)</label>
                     <textarea name="html_description[]" class="summernote">{{ str_replace("%article_title%", $article->title , $videos_template->book_title_html) }}</textarea>
                 </div>
+
                 <div class="form-group">
                     <label>Article Title Duration</label>
                     <input type="text" name="duration[]" value="4" class="form-control">
@@ -39,10 +40,18 @@
                 @foreach($products as $key => $product)
                     <div class="row">
                         <div class="col-md-9">
+                            <div class="form-group">
+                                <label>Product Image and Title (shortcode: %product_title% , %product_image_url% )</label>
+                                <textarea name="html_description[]" class="summernote">{{ str_replace(["%product_title%", "%product_image_url%"], [$product->product_title, $product->image_url] , $videos_template->book_image_html) }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Product Image Duration</label>
+                                <input type="text" name="duration[]" value="5" class="form-control">
+                            </div>
                             <div class="alert alert-warning">
                                 <div class="form-group"> <!-- Message field -->
-                                    <label class="control-label " for="message">{{ $key + 1 }}. Product Description (shortcode: %product_title% , %product_image_url% , %product_description%)</label>
-                                    <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{{ str_replace(['%product_title%', '%product_image_url%', '%product_description%'], [$product->product_title, $product->image_url, $product->product_description] , $videos_template->book_description_html) }}</textarea>
+                                    <label class="control-label " for="message">{{ $key + 1 }}. Product Description (shortcode: %product_description%)</label>
+                                    <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{{ str_replace(['%product_description%'], [$product->product_description] , $videos_template->book_description_html) }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -53,7 +62,7 @@
                     </div>
                     <div class="clearfix"></div>
                 @endforeach
-                <input type="submit" value="submit">
+                <input type="submit" class="btn btn-success" value="submit">
             </form>
         </div>
     </div>

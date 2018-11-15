@@ -21,6 +21,7 @@
                 <tr>
                     <th>Template Name</th>
                     <th>book_title_html</th>
+                    <th>book_image_html</th>
                     <th>book_description_html</th>
                     <th>book_conclusion_html</th>
                     <th>Background Image</th>
@@ -33,6 +34,7 @@
                     <tr>
                         <td>{{ $video_template->template_name }}</td>
                         <td>{{ $video_template->book_title_html }}</td>
+                        <td>{{ $video_template->book_image_html }}</td>
                         <td>{{ $video_template->book_description_html }}</td>
                         <td>{{ $video_template->book_conclusion_html }}</td>
                         <td>{{ $video_template->background_image }}</td>
