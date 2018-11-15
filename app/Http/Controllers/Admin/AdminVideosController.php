@@ -76,8 +76,10 @@ class AdminVideosController extends Controller
         $article = Article::find($request->article_id);
         $video_name = $article->slug . '.mp4';
 
-        foreach($html_description as $html_item){
-            $temp_html_file =  $temp_html_dir . "tm_pg.html";
+        $duration_array = $request->duration;
+
+        foreach($html_description as $key => $html_item){
+            $temp_html_file =  $temp_html_dir . "temp_design.html";
             $open_temp_html_file = fopen($temp_html_file,"w");
             fwrite($open_temp_html_file,$html_item);
             fclose($open_temp_html_file);
@@ -87,7 +89,7 @@ class AdminVideosController extends Controller
 
             Browsershot::url("file://".$temp_html_file)->setScreenshotType('jpeg',100)->save($new_image_file);
             fwrite($file_desc,"file '".$new_image_file."'\n");
-            fwrite($file_desc,"duration 5"."\n");
+            fwrite($file_desc,"duration ". $duration_array[$key] ."\n");
         }
 
         fclose($file_desc);
@@ -95,7 +97,7 @@ class AdminVideosController extends Controller
         $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i ". $audio_location ." -vsync vfr -pix_fmt yuv420p  -y -shortest ".$final_video_path.$video_name;
 
         $video_create_log = shell_exec($command);
-        shell_exec("rm -rf ". $temp_html_dir );
+//        shell_exec("rm -rf ". $temp_html_dir );
 
         $video = Video::where('article_id', $article->id)->first();
 

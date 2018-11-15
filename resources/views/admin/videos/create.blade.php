@@ -18,6 +18,10 @@
                     <label>Article Title</label>
                     <textarea name="html_description[]" class="summernote">{{ str_replace("%article_title%", $article->title , $videos_template->book_title_html) }}</textarea>
                 </div>
+                <div class="form-group">
+                    <label>Article Title Duration</label>
+                    <input type="text" name="duration[]" value="4" class="form-control">
+                </div>
                 <input class="form-control" type="hidden" value="{{ $article->id }}" placeholder="article_id" name="article_id">
                 <div class="form-group">
                     <select class="form-control" name="video_template_id">
@@ -40,6 +44,10 @@
                                     <label class="control-label " for="message">{{ $key + 1 }}. Product Description</label>
                                     <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{{ str_replace(['%product_title%', '%product_image_url%', '%product_description%'], [$product->product_title, $product->image_url, $product->product_description] , $videos_template->book_description_html) }}</textarea>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Product Duration</label>
+                                <input type="text" name="duration[]" value="5" class="form-control">
                             </div>
                         </div>
                     </div>
