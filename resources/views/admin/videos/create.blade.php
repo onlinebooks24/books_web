@@ -15,7 +15,7 @@
             <form action="{{ route('admin_videos.store') }}" method="post">
                 {{ csrf_field() }}
                 <div class="form-group">
-                    <label>Article Title</label>
+                    <label>Article Title (shortcode: %article_title%)</label>
                     <textarea name="html_description[]" class="summernote">{{ str_replace("%article_title%", $article->title , $videos_template->book_title_html) }}</textarea>
                 </div>
                 <div class="form-group">
@@ -41,7 +41,7 @@
                         <div class="col-md-9">
                             <div class="alert alert-warning">
                                 <div class="form-group"> <!-- Message field -->
-                                    <label class="control-label " for="message">{{ $key + 1 }}. Product Description</label>
+                                    <label class="control-label " for="message">{{ $key + 1 }}. Product Description (shortcode: %product_title% , %product_image_url% , %product_description%)</label>
                                     <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{{ str_replace(['%product_title%', '%product_image_url%', '%product_description%'], [$product->product_title, $product->image_url, $product->product_description] , $videos_template->book_description_html) }}</textarea>
                                 </div>
                             </div>
