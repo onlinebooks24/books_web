@@ -103,8 +103,8 @@ class AdminVideosController extends Controller
             $node = $finder->query("//*[contains(@class, 'video-container')]");
             $voice_html = $doc->saveHTML($node->item(0));
             $voice_html = strip_tags($voice_html);
-            $voice_html = str_replace("\n", ".", $voice_html);
-            $voice_html = str_replace("..", ".", $voice_html);
+            $voice_html = str_replace(["\n", "\t", "\r", ".."], [".", "", "", "."], $voice_html);
+
             $_POST['EID'] = 3;
             $_POST['LID'] = 1;
             $_POST['VID'] = 3;
