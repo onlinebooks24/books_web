@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "de158157ab87421e6389105da13bec59",
-    "content-hash": "87c6765e5ae9a64101cf2048e22d1bcd",
+    "hash": "e6aadbddfbee4fada0b9100d33bd541c",
+    "content-hash": "5f591aa8e6f6c094038c4814994ad320",
     "packages": [
         {
             "name": "aloha/twilio",
@@ -2862,6 +2862,44 @@
                 "environment"
             ],
             "time": "2018-07-29 20:33:41"
+        },
+        {
+            "name": "wapmorgan/mp3info",
+            "version": "0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wapmorgan/Mp3Info.git",
+                "reference": "1f98fd2316c81e1b67627fd3acf27c12791071ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wapmorgan/Mp3Info/zipball/1f98fd2316c81e1b67627fd3acf27c12791071ac",
+                "reference": "1f98fd2316c81e1b67627fd3acf27c12791071ac",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/mp3scan"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "wapmorgan\\Mp3Info\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "description": "The fastest php library to extract mp3 tags & meta information.",
+            "keywords": [
+                "audio",
+                "id3",
+                "id3v1",
+                "id3v2",
+                "mp3",
+                "mpeg"
+            ],
+            "time": "2018-03-19 20:01:04"
         }
     ],
     "packages-dev": [
