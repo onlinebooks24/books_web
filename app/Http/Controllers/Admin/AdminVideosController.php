@@ -97,7 +97,6 @@ class AdminVideosController extends Controller
         $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i ". $audio_location ." -pix_fmt yuv420p -vf scale=1280:720 -y -shortest ".$final_video_path.$video_name;
 
         $video_create_log = shell_exec($command);
-//        shell_exec("rm -rf ". $temp_html_dir );
 
         $video = Video::where('article_id', $article->id)->first();
 
