@@ -96,7 +96,6 @@ class AdminVideosController extends Controller
             $new_image_file = $temp_html_dir.$image_name;
 
             Browsershot::url("file://".$temp_html_file)->setScreenshotType('jpeg',100)->windowSize(1280, 720)->save($new_image_file);
-            fwrite($file_desc,"file '".$new_image_file."'\n");
 
             $doc = new DOMDocument();
             libxml_use_internal_errors(true);
@@ -106,8 +105,7 @@ class AdminVideosController extends Controller
             $node = $finder->query("//*[contains(@class, 'video-container')]");
             $voice_html = $doc->saveHTML($node->item(0));
             $voice_html = strip_tags($voice_html);
-            $voice_html = str_replace(["\n", "\t", "\r", ".."], [".", "", "", "."], $voice_html);
-
+            $voice_html = '<Break time="1000ms"/>'. str_replace(["\n", "\t", "\r", ".."], [".", "", "", "."], $voice_html);
             $voice_html_array = str_split($voice_html, 600);
 
             $duration = 0;
@@ -158,13 +156,20 @@ class AdminVideosController extends Controller
 
                 file_put_contents($new_audio_file, $data);
 
-                $audio = new \wapmorgan\Mp3Info\Mp3Info($new_audio_file, true);
-                fwrite($audio_desc,"file '".$new_audio_file."'\n");
+                $audio_type =  mime_content_type($new_audio_file);
+                if($audio_type == "audio/mpeg"){
+                    $audio = new \wapmorgan\Mp3Info\Mp3Info($new_audio_file, true);
+                    fwrite($audio_desc,"file '".$new_audio_file."'\n");
+                    $duration += $audio->duration;
+                } else {
+                   dd($url, $voice_html_item, $new_audio_file);
+                }
 
-                $duration += $audio->duration;
+                sleep(10);
             }
-            fwrite($file_desc,"duration ". $duration ."\n");
 
+            fwrite($file_desc,"file '".$new_image_file."'\n");
+            fwrite($file_desc,"duration ". $duration ."\n");
         }
 
         fclose($file_desc);
@@ -194,8 +199,23 @@ class AdminVideosController extends Controller
         $flash_message = 'Successfully Saved. Log:'. $video_create_log;
         Session::flash('message', $flash_message);
 
-        shell_exec("rm -rf ". $temp_html_dir );
+//        shell_exec("rm -rf ". $temp_html_dir );
 
         return redirect()->to(route('admin_videos.index'));
+    }
+
+    public function getMimeType($filename)
+    {
+        $mimetype = false;
+        if(function_exists('finfo_fopen')) {
+            // open with FileInfo
+        } elseif(function_exists('getimagesize')) {
+            // open with GD
+        } elseif(function_exists('exif_imagetype')) {
+            // open with EXIF
+        } elseif(function_exists('mime_content_type')) {
+            $mimetype = mime_content_type($filename);
+        }
+        return $mimetype;
     }
 }
