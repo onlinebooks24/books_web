@@ -21,7 +21,6 @@ class AdminVideosController extends Controller
      */
     public function index()
     {
-
         $videos = Video::paginate(10);
         return view('admin.videos.index', compact('videos'));
     }
@@ -88,6 +87,7 @@ class AdminVideosController extends Controller
         foreach($html_description as $key => $html_item){
             $temp_html_file =  $temp_html_dir . "temp_design.html";
             $open_temp_html_file = fopen($temp_html_file,"w");
+
             fwrite($open_temp_html_file,$html_item);
             fclose($open_temp_html_file);
 
@@ -98,6 +98,7 @@ class AdminVideosController extends Controller
 
             $doc = new DOMDocument();
             libxml_use_internal_errors(true);
+
             $doc->loadHTML($html_item);
             $finder = new DomXPath($doc);
             $node = $finder->query("//*[contains(@class, 'video-container')]");
@@ -185,6 +186,8 @@ class AdminVideosController extends Controller
 
         $flash_message = 'Successfully Saved. Log:'. $video_create_log;
         Session::flash('message', $flash_message);
+
+        shell_exec("rm -rf ". $temp_html_dir );
 
         return redirect()->to(route('admin_videos.index'));
     }
