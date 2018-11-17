@@ -73,6 +73,7 @@ class AdminVideosController extends Controller
         $file_desc = fopen($video_creator_script,"w");
 
         $img_no = 1;
+        $audio_no = 1;
 
         $audio_creator_script = $temp_html_dir . "audio_creator_script.txt";
         $audio_desc = fopen($audio_creator_script,"w");
@@ -95,6 +96,7 @@ class AdminVideosController extends Controller
             $new_image_file = $temp_html_dir.$image_name;
 
             Browsershot::url("file://".$temp_html_file)->setScreenshotType('jpeg',100)->windowSize(1280, 720)->save($new_image_file);
+            fwrite($file_desc,"file '".$new_image_file."'\n");
 
             $doc = new DOMDocument();
             libxml_use_internal_errors(true);
@@ -106,58 +108,63 @@ class AdminVideosController extends Controller
             $voice_html = strip_tags($voice_html);
             $voice_html = str_replace(["\n", "\t", "\r", ".."], [".", "", "", "."], $voice_html);
 
-            $_POST['EID'] = 3;
-            $_POST['LID'] = 1;
-            $_POST['VID'] = 3;
-            $_POST['TXT'] = $voice_html;
-            $_POST['ACC'] = 6887135;
-            $_POST['API'] = 2638673;
-            $_POST['SECRET'] = '589e570dc04cbb23ed03c781c4adeb5d';
-            $_POST['SESSION'] = '';
+            $voice_html_array = str_split($voice_html, 600);
 
-            $ext = isset($_POST['EXT']) &&
-            in_array(trim(strtolower($_POST['EXT'])), array('mp3','swf')) ?
-                trim(strtolower($_POST['EXT'])) : '';
-            $fxType = isset($_POST['FX_TYPE']) && strlen($_POST['FX_TYPE']) > 0 ?
-                $_POST['FX_TYPE'] : '';
-            $fxLevel= isset($_POST['FX_LEVEL']) && strlen($_POST['FX_LEVEL']) > 0 ?
-                $_POST['FX_LEVEL'] : '';
-            $httpErr= isset($_POST['HTTP_ERR']) && strlen($_POST['HTTP_ERR']) > 0 ?
-                $_POST['HTTP_ERR'] : '';
+            $duration = 0;
+            foreach($voice_html_array as $voice_html_item){
+                $_POST['EID'] = 3;
+                $_POST['LID'] = 1;
+                $_POST['VID'] = 3;
+                $_POST['TXT'] = $voice_html_item;
+                $_POST['ACC'] = 6887135;
+                $_POST['API'] = 2638673;
+                $_POST['SECRET'] = '589e570dc04cbb23ed03c781c4adeb5d';
+                $_POST['SESSION'] = '';
+
+                $ext = isset($_POST['EXT']) &&
+                in_array(trim(strtolower($_POST['EXT'])), array('mp3','swf')) ?
+                    trim(strtolower($_POST['EXT'])) : '';
+                $fxType = isset($_POST['FX_TYPE']) && strlen($_POST['FX_TYPE']) > 0 ?
+                    $_POST['FX_TYPE'] : '';
+                $fxLevel= isset($_POST['FX_LEVEL']) && strlen($_POST['FX_LEVEL']) > 0 ?
+                    $_POST['FX_LEVEL'] : '';
+                $httpErr= isset($_POST['HTTP_ERR']) && strlen($_POST['HTTP_ERR']) > 0 ?
+                    $_POST['HTTP_ERR'] : '';
 //Construct parameters.
-            $get = 'EID='.$_POST['EID']
-                .'&LID='.$_POST['LID']
-                .'&VID='.$_POST['VID']
-                .'&TXT='.urlencode($_POST['TXT'])
-                .'&EXT='.$ext
-                .'&FX_TYPE='.$fxType
-                .'&FX_LEVEL='.$fxLevel
-                .'&ACC='.$_POST['ACC']
-                .'&API='.$_POST['API']
-                .'&SESSION='.$_POST['SESSION']
-                .'&HTTP_ERR='.$httpErr;
-            $CS = md5($_POST['EID'].$_POST['LID'].$_POST['VID'].$_POST['TXT'].
-                $ext.$fxType.$fxLevel.$_POST['ACC']. $_POST['API'].$_POST['SESSION'].
-                $httpErr.$_POST['SECRET']);
-            $url = 'http://www.vocalware.com/tts/gen.php?' . $get . '&CS=' . $CS;
+                $get = 'EID='.$_POST['EID']
+                    .'&LID='.$_POST['LID']
+                    .'&VID='.$_POST['VID']
+                    .'&TXT='.urlencode($_POST['TXT'])
+                    .'&EXT='.$ext
+                    .'&FX_TYPE='.$fxType
+                    .'&FX_LEVEL='.$fxLevel
+                    .'&ACC='.$_POST['ACC']
+                    .'&API='.$_POST['API']
+                    .'&SESSION='.$_POST['SESSION']
+                    .'&HTTP_ERR='.$httpErr;
+                $CS = md5($_POST['EID'].$_POST['LID'].$_POST['VID'].$_POST['TXT'].
+                    $ext.$fxType.$fxLevel.$_POST['ACC']. $_POST['API'].$_POST['SESSION'].
+                    $httpErr.$_POST['SECRET']);
+                $url = 'http://www.vocalware.com/tts/gen.php?' . $get . '&CS=' . $CS;
 
-            $new_audio_file = $temp_html_dir. 'audio0000'. $key . '.mp3';
+                $new_audio_file = $temp_html_dir. 'audio0000'. $audio_no++ . '.mp3';
 
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-            $data = curl_exec($ch);
+                $data = curl_exec($ch);
 
-            curl_close($ch);
+                curl_close($ch);
 
-            file_put_contents($new_audio_file, $data);
+                file_put_contents($new_audio_file, $data);
 
-            $audio = new \wapmorgan\Mp3Info\Mp3Info($new_audio_file, true);
+                $audio = new \wapmorgan\Mp3Info\Mp3Info($new_audio_file, true);
+                fwrite($audio_desc,"file '".$new_audio_file."'\n");
 
-            fwrite($file_desc,"file '".$new_image_file."'\n");
-            fwrite($file_desc,"duration ". $audio->duration ."\n");
+                $duration += $audio->duration;
+            }
+            fwrite($file_desc,"duration ". $duration ."\n");
 
-            fwrite($audio_desc,"file '".$new_audio_file."'\n");
         }
 
         fclose($file_desc);
