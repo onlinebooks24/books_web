@@ -85,6 +85,8 @@ class AdminVideosController extends Controller
 
         $duration_array = $request->duration;
 
+        $new_image_file = null;
+
         foreach($html_description as $key => $html_item){
             $temp_html_file =  $temp_html_dir . "temp_design.html";
             $open_temp_html_file = fopen($temp_html_file,"w");
@@ -171,15 +173,17 @@ class AdminVideosController extends Controller
             fwrite($file_desc,"duration ". $duration ."\n");
         }
 
+        fwrite($file_desc,"file '".$new_image_file."'\n");
+
         fclose($file_desc);
         fclose($audio_desc);
 
         $final_audio = $temp_html_dir .'output.mp3';
-        $command = 'ffmpeg -f concat -safe 0 -i '. $audio_creator_script .' -c copy '. $final_audio;
+        $command = 'ffmpeg -f concat -safe 0 -y -i '. $audio_creator_script .' -c copy '. $final_audio;
 
         shell_exec($command);
 
-        $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i ". $final_audio ." -pix_fmt yuv420p -vf scale=1280:720 -y -shortest ".$final_video_path.$video_name;
+        $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i ". $final_audio ." -vsync vfr -pix_fmt yuv420p -vf scale=1280:720 -y -shortest ".$final_video_path.$video_name;
 
         $video_create_log = shell_exec($command);
 
