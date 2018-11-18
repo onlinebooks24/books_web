@@ -62,6 +62,14 @@
                     </div>
                     <div class="clearfix"></div>
                 @endforeach
+
+                <div class="alert alert-warning">
+                    <div class="form-group"> <!-- Message field -->
+                        <label class="control-label " for="message">{{ $key + 1 }}. Article Conclusion</label>
+                        <textarea class="summernote" name="html_description[]">{{ $videos_template->book_conclusion_html }}</textarea>
+                    </div>
+                </div>
+
                 <input type="submit" class="btn btn-success" value="submit">
             </form>
         </div>
