@@ -76,8 +76,8 @@ class AdminVideosController extends Controller
         $img_no = 1;
         $audio_no = 1;
 
-        $audio_creator_script = $temp_html_dir . "voice_creator_script.txt";
-        $audio_desc = fopen($audio_creator_script,"w");
+        $voice_creator_script = $temp_html_dir . "voice_creator_script.txt";
+        $audio_desc = fopen($voice_creator_script,"w");
 
         $template_audio_location = $video_template->audio_location;
 
@@ -148,7 +148,7 @@ class AdminVideosController extends Controller
                 $url = 'http://www.vocalware.com/tts/gen.php?' . $get . '&CS=' . $CS;
 
                 $audio_no += 1;
-                $new_audio_file = $temp_html_dir. 'audio0000'. $audio_no . '.mp3';
+                $new_audio_file = $temp_html_dir. 'voice0000'. $audio_no . '.mp3';
 
                 for($i = 0; $i < 5;  $i++){
                     \Log::info("----------------------". $i );
@@ -179,7 +179,7 @@ class AdminVideosController extends Controller
         fclose($audio_desc);
 
         $voice_audio_name = $temp_html_dir .'voice_output.mp3';
-        $join_all_voice_command = 'ffmpeg -f concat -safe 0 -y -i '. $audio_creator_script .' -c copy '. $voice_audio_name;
+        $join_all_voice_command = 'ffmpeg -f concat -safe 0 -y -i '. $voice_creator_script .' -c copy '. $voice_audio_name;
 
         shell_exec($join_all_voice_command);
 
@@ -187,7 +187,28 @@ class AdminVideosController extends Controller
         $decrease_volume_command = "ffmpeg -i ". $template_audio_location . " -filter:a \"volume=0.03\" " . $decrease_volume_name;
         shell_exec($decrease_volume_command);
 
-        $final_audio_name = $temp_html_dir .'final_audio_output.mp3';
+        $get_voice_audio = new \wapmorgan\Mp3Info\Mp3Info($voice_audio_name, true);
+        $get_voice_audio_duration = $get_voice_audio->duration;
+        $get_decrease_volume = new \wapmorgan\Mp3Info\Mp3Info($decrease_volume_name, true);
+        $get_decrease_volume_duration = $get_decrease_volume->duration;
+
+        if($get_decrease_volume_duration < $get_voice_audio_duration){
+            $repeat_no = $get_voice_audio_duration / $get_decrease_volume_duration;
+            $repeat_no = ceil($repeat_no);
+            $audio_repeat_script = $temp_html_dir . "audio_repeat_script.txt";
+            $audio_repeat_desc = fopen($audio_repeat_script,"w");
+            
+            for($i= 0; $i < $repeat_no; $i++){
+                fwrite($audio_repeat_desc,"file '".$decrease_volume_name."'\n");
+            }
+
+            $decrease_volume_name_repeat = $temp_html_dir. "audio_output_repeat.mp3";
+            $repeat_audio_command = 'ffmpeg -f concat -safe 0 -y -i '. $audio_repeat_script .' -c copy '. $decrease_volume_name_repeat;
+            shell_exec($repeat_audio_command);
+            $decrease_volume_name = $decrease_volume_name_repeat;
+        }
+
+        $final_audio_name = $temp_html_dir .'final_sound_output.mp3';
         $join_final_audio_command = "ffmpeg -i ".$voice_audio_name." -i ".$decrease_volume_name." -filter_complex amerge -ac 2 -c:a libmp3lame -q:a 4 ". $final_audio_name;
 
         shell_exec($join_final_audio_command);
