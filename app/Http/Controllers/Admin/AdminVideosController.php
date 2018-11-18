@@ -145,27 +145,26 @@ class AdminVideosController extends Controller
                     $httpErr.$_POST['SECRET']);
                 $url = 'http://www.vocalware.com/tts/gen.php?' . $get . '&CS=' . $CS;
 
-                $new_audio_file = $temp_html_dir. 'audio0000'. $audio_no++ . '.mp3';
+                $audio_no += 1;
+                $new_audio_file = $temp_html_dir. 'audio0000'. $audio_no . '.mp3';
 
-                $ch = curl_init($url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                for($i = 0; $i < 5;  $i++){
+                    \Log::info("----------------------". $i );
+                    $this->downloadFile($url, $new_audio_file);
+                    $audio_type =  mime_content_type($new_audio_file);
+                    sleep(10);
 
-                $data = curl_exec($ch);
+                    if($audio_type == "audio/mpeg"){
+                        $audio = new \wapmorgan\Mp3Info\Mp3Info($new_audio_file, true);
+                        fwrite($audio_desc,"file '".$new_audio_file."'\n");
+                        $duration += $audio->duration;
+                        break;
+                    }
 
-                curl_close($ch);
-
-                file_put_contents($new_audio_file, $data);
-
-                $audio_type =  mime_content_type($new_audio_file);
-                if($audio_type == "audio/mpeg"){
-                    $audio = new \wapmorgan\Mp3Info\Mp3Info($new_audio_file, true);
-                    fwrite($audio_desc,"file '".$new_audio_file."'\n");
-                    $duration += $audio->duration;
-                } else {
-                   dd($url, $voice_html_item, $new_audio_file);
+                    if($i == 5){
+                        dd($url, $voice_html_item, $new_audio_file);
+                    }
                 }
-
-                sleep(10);
             }
 
             fwrite($file_desc,"file '".$new_image_file."'\n");
@@ -202,6 +201,17 @@ class AdminVideosController extends Controller
 //        shell_exec("rm -rf ". $temp_html_dir );
 
         return redirect()->to(route('admin_videos.index'));
+    }
+
+    public function downloadFile($url, $new_audio_file){
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $data = curl_exec($ch);
+
+        curl_close($ch);
+
+        file_put_contents($new_audio_file, $data);
     }
 
     public function getMimeType($filename)
