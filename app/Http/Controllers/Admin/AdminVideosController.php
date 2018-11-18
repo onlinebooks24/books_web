@@ -76,7 +76,7 @@ class AdminVideosController extends Controller
         $img_no = 1;
         $audio_no = 1;
 
-        $audio_creator_script = $temp_html_dir . "audio_creator_script.txt";
+        $audio_creator_script = $temp_html_dir . "voice_creator_script.txt";
         $audio_desc = fopen($audio_creator_script,"w");
 
         $template_audio_location = $video_template->audio_location;
@@ -108,7 +108,7 @@ class AdminVideosController extends Controller
             $node = $finder->query("//*[contains(@class, 'video-container')]");
             $voice_html = $doc->saveHTML($node->item(0));
             $voice_html = strip_tags($voice_html);
-            $voice_html = '<Break time="1000ms"/>'. str_replace(["\n", "\t", "\r", ".."], [".", "", "", "."], $voice_html);
+            $voice_html = '<Break time="2000ms"/>'. str_replace(["\n", "\t", "\r", ".."], [".", "", "", "."], $voice_html);
             $voice_html_array = str_split($voice_html, 600);
             $duration = 0;
             foreach($voice_html_array as $voice_html_item){
