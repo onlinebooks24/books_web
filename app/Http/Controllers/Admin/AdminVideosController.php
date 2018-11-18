@@ -56,9 +56,10 @@ class AdminVideosController extends Controller
         $html_description = $request->html_description;
 
         $video_template = VideosTemplate::find($request->video_template_id);
-
         $video_path = public_path("/uploads/videos");
         $temp_html_dir = $video_path . "/temp_data/". $video_template->template_name . "/" ;
+        shell_exec("rm -rf ". $temp_html_dir );
+
         $final_video_path = $video_path . "/final_videos/";
 
         if (!is_dir($temp_html_dir)) {
@@ -78,7 +79,7 @@ class AdminVideosController extends Controller
         $audio_creator_script = $temp_html_dir . "audio_creator_script.txt";
         $audio_desc = fopen($audio_creator_script,"w");
 
-        $audio_location = $video_template->audio_location;
+        $template_audio_location = $video_template->audio_location;
 
         $article = Article::find($request->article_id);
         $video_name = $article->slug . '.mp4';
@@ -177,14 +178,23 @@ class AdminVideosController extends Controller
         fclose($file_desc);
         fclose($audio_desc);
 
-        $final_audio = $temp_html_dir .'output.mp3';
-        $command = 'ffmpeg -f concat -safe 0 -y -i '. $audio_creator_script .' -c copy '. $final_audio;
+        $voice_audio_name = $temp_html_dir .'voice_output.mp3';
+        $join_all_voice_command = 'ffmpeg -f concat -safe 0 -y -i '. $audio_creator_script .' -c copy '. $voice_audio_name;
 
-        shell_exec($command);
+        shell_exec($join_all_voice_command);
 
-        $command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i ". $final_audio ." -vsync vfr -pix_fmt yuv420p -vf scale=1280:720 -y -shortest ".$final_video_path.$video_name;
+        $decrease_volume_name = $temp_html_dir. "audio_output.mp3";
+        $decrease_volume_command = "ffmpeg -i ". $template_audio_location . " -filter:a \"volume=0.03\" " . $decrease_volume_name;
+        shell_exec($decrease_volume_command);
 
-        $video_create_log = shell_exec($command);
+        $final_audio_name = $temp_html_dir .'final_audio_output.mp3';
+        $join_final_audio_command = "ffmpeg -i ".$voice_audio_name." -i ".$decrease_volume_name." -filter_complex amerge -ac 2 -c:a libmp3lame -q:a 4 ". $final_audio_name;
+
+        shell_exec($join_final_audio_command);
+
+        $create_video_command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i ". $final_audio_name ." -vsync vfr -pix_fmt yuv420p -vf scale=1280:720 -y -shortest ".$final_video_path.$video_name;
+
+        $video_create_log = shell_exec($create_video_command);
 
         $video = Video::where('article_id', $article->id)->first();
 
@@ -200,8 +210,6 @@ class AdminVideosController extends Controller
 
         $flash_message = 'Successfully Saved. Log:'. $video_create_log;
         Session::flash('message', $flash_message);
-
-//        shell_exec("rm -rf ". $temp_html_dir );
 
         return redirect()->to(route('admin_videos.index'));
     }
