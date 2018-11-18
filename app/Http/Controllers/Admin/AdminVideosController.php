@@ -11,6 +11,7 @@ use Session;
 use Spatie\Browsershot\Browsershot;
 use DOMXPath;
 use DOMDocument;
+use getID3;
 
 class AdminVideosController extends Controller
 {
@@ -157,9 +158,10 @@ class AdminVideosController extends Controller
                     sleep(10);
 
                     if($audio_type == "audio/mpeg"){
-                        $audio = new \wapmorgan\Mp3Info\Mp3Info($new_audio_file, true);
+                        $valid_getID3 = new getID3;;
+                        $valid_getID3_audio = $valid_getID3->analyze($new_audio_file);
                         fwrite($audio_desc,"file '".$new_audio_file."'\n");
-                        $duration += $audio->duration;
+                        $duration += $valid_getID3_audio['playtime_seconds'];
                         break;
                     }
 
@@ -187,10 +189,13 @@ class AdminVideosController extends Controller
         $decrease_volume_command = "ffmpeg -i ". $template_audio_location . " -filter:a \"volume=0.03\" " . $decrease_volume_name;
         shell_exec($decrease_volume_command);
 
-        $get_voice_audio = new \wapmorgan\Mp3Info\Mp3Info($voice_audio_name, true);
-        $get_voice_audio_duration = $get_voice_audio->duration;
-        $get_decrease_volume = new \wapmorgan\Mp3Info\Mp3Info($decrease_volume_name, true);
-        $get_decrease_volume_duration = $get_decrease_volume->duration;
+        $get_voice_audio_getID3 = new getID3;;
+        $get_voice_audio = $get_voice_audio_getID3->analyze($voice_audio_name);
+        $get_voice_audio_duration = $get_voice_audio['playtime_seconds'];
+
+        $get_decrease_volume_getID3 = new getID3;;
+        $get_decrease_volume = $get_decrease_volume_getID3->analyze($decrease_volume_name);
+        $get_decrease_volume_duration = $get_decrease_volume['playtime_seconds'];
 
         if($get_decrease_volume_duration < $get_voice_audio_duration){
             $repeat_no = $get_voice_audio_duration / $get_decrease_volume_duration;
