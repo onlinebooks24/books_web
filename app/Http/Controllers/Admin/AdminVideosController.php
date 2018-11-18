@@ -109,7 +109,6 @@ class AdminVideosController extends Controller
             $voice_html = strip_tags($voice_html);
             $voice_html = '<Break time="1000ms"/>'. str_replace(["\n", "\t", "\r", ".."], [".", "", "", "."], $voice_html);
             $voice_html_array = str_split($voice_html, 600);
-
             $duration = 0;
             foreach($voice_html_array as $voice_html_item){
                 $_POST['EID'] = 3;
