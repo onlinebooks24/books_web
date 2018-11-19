@@ -19,6 +19,7 @@ class CreateVideosTable extends Migration
             $table->increments('id');
             $table->string('template_name');
             $table->text('book_title_html')->nullable();
+            $table->text('book_image_html')->nullable();
             $table->text('book_description_html')->nullable();
             $table->text('book_conclusion_html')->nullable();
             $table->string('background_image')->nullable();
