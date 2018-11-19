@@ -96,10 +96,10 @@ class AdminVideosController extends Controller
             fwrite($open_temp_html_file,$html_item);
             fclose($open_temp_html_file);
 
-            $image_name = "image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".jpeg";
+            $image_name = "image".str_pad($img_no++, 5, "0", STR_PAD_LEFT).".png";
             $new_image_file = $temp_html_dir.$image_name;
 
-            Browsershot::url("file://".$temp_html_file)->setScreenshotType('jpeg',100)->windowSize(1280, 720)->save($new_image_file);
+            Browsershot::url("file://".$temp_html_file)->windowSize(1280, 720)->save($new_image_file);
 
             $doc = new DOMDocument();
             libxml_use_internal_errors(true);
@@ -218,7 +218,7 @@ class AdminVideosController extends Controller
 
         shell_exec($join_final_audio_command);
 
-        $create_video_command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i ". $final_audio_name ." -vsync vfr -pix_fmt yuv420p -vf scale=1280:720 -y -shortest ".$final_video_path.$video_name;
+        $create_video_command = "ffmpeg -f concat -safe 0 -i '".$video_creator_script."' -i ". $final_audio_name ." -vsync vfr -vf fps=25 -pix_fmt yuv420p -y -shortest ".$final_video_path.$video_name;
 
         $video_create_log = shell_exec($create_video_command);
 
