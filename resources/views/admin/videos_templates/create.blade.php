@@ -22,6 +22,10 @@
                     <textarea class="form-control summernote" placeholder="book title html" name="book_title_html"></textarea>
                 </div>
                 <div class="form-group">
+                    <label>book image html (shortcode: %article_title%)</label>
+                    <textarea class="form-control summernote" placeholder="book image html" name="book_image_html"></textarea>
+                </div>
+                <div class="form-group">
                     <label>book_description_html (shortcode: %product_title% , %product_image_url% , %product_description%)</label>
                     <textarea class="form-control summernote" placeholder="book_description_html" name="book_description_html"></textarea>
                 </div>
