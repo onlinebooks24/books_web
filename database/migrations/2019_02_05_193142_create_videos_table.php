@@ -32,7 +32,7 @@ class CreateVideosTable extends Migration
             $table->integer('article_id');
             $table->integer('video_template_id');
             $table->string('video_name');
-            $table->string('youtube_link');
+            $table->string('youtube_link')->nullable();
             $table->timestamps();
         });
     }
