@@ -38,28 +38,40 @@
                     <input class="form-control" type="text" placeholder="youtube_link" name="youtube_link">
                 </div>
                 @foreach($products as $key => $product)
-                    <div class="row">
+                    <div class="row product-{{ $product->isbn }}">
                         <div class="col-md-9">
-                            <div class="form-group">
-                                <label>Product Image and Title (shortcode: %product_title% , %product_image_url% )</label>
-                                <textarea name="html_description[]" class="summernote">{{ str_replace(["%product_title%", "%product_image_url%"], [$product->product_title, $product->image_url] , $videos_template->book_image_html) }}</textarea>
+                            <div class="alert alert-warning">
+                                <div class="form-group">
+                                    <label>{{ $key + 1 }}. Product Image and Title (shortcode: %product_title% , %product_image_url% )</label>
+                                    <textarea name="html_description[]" class="summernote">{{ str_replace(["%product_no%","%product_title%", "%product_image_url%"], [ $key + 1, $product->product_title, $product->image_url] , $videos_template->book_image_html) }}</textarea>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Product Image Duration</label>
-                                <input type="text" name="duration[]" value="5" class="form-control">
+
+                            <div class="alert alert-warning">
+                                <div class="form-group">
+                                    <label>{{ $key + 1 }}. Product Image Duration</label>
+                                    <input type="text" name="duration[]" value="5" class="form-control">
+                                </div>
                             </div>
+
                             <div class="alert alert-warning">
                                 <div class="form-group"> <!-- Message field -->
                                     <label class="control-label " for="message">{{ $key + 1 }}. Product Description (shortcode: %product_description%)</label>
-                                    <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{{ str_replace(['%product_description%'], [$product->product_description] , $videos_template->book_description_html) }}</textarea>
+                                    <textarea class="summernote product_description" data-product="{{$product->id}}" name="html_description[]">{{ str_replace(['%product_description%', '%product_image_url%'], [$product->product_description, $product->image_url] , $videos_template->book_description_html) }}</textarea>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>Product Duration</label>
-                                <input type="text" name="duration[]" value="5" class="form-control">
+
+                            <div class="alert alert-warning">
+                                <div class="form-group">
+                                    <label>{{ $key + 1 }}. Product Duration</label>
+                                    <input type="text" name="duration[]" value="5" class="form-control">
+                                </div>
                             </div>
+
+                            <div class="btn btn-danger pull-right bottom10 delete-product" data-product-id="{{ $product->isbn }}">Delete</div>
                         </div>
                     </div>
+
                     <div class="clearfix"></div>
                 @endforeach
 
@@ -111,6 +123,11 @@
             $('#clear').on('click' , function(){
                 $('.summernote').summernote('code', null);
             });
+
+            $('.delete-product').click(function(){
+                var product_id = $(this).data('product-id');
+                $('.product-' + product_id).remove();
+            })
         });
 
     </script>

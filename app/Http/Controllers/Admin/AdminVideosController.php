@@ -22,7 +22,7 @@ class AdminVideosController extends Controller
      */
     public function index()
     {
-        $videos = Video::paginate(10);
+        $videos = Video::orderBY('id', 'desc')->paginate(10);
         return view('admin.videos.index', compact('videos'));
     }
 
@@ -34,7 +34,7 @@ class AdminVideosController extends Controller
     public function create(Request $request)
     {
         $article = Article::find($request->article_id);
-        $videos_templates = VideosTemplate::all();
+        $videos_templates = VideosTemplate::orderBy('id', 'desc')->get();
 
         if(empty($request->video_template)){
             $videos_template = $videos_templates->first();
