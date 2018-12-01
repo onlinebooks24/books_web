@@ -12,7 +12,7 @@ use Spatie\Browsershot\Browsershot;
 use DOMXPath;
 use DOMDocument;
 use getID3;
-
+use Dawson\Youtube\Facades\Youtube;
 class AdminVideosController extends Controller
 {
     /**
@@ -315,5 +315,22 @@ class AdminVideosController extends Controller
             $mimetype = mime_content_type($filename);
         }
         return $mimetype;
+    }
+
+    public function youtubeUpload($video_id){
+        $video = Video::find($video_id);
+
+        $fullPathToVideo = public_path($video->video_link);
+
+        $video = Youtube::upload($fullPathToVideo, [
+            'title'       => 'My Awesome Video',
+            'description' => 'You can also specify your video description here.',
+            'tags'	      => ['foo', 'bar', 'baz'],
+            'category_id' => 10
+        ]);
+
+        dd($video->getVideoId());
+
+        return $video->getVideoId();
     }
 }

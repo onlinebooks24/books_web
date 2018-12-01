@@ -7,6 +7,7 @@
     "require": {
         "php": ">=5.6.4",
         "aloha/twilio": "^4.0.2",
+        "dawson/youtube": "^4.2",
         "fabpot/goutte": "^3.2",
         "guzzlehttp/guzzle": "~6.0",
         "intervention/image": "^2.3",
