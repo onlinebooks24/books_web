@@ -325,14 +325,14 @@ class AdminVideosController extends Controller
 
         $fullPathToVideo = public_path($video->video_link);
 
-        $video = Youtube::upload($fullPathToVideo, [
+        $video_upload = Youtube::upload($fullPathToVideo, [
             'title'       => $video_title,
             'description' => $video_description,
             'tags'	      => $video_tags,
             'category_id' => 27
         ]);
 
-        $video->youtube_link = $video->getVideoId();
+        $video->youtube_link = $video_upload->getVideoId();
         $video->save();
         return redirect()->to(route('admin_videos.index'));
     }
