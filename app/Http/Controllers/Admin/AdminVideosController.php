@@ -334,6 +334,9 @@ class AdminVideosController extends Controller
 
         $video->youtube_link = $video_upload->getVideoId();
         $video->save();
+
+        unlink($fullPathToVideo);
+
         return redirect()->to(route('admin_videos.index'));
     }
 
