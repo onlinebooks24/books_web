@@ -334,6 +334,7 @@ class AdminVideosController extends Controller
 
         $video->youtube_link = $video->getVideoId();
         $video->save();
+        return redirect()->to(route('admin_videos.index'));
     }
 
     public function youtubeUploadShow($video_id){
