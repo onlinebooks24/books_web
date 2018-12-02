@@ -29,7 +29,7 @@
                         <td>{{ $video->video_template->template_name }}</td>
                         <td><a href="{{ $video->video_link }}">Download</a></td>
                         <td>{{ $video->youtube_link }}</td>
-                        <td><a href="{{ route('admin_videos.youtube_upload', $video->id) }}">Upload</a></td>
+                        <td><a href="{{ route('admin_videos.youtube_upload_show', $video->id) }}">Upload</a></td>
                     </tr>
                 @endforeach
                 </tbody>

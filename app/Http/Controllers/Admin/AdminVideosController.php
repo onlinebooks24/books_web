@@ -317,20 +317,28 @@ class AdminVideosController extends Controller
         return $mimetype;
     }
 
-    public function youtubeUpload($video_id){
+    public function youtubeUpload($video_id, Request $request){
         $video = Video::find($video_id);
+        $video_title = $request->video_title;
+        $video_description = $request->video_description;
+        $video_tags = explode(",", trim($request->video_tags));
 
         $fullPathToVideo = public_path($video->video_link);
 
         $video = Youtube::upload($fullPathToVideo, [
-            'title'       => 'My Awesome Video',
-            'description' => 'You can also specify your video description here.',
-            'tags'	      => ['foo', 'bar', 'baz'],
-            'category_id' => 10
+            'title'       => $video_title,
+            'description' => $video_description,
+            'tags'	      => $video_tags,
+            'category_id' => 27
         ]);
 
         dd($video->getVideoId());
 
         return $video->getVideoId();
+    }
+
+    public function youtubeUploadShow($video_id){
+        $video = Video::find($video_id);
+        return view('admin.videos.youtube_upload_show', compact('video'));
     }
 }

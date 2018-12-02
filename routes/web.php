@@ -52,9 +52,15 @@ Route::group(['middleware' => ['web']] , function() {
 		Route::resource('/admin_temporary_email','Admin\AdminTemporaryEmailController');
 
 		Route::any('/admin_articles/admin_videos/youtube_upload/{video_id}',[
+			'uses' => 'Admin\AdminVideosController@youtubeUploadShow',
+			'as' => 'admin_videos.youtube_upload_show'
+		]);
+
+		Route::post('/admin_articles/admin_videos/youtube_upload/{video_id}',[
 			'uses' => 'Admin\AdminVideosController@youtubeUpload',
 			'as' => 'admin_videos.youtube_upload'
 		]);
+
 		Route::resource('/admin_videos','Admin\AdminVideosController');
 		Route::resource('/admin_videos_templates','Admin\AdminVideosTemplatesController');
 
