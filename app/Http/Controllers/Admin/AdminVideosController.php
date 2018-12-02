@@ -332,9 +332,8 @@ class AdminVideosController extends Controller
             'category_id' => 27
         ]);
 
-        dd($video->getVideoId());
-
-        return $video->getVideoId();
+        $video->youtube_link = $video->getVideoId();
+        $video->save();
     }
 
     public function youtubeUploadShow($video_id){
