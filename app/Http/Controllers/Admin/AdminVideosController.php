@@ -325,14 +325,15 @@ class AdminVideosController extends Controller
 
         $fullPathToVideo = public_path($video->video_link);
 
-        $fullpathToImage = public_path('images/servereditor_thumb_logo.png');
+//        $fullpathToImage = public_path('images/servereditor_thumb_logo.png');
 
         $video_upload = Youtube::upload($fullPathToVideo, [
             'title'       => $video_title,
             'description' => $video_description,
             'tags'	      => $video_tags,
             'category_id' => 27
-        ])->withThumbnail($fullpathToImage);
+        ]);
+//            ->withThumbnail($fullpathToImage);
 
         $video->youtube_link = $video_upload->getVideoId();
         $video->save();
