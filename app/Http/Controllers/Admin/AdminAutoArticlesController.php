@@ -21,13 +21,6 @@ class AdminAutoArticlesController extends Controller
      */
     public function index()
     {
-        $pathinfo = 'http://www.mashpy.me/search?q=best+wordpress+book+2019&client=firefox-b&ie=UTF-8&oe=UTF-8&prmd=ivns&tbm=isch&tbo=u&source=univ';
-        if (filter_var($pathinfo, FILTER_VALIDATE_URL)) {
-            dd("$pathinfo is a valid URL");
-        } else {
-            dd("$pathinfo is not a valid URL");
-        }
-
         $input = Input::all();
         $best_books = null;
 
