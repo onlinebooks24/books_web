@@ -29,6 +29,8 @@ class AdminAutoArticlesController extends Controller
         }
 
         if(!empty($keyword)){
+            \Log::info("--------------Starting--------\n");
+
             $title = str_replace('_', ' ', $keyword);
             $slug = str_replace(' ', '-',  strtolower($title));
             $slug_check = Article::where('slug' , $slug)->first();
@@ -78,8 +80,14 @@ class AdminAutoArticlesController extends Controller
             $client = new Client();
             $total_suggested_books = null;
             $google_keyword = 'best+' . str_replace(' ', '+',  strtolower($title));
+
+            \Log::info("--------------$google_keyword--------\n");
+
             for($i=0; $i <= 1; $i++){
-                $crawler = $client->request('GET', "https://www.google.com/search?q=$google_keyword&ie=utf-8&oe=utf-8&client=firefox-b&start=$i", ['verify' => false]);
+                $search_google = "https://www.google.com/search?q=$google_keyword&ie=utf-8&oe=utf-8&client=firefox-b&start=$i";
+                \Log::info("--------------$search_google--------\n");
+
+                $crawler = $client->request('GET', $search_google , ['verify' => false]);
                 $total_suggested_books =   $crawler->filter('.r a')->each(function ($node) {
                     $link_string = $node->attr('href');
                     $link_string = str_replace('/url?q=', '', $link_string);
@@ -88,11 +96,14 @@ class AdminAutoArticlesController extends Controller
 //                    $domain_name = parse_url($link_string)['host'];
                     if( !isset($pathinfo['extension']) && strpos($link_string, '.amazon.') == false){
                         $next_client = new Client();
+
+                        \Log::info("--------------$link_string--------\n");
                         $next_crawler = $next_client->request('GET', $link_string, ['verify' => false]);
                         $collect_books = $next_crawler->filter('body a')->each(function ($next_node) {
                             $general_link_string = $next_node->attr('href');
 
                             if (strpos($general_link_string, '.amazon.') !== false) {
+                                \Log::info("--------------$general_link_string--------\n");
                                 if (preg_match("/\/[^\/]{10}\//", $general_link_string. "/", $matches)) {
                                     if(isset($matches[0])){
                                         return str_replace('/', '',$matches[0]);
@@ -290,6 +301,8 @@ class AdminAutoArticlesController extends Controller
     }
 
     public function getRankingFromAmazonReview($best_books, $asin){
+        \Log::info("--------------$asin--------\n");
+
         $client = new Client();
         $crawler = $client->request('GET', "https://www.amazon.com/product-reviews/$asin/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1", ['verify' => false]);
         $raking_review_dates = $crawler->filter('.review-date')->each(function ($node) {
