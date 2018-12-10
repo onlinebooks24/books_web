@@ -21,6 +21,11 @@ class AdminAutoArticlesController extends Controller
      */
     public function index()
     {
+        $search_google = "https://www.healthline.com/health/food-nutrition/best-healthy-eating-books";
+        $client = new Client();
+        $crawler = $client->request('GET', $search_google , ['verify' => false]);
+        dd($crawler);
+
         $input = Input::all();
         $best_books = null;
 
