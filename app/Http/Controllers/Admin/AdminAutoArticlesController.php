@@ -21,6 +21,13 @@ class AdminAutoArticlesController extends Controller
      */
     public function index()
     {
+        $pathinfo = 'http://www.mashpy.me/search?q=best+wordpress+book+2019&client=firefox-b&ie=UTF-8&oe=UTF-8&prmd=ivns&tbm=isch&tbo=u&source=univ';
+        if (filter_var($pathinfo, FILTER_VALIDATE_URL)) {
+            dd("$pathinfo is a valid URL");
+        } else {
+            dd("$pathinfo is not a valid URL");
+        }
+
         $input = Input::all();
         $best_books = null;
 
@@ -85,19 +92,18 @@ class AdminAutoArticlesController extends Controller
 
             for($i=0; $i <= 1; $i++){
                 $search_google = "https://www.google.com/search?q=$google_keyword&ie=utf-8&oe=utf-8&client=firefox-b&start=$i";
-                \Log::info("--------------$search_google--------\n");
+                \Log::info("-----Searching Goolge---------$search_google--------\n");
 
                 $crawler = $client->request('GET', $search_google , ['verify' => false]);
                 $total_suggested_books =   $crawler->filter('.r a')->each(function ($node) {
                     $link_string = $node->attr('href');
                     $link_string = str_replace('/url?q=', '', $link_string);
                     $link_string = substr($link_string, 0, strpos($link_string, "&sa="));
-                    $pathinfo = pathinfo($link_string);
-//                    $domain_name = parse_url($link_string)['host'];
-                    if( !isset($pathinfo['extension']) && strpos($link_string, '.amazon.') == false){
+
+                    if( filter_var($link_string, FILTER_VALIDATE_URL) && strpos($link_string, '.amazon.') == false){
                         $next_client = new Client();
 
-                        \Log::info("--------------$link_string--------\n");
+                        \Log::info("------After Searching Entering URL--------$link_string--------\n");
                         $next_crawler = $next_client->request('GET', $link_string, ['verify' => false]);
                         $collect_books = $next_crawler->filter('body a')->each(function ($next_node) {
                             $general_link_string = $next_node->attr('href');
