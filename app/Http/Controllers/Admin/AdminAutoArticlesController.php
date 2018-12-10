@@ -97,30 +97,34 @@ class AdminAutoArticlesController extends Controller
                         $next_client = new Client();
 
                         \Log::info("------After Searching Entering URL--------$link_string--------\n");
-                        $next_crawler = $next_client->request('GET', $link_string, ['verify' => false]);
-                        $collect_books = $next_crawler->filter('body a')->each(function ($next_node) {
-                            $general_link_string = $next_node->attr('href');
 
-                            if (strpos($general_link_string, '.amazon.') !== false) {
-                                \Log::info("--------------$general_link_string--------\n");
-                                if (preg_match("/\/[^\/]{10}\//", $general_link_string. "/", $matches)) {
-                                    if(isset($matches[0])){
-                                        return str_replace('/', '',$matches[0]);
+                        try {
+                            $next_crawler = $next_client->request('GET', $link_string, ['verify' => false]);
+                            $collect_books = $next_crawler->filter('body a')->each(function ($next_node) {
+                                $general_link_string = $next_node->attr('href');
+
+                                if (strpos($general_link_string, '.amazon.') !== false) {
+                                    \Log::info("--------------$general_link_string--------\n");
+                                    if (preg_match("/\/[^\/]{10}\//", $general_link_string. "/", $matches)) {
+                                        if(isset($matches[0])){
+                                            return str_replace('/', '',$matches[0]);
+                                        }
                                     }
                                 }
+                            });
+                            $suggest_books = null;
+                            foreach( array_filter($collect_books) as $book_item){
+                                $book_item = (string)$book_item;
+                                if(isset($suggest_books[$book_item])){
+                                    $suggest_books[$book_item] += 10;
+                                } else {
+                                    $suggest_books[$book_item] = 10;
+                                }
                             }
-                        });
-                        $suggest_books = null;
-                        foreach( array_filter($collect_books) as $book_item){
-                            $book_item = (string)$book_item;
-                            if(isset($suggest_books[$book_item])){
-                                $suggest_books[$book_item] += 10;
-                            } else {
-                                $suggest_books[$book_item] = 10;
-                            }
+                            return $suggest_books;
+                        } catch (\Throwable $e) {
+                            \Log::info("---Alert!!! Wrong in---$link_string--------\n");
                         }
-                        return $suggest_books;
-
                     }
                 });
                 $i += 9;
