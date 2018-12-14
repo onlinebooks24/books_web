@@ -69,7 +69,7 @@
 
                         @if(Auth::user()->roleType->name != 'editor')
                             <div class="col-md-offset-7 top-25">
-                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn btn-success view-review-here" >View Review Here</a></div>
+                                <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn btn-success view-review-here hidden" >View Review Here</a></div>
                                 <div><a href="#" data-review-isbn="{{$product->isbn}}" class="btn btn-info view-description-here hidden" >View Description</a></div>
                             </div>
                         @endif
