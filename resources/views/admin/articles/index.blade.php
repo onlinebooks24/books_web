@@ -35,7 +35,9 @@
        <th>User</th>
 	   <th>Created at</th>
 	   <th>Count</th>
+	   @if(Auth::user()->roleType->name == 'admin' || Auth::user()->roleType->name == 'manager')
 	   <th>Orders</th>
+	   @endif
 	   @if(Auth::user()->roleType->name == 'admin' )
        <th>Fee</th>
        <th>Site Cost</th>
@@ -55,7 +57,9 @@
 		<td>{{ $article->user->name }}</td>
 		<td>{{ Carbon\Carbon::parse($article->created_at)->toFormattedDateString() }}</td>
 		<td>{{ $article->count }}</td>
+		@if(Auth::user()->roleType->name == 'admin' || Auth::user()->roleType->name == 'manager' )
 		<td>{{ count($article->product_orders) }}</td>
+		@endif
 		@if(Auth::user()->roleType->name == 'admin' )
 		<td>
 			<div class="hidden">{{ $fee = 0 }}</div>
