@@ -29,6 +29,9 @@ class CreateArticlesTable extends Migration
             $table->integer('count')->default(0);
             $table->text('conclusion')->nullable();
             $table->integer('thumbnail_id')->nullable();
+            $table->time('sub_admin_spend_time')->default('00:00:00');
+            $table->time('admin_spend_time')->default('00:00:00');
+            $table->time('editor_spend_time')->default('00:00:00');
         });
     }
 
