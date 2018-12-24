@@ -481,6 +481,7 @@ class AdminArticlesController extends Controller
     public function product_review($isbn){
         $product_url = "https://www.amazon.com/product-reviews/". $isbn. "/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1";
         $client = new Client();
+        $client->setHeader('user-agent', "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36");
         $crawler = $client->request('GET', $product_url);
         $json_data = null;
         $total_review_count = $crawler->filter('.totalReviewCount')->each(function ($node) {

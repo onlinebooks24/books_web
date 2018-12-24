@@ -78,6 +78,7 @@ class AdminAutoArticlesController extends Controller
             }
 
             $client = new Client();
+            $client->setHeader('user-agent', "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36");
             $total_suggested_books = null;
             $google_keyword = 'best+' . str_replace(' ', '+',  strtolower($title));
 
@@ -95,6 +96,7 @@ class AdminAutoArticlesController extends Controller
 
                     if( filter_var($link_string, FILTER_VALIDATE_URL) && strpos($link_string, '.amazon.') == false){
                         $next_client = new Client();
+                        $next_client->setHeader('user-agent', "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36");
 
                         \Log::info("------After Searching Entering URL--------$link_string--------\n");
 
@@ -307,6 +309,7 @@ class AdminAutoArticlesController extends Controller
         \Log::info("--------------$asin--------\n");
 
         $client = new Client();
+        $client->setHeader('user-agent', "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36");
         $crawler = $client->request('GET', "https://www.amazon.com/product-reviews/$asin/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1", ['verify' => false]);
         $raking_review_dates = $crawler->filter('.review-date')->each(function ($node) {
             return (int)substr($node->text(), -1)*2;
