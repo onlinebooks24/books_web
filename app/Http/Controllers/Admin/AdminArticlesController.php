@@ -417,10 +417,10 @@ class AdminArticlesController extends Controller
 
         if(!empty($get_amazon_items)){
             $item = $get_amazon_items ;
-                if(isset($item['EditorialReviews']['EditorialReview'])){
-                    $editorial_array = $item['EditorialReviews']['EditorialReview'];
-                }
-                $editorial_details = '';
+            $editorial_details = '';
+
+            if(isset($item['EditorialReviews']['EditorialReview'])){
+                $editorial_array = $item['EditorialReviews']['EditorialReview'];
                 if(!isset($editorial_array['Content'])){
                     foreach($editorial_array as $editorial_item){
                         $editorial_details = $editorial_item['Content'];
@@ -428,38 +428,39 @@ class AdminArticlesController extends Controller
                 } else {
                     $editorial_details = $editorial_array['Content'];
                 }
+            }
 
-                $author_name = null;
-                if(isset($item['ItemAttributes']['Author'])){
-                    $author_name = $item['ItemAttributes']['Author'];
-                    if(is_array($author_name)){
-                        $author_name = implode(',', $author_name);
-                    }
+            $author_name = null;
+            if(isset($item['ItemAttributes']['Author'])){
+                $author_name = $item['ItemAttributes']['Author'];
+                if(is_array($author_name)){
+                    $author_name = implode(',', $author_name);
                 }
+            }
 
-                if(isset($item['ItemAttributes']['PublicationDate'])){
-                    $publication_date = $item['ItemAttributes']['PublicationDate'];
-                } else {
-                    $publication_date = null;
-                }
+            if(isset($item['ItemAttributes']['PublicationDate'])){
+                $publication_date = $item['ItemAttributes']['PublicationDate'];
+            } else {
+                $publication_date = null;
+            }
 
 
-                if( strlen($publication_date) == 7 ){
-                    $publication_date = $publication_date. '-01';
-                } elseif (strlen($publication_date) == 4) {
-                    $publication_date = $publication_date. '-01'.'-01';
-                }
+            if( strlen($publication_date) == 7 ){
+                $publication_date = $publication_date. '-01';
+            } elseif (strlen($publication_date) == 4) {
+                $publication_date = $publication_date. '-01'.'-01';
+            }
 
-                $product = new Product();
-                $product->isbn = $item['ASIN'];
-                $product->product_title = $item['ItemAttributes']['Title'];
-                $product->product_description = $editorial_details;
-                $product->amazon_link = $item['DetailPageURL'];
-                $product->image_url = $item['LargeImage']['URL'];
-                $product->author_name = $author_name;
-                $product->article_id = $article_id;
-                $product->publication_date = $publication_date;
-                $product->save();
+            $product = new Product();
+            $product->isbn = $item['ASIN'];
+            $product->product_title = $item['ItemAttributes']['Title'];
+            $product->product_description = $editorial_details;
+            $product->amazon_link = $item['DetailPageURL'];
+            $product->image_url = $item['LargeImage']['URL'];
+            $product->author_name = $author_name;
+            $product->article_id = $article_id;
+            $product->publication_date = $publication_date;
+            $product->save();
         }
         return redirect()->back()->with(['success' => 'Product Created Successfully']);
 
