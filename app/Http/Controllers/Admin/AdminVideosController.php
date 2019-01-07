@@ -121,7 +121,6 @@ class AdminVideosController extends Controller
             $voice_html = strip_tags($voice_html);
             $voice_html = '<Break time="2000ms"/>'. str_replace(["\n", "\t", "\r", ".."], [". ", "", "", ". "], $voice_html);
             $voice_html_array = str_split($voice_html, 600);
-            dd($voice_html_array);
             $duration = 0;
 
             \Log::info("\n\n\nNow ready for converting image text to voice audio. Image no................" . $img_no);
