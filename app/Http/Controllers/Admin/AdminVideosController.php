@@ -132,9 +132,9 @@ class AdminVideosController extends Controller
                 $_POST['LID'] = 1;
                 $_POST['VID'] = 3;
                 $_POST['TXT'] = $voice_html_item;
-                $_POST['ACC'] = 6887135;
-                $_POST['API'] = 2638673;
-                $_POST['SECRET'] = '589e570dc04cbb23ed03c781c4adeb5d';
+                $_POST['ACC'] = 6879794;
+                $_POST['API'] = 2639470;
+                $_POST['SECRET'] = env('vocalware_secret', null);
                 $_POST['SESSION'] = '';
 
                 $ext = isset($_POST['EXT']) &&
