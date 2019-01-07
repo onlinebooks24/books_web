@@ -90,6 +90,7 @@ class AdminVideosController extends Controller
 
         $article = Article::find($request->article_id);
         $video_name = $article->slug . '.mp4';
+        $video_name = preg_replace("/[^a-zA-Z0-9-.]+/", "", $video_name);
 
         $duration_array = $request->duration;
 
