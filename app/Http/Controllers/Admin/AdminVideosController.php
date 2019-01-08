@@ -169,20 +169,21 @@ class AdminVideosController extends Controller
 
                 \Log::info("\n\n\nCreating vocalware api audio link......");
 
+                $valid_getID3 = new getID3;
+
                 for($i = 0; $i < 5;  $i++){
                     \Log::info("\n\n\nReady to hit vocalware api => \n". $url );
                     $this->downloadFile($url, $new_audio_file);
 
                     \Log::info("\n\n\nsuccessfully downloaded the audio. audio file => \n". $new_audio_file);
-                    $audio_type =  mime_content_type($new_audio_file);
 
-                    \Log::info("\n\n\nNow checking our voice file is mp3 and sleep for 10 seconds.");
+                    \Log::info("\n\n\nNow sleep for 10 seconds and checking our voice file is mp3");
 
                     sleep(10);
 
-                    if($audio_type == "audio/mpeg"){
-                        $valid_getID3 = new getID3;;
-                        $valid_getID3_audio = $valid_getID3->analyze($new_audio_file);
+                    $valid_getID3_audio = $valid_getID3->analyze($new_audio_file);
+
+                    if(isset($valid_getID3_audio['playtime_seconds'])){
                         fwrite($audio_desc,"file '".$new_audio_file."'\n");
                         $duration += $valid_getID3_audio['playtime_seconds'];
 
@@ -190,6 +191,7 @@ class AdminVideosController extends Controller
 
                         break;
                     } else {
+                        dd("failed". $new_audio_file);
                         \Log::info("\n\n\nFailed!!!!! Our voice file is not mp3 file. Ready to hit again.....");
                     }
 
