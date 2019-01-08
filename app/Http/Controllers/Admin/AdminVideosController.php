@@ -120,7 +120,7 @@ class AdminVideosController extends Controller
             $node = $finder->query("//*[contains(@class, 'video-container')]");
             $voice_html = $doc->saveHTML($node->item(0));
             $voice_html = strip_tags($voice_html);
-            $voice_html = '<Break time="2000ms"/>'. str_replace(["\n", "\t", "\r", ".."], [". ", "", "", ". "], $voice_html);
+            $voice_html = '<Break time="2000ms"/>'. str_replace(["\n", "\t", "\r", ".."], [".", "", "", ". "], $voice_html);
             $voice_html_array = str_split($voice_html, 600);
             $duration = 0;
 
