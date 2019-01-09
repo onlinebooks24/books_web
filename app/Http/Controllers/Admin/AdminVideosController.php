@@ -42,7 +42,7 @@ class AdminVideosController extends Controller
             $videos_template = VideosTemplate::find($request->video_template);
         }
 
-        $products = $article->products;
+        $products = Product::where(['article_id' => $request->article_id, 'deleted' => false])->orderBy('created_at','asc')->get();;
         return view('admin.videos.create', compact('article', 'products', 'videos_templates', 'videos_template'));
     }
 
