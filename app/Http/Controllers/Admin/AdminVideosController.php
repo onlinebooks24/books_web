@@ -7,6 +7,7 @@ use App\Models\VideosTemplate;
 use Illuminate\Http\Request;
 use App\Models\Video;
 use App\Models\Article;
+use App\Models\Product;
 use Session;
 use Spatie\Browsershot\Browsershot;
 use DOMXPath;
