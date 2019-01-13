@@ -113,7 +113,7 @@
                             </div>
 
                             <div>
-                               {{ $article->conclusion }}
+                               {!! $article->conclusion !!}
                             </div>
 
                             @if(count($ordered_product_articles) > 0)
