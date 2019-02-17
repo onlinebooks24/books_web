@@ -139,30 +139,32 @@
 
                         </div> <!-- end entry article -->
                     </div>
+                </article> <!-- end standard post -->
 
-                    <!-- Newsletter -->
-                    <div class="newsletter-wide widget widget_mc4wp_form_widget">
-                        <div class="newsletter-wide__text">
-                            <h4 class="widget-title">Subscribe for Neotech news and receive daily updates</h4>
-                        </div>
 
-                        <div class="newsletter-wide__form">
-                            <form class="mc4wp-form" method="post">
-                                <div class="mc4wp-form-fields">
-                                    <i class="mc4wp-form-icon ui-email"></i>
-                                    <input type="email" name="email" class="update_email" placeholder="Your email" required="">
-                                    <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">
-                                </div>
-                            </form>
-                        </div>
+                <!-- Newsletter -->
+                <div class="newsletter-wide widget widget_mc4wp_form_widget">
+                    <div class="newsletter-wide__text">
+                        <h4 class="widget-title">Subscribe for Neotech news and receive daily updates</h4>
                     </div>
 
-                    <!-- Related Posts -->
-                    <div class="related-posts">
-                        <h5 class="related-posts__title">You might like</h5>
-                        <div class="row row-20">
-                            @foreach($related_articles as $related_article)
-                                <div class="col-md-4">
+                    <div class="newsletter-wide__form">
+                        <form class="mc4wp-form" method="post">
+                            <div class="mc4wp-form-fields">
+                                <i class="mc4wp-form-icon ui-email"></i>
+                                <input type="email" name="email" class="update_email" placeholder="Your email" required="">
+                                <input type="submit" class="btn btn-md btn-color btn-subscribe" value="Subscribe">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Related Posts -->
+                <div class="related-posts">
+                    <h5 class="related-posts__title">You might like</h5>
+                    <div class="row row-20">
+                        @foreach($related_articles as $related_article)
+                            <div class="col-md-4">
                                 <article class="related-posts__entry entry">
                                     <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}">
                                         <div class="thumb-container">
@@ -178,13 +180,9 @@
                                     </div>
                                 </article>
                             </div>
-                            @endforeach
-                        </div>
-                    </div> <!-- end related posts -->
-
-                </article> <!-- end standard post -->
-
-
+                        @endforeach
+                    </div>
+                </div> <!-- end related posts -->
 
                 <!-- Comments -->
                 <div class="entry-comments mt-30">
