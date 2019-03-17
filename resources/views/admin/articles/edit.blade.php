@@ -109,8 +109,8 @@
             <div class="col-sm-9">
                 <div class="alert alert-success">
                     <div class="form-group"> <!-- Message field -->
-                        <label class="control-label " for="message">Article Description</label>
-                        <textarea class="summernote" name="body">{!! $article->body !!}</textarea>
+                        <label class="control-label " for="message">Article Description</label><span class="article_description_count left30 btn-sm btn-danger">Edit something to get word count</span>
+                        <textarea class="article_description summernote" name="body">{!! $article->body !!}</textarea>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-md" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
@@ -318,6 +318,13 @@
             var product_id = $(this).data('product');
 
             $('.save-request-' + product_id).removeClass('hidden');
+        });
+
+        $(".article_description").on("summernote.change", function (e) {   // callback as jquery custom event
+            var article_html = $(this).summernote('code');
+            var article_plain_text = $("<p>" + article_html+ "</p>").text();
+            var total_words = $.trim(article_plain_text).split(" ");
+            $('.article_description_count').text(total_words.length + ' words');
         });
 
         $('.view-review-here').click(function(e){
