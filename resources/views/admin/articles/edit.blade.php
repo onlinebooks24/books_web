@@ -109,7 +109,10 @@
             <div class="col-sm-9">
                 <div class="alert alert-success">
                     <div class="form-group"> <!-- Message field -->
-                        <label class="control-label " for="message">Article Description</label><span class="article_description_count left30 btn-sm btn-danger">Edit something to get word count</span>
+                        <label class="control-label " for="message">Article Description</label>
+                        <span class="article_description_count left30 btn-sm btn-danger">Edit something to get word count</span>
+                        <span>(If you write info article please write around 800-1000 words)</span>
+
                         <textarea class="article_description summernote" name="body">{!! $article->body !!}</textarea>
                     </div>
                     <div class="form-group">
