@@ -30,6 +30,10 @@ Route::group(['middleware' => ['web']] , function() {
 			'uses' => 'Admin\AdminArticlesController@publish_or_unpublished',
 			'as' => 'admin_articles.publish_or_unpublished'
 		]);
+		Route::any('/admin_articles/set_article_deadline/{id}',[
+			'uses' => 'Admin\AdminArticlesController@set_article_deadline',
+			'as' => 'admin_articles.set_article_deadline'
+		]);
 		Route::any('/admin_articles/review_article/',[
 			'uses' => 'Admin\AdminArticlesController@review_article',
 			'as' => 'admin_articles.review_article'

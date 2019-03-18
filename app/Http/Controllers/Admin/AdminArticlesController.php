@@ -303,6 +303,15 @@ class AdminArticlesController extends Controller
         return redirect()->back();
     }
 
+    public function set_article_deadline($id, Request $request){
+        $article = Article::find($id);
+
+        $article->article_deadline = $request->article_deadline;
+        $article->save();
+
+        return redirect()->back();
+    }
+
     public function review_article(){
         if(Auth::user()->roleType->name != 'editor'){
             $articles = Article::where('status', false)->orderBy('created_at','desc')->Paginate(10);

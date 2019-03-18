@@ -9,6 +9,7 @@
         <div class="alert alert-info">
             <strong>Update Articles</strong>
             <div class="pull-right top-5">
+                Deadline: <span class="btn btn-warning">{{ Carbon\Carbon::parse($article->article_deadline)->format('m-d-Y') }}</span>
                 Editor: <span class="btn btn-success editor-spend-time"></span>
                 Admin: <span class="btn btn-info admin-spend-time"></span>
                 Subadmin: <span class="btn btn-danger sub-admin-spend-time"></span>
@@ -215,9 +216,40 @@
         @endforeach
     </div>
 
+
+    {{--modal to set expire date--}}
+    <div class="modal fade" id="set_expire_date" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('admin_articles.set_article_deadline', $article->id ) }}" method="POST">
+                    {{ csrf_field() }}
+                    <input name="_method" type="hidden" value="DELETE">
+                    <div class="modal-header">
+                        <h4 class="modal-title custom_align" id="Heading">Please set deadline when you will submit?</h4>
+                        <div class="form-group top5">
+                            <input type="date" class="form-control" name="article_deadline">
+                        </div>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 @endsection
 
 @section('run_custom_jquery')
+    @if((Auth::user()->roleType->name == 'editor') && ($article->article_deadline < Carbon\Carbon::now()))
+        <script>
+            $('#set_expire_date').modal();
+        </script>
+    @endif
 
     <script>
         $(".product_save").submit(function(event){
