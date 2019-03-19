@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddActiveWritterOnUserTable extends Migration
+class AddActiveWriterOnUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,7 +18,7 @@ class AddActiveWritterOnUserTable extends Migration
         });
 
         Schema::table('articles', function($table) {
-            $table->datetime('article_deadline')->default('2017-01-01 01:00:00');
+            $table->datetime('article_deadline')->nullable();
         });
     }
 
@@ -29,10 +29,12 @@ class AddActiveWritterOnUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_types');
-
         Schema::table('users', function($table) {
             $table->dropColumn('active_writer');
+        });
+
+        Schema::table('articles', function($table) {
+            $table->dropColumn('article_deadline');
         });
     }
 }

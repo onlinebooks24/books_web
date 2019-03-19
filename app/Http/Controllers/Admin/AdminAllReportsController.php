@@ -10,6 +10,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Models\ProductOrder;
 use App\Models\SiteCost;
+use App\User;
 
 class AdminAllReportsController extends Controller
 {
@@ -145,6 +146,10 @@ class AdminAllReportsController extends Controller
 
             }
 
+            $active_writers = User::where(['active_writer' => true])
+                ->get();
+
+
             return view('admin.all_reports.index',
                 compact('total_sell_from_article',
                         'site_costs', 'total_sell_from_non_article',
@@ -154,7 +159,7 @@ class AdminAllReportsController extends Controller
                         'individual_costs', 'individual_articles',
                         'individual_cost', 'individual_revenue',
                         'individual_no_sell', 'article_investment_return',
-                        'article_view_count', 'monthly_article_view_count'));
+                        'article_view_count', 'monthly_article_view_count', 'active_writers'));
         }
     }
 

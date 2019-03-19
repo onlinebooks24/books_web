@@ -9,7 +9,12 @@
         <div class="alert alert-info">
             <strong>Update Articles</strong>
             <div class="pull-right top-5">
-                Deadline: <span class="btn btn-warning">{{ Carbon\Carbon::parse($article->article_deadline)->format('m-d-Y') }}</span>
+                Deadline: <span class="btn btn-warning">{{ empty($article->article_deadline)? 'Not Set' : Carbon\Carbon::parse($article->article_deadline)->format('m-d-Y') }}</span>
+                <span>
+                    <button type="button" class="btn-xm btn-primary" data-toggle="modal" data-target="#set_expire_date">
+                        Update Deadline
+                    </button>
+                </span>
                 Editor: <span class="btn btn-success editor-spend-time"></span>
                 Admin: <span class="btn btn-info admin-spend-time"></span>
                 Subadmin: <span class="btn btn-danger sub-admin-spend-time"></span>
@@ -225,6 +230,7 @@
                     {{ csrf_field() }}
                     <input name="_method" type="hidden" value="DELETE">
                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                         <h4 class="modal-title custom_align" id="Heading">Please set deadline when you will submit?</h4>
                         <div class="form-group top5">
                             <input type="date" class="form-control" name="article_deadline">

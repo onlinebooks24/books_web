@@ -20,6 +20,31 @@
             <div class="clearfix"></div>
             <div class="row">
                 <div class="col-md-6">
+                    <h5>Active Writers</h5>
+                    <div class="alert alert-success">
+                        @foreach($active_writers as $active_writer )
+                            <div class="bottom10">
+                                <div><b>{{ $active_writer->name }}:</b></div>
+                                <div>
+                                    @if(count($active_writer->articles->where('status', false)) > 0)
+                                        @foreach($active_writer->articles->where('status', false) as $key => $article_item)
+                                            <div>*
+                                                <span class="btn-xs btn-danger right5">
+                                                    {{ empty($article_item->article_deadline) ? 'not set': Carbon\Carbon::parse($article_item->article_deadline)->format('m-d-Y') }}
+                                                </span>
+                                                <a href="{{ route('admin_articles.edit', $article_item->id) }}" target="_blank" class="{{ $article_item->waiting_for_approval? 'red' : '' }}">
+                                                    {{ str_limit(strip_tags($article_item->title), $limit = 60, $end = '...') }}
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <span class="red"><b>No article</b></span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
                     <h5>Sell:</h5>
                     <div class="alert alert-success">
                         <div class="bottom5">
