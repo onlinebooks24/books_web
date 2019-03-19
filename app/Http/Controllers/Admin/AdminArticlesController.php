@@ -73,7 +73,7 @@ class AdminArticlesController extends Controller
         $article->slug = $slug ;
         $article->keyword = $request['keyword'];
         $article->status = false;
-        $article->waiting_for_approval = true;
+        $article->waiting_for_approval = false;
         $article->meta_description = $request['meta_description'];
         $article->conclusion = $request['conclusion'];
 
@@ -307,6 +307,15 @@ class AdminArticlesController extends Controller
         $article = Article::find($id);
 
         $article->article_deadline = $request->article_deadline;
+        $article->save();
+
+        return redirect()->back();
+    }
+
+    public function submit_for_review($id){
+        $article = Article::find($id);
+
+        $article->waiting_for_approval = true;
         $article->save();
 
         return redirect()->back();

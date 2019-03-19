@@ -21,13 +21,25 @@
                 <div data-article-id="{{ $article->id }}" data-user-type="{{ Auth::user()->roleType->name }}" class="user-spend-time btn-sm btn-danger">00:00:00</div>
                 <a target="_blank" class="btn btn-info" href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">View</a>
                 @if(Auth::user()->roleType->name != 'editor')
-                <a class="btn btn-success" href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
-                    @if($article->status)
-                        Unpublish Now
-                    @else
-                        Please Publish
-                    @endif
-                </a>
+                    <a class="btn btn-success" href="{{ route('admin_articles.publish_or_unpublished', $article->id)}}">
+                        @if($article->status)
+                            Unpublish Now
+                        @else
+                            Please Publish
+                        @endif
+                    </a>
+                @endif
+
+                @if(Auth::user()->roleType->name == 'editor')
+                        @if($article->status || $article->waiting_for_approval)
+                            <span class="red">
+                            Submitted for Review
+                            </span>
+                        @else
+                            <a class="btn btn-success" href="{{ route('admin_articles.submit_for_review', $article->id)}}">
+                            Submit for Review
+                            </a>
+                        @endif
                 @endif
             </div>
         </div>

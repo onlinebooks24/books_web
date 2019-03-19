@@ -34,6 +34,10 @@ Route::group(['middleware' => ['web']] , function() {
 			'uses' => 'Admin\AdminArticlesController@set_article_deadline',
 			'as' => 'admin_articles.set_article_deadline'
 		]);
+		Route::any('/admin_articles/submit_for_review/{id}',[
+			'uses' => 'Admin\AdminArticlesController@submit_for_review',
+			'as' => 'admin_articles.submit_for_review'
+		]);
 		Route::any('/admin_articles/review_article/',[
 			'uses' => 'Admin\AdminArticlesController@review_article',
 			'as' => 'admin_articles.review_article'
