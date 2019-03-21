@@ -33,7 +33,7 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(100);
+        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(150);
         return view('admin.articles.index',['articles' => $articles]);
     }
 
@@ -323,7 +323,7 @@ class AdminArticlesController extends Controller
 
     public function review_article(){
         if(Auth::user()->roleType->name != 'editor'){
-            $articles = Article::where('status', false)->orderBy('created_at','desc')->Paginate(10);
+            $articles = Article::where('status', false)->orderBy('created_at','desc')->Paginate(100);
         } else {
             $articles = Article::where('status', false)
                 ->where('user_id', Auth::user()->id)
