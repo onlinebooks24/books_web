@@ -44,7 +44,7 @@ class AdminAutoArticlesController extends Controller
             $article->category_id = 16;
             $article->keyword = $title;
             $article->status = false;
-            $article->waiting_for_approval = true;
+            $article->waiting_for_approval = false;
             $article->meta_description = "Get best $title books";
             $article->slug = $slug;
             $article->save();
