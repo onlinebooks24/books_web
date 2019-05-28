@@ -77,11 +77,12 @@
                                     <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
                                 </h2>
                                 <ul class="entry__meta">
-                                    <li class="entry__meta-date">
-                                        {{ $article->created_at->format('m-d-Y') }}
-                                    </li>
                                     <li class="entry__meta-author">
                                         by <a href="#">onlinebooksreview</a>
+                                    </li>
+                                    <li>
+                                        <span>in</span>
+                                        <a href="{{ route('category.post',['slug' => $article->category->slug ])}}" class="entry__meta-category">{{ $article->category->name }}</a>
                                     </li>
                                 </ul>
                             </div>

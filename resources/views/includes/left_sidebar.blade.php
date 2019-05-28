@@ -45,6 +45,19 @@
         </form>
     </div> <!-- end widget newsletter -->
 
+    <div class="widget top10 bottom20">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- OnlineBooksreview article show right sidebar -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1505016841070170"
+             data-ad-slot="6631171390"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
     <!-- Widget socials -->
     <div class="widget widget-socials">
         <h4 class="widget-title">Keep up with Online Books Review</h4>
@@ -119,18 +132,4 @@
             </a>
         </div>
     </div>
-
-    <div class="widget top10 bottom20">
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- OnlineBooksreview article show right sidebar -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1505016841070170"
-             data-ad-slot="6631171390"
-             data-ad-format="auto"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
-
 </aside> <!-- end sidebar -->

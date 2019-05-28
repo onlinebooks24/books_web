@@ -34,9 +34,7 @@
                                     </a>
                                 </div>
                             </li>
-                            <li class="entry__meta-date">
-                                {{ $article->created_at->format('m-d-Y') }}
-                            </li>
+
                             <li>
                                 <span>in</span>
                                 <a href="{{ route('category.post',['slug' => $article->category->slug ])}}" class="entry__meta-category">{{ $article->category->name }}</a>
