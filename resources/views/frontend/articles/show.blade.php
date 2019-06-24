@@ -96,19 +96,14 @@
 
                                         @if($key == 7)
                                             <!-- OnlineBooksReview Article middle display -->
-                                            {{--<ins class="adsbygoogle"--}}
-                                                 {{--style="display:block"--}}
-                                                 {{--data-ad-client="ca-pub-1505016841070170"--}}
-                                                 {{--data-ad-slot="2448383802"--}}
-                                                 {{--data-ad-format="auto"></ins>--}}
-                                            {{--<script>--}}
-                                                {{--(adsbygoogle = window.adsbygoogle || []).push({});--}}
-                                            {{--</script>--}}
-
-                                                    <!-- Ezoic Code -->
-                                            <script>var ezoicId = 114443;</script>
-                                            <script type="text/javascript" src="//go.ezoic.net/ezoic/ezoic.js"></script>
-                                            <!-- Ezoic Code -->
+                                            <ins class="adsbygoogle"
+                                                 style="display:block"
+                                                 data-ad-client="ca-pub-1505016841070170"
+                                                 data-ad-slot="2448383802"
+                                                 data-ad-format="auto"></ins>
+                                            <script>
+                                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                            </script>
                                             <hr>
                                         @endif
                                     @endforeach
