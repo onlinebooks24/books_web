@@ -96,9 +96,9 @@
             });
         }
     } else {
-        setTimeout(function() {
-            $('#subscribe-modal').modal();
-        }, 60000);
+//        setTimeout(function() {
+//            $('#subscribe-modal').modal();
+//        }, 60000);
     }
 
     $('.btn-subscribe').click(function(e){
