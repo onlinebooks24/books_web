@@ -13,6 +13,7 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
     <meta name="google-site-verification" content="SshyPvUWMt9RvlmGX7X4AJtFpVhrCiejltTVOqRbe6o" />
     <meta name="yandex-verification" content="85876cb37b3e3d2a" />
+    <meta name="ahrefs-site-verification" content="eed9f5a994afba5bff1e77a9dcc30e14f2bfb6196446390915b9614a5368bfdd">
     <meta name="msvalidate.01" content="44E29CA719A9C2074B87ECF80ADDF5FD" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="www.onlinebooksreview.com">
