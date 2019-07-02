@@ -85,6 +85,8 @@
 <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
 <script type="text/javascript"  src="{{ asset('/js/js.cookie.min.js') }}"></script>
 
+<div id="amzn-assoc-ad-fd2721e7-db67-4cdb-b312-1319ef936081"></div><script async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=fd2721e7-db67-4cdb-b312-1319ef936081"></script>
+
 <script>
     if(Cookies.get('email') != undefined){
         var category_id = $('.category_id').data('value');
