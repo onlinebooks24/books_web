@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\EmailSubscriber;
 use Illuminate\Http\Request;
 use App\Models\Category;

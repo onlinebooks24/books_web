@@ -142,6 +142,11 @@ Route::group(['middleware' => ['web']] , function() {
 		return View::make('frontend.other.terms_of_service');
 	});
 
+	Route::get('/get_location', [
+		'uses' => 'HomeController@getLocation',
+		'as' => 'home.location'
+	]);
+
 	Route::get('/basic_email', [
 		'uses' => 'MailController@basic_email',
 		'as' => 'mail'

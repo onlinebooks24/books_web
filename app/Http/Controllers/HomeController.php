@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Helpers\Helper;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,11 @@ class HomeController extends Controller
     public function index()
     {
         return view('frontend.index'); 
+    }
+
+    public function getLocation()
+    {
+        return Helper::get_location();
     }
 
 }

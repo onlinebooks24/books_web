@@ -1,6 +1,7 @@
 <?php // Code within app\Helpers\Helper.php
 
 namespace App\Helpers;
+use PulkitJalan\GeoIP\GeoIP;
 
 class Helper
 {
@@ -63,6 +64,34 @@ class Helper
             echo "something went wrong: <br>";
             echo $e->getMessage();
         }
+    }
+
+    public static function get_location(){
+        $geoip = new GeoIP();
+
+        $location = null;
+        if(!empty($geoip->getLatitude())){
+            $location['latitude'] = $geoip->getLatitude();
+            $location['longitude'] = $geoip->getLongitude();
+            $location['country_code'] = $geoip->getCountryCode();
+            $location['city'] = $geoip->getCity();
+            $location['region_name'] = $geoip->getRegion();
+        } else {
+            $json = file_get_contents("http://api.ipstack.com/check?access_key=c3cf68970ba8a4692405dde220de4a0b&format=1");
+            $obj = json_decode($json);
+
+            if(isset($obj->latitude)){
+                $location['latitude'] = $obj->latitude;
+                $location['longitude'] = $obj->longitude;
+                $location['country_code'] = $obj->country_code;
+                $location['city'] = $obj->city;
+                $location['region_name'] = $obj->region_name;
+            }
+        }
+
+
+
+        return $location;
     }
 
 }

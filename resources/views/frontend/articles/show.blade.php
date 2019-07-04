@@ -60,11 +60,11 @@
                                 @if( count($products) > 0 )
                                     @foreach($products as $key=>$product)
                                         <div class="bottom20">
-                                            <h2 style="color: #337ab7; line-height:1.4">{{ ++$key }}. <a href="{{ $product->amazon_link }}" name="{{ $product->isbn }}" rel="nofollow" target="_blank">{{ $product->product_title }}</a></h2>
+                                            <h2 style="color: #337ab7; line-height:1.4">{{ ++$key }}. <a href="{{ $product->amazon_link }}" class="amazon-link"  data-product-title="{{ $product->product_title }}" name="{{ $product->isbn }}" rel="nofollow" target="_blank">{{ $product->product_title }}</a></h2>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-5">
-                                                <a rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">
+                                                <a rel="nofollow" href="{{ $product->amazon_link }}" class="amazon-link" data-product-title="{{ $product->product_title }}" target="_blank">
                                                     <img alt="{{ $product->product_title }}" src="{{ $product->image_url }}">
                                                 </a>
                                                 <div class="top10">
@@ -85,7 +85,7 @@
                                                 <div>{!! $product->product_description !!} </div>
                                                 <div class="clearfix"></div>
                                                 <div class="text-center">
-                                                    <a class="amazon_button top5" rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">View Book</a>
+                                                    <a class="amazon_button top5 amazon-link"  data-product-title="{{ $product->product_title }}" rel="nofollow" href="{{ $product->amazon_link }}" target="_blank">View Book</a>
                                                 </div>
                                             </div>
 
@@ -185,24 +185,6 @@
                 <!-- Comments -->
                 <div class="entry-comments mt-30">
                     <div id="disqus_thread"></div>
-                    <script>
-
-                        /**
-                         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-                         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-                        /*
-                         var disqus_config = function () {
-                         this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-                         this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                         };
-                         */
-                        (function() { // DON'T EDIT BELOW THIS LINE
-                            var d = document, s = d.createElement('script');
-                            s.src = 'https://onlinebooksreview.disqus.com/embed.js';
-                            s.setAttribute('data-timestamp', +new Date());
-                            (d.head || d.body).appendChild(s);
-                        })();
-                    </script>
                     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
                 </div> <!-- end comments -->
 
@@ -223,5 +205,53 @@
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b322acaa95624c1"></script>
     {{--<script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>--}}
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+@endsection
+
+
+@section('run_custom_jquery')
+   <script>
+       $.ajax({
+           url: "/get_location",
+           dataType:"json",
+       }).done(function(ipinfo)
+       {
+//                var latLong = ipinfo.loc.split(",");
+//                var current_location_lat = latLong[0];
+//                var current_location_lon = latLong[1];
+
+           var country_code = ipinfo.country_code;
+           if(country_code == 'IN' || country_code == 'GB'){
+               $('.amazon-link').each(function(i, obj) {
+                   var amazon_title = $(this).data('product-title');
+                   var product_link = '';
+                   if(country_code == 'IN'){
+                       product_link = "https://www.amazon.in/s?k=" + amazon_title.replace(/ /g, '+') + "&tag=onlinebooks0b-21";
+                   } else if (country_code == 'GB'){
+                       product_link = "https://www.amazon.co.uk/s?k=" + amazon_title.replace(/ /g, '+') + "&tag=onlinebook0d3-21";
+                   }
+                   $(this).attr("href", product_link);
+               });
+           }
+       });
+   </script>
+
+   <script>
+
+       /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+       /*
+        var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        */
+       (function() { // DON'T EDIT BELOW THIS LINE
+           var d = document, s = d.createElement('script');
+           s.src = 'https://onlinebooksreview.disqus.com/embed.js';
+           s.setAttribute('data-timestamp', +new Date());
+           (d.head || d.body).appendChild(s);
+       })();
+   </script>
 @endsection
 
