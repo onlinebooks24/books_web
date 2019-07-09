@@ -220,7 +220,7 @@
 //                var current_location_lon = latLong[1];
 
            var country_code = ipinfo.country_code;
-           if(country_code == 'IN' || country_code == 'GB'){
+           if(country_code == 'IN' || country_code == 'GB' || country_code == 'CA'){
                $('.amazon-link').each(function(i, obj) {
                    var amazon_title = $(this).data('product-title');
                    var product_link = '';
@@ -228,6 +228,8 @@
                        product_link = "https://www.amazon.in/s?k=" + amazon_title.replace(/ /g, '+') + "&tag=onlinebooks0b-21";
                    } else if (country_code == 'GB'){
                        product_link = "https://www.amazon.co.uk/s?k=" + amazon_title.replace(/ /g, '+') + "&tag=onlinebook0d3-21";
+                   } else if (country_code == 'CA'){
+                       product_link = "https://www.amazon.ca/s?k=" + amazon_title.replace(/ /g, '+') + "&tag=onlinebook0af-20";
                    }
                    $(this).attr("href", product_link);
                });
