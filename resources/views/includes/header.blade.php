@@ -80,9 +80,9 @@
     <a class="social-twitter" href="https://twitter.com/onlinebooks24" target="_blank" aria-label="twitter">
       <i class="ui-twitter"></i>
     </a>
-    <a class="social-youtube" href="https://www.youtube.com/channel/UCFoPgOTE5HZ4yz5iB_g8WkA" target="_blank" aria-label="youtube">
-      <i class="ui-youtube"></i>
-    </a>
+    {{--<a class="social-youtube" href="https://www.youtube.com/channel/UCFoPgOTE5HZ4yz5iB_g8WkA" target="_blank" aria-label="youtube">--}}
+      {{--<i class="ui-youtube"></i>--}}
+    {{--</a>--}}
   </div>
 </header> <!-- end mobile sidenav -->
 
@@ -137,7 +137,7 @@
 
           <!-- Socials -->
           <div class="nav__right-item socials socials--nobase nav__socials ">
-            <a class="social-linkedin" href="https://www.linkedin.com/company-beta/13346322" target="_blank">
+            <a class="social-linkedin" href="https://www.linkedin.com/company/onlinebooksreview/" target="_blank">
               <i class="ui-linkedin"></i>
             </a>
             <a class="social-pinterest" href="https://www.pinterest.com/onlinebooksr/" target="_blank">
@@ -149,12 +149,12 @@
             <a class="social-twitter" href="https://twitter.com/onlinebooks24" target="_blank">
               <i class="ui-twitter"></i>
             </a>
-            <a class="social-youtube" href="https://www.youtube.com/channel/UCFoPgOTE5HZ4yz5iB_g8WkA" target="_blank">
-              <i class="ui-youtube"></i>
-            </a>
-            <a class="social-google-plus" href="https://plus.google.com/b/110233331450185953116/" target="_blank">
-              <i class="ui-google-plus"></i>
-            </a>
+            {{--<a class="social-youtube" href="https://www.youtube.com/channel/UCFoPgOTE5HZ4yz5iB_g8WkA" target="_blank">--}}
+              {{--<i class="ui-youtube"></i>--}}
+            {{--</a>--}}
+            {{--<a class="social-google-plus" href="https://plus.google.com/b/110233331450185953116/" target="_blank">--}}
+              {{--<i class="ui-google-plus"></i>--}}
+            {{--</a>--}}
           </div>
 
           <div class="nav__right-item">
