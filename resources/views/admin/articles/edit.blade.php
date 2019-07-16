@@ -79,6 +79,11 @@
                 </div>
 
                 <div class="form-group"> <!-- Name field -->
+                    <label class="control-label " for="name">Meta Title</label>
+                    <input class="form-control" name="meta_title" type="text" value="{{ $article->meta_title }}" />
+                </div>
+
+                <div class="form-group"> <!-- Name field -->
                     <label class="control-label " for="name">Meta Description</label>
                     <textarea class="form-control" name="meta_description" type="text" required>{{ $article->meta_description }}</textarea>
                 </div>

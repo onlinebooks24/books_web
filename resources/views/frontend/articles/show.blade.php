@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title'){{ $article->title }}@endsection
+@section('title'){{ empty($article->meta_title) ? $article->title : $article->meta_title }}@endsection
 @section('meta_description'){{$article->meta_description}}@endsection
 @section('meta_keyword'){{ $article->keyword }}@endsection
 

@@ -75,6 +75,7 @@ class AdminArticlesController extends Controller
         $article->status = false;
         $article->waiting_for_approval = false;
         $article->meta_description = $request['meta_description'];
+        $article->meta_title = $request['meta_title'];
         $article->conclusion = $request['conclusion'];
 
         $message = $request->input('body');
@@ -189,9 +190,15 @@ class AdminArticlesController extends Controller
             $article->category_id = $request['category_id'];
         }
         $article->keyword = $request['keyword'];
+
+        if(!empty($request['meta_title'])){
+            $article->meta_title = $request['meta_title'];
+        }
+
         if(!empty($request['meta_description'])){
             $article->meta_description = $request['meta_description'];
         }
+
         $article->conclusion = $request['conclusion'];
 
         if(!empty(Input::file('image'))){
