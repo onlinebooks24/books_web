@@ -1,5 +1,6 @@
 <?php
 
+
 Auth::routes();
 
 Route::group(['middleware' => ['web']] , function() {
@@ -151,4 +152,9 @@ Route::group(['middleware' => ['web']] , function() {
 		'uses' => 'MailController@basic_email',
 		'as' => 'mail'
 	]);
+
+    Route::get('/search_results', [
+        'uses' => 'ArticleController@searchResults',
+        'as' => 'search.results'
+    ]);
 });
