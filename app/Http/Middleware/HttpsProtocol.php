@@ -8,7 +8,7 @@ class HttpsProtocol {
 
     public function handle($request, Closure $next)
     {
-        if (env('APP_ENV') != 'local'){
+        if (env('APP_ENV') == 'production'){
             $request=app('request');
             $host=$request->header('host');
             if(! $request->secure()) {
