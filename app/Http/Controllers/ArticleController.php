@@ -24,22 +24,24 @@ class ArticleController extends Controller
     public function index()
     {
         $categories = Category::where('category_status', true)
-            ->orderBy('created_at','desc')->get();
-        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(27);
+            ->orderBy('created_at', 'desc')->get();
+        $articles = Article::where('status', true)->orderBy('created_at', 'desc')->Paginate(27);
 
-        $popular_articles = Article::where('status', true)->orderBy('count','desc')->Paginate(25);
+        $popular_articles = Article::where('status', true)->orderBy('count', 'desc')->Paginate(25);
 
         $related_articles = Article::whereIn('id', [153,81,109])->orderBy('id', 'asc')
             ->get();
 
         $uploads = Upload::all();
-        return view('frontend.articles.index',
-                ['categories' => $categories,
+        return view(
+            'frontend.articles.index',
+            ['categories' => $categories,
                 'articles' => $articles,
                 'uploads' => $uploads,
                 'related_articles' => $related_articles,
                 'popular_articles' => $popular_articles
-                ]);
+                ]
+        );
     }
 
     /**
@@ -71,17 +73,21 @@ class ArticleController extends Controller
      */
     public function show($slug, Request $request)
     {
-        if(empty($request['email'])){
-            $articles = Article::where('status', true)->orderBy('created_at','asc')->Paginate(18);
+        if (empty($request['email'])) {
+            $articles = Article::where('status', true)->orderBy('created_at', 'asc')->Paginate(18);
             $categories = Category::where('category_status', true)
-                ->orderBy('created_at','desc')->get();
-            $article = Article::where('slug' , $slug)->first();
+                ->orderBy('created_at', 'desc')->get();
+            $article = Article::where('slug', $slug)->first();
+            if (empty($article)) {
+                $article = Article::where('expired_slug', $slug)->first();
+                return redirect(route('articles.show', $article->slug));
+            }
 
-            if(!isset($article)){
+            if(empty($article)){
                 return redirect(route('blog.index'));
             }
 
-            $popular_articles = Article::where('status', true)->orderBy('count','desc')->Paginate(25);
+            $popular_articles = Article::where('status', true)->orderBy('count', 'desc')->Paginate(25);
 
             $ordered_product_articles = ProductOrder::select('product_number', 'title')
                                         ->where('article_id', $article->id)
@@ -92,21 +98,21 @@ class ArticleController extends Controller
                 ->take(3)
                 ->get();
 
-            $products = Product::where(['article_id' => $article->id, 'deleted' => false])->orderBy('created_at','asc')->get();
+            $products = Product::where(['article_id' => $article->id, 'deleted' => false])->orderBy('created_at', 'asc')->get();
             $uploads = Upload::all();
-            if(empty(Auth::user())){
+            if (empty(Auth::user())) {
                 $current_count = $article->count;
                 $article->count = $current_count + 1 ;
                 $article->save();
             }
 
-            if($request['format'] == 'json'){
+            if ($request['format'] == 'json') {
                 $json_data['article'] = $article;
                 $json_data['products'] = $article->products;
                 return response($json_data);
             }
 
-            return view('frontend.articles.show',[ 'article'=> $article,
+            return view('frontend.articles.show', [ 'article'=> $article,
                 'articles' => $articles,
                 'categories' => $categories,
                 'products' => $products,
@@ -118,7 +124,7 @@ class ArticleController extends Controller
             setcookie("email", $request['email'], 2147483647);
             $email_subscriber = EmailSubscriber::where('email', $request['email'])->first();
 
-            if(!empty($email_subscriber)){
+            if (!empty($email_subscriber)) {
                 $email_subscriber->subscribe = true;
                 $email_subscriber->temporary = false;
                 $email_subscriber->click_count += 1;
@@ -127,7 +133,6 @@ class ArticleController extends Controller
 
             return redirect()->to(url()->current());
         }
-
     }
 
     /**
@@ -167,33 +172,36 @@ class ArticleController extends Controller
     public function getCategoryPost($slug)
     {
         $categories = Category::where('category_status', true)
-            ->orderBy('created_at','desc')->get();
-        $category = Category::where('slug' , $slug)->first();
+            ->orderBy('created_at', 'desc')->get();
+        $category = Category::where('slug', $slug)->first();
         $uploads = Upload::all();
-        if (!empty($category)){
-            $articles = Article::where('category_id' , $category->id)
+        if (!empty($category)) {
+            $articles = Article::where('category_id', $category->id)
                                     ->where('status', true)
-                                    ->orderBy('created_at','desc')->Paginate(5);
-            $popular_articles = Article::where('status', true)->orderBy('count','desc')->Paginate(25);
+                                    ->orderBy('created_at', 'desc')->Paginate(5);
+            $popular_articles = Article::where('status', true)->orderBy('count', 'desc')->Paginate(25);
 
-            return view('frontend.articles.category_articles',
-                    ['articles'=> $articles,
+            return view(
+                'frontend.articles.category_articles',
+                ['articles'=> $articles,
                     'categories' => $categories,
                     'category' => $category,
                     'uploads' => $uploads,
-                    'popular_articles' => $popular_articles]);
+                    'popular_articles' => $popular_articles]
+            );
         } else {
             return redirect()->route('blog.index');
         }
     }
 
-    public function CategoryJson($parent_id){
+    public function CategoryJson($parent_id)
+    {
         $categories = Category::where('parent_id', $parent_id)->get();
 
         $temp = [];
         $category_json = null;
 
-        foreach($categories as $category){
+        foreach ($categories as $category) {
             $temp['id'] = $category->id;
             $temp['name'] = $category->name;
             $temp['browse_node_id'] = $category->browse_node_id;
@@ -202,5 +210,4 @@ class ArticleController extends Controller
 
         return response()->json($category_json);
     }
-
 }

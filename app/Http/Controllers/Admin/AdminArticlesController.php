@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -33,8 +32,8 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Article::where('status', true)->orderBy('created_at','desc')->Paginate(150);
-        return view('admin.articles.index',['articles' => $articles]);
+        $articles = Article::where('status', true)->orderBy('created_at', 'desc')->Paginate(150);
+        return view('admin.articles.index', ['articles' => $articles]);
     }
 
     /**
@@ -44,7 +43,7 @@ class AdminArticlesController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('parent_id', '1000')->orderBy('name','asc')->get();
+        $categories = Category::where('parent_id', '1000')->orderBy('name', 'asc')->get();
         return view('admin.articles.create', compact('categories'));
     }
 
@@ -56,9 +55,11 @@ class AdminArticlesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request , [
+        $this->validate($request, [
             'title' => 'required|unique:articles',
-            'slug' => 'required|unique:articles'
+            'slug' => 'required|unique:articles',
+            'expired_slug' => 'unique:articles',
+            'thumbnail_alt_tag' => 'required'
         ]);
 
         $category_id = $request['category_id'];
@@ -71,6 +72,10 @@ class AdminArticlesController extends Controller
         $slug = strtolower($request['slug']);
         $slug = str_replace(' ', '-', $slug);
         $article->slug = $slug ;
+        $expired_slug = strtolower($request['expired_slug']);
+        $expired_slug = str_replace(' ', '-', $expired_slug);
+        $article->expired_slug = $expired_slug ;
+        $article->thumbnail_alt_tag = $request['thumbnail_alt_tag'];
         $article->keyword = $request['keyword'];
         $article->status = false;
         $article->waiting_for_approval = false;
@@ -99,7 +104,7 @@ class AdminArticlesController extends Controller
         $article->body = $dom->saveHTML();
         $article->save();
 
-        if(!empty(Input::file('image'))){
+        if (!empty(Input::file('image'))) {
             $this->saveThumbnail($article);
         }
 
@@ -107,7 +112,7 @@ class AdminArticlesController extends Controller
             $src = $img->getAttribute('src');
 
             if (preg_match('/data:image/', $src)) {
-                $this->mime_type_image_save($src,$img,$article);
+                $this->mime_type_image_save($src, $img, $article);
             } // <!--endif
         } // <!-
 
@@ -126,7 +131,6 @@ class AdminArticlesController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -139,17 +143,17 @@ class AdminArticlesController extends Controller
     {
         $users = User::all();
         $article = Article::find($id);
-        $categories = Category::where('parent_id', '1000')->orderBy('name','asc')->get();
-        $published_products = Product::where(['article_id' => $id, 'deleted' => false])->orderBy('created_at','asc')->get();
-        $deleted_products = Product::where(['article_id' => $id, 'deleted' => true])->orderBy('created_at','asc')->get();
-        $uploads = Upload::where('article_id', $article->id)->orderBy('created_at','desc')->get();
+        $categories = Category::where('parent_id', '1000')->orderBy('name', 'asc')->get();
+        $published_products = Product::where(['article_id' => $id, 'deleted' => false])->orderBy('created_at', 'asc')->get();
+        $deleted_products = Product::where(['article_id' => $id, 'deleted' => true])->orderBy('created_at', 'asc')->get();
+        $uploads = Upload::where('article_id', $article->id)->orderBy('created_at', 'desc')->get();
 
         $image_exist = null;
-        if(!empty($article->thumbnail_id)){
+        if (!empty($article->thumbnail_id)) {
             $image_exist = Upload::find($article->thumbnail_id);
         }
 
-        return view ('admin.articles.edit',['article'=>$article,
+        return view('admin.articles.edit', ['article'=>$article,
             'categories'=> $categories,
             'published_products'=> $published_products,
             'deleted_products'=> $deleted_products,
@@ -167,18 +171,22 @@ class AdminArticlesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request , [
+        $this->validate($request, [
             'title' => 'required',
             'slug' => 'required'
         ]);
 
         $article = Article::find($id);
         $article->title = $request['title'];
-        if(!empty($request['user_id'])){
+        $article->thumbnail_alt_tag = $request['thumbnail_alt_tag'];
+        $expired_slug = strtolower($request['expired_slug']);
+        $expired_slug = str_replace(' ', '-', $expired_slug);
+        $article->expired_slug = $expired_slug ;
+        if (!empty($request['user_id'])) {
             $article->user_id = $request['user_id'];
         }
 
-        if (!$article->status){
+        if (!$article->status) {
             $slug = strtolower($request['slug']);
             $slug = str_replace(' ', '-', $slug);
             $article->slug = $slug;
@@ -186,22 +194,22 @@ class AdminArticlesController extends Controller
 
 
         $article->user_id = $request['user_id'] ;
-        if(!empty($request['category_id'])){
+        if (!empty($request['category_id'])) {
             $article->category_id = $request['category_id'];
         }
         $article->keyword = $request['keyword'];
 
-        if(!empty($request['meta_title'])){
+        if (!empty($request['meta_title'])) {
             $article->meta_title = $request['meta_title'];
         }
 
-        if(!empty($request['meta_description'])){
+        if (!empty($request['meta_description'])) {
             $article->meta_description = $request['meta_description'];
         }
 
         $article->conclusion = $request['conclusion'];
 
-        if(!empty(Input::file('image'))){
+        if (!empty(Input::file('image'))) {
             $this->saveThumbnail($article);
         }
 
@@ -230,7 +238,7 @@ class AdminArticlesController extends Controller
             $src = $img->getAttribute('src');
 
             if (preg_match('/data:image/', $src)) {
-                $this->mime_type_image_save($src,$img,$article);
+                $this->mime_type_image_save($src, $img, $article);
             }
         }
         $article->body = $dom->saveHTML();
@@ -249,15 +257,15 @@ class AdminArticlesController extends Controller
     public function destroy($id)
     {
         $article = Article::find($id);
-        if(!$article){
+        if (!$article) {
             return redirect()->route('admin_articles.index')->with(['fail' => 'Page not found !']);
         }
 
-        foreach($article->products as $product){
+        foreach ($article->products as $product) {
             $product->delete();
         }
 
-        foreach($article->uploads as $upload){
+        foreach ($article->uploads as $upload) {
             unlink(public_path($upload->folder_path.$upload->name));
             $upload->destroy($upload->id);
         }
@@ -277,10 +285,11 @@ class AdminArticlesController extends Controller
         $product->save();
     }
 
-    public function publish_or_unpublished($id){
+    public function publish_or_unpublished($id)
+    {
         $article = Article::find($id);
 
-        if($article->status){
+        if ($article->status) {
             $article->status = false;
         } else {
             $article->waiting_for_approval = false;
@@ -289,7 +298,7 @@ class AdminArticlesController extends Controller
 
             $products = Product::where(['article_id' => $article->id, 'deleted' => true ])->get();
 
-            foreach($products as $product){
+            foreach ($products as $product) {
                 $product->delete();
             }
         }
@@ -299,7 +308,7 @@ class AdminArticlesController extends Controller
         $category = $article->category;
         $articles = Article::where('category_id', $category->id)->where('status', true)->get();
 
-        if(count($articles) > 0){
+        if (count($articles) > 0) {
             $category->category_status = true;
             $category->update();
         } else {
@@ -310,7 +319,8 @@ class AdminArticlesController extends Controller
         return redirect()->back();
     }
 
-    public function set_article_deadline($id, Request $request){
+    public function set_article_deadline($id, Request $request)
+    {
         $article = Article::find($id);
 
         $article->article_deadline = $request->article_deadline;
@@ -319,7 +329,8 @@ class AdminArticlesController extends Controller
         return redirect()->back();
     }
 
-    public function submit_for_review($id){
+    public function submit_for_review($id)
+    {
         $article = Article::find($id);
 
         $article->waiting_for_approval = true;
@@ -328,19 +339,21 @@ class AdminArticlesController extends Controller
         return redirect()->back();
     }
 
-    public function review_article(){
-        if(Auth::user()->roleType->name != 'editor'){
-            $articles = Article::where('status', false)->orderBy('created_at','desc')->Paginate(100);
+    public function review_article()
+    {
+        if (Auth::user()->roleType->name != 'editor') {
+            $articles = Article::where('status', false)->orderBy('created_at', 'desc')->Paginate(100);
         } else {
             $articles = Article::where('status', false)
                 ->where('user_id', Auth::user()->id)
-                ->orderBy('created_at','desc')
+                ->orderBy('created_at', 'desc')
                 ->Paginate(10);
         }
-        return view('admin.articles.review_article',['articles' => $articles]);
+        return view('admin.articles.review_article', ['articles' => $articles]);
     }
 
-    public function mime_type_image_save($src,$img,$article){
+    public function mime_type_image_save($src, $img, $article)
+    {
         preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
         $mimetype = $groups['mime'];
         $filename = $img->getAttribute('data-filename');
@@ -378,7 +391,8 @@ class AdminArticlesController extends Controller
         $img->setAttribute('src', $new_src);
     }
 
-    public function saveThumbnail($article){
+    public function saveThumbnail($article)
+    {
         $filename = Input::file('image')->getClientOriginalName();
         $filename = date("d") . '_' . $filename;
         $filename = str_replace(' ', '_', $filename);
@@ -402,7 +416,7 @@ class AdminArticlesController extends Controller
         $thumb_filename = 'obr_thumb_250_250_' . $filename;
         Image::make($image->getRealPath())->resize(250, 250, function ($constraint) {
             $constraint->aspectRatio();
-            })->save(public_path($folder_path . $thumb_filename));
+        })->save(public_path($folder_path . $thumb_filename));
 
         $thumb_md5 = md5_file(public_path($folder_path . $thumb_filename));
 
@@ -423,7 +437,8 @@ class AdminArticlesController extends Controller
         Input::file('image')->move(public_path($folder_path), $filename);
     }
 
-    public function product_add(Request $request){
+    public function product_add(Request $request)
+    {
         $isbn = $request['isbn'];
         $article_id = $request['article_id'];
         $search_query = [
@@ -434,20 +449,20 @@ class AdminArticlesController extends Controller
 
         $amazon_response = Helper::amazonAdAPI($search_query);
 
-        if(isset($amazon_response['Items']['Item'])){
+        if (isset($amazon_response['Items']['Item'])) {
             $get_amazon_items = $amazon_response['Items']['Item'];
         } else {
             $get_amazon_items = null;
         }
 
-        if(!empty($get_amazon_items)){
+        if (!empty($get_amazon_items)) {
             $item = $get_amazon_items ;
             $editorial_details = '';
 
-            if(isset($item['EditorialReviews']['EditorialReview'])){
+            if (isset($item['EditorialReviews']['EditorialReview'])) {
                 $editorial_array = $item['EditorialReviews']['EditorialReview'];
-                if(!isset($editorial_array['Content'])){
-                    foreach($editorial_array as $editorial_item){
+                if (!isset($editorial_array['Content'])) {
+                    foreach ($editorial_array as $editorial_item) {
                         $editorial_details = $editorial_item['Content'];
                     }
                 } else {
@@ -456,21 +471,21 @@ class AdminArticlesController extends Controller
             }
 
             $author_name = null;
-            if(isset($item['ItemAttributes']['Author'])){
+            if (isset($item['ItemAttributes']['Author'])) {
                 $author_name = $item['ItemAttributes']['Author'];
-                if(is_array($author_name)){
+                if (is_array($author_name)) {
                     $author_name = implode(',', $author_name);
                 }
             }
 
-            if(isset($item['ItemAttributes']['PublicationDate'])){
+            if (isset($item['ItemAttributes']['PublicationDate'])) {
                 $publication_date = $item['ItemAttributes']['PublicationDate'];
             } else {
                 $publication_date = null;
             }
 
 
-            if( strlen($publication_date) == 7 ){
+            if (strlen($publication_date) == 7) {
                 $publication_date = $publication_date. '-01';
             } elseif (strlen($publication_date) == 4) {
                 $publication_date = $publication_date. '-01'.'-01';
@@ -488,23 +503,23 @@ class AdminArticlesController extends Controller
             $product->save();
         }
         return redirect()->back()->with(['success' => 'Product Created Successfully']);
-
     }
 
-    public function product_destroy(Request $request){
+    public function product_destroy(Request $request)
+    {
         $product_id = $request['product_id'];
         $product = Product::find($product_id);
 
-        if($product->deleted){
+        if ($product->deleted) {
             $product->delete();
         } else {
             $product->deleted = true;
             $product->save();
         }
-
     }
 
-    public function product_review($isbn){
+    public function product_review($isbn)
+    {
         $product_url = "https://www.amazon.com/product-reviews/". $isbn. "/ref=cm_cr_arp_d_viewopt_srt?sortBy=recent&pageNumber=1";
         $client = new Client();
         $client->setHeader('user-agent', "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36");
@@ -539,7 +554,8 @@ class AdminArticlesController extends Controller
     }
 
 
-    public function edit_time_tracker($article_id){
+    public function edit_time_tracker($article_id)
+    {
         $article = Article::find($article_id);
 
         $role_type = Auth::user()->roleType->name;

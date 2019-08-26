@@ -18,6 +18,10 @@
                 <label class="control-label " for="name">URL Slug</label>
                 <input class="form-control" name="slug" type="text" required />
             </div>
+            <div class="form-group"> <!-- Name field -->
+                <label class="control-label " for="name">Expired Slug</label>
+                <input class="form-control" name="expired_slug" type="text" />
+            </div>
 
             <div class="form-group"> <!-- Name field -->
                 <label class="control-label " for="name">Keyword</label>
@@ -39,6 +43,10 @@
                         <option value="{{ $category->id}}" data-browse-node-id="{{ $category->browse_node_id }}" > {{ $category->name }} </option>
                     @endforeach
                 </select>
+            </div>
+            <div class="form-group"> <!-- Name field -->
+                <label class="control-label " for="name">Thumbnail Alt Tag</label>
+                <input class="form-control" name="thumbnail_alt_tag" type="text" placeholder="Image Alt Tag" required />
             </div>
 
             <div class="form-group">

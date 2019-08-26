@@ -72,6 +72,10 @@
                     <label class="control-label " for="name">URL Slug</label>
                     <input class="form-control" name="slug" type="text" value="{{ $article->slug }}" />
                 </div>
+                <div class="form-group"> <!-- Name field -->
+                    <label class="control-label " for="name">Expired Slug</label>
+                    <input class="form-control" name="expired_slug" type="text" value="{{ $article->expired_slug }}" />
+                </div>
 
                 <div class="form-group"> <!-- Name field -->
                     <label class="control-label " for="name">Keyword</label>
@@ -117,13 +121,17 @@
                 </div>
             </div>
             <div class="col-sm-3">
+                    <div class="form-group"> <!-- Name field -->
+                        <label class="control-label " for="name">Thumbnail Alt Tag</label>
+                        <input class="form-control" name="thumbnail_alt_tag"  value="{{ $article->thumbnail_alt_tag }}" type="text" required />
+                    </div>
                 <div class="alert alert-success">
                     <h5>Upload Thumbnail Image</h5>
                     <input type="file" name="image">
                     <hr>
                     <h5>Previous Image</h5>
                     @if($image_exist)
-                        <img class="img-responsive" src="{{$image_exist->folder_path.'/'.$image_exist->name}}">
+                        <img class="img-responsive" src="{{$image_exist->folder_path.'/'.$image_exist->name}}" alt="{{ $article->thumbnail_alt_tag }}">
                     @endif
                 </div>
 
