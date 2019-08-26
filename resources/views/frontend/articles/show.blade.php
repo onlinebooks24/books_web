@@ -45,7 +45,7 @@
                     <div class="entry__img-holder text-center">
                         <figure>
                             @if(isset($article->thumbnail_image))
-                                <img src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" alt="" class="img-responsive">
+                                <img src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" alt="{{ $article->thumbnail_alt_tag }}" class="img-responsive">
                             @endif
                         </figure>
                     </div>
