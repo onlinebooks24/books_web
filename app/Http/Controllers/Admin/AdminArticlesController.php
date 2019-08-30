@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\SiteCost;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
@@ -32,6 +33,19 @@ class AdminArticlesController extends Controller
      */
     public function index()
     {
+        $site_costs = SiteCost::all();
+
+        foreach($site_costs as $site_cost){
+            if(!empty($site_cost->article_id)){
+                $article = Article::find($site_cost->article_id);
+                if(!empty($article)){
+                    $article->created_at = $site_cost->when_paid;
+                    $article->updated_at = $site_cost->when_paid;
+                    $article->save();
+                }
+            }
+        }
+
         $articles = Article::where('status', true)->orderBy('created_at', 'desc')->Paginate(150);
         return view('admin.articles.index', ['articles' => $articles]);
     }
