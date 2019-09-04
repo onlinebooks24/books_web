@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\EmailSubscriber;
+use App\Models\EmailSubscriberCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
@@ -73,6 +75,27 @@ class ArticleController extends Controller
      */
     public function show($slug, Request $request)
     {
+        $date = Carbon::today()->subDays(30);
+        $article_category_id_ = Article::where('created_at', '>=', $date)->pluck('category_id');
+        $email_subscribers = EmailSubscriber::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
+      foreach ($email_subscribers as $email_subscriber){
+            $subscriber_category_id = EmailSubscriberCategory::where('email_subscriber_id',$email_subscriber->id)->pluck('category_id');
+            $article_category_array = $article_category_id_->toArray();
+            $subscriber_category_array = $subscriber_category_id->toArray();
+            $favourite_category_id = array_intersect($article_category_array,$subscriber_category_array);
+            if (!empty($favourite_category_id)){
+                $favourite_articles = Article::where('category_id',$favourite_category_id)->get();
+                Mail::send('mail_template.subscription_mail_send', ['favourite_articles'=>$favourite_articles], function ($message) use ($email_subscriber)
+                {
+                    $message->subject('newsletter');
+                    $message->from('info@namespaceit.com', 'OnlineBooksReview');
+                    $message->to($email_subscriber->email);
+                });
+                sleep(3);
+            }
+        }
+
+
         if (empty($request['email'])) {
             $articles = Article::where('status', true)->orderBy('created_at', 'asc')->Paginate(18);
             $categories = Category::where('category_status', true)
