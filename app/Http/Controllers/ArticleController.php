@@ -212,4 +212,23 @@ class ArticleController extends Controller
 
         return response()->json($category_json);
     }
+
+    public function searchResults(Request $request){
+        $query = $request->get('query');
+        $articles = Article::where('title','like','%'. $query . '%')->Paginate(30);
+        $categories = Category::where('category_status', true)
+            ->orderBy('created_at','desc')->get();
+        $popular_articles = Article::where('status', true)->orderBy('count','desc')->Paginate(25);
+        $related_articles = Article::whereIn('id', [153,81,109])->orderBy('id', 'asc')
+            ->get();
+
+        return view('frontend.articles.search_results',
+                compact(
+                'articles',
+                'categories',
+                'popular_articles',
+                'related_articles',
+                'query'));
+    }
+
 }
