@@ -42,21 +42,24 @@ class SubscriptionMailSent extends Command
      */
     public function handle()
     {
-        $date = Carbon::today()->subDays(7);
-        $articles = Article::where('created_at', '>=', $date)->get();
-
-
-//      $subscribers = DB::table('email_subscribers')->get();
-        $email = ['tonypcworld@gmail.com'];
-
-
-            Mail::send('mail_template.subscription_mail_send', ['article'=>$articles], function ($message) use ($email)
-            {
-                $message->subject('newsletter');
-                $message->from('tonykhan658@gmail.com', 'OnlineBooksReview');
-                $message->to($email);
-            });
-
-
+        $date = Carbon::today()->subDays(30);
+        $article_category_id_ = Article::where('created_at', '>=', $date)->pluck('category_id');
+        $email_subscribers = EmailSubscriber::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
+        foreach ($email_subscribers as $email_subscriber){
+            $subscriber_category_id = EmailSubscriberCategory::where('email_subscriber_id',$email_subscriber->id)->pluck('category_id');
+            $article_category_array = $article_category_id_->toArray();
+            $subscriber_category_array = $subscriber_category_id->toArray();
+            $favourite_category_id = array_intersect($article_category_array,$subscriber_category_array);
+            if (!empty($favourite_category_id)){
+                $favourite_articles = Article::where('category_id',$favourite_category_id)->get();
+                Mail::send('mail_template.subscription_mail_send', ['favourite_articles'=>$favourite_articles], function ($message) use ($email_subscriber)
+                {
+                    $message->subject('newsletter');
+                    $message->from('info@namespaceit.com', 'OnlineBooksReview');
+                    $message->to($email_subscriber->email);
+                });
+                sleep(3);
+            }
+        }
     }
 }
