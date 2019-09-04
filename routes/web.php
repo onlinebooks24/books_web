@@ -157,4 +157,9 @@ Route::group(['middleware' => ['web']] , function() {
         'uses' => 'ArticleController@searchResults',
         'as' => 'search.results'
     ]);
+
+	Route::get('/sitemap.xml', [
+		'uses' => 'HomeController@xmlSitemap',
+		'as' => 'search.results'
+	]);
 });
