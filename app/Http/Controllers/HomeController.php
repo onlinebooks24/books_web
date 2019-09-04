@@ -34,7 +34,7 @@ class HomeController extends Controller
     }
 
     public function xmlSitemap(){
-        $articles = Article::all();
+        $articles = Article::where('status', true)->get();
         return response()->view('frontend.other.sitemap', compact('articles'))->header('Content-Type', 'text/xml');
     }
 
