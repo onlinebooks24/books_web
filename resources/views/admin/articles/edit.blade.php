@@ -72,10 +72,13 @@
                     <label class="control-label " for="name">URL Slug</label>
                     <input class="form-control" name="slug" type="text" value="{{ $article->slug }}" />
                 </div>
-                <div class="form-group"> <!-- Name field -->
-                    <label class="control-label " for="name">Expired Slug</label>
-                    <input class="form-control" name="expired_slug" type="text" value="{{ $article->expired_slug }}" />
-                </div>
+
+                @if(Auth::user()->roleType->name != 'editor')
+                    <div class="form-group"> <!-- Name field -->
+                        <label class="control-label " for="name">Expired Slug</label>
+                        <input class="form-control" name="expired_slug" type="text" placeholder="write expired slug" value="{{ $article->expired_slug }}" />
+                    </div>
+                @endif
 
                 <div class="form-group"> <!-- Name field -->
                     <label class="control-label " for="name">Keyword</label>
@@ -84,7 +87,7 @@
 
                 <div class="form-group"> <!-- Name field -->
                     <label class="control-label " for="name">Meta Title</label>
-                    <input class="form-control" name="meta_title" type="text" value="{{ $article->meta_title }}" />
+                    <input class="form-control" name="meta_title" placeholder="write meta title" type="text" value="{{ $article->meta_title }}" />
                 </div>
 
                 <div class="form-group"> <!-- Name field -->
@@ -123,7 +126,7 @@
             <div class="col-sm-3">
                     <div class="form-group"> <!-- Name field -->
                         <label class="control-label " for="name">Thumbnail Alt Tag</label>
-                        <input class="form-control" name="thumbnail_alt_tag"  value="{{ $article->thumbnail_alt_tag }}" type="text" required />
+                        <input class="form-control" placeholder="write thumbnail alt tag" name="thumbnail_alt_tag"  value="{{ $article->thumbnail_alt_tag }}" type="text" />
                     </div>
                 <div class="alert alert-success">
                     <h5>Upload Thumbnail Image</h5>

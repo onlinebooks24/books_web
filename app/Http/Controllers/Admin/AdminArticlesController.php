@@ -88,7 +88,9 @@ class AdminArticlesController extends Controller
         $article->slug = $slug ;
         $expired_slug = strtolower($request['expired_slug']);
         $expired_slug = str_replace(' ', '-', $expired_slug);
-        $article->expired_slug = $expired_slug ;
+        if(!empty($expired_slug)){
+            $article->expired_slug = $expired_slug ;
+        }
         $article->thumbnail_alt_tag = $request['thumbnail_alt_tag'];
         $article->keyword = $request['keyword'];
         $article->status = false;
@@ -195,7 +197,11 @@ class AdminArticlesController extends Controller
         $article->thumbnail_alt_tag = $request['thumbnail_alt_tag'];
         $expired_slug = strtolower($request['expired_slug']);
         $expired_slug = str_replace(' ', '-', $expired_slug);
-        $article->expired_slug = $expired_slug ;
+
+        if(!empty($expired_slug)){
+            $article->expired_slug = $expired_slug ;
+        }
+
         if (!empty($request['user_id'])) {
             $article->user_id = $request['user_id'];
         }
