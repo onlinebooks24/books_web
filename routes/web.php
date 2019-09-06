@@ -138,6 +138,9 @@ Route::group(['middleware' => ['web']] , function() {
 		return View::make('frontend.other.refund_policy');
 	});
 
+	Route::get('/scholarship/' , function(){
+		return View::make('frontend.other.scholarship');
+	});
 
 	Route::get('/terms-of-service/' , function(){
 		return View::make('frontend.other.terms_of_service');
