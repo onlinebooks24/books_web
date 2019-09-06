@@ -1,7 +1,7 @@
 @extends('layouts.master')
-@section('title') Refund Policy | Online Books Review @endsection
-@section('meta_description') Refund Policy @endsection
-@section('meta_keyword') Refund Policy @endsection
+@section('title') Scholarship | Online Books Review @endsection
+@section('meta_description') Scholarship @endsection
+@section('meta_keyword') Scholarship @endsection
 
 @section('content')
     @include('includes.header')
