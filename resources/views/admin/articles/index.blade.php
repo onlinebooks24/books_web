@@ -53,7 +53,12 @@
     @foreach($articles as $key => $article)
 	<tr>
 		<td>{{ $article->id }}</td>
-		<td>{{ $article->title }}</td>
+		<td>
+		{{ $article->title }}
+		@if(count($article->products) == 0)
+			<span class="btn-sm btn-danger">Info</span>
+		@endif
+		</td>
 		<td>{{ $article->user->name }}</td>
 		<td>{{ Carbon\Carbon::parse($article->created_at)->toFormattedDateString() }}</td>
 		<td>{{ $article->count }}</td>
