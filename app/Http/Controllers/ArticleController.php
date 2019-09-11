@@ -80,13 +80,15 @@ class ArticleController extends Controller
             $categories = Category::where('category_status', true)
                 ->orderBy('created_at', 'desc')->get();
             $article = Article::where('slug', $slug)->first();
+
             if (empty($article)) {
                 $article = Article::where('expired_slug', $slug)->first();
-                return redirect(route('articles.show', $article->slug));
-            }
 
-            if(empty($article)){
-                return redirect(route('blog.index'));
+                if(empty($article)){
+                    return redirect(route('blog.index'));
+                } else {
+                    return redirect(route('articles.show', $article->slug));
+                }
             }
 
             $popular_articles = Article::where('status', true)->orderBy('count', 'desc')->Paginate(25);
