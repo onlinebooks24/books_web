@@ -7,126 +7,76 @@
 @section('content')
 @include('includes.header')
 
-    <!-- Hero Slider -->
-<section class="hero">
-    <div id="owl-hero" class="owl-carousel owl-theme">
-
-        @foreach($related_articles as $related_article)
-            <div class="hero__slide">
-                <article class="hero__slide-entry entry">
-                    @if(isset($related_article->thumbnail_image))
-                        <div class="thumb-bg-holder" style="border: 1px solid grey; background-image: url({{ $related_article->thumbnail_image->folder_path . $related_article->thumbnail_image->name }})">
-                            <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}" class="thumb-url"></a>
-                            <div class="bottom-gradient"></div>
-                        </div>
-                    @endif
-
-                    <div class="thumb-text-holder">
-                        <a href="{{ route('category.post',['slug' => $related_article->category->slug ])}}" class="entry__meta-category entry__meta-category--label">{{$related_article->category->name}}</a>
-                        <h2 class="thumb-entry-title">
-                            <a href="{{ route('articles.show' , [ 'slug' => $related_article->slug ])}}">{{ $related_article->title }}</a>
-                        </h2>
-                    </div>
-                </article>
-            </div>
-        @endforeach
-
-    </div> <!-- end owl -->
-</section> <!-- end hero slider -->
-
-<!-- Ad Banner 728 -->
-<div class="text-center top-30">
-    <!-- Onlinebooksreview_homepage_display -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-1505016841070170"
-         data-ad-slot="3311761530"
-         data-ad-format="auto"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-</div>
-
-
-<!-- Content -->
-<section class="section-wrap pb-0">
+    
+<section>
     <div class="container">
-        <div class="row">
-
-            <!-- Posts -->
-            <div class="col-md-8 blog__content mb-30">
-
-                <h3 class="section-title">Latest Posts</h3>
-
-                @foreach($articles as $article)
-                    <article class="entry post-list">
-                        <div class="entry__img-holder post-list__img-holder">
-                            <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">
-                                <div class="thumb-container">
-                                    @if(isset($article->thumbnail_image))
-                                        <img data-src="{{ $article->thumbnail_image->folder_path  . 'obr_thumb_250_250_' .  $article->thumbnail_image->name }}" src="{{ $article->thumbnail_image->folder_path . 'obr_thumb_250_250_' . $article->thumbnail_image->name }}" class="entry__img lazyload" alt="{{ $article->title }}" />
-                                    @endif
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="entry__body post-list__body">
-                            <div class="entry__header">
-                                <a href="{{ route('category.post',['slug' => $article->category->slug ])}}" class="entry__meta-category">{{ $article->category->name }}</a>
-                                <h2 class="entry__title">
-                                    <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
-                                </h2>
-                                <ul class="entry__meta">
-                                    <li class="entry__meta-author">
-                                        by <a href="#">onlinebooksreview</a>
-                                    </li>
-                                    <li>
-                                        <span>in</span>
-                                        <a href="{{ route('category.post',['slug' => $article->category->slug ])}}" class="entry__meta-category">{{ $article->category->name }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="entry__excerpt">
-                                <p>{{ str_limit(strip_tags($article->body), $limit = 120, $end = '...') }}</p>
-                            </div>
-                        </div>
-                    </article>
+      <br>
+        <h2 class="text-center">Books By Category</h2><br>
+            <div class="row">
+                @foreach ($parent_categories as $parent_category)
+                    <div class="col-md-2">
+                        <p>{{ $parent_category->name }}</p>
+                        <img class="img-thumbnail image_height" src="{{ asset('uploads/category_images/'.$parent_category->id. '.' . 'jpg') }}" alt="">
+                    </div>
                 @endforeach
-
-                    <!-- Pagination -->
-
-
-                <nav>
-                    <ul class="pager top10">
-                        @if($articles->currentPage() !== 1)
-                            <div class="pagination clearfix">
-                                <div class="pagination__link left">
-                                    <a href="{{ $articles->previousPageUrl() }}" class="btn btn-lg btn-color">
-                                        <span>Newer</span>
-                                    </a>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($articles->currentPage() !== $articles->lastPage() && $articles->hasPages())
-                            <div class="pagination clearfix top-25">
-                                <div class="pagination__link right top-30">
-                                    <a href="{{ $articles->nextPageUrl() }}" class="btn btn-lg btn-color">
-                                        <span>Older</span>
-                                    </a>
-                                </div>
-                            </div>
-                        @endif
-                    </ul>
-                </nav>
-            </div> <!-- end posts -->
-
-            @include('includes.left_sidebar')
-
-        </div>
+            </div>
     </div>
-</section> <!-- end content -->
+</section>
+<br>
+<!-- Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 blog__content mb-30">
+           <section class="content-section section-editors-choice">
+              @foreach ($parent_with_articles as $parent_category_name=>$articles )
+                <div class="section-title-wrap top20">
+                    <h3 class="section-title">{{ $parent_category_name }}</h3>
+                </div>
+                <div class="row">
+                    @foreach ($articles as $key => $article)
+                        <div class="col-md-6">
+                            <ul class="post-list-small">
+                                <li class="post-list-small__item">
+                                    <article class="post-list-small__entry">
+                                        <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}" class="clearfix">
+                                            <div class="post-list-small__img-holder">
+                                                <div class="thumb-container">
+                                                    <img src="" class="post-list-small__img" alt="No Photo">
+                                                </div>
+                                            </div>
+                                            <div class="post-list-small__body">
+                                                <h3 class="post-list-small__entry-title">
+                                                    {{ $article->title }}
+                                                </h3>
+                                                <div class="entry__excerpt">
+                                                    <p>{{ str_limit(strip_tags($article->body), $limit = 120, $end = '...') }}</p>
+                                                </div>
+                                                <ul class="entry__meta">
+                                                    <li class="entry__meta-date">
+                                                        <i class="ui-date"></i>
+                                                        <span>Published on:</span>
+                                                        {{ $article->created_at->format('d/m/Y') }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </a>
+                                    </article>
+                                </li>
+                            </ul>
+                        </div>
 
+                        @if($key == 3)
+                            @break
+                        @endif
+                    @endforeach
+                </div>
+                <hr>
+               @endforeach
+            </section>
+        </div>
+        @include('includes.left_sidebar')
+    </div>
+</div>
 @include('includes.footer')
 
 @endsection

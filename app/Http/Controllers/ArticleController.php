@@ -33,7 +33,20 @@ class ArticleController extends Controller
 
         $related_articles = Article::whereIn('id', [153,81,109])->orderBy('id', 'asc')
             ->get();
+        $parent_with_articles = [];
+        $parent_categories = Category::where('parent_id', '1000')->where('category_status', true)->get();
+        foreach ($parent_categories as $parent_category) {
+            $browse_node_ids = Category::where('parent_id', $parent_category->browse_node_id)->pluck('browse_node_id')->toArray();
+            $browse_node_ids = Category::whereIn('parent_id', $browse_node_ids)->pluck('browse_node_id')->toArray();
 
+            dd($browse_node_ids);
+
+            dd(array_unique($browse_node_ids));
+            dd($category_ids);
+            $parent_articles = Article::whereIn('category_id', $category_ids)->take(6)->get();
+
+            $parent_with_articles[$parent_category->name] = $parent_articles;
+        }
         $uploads = Upload::all();
         return view(
             'frontend.articles.index',
@@ -41,7 +54,9 @@ class ArticleController extends Controller
                 'articles' => $articles,
                 'uploads' => $uploads,
                 'related_articles' => $related_articles,
-                'popular_articles' => $popular_articles
+                'popular_articles' => $popular_articles,
+                'parent_categories' => $parent_categories,
+                'parent_with_articles' => $parent_with_articles
                 ]
         );
     }
@@ -90,7 +105,6 @@ class ArticleController extends Controller
                     return redirect(route('articles.show', $article->slug));
                 }
             }
-
             $popular_articles = Article::where('status', true)->orderBy('count', 'desc')->Paginate(25);
 
             $ordered_product_articles = ProductOrder::select('product_number', 'title')
