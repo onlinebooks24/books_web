@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 use PulkitJalan\GeoIP\GeoIP;
+use App\Models\Category;
 
 class Helper
 {
@@ -88,10 +89,22 @@ class Helper
                 $location['region_name'] = $obj->region_name;
             }
         }
-
-
-
         return $location;
+    }
+
+    public static function get_child_category($browse_node_id){
+        $browse_node_ids_1 = Category::where('parent_id', $browse_node_id)->pluck('browse_node_id')->toArray();
+
+        $browse_node_ids_2 = Category::whereIn('parent_id', $browse_node_ids_1)->pluck('browse_node_id')->toArray();
+
+        $browse_node_ids = array_unique(array_merge($browse_node_ids_1, $browse_node_ids_2));
+
+        foreach ($browse_node_ids as $browse_node_id){
+            $browse_node = Category::where('parent_id', $browse_node_id)->pluck('browse_node_id');
+            dd($browse_node);
+        }
+
+        return $browse_node_ids;
     }
 
 }
