@@ -93,18 +93,17 @@ class Helper
     }
 
     public static function get_child_category($browse_node_id){
-        $browse_node_ids_1 = Category::where('parent_id', $browse_node_id)->pluck('browse_node_id')->toArray();
+        $check_category_ids = [$browse_node_id];
+        $category_ids = [];
 
-        $browse_node_ids_2 = Category::whereIn('parent_id', $browse_node_ids_1)->pluck('browse_node_id')->toArray();
-
-        $browse_node_ids = array_unique(array_merge($browse_node_ids_1, $browse_node_ids_2));
-
-        foreach ($browse_node_ids as $browse_node_id){
-            $browse_node = Category::where('parent_id', $browse_node_id)->pluck('browse_node_id');
-            dd($browse_node);
+        while(!empty($check_category_ids)){
+            $check_category_ids = Category::whereIn('parent_id', $check_category_ids)->pluck('browse_node_id')->toArray();
+            $category_ids = array_unique(array_merge($check_category_ids , $category_ids));
         }
 
-        return $browse_node_ids;
+        $category_ids = array_map( function($value) { return (int)$value; }, $category_ids );
+
+        return $category_ids;
     }
 
 }

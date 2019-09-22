@@ -37,10 +37,15 @@ class ArticleController extends Controller
         $parent_categories = Category::where('parent_id', '1000')->where('category_status', true)->get();
         foreach ($parent_categories as $parent_category) {
             $category_ids = Helper::get_child_category($parent_category->browse_node_id);
-            $parent_articles = Article::whereIn('category_id', $category_ids)->take(6)->get();
+            DB::enableQueryLog();
+            $parent_articles = Article::whereIn('category_id', $category_ids)->take(60)->get();
+            $laQuery = DB::getQueryLog();
+
+            dd($laQuery);
 
             $parent_with_articles[$parent_category->name] = $parent_articles;
         }
+
         $uploads = Upload::all();
         return view(
             'frontend.articles.index',
