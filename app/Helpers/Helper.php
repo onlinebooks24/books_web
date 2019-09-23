@@ -101,7 +101,7 @@ class Helper
             $category_ids = array_unique(array_merge($check_category_ids , $category_ids));
         }
 
-        $category_ids = array_map( function($value) { return (int)$value; }, $category_ids );
+        $category_ids = Category::whereIn('browse_node_id', $category_ids)->pluck('id')->toArray();
 
         return $category_ids;
     }
