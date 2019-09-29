@@ -41,7 +41,9 @@
                                         <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}" class="clearfix">
                                             <div class="post-list-small__img-holder">
                                                 <div class="thumb-container">
-                                                    <img src="{{ $article->thumbnail_image->folder_path  . 'obr_thumb_250_250_' .  $article->thumbnail_image->name }}" class="post-list-small__img" alt="No Photo">
+                                                    @if(isset($article->thumbnail_image->folder_path))
+                                                        <img src="{{ $article->thumbnail_image->folder_path  . 'obr_thumb_250_250_' .  $article->thumbnail_image->name }}" class="post-list-small__img" alt="No Photo">
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="post-list-small__body">
