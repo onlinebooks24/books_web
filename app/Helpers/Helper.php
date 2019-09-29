@@ -96,11 +96,13 @@ class Helper
         $check_category_ids = [$browse_node_id];
         $category_ids = [];
 
+
         while(!empty($check_category_ids)){
             $check_category_ids = Category::whereIn('parent_id', $check_category_ids)->pluck('browse_node_id')->toArray();
             $category_ids = array_unique(array_merge($check_category_ids , $category_ids));
         }
 
+        $category_ids = array_merge($category_ids , [$browse_node_id]);
         $category_ids = Category::whereIn('browse_node_id', $category_ids)->pluck('id')->toArray();
 
         return $category_ids;

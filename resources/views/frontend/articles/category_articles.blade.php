@@ -34,7 +34,7 @@
                                     <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">
                                         <div class="thumb-container">
                                             @if(isset($article->thumbnail_image))
-                                            <img data-src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" class="entry__img lazyload" alt="{{ $article->title }}" />
+                                            <img style="height: 200px; width: 350px" data-src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" src="{{ $article->thumbnail_image->folder_path . $article->thumbnail_image->name }}" class="entry__img lazyload" alt="{{ $article->title }}" />
                                             @endif
                                         </div>
                                     </a>
@@ -46,14 +46,6 @@
                                         <h2 class="entry__title">
                                             <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}">{{ $article->title }}</a>
                                         </h2>
-                                        <ul class="entry__meta">
-                                            <li class="entry__meta-date">
-                                                21 October, 2017
-                                            </li>
-                                            <li class="entry__meta-author">
-                                                by <a href="#">DeoThemes</a>
-                                            </li>
-                                        </ul>
                                     </div>
                                     <div class="entry__excerpt">
                                         <p>

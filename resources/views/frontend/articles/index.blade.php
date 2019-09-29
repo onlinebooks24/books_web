@@ -12,12 +12,14 @@
     <div class="container">
       <br>
         <h2 class="text-center">Books By Category</h2><br>
-            <div class="row">
+            <div class="row text-center">
                 @foreach ($parent_categories as $parent_category)
-                    <div class="col-md-2">
-                        <p>{{ $parent_category->name }}</p>
-                        <img class="img-thumbnail image_height" src="{{ asset('uploads/category_images/'.$parent_category->id. '.' . 'jpg') }}" alt="">
-                    </div>
+                    <a href="">
+                        <div class="col-md-3">
+                            {{ $parent_category->name }}
+                            <img class="img-thumbnail image_height" src="{{ asset('uploads/category_images/'.$parent_category->id. '.' . 'jpg') }}" alt="">
+                        </div>
+                    </a>
                 @endforeach
             </div>
     </div>
@@ -28,9 +30,15 @@
     <div class="row">
         <div class="col-md-8 blog__content mb-30">
            <section class="content-section section-editors-choice">
-              @foreach ($parent_with_articles as $parent_category_name=>$articles )
+              @foreach ($parent_with_articles as $parent_category_name => $articles )
+               @php
+                   $slug = strtolower($parent_category_name);
+                   $slug = str_replace('&', 'and', $slug);
+                   $slug = str_replace(' ', '-', $slug);
+               @endphp
+
                 <div class="section-title-wrap top20">
-                    <h3 class="section-title">{{ $parent_category_name }}</h3>
+                    <h3 class="section-title"><a href="{{ route('category.post',['slug' => $slug ])}}">{{ $parent_category_name }}</a></h3>
                 </div>
                 <div class="row">
                     @foreach ($articles as $key => $article)
@@ -59,9 +67,14 @@
                                 </li>
                             </ul>
                         </div>
-
-
                     @endforeach
+
+                    <div class="clearfix"></div>
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <a class="btn btn-lg btn-color btn-subscribe" href="{{ route('category.post',['slug' => $slug ])}}">View All</a>
+                        </div>
+                    </div>
                 </div>
                 <hr>
                @endforeach

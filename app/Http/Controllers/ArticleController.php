@@ -186,11 +186,15 @@ class ArticleController extends Controller
         $categories = Category::where(['category_status' => true, 'parent_id' => 1000])
             ->orderBy('created_at', 'desc')->get();
         $category = Category::where('slug', $slug)->first();
+
+        $child_categories = Helper::get_child_category($category->browse_node_id);
+
         $uploads = Upload::all();
         if (!empty($category)) {
-            $articles = Article::where('category_id', $category->id)
+            $articles = Article::whereIn('category_id', $child_categories)
                                     ->where('status', true)
-                                    ->orderBy('created_at', 'desc')->Paginate(5);
+                                    ->orderBy('created_at', 'desc')->Paginate(25);
+
             $popular_articles = Article::where('status', true)->orderBy('count', 'desc')->Paginate(25);
 
             return view(
