@@ -75,7 +75,7 @@
                     <div class="clearfix"></div>
                     <div class="col-md-12">
                         <div class="text-center">
-                            <a class="btn btn-lg btn-color btn-subscribe" href="{{ route('category.post',['slug' => $slug ])}}">View All</a>
+                            <a class="btn btn-lg btn-color btn-button" href="{{ route('category.post',['slug' => $slug ])}}">View All</a>
                         </div>
                     </div>
                 </div>
