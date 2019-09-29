@@ -37,7 +37,11 @@ class ArticleController extends Controller
         $parent_categories = Category::where('parent_id', '1000')->where('category_status', true)->get();
         foreach ($parent_categories as $parent_category) {
             $category_ids = Helper::get_child_category($parent_category->browse_node_id);
-            $parent_articles = Article::whereIn('category_id', $category_ids)->where('status', true)->limit(4)->get();
+            $parent_articles = Article::whereIn('category_id', $category_ids)
+                            ->where('status', true)
+                            ->orderBy('created_at', 'desc')
+                            ->limit(4)
+                            ->get();
             $parent_with_articles[$parent_category->name] = $parent_articles;
         }
 

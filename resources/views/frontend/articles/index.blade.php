@@ -13,17 +13,20 @@
       <br>
         <h2 class="text-center">Books By Category</h2><br>
             <div class="row text-center">
-                @foreach ($parent_categories as $parent_category)
-                    <a href="">
-                        <div class="col-md-3">
+                @foreach ($parent_categories as $key => $parent_category)
+                    <div class="col-md-2 bottom15">
+                        <a style="color: #49545E" target="_blank" href="{{ route('category.post',['slug' => $parent_category->slug ])}}">
+                            <div>
+                                 <img style="width: 50px; height: 50px" class="img-thumbnail image_height" src="{{ asset('img/category_images/'.$key. '.' . 'png') }}" alt="">
+                            </div>
                             {{ $parent_category->name }}
-                            <img class="img-thumbnail image_height" src="{{ asset('uploads/category_images/'.$parent_category->id. '.' . 'jpg') }}" alt="">
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 @endforeach
             </div>
     </div>
 </section>
+<hr>
 <br>
 <!-- Content -->
 <div class="container">
@@ -55,9 +58,9 @@
                                                 </div>
                                             </div>
                                             <div class="post-list-small__body">
-                                                <h3 class="post-list-small__entry-title">
-                                                    {{ str_limit(strip_tags($article->title), $limit = 80, $end = '...') }}
-                                                </h3>
+                                                <h4 class="post-list-small__entry-title">
+                                                    {{ str_limit(strip_tags($article->title), $limit = 90, $end = '...') }}
+                                                </h4>
                                                 <div class="entry__excerpt">
                                                     <p>{{ str_limit(strip_tags($article->body), $limit = 120, $end = '...') }}</p>
                                                 </div>
