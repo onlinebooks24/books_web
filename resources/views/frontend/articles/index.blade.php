@@ -36,30 +36,23 @@
                     @foreach ($articles as $key => $article)
                         <div class="col-md-6">
                             <ul class="post-list-small">
-                                <li class="post-list-small__item">
+                                <li class="post-list-small__item bottom15">
                                     <article class="post-list-small__entry">
                                         <a href="{{ route('articles.show' , [ 'slug' => $article->slug ])}}" class="clearfix">
-                                            <div class="post-list-small__img-holder">
+                                            <div class="post-list-small__img-holder ">
                                                 <div class="thumb-container">
                                                     @if(isset($article->thumbnail_image->folder_path))
-                                                        <img src="{{ $article->thumbnail_image->folder_path  . 'obr_thumb_250_250_' .  $article->thumbnail_image->name }}" class="post-list-small__img" alt="No Photo">
+                                                        <img style="height: 200px; width: 350px" src="{{ $article->thumbnail_image->folder_path  .  $article->thumbnail_image->name }}" class="post-list-small__img" alt="No Photo">
                                                     @endif
                                                 </div>
                                             </div>
                                             <div class="post-list-small__body">
                                                 <h3 class="post-list-small__entry-title">
-                                                    {{ $article->title }}
+                                                    {{ str_limit(strip_tags($article->title), $limit = 80, $end = '...') }}
                                                 </h3>
                                                 <div class="entry__excerpt">
                                                     <p>{{ str_limit(strip_tags($article->body), $limit = 120, $end = '...') }}</p>
                                                 </div>
-                                                <ul class="entry__meta">
-                                                    <li class="entry__meta-date">
-                                                        <i class="ui-date"></i>
-                                                        <span>Published on:</span>
-                                                        {{ $article->created_at->format('d/m/Y') }}
-                                                    </li>
-                                                </ul>
                                             </div>
                                         </a>
                                     </article>
