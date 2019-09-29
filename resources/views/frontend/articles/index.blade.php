@@ -41,7 +41,7 @@
                @endphp
 
                 <div class="section-title-wrap top20">
-                    <h3 class="section-title"><a href="{{ route('category.post',['slug' => $slug ])}}">{{ $parent_category_name }}</a></h3>
+                    <h2 class="section-title"><a href="{{ route('category.post',['slug' => $slug ])}}">{{ $parent_category_name }}</a></h2>
                 </div>
                 <div class="row">
                     @foreach ($articles as $key => $article)
