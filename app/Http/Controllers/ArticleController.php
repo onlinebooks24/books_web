@@ -103,7 +103,13 @@ class ArticleController extends Controller
                     return redirect(route('articles.show', $article->slug));
                 }
             }
-            $popular_articles = Article::where('status', true)->orderBy('count', 'desc')->Paginate(25);
+
+            $browse_node_id = $article->category->browse_node_id;
+            $child_categories = Helper::get_child_category($browse_node_id);
+
+            $popular_articles = Article::whereIn('category_id', $child_categories)
+                ->where('status', true)
+                ->orderBy('created_at', 'desc')->Paginate(25);
 
             $ordered_product_articles = ProductOrder::select('product_number', 'title')
                                         ->where('article_id', $article->id)
