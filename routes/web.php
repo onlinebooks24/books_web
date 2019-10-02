@@ -163,6 +163,6 @@ Route::group(['middleware' => ['web']] , function() {
 
 	Route::get('/sitemap.xml', [
 		'uses' => 'HomeController@xmlSitemap',
-		'as' => 'search.results'
+		'as' => 'homepage.sitemap'
 	]);
 });
