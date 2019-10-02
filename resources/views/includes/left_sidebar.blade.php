@@ -1,6 +1,5 @@
 <!-- Sidebar -->
 <aside class="col-md-4 sidebar sidebar--right">
-
     <!-- Widget Popular Posts -->
     <div class="widget widget-popular-posts">
         <h4 class="widget-title sidebar__widget-title">Popular Posts</h4>
@@ -58,6 +57,27 @@
         </script>
     </div>
 
+    <div class="widget">
+        <h4 class="widget-title">Categories</h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-unstyled">
+                    @foreach($categories as $category)
+                        <li style="text-transform: capitalize;">
+                            <a href="{{ route('category.post',['slug' => $category->slug ])}}">{{ $category->name }}</a>
+                            @php $child_categories = \App\Models\Category::where(['parent_id' => $category->browse_node_id, 'category_status' => true])->get(); @endphp
+                            <ul>
+                                @foreach($child_categories as $child_category)
+                                    <li class="left5"><a style="color: #49545E" href="{{ route('category.post',['slug' => $child_category->slug ])}}">{{ $child_category->name }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <!-- Widget socials -->
     <div class="widget widget-socials">
         <h4 class="widget-title">Keep up with Online Books Review</h4>
@@ -109,20 +129,6 @@
             </div>
         </div>
     </div> <!-- end widget banner -->
-
-    <div class="widget">
-        <h4 class="widget-title">Categories</h4>
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="list-unstyled">
-                    @foreach($categories as $category)
-                        <li style="text-transform: capitalize;"><a href="{{ route('category.post',['slug' => $category->slug ])}}">{{ $category->name }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
-    </div>
 
     <div class="widget">
         <h4 class="widget-title">Buy Kindle Ebook Reader</h4>

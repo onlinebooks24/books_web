@@ -26,7 +26,7 @@ class ArticleController extends Controller
     public function index()
     {
         $categories = Category::where(['category_status' => true, 'parent_id' => 1000])
-            ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'asc')->get();
         $articles = Article::where('status', true)->orderBy('created_at', 'desc')->Paginate(27);
 
         $popular_articles = Article::where('status', true)->orderBy('count', 'desc')->Paginate(25);
@@ -91,7 +91,7 @@ class ArticleController extends Controller
         if (empty($request['email'])) {
             $articles = Article::where('status', true)->orderBy('created_at', 'asc')->Paginate(18);
             $categories = Category::where(['category_status' => true, 'parent_id' => 1000])
-                ->orderBy('created_at', 'desc')->get();
+                ->orderBy('created_at', 'asc')->get();
             $article = Article::where('slug', $slug)->first();
 
             if (empty($article)) {
@@ -188,7 +188,7 @@ class ArticleController extends Controller
     public function getCategoryPost($slug)
     {
         $categories = Category::where(['category_status' => true, 'parent_id' => 1000])
-            ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'asc')->get();
         $category = Category::where('slug', $slug)->first();
 
         $child_categories = Helper::get_child_category($category->browse_node_id);
