@@ -1,7 +1,7 @@
 @extends('layouts.master')
-@section('title') Add Your Books | Online Books Review @endsection
-@section('meta_description') Add Your Books @endsection
-@section('meta_keyword') Add Your Books @endsection
+@section('title') Add Your Books & Guest Post | Online Books Review @endsection
+@section('meta_description') Add Your Books & Guest Post @endsection
+@section('meta_keyword') Add Your Books & Guest Post @endsection
 
 @section('content')
     @include('includes.header')
@@ -14,8 +14,8 @@
                 <div class="row">
 
                     <div class="col-xs-6 col-xs-offset-3">
-                        <h2>Add Your Books</h2>
-                        <p>If you want to add your book, please contact us at the e-mail address below:</p><p>Email: <a style="font-size:16px" href="mailto:info@onlinebooksreview.com">info@onlinebooksreview.com</a></p>
+                        <h2>Add Your Books & Guest Post</h2>
+                        <p>If you want to add your book or Guest post, please contact us at the e-mail address below:</p><p>Email: <a style="font-size:16px" href="mailto:info@onlinebooksreview.com">info@onlinebooksreview.com</a></p>
                         <br>
                         <br>
                         <br>

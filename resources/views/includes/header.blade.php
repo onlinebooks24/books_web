@@ -126,7 +126,7 @@
             </li>
 
             <li style="background: grey">
-              <a href="/add-your-books">Add your books</a>
+              <a href="/add-books-or-guest-post">Add books/Guest Post</a>
             </li>
 
           </ul> <!-- end menu -->

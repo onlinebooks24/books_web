@@ -126,7 +126,7 @@ Route::group(['middleware' => ['web']] , function() {
 		return View::make('frontend.other.contact');
 	});
 
-	Route::get('/add-your-books/' , function(){
+	Route::get('/add-books-or-guest-post/' , function(){
 		return View::make('frontend.other.add_your_books');
 	});
 
@@ -163,6 +163,6 @@ Route::group(['middleware' => ['web']] , function() {
 
 	Route::get('/sitemap.xml', [
 		'uses' => 'HomeController@xmlSitemap',
-		'as' => 'search.results'
+		'as' => 'homepage.sitemap'
 	]);
 });
