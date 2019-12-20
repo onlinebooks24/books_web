@@ -102,7 +102,8 @@ class AdminArticlesController extends Controller
         $message = $request->input('body');
         $dom = new DomDocument();
         libxml_use_internal_errors(true);
-        $dom->loadHTML("<div>$message</div>");
+
+        $dom->loadHTML('<?xml encoding="utf-8" ?>' . "<div>$message</div>");
 
         $container = $dom->getElementsByTagName('div')->item(0);
         $container = $container->parentNode->removeChild($container);
@@ -238,7 +239,7 @@ class AdminArticlesController extends Controller
         $dom = new DomDocument();
         libxml_use_internal_errors(true);
 
-        $dom->loadHTML("<div>$message</div>");
+        $dom->loadHTML('<?xml encoding="utf-8" ?>' . "<div>$message</div>");
 
         $container = $dom->getElementsByTagName('div')->item(0);
 
