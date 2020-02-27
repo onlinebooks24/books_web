@@ -96,9 +96,11 @@
             });
         }
     } else {
-        setTimeout(function() {
-            $('#subscribe-modal').modal();
-        }, 60000);
+        // setTimeout(function() {
+        //     $('#subscribe-modal').modal();
+        // }, 60000);
+        
+        // I have turn of this popup. cause we have used edugram ad.
     }
 
     $('.btn-subscribe').click(function(e){
