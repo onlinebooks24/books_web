@@ -93,11 +93,14 @@ class ArticleController extends Controller
             $categories = Category::where(['category_status' => true, 'parent_id' => 1000])
                 ->orderBy('created_at', 'asc')->get();
             $article = Article::where('slug', $slug)->first();
-
             if (empty($article)) {
                 $article = Article::where('expired_slug', $slug)->first();
 
                 if(empty($article)){
+                    Mail::send('mail_template.reminder', ['slug' => $request->slug], function ($m) {
+                        $m->from('info@onlinebooksreview.com', 'Online Books Review');
+                        $m->to('mashpysays@gmail.com')->subject('Empty Article Alert!');
+                    });
                     return redirect(route('blog.index'));
                 } else {
                     return redirect(route('articles.show', $article->slug));
