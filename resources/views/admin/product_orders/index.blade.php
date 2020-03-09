@@ -74,7 +74,7 @@
                                 <td>{{ $product_order->manually_inserted_on_article }}</td>
                                 <td>
                                     @if(!empty($product_order->article_id))
-                                        {{ $product_order->article->title }}
+                                        {{ $product_order->article['title'] }}
                                     @endif
                                 </td>
                                 <td>

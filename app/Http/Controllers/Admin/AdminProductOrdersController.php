@@ -72,7 +72,8 @@ class AdminProductOrdersController extends Controller
 
                     if(!empty($check_product_exist)){
                         $product_id = $check_product_exist->id;
-                        $article_id = $check_product_exist->article->id;
+                        $article_id = $check_product_exist->article_id;
+
                     }
 
                     $check_product_order_article = ProductOrder::where('product_number', $product_number)->first();
