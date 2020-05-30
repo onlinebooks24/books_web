@@ -1,1 +1,0 @@
-<p>this article is empty:{{ $slug }} </p>

@@ -97,10 +97,6 @@ class ArticleController extends Controller
                 $article = Article::where('expired_slug', $slug)->first();
 
                 if(empty($article)){
-                    Mail::send('mail_template.reminder', ['slug' => $request->slug], function ($m) {
-                        $m->from('info@onlinebooksreview.com', 'Online Books Review');
-                        $m->to('mashpysays@gmail.com')->subject('Empty Article Alert!');
-                    });
                     return redirect(route('blog.index'));
                 } else {
                     return redirect(route('articles.show', $article->slug));
