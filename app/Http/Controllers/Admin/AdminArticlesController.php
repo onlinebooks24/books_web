@@ -462,67 +462,40 @@ class AdminArticlesController extends Controller
     {
         $isbn = $request['isbn'];
         $article_id = $request['article_id'];
-        $search_query = [
-            'Operation' => 'ItemLookup',
-            'ResponseGroup' => 'Medium',
-            'ItemId' => $isbn
-        ];
 
-        $amazon_response = Helper::amazonAdAPI($search_query);
+        $amazon_response = Helper::amazonAdAPI($isbn);
+        $amazon_response = $amazon_response->response;
+        $amazon_response = json_decode($amazon_response);
 
-        if (isset($amazon_response['Items']['Item'])) {
-            $get_amazon_items = $amazon_response['Items']['Item'];
+        $item = $amazon_response->ItemsResult->Items[0];
+        if($item){
+            $get_amazon_items = $item;
         } else {
             $get_amazon_items = null;
         }
 
-        if (!empty($get_amazon_items)) {
+        if(!empty($get_amazon_items)){
             $item = $get_amazon_items ;
             $editorial_details = '';
-
-            if (isset($item['EditorialReviews']['EditorialReview'])) {
-                $editorial_array = $item['EditorialReviews']['EditorialReview'];
-                if (!isset($editorial_array['Content'])) {
-                    foreach ($editorial_array as $editorial_item) {
-                        $editorial_details = $editorial_item['Content'];
-                    }
-                } else {
-                    $editorial_details = $editorial_array['Content'];
-                }
-            }
-
-            $author_name = null;
-            if (isset($item['ItemAttributes']['Author'])) {
-                $author_name = $item['ItemAttributes']['Author'];
-                if (is_array($author_name)) {
-                    $author_name = implode(',', $author_name);
-                }
-            }
-
-            if (isset($item['ItemAttributes']['PublicationDate'])) {
-                $publication_date = $item['ItemAttributes']['PublicationDate'];
-            } else {
-                $publication_date = null;
-            }
-
-
-            if (strlen($publication_date) == 7) {
-                $publication_date = $publication_date. '-01';
-            } elseif (strlen($publication_date) == 4) {
-                $publication_date = $publication_date. '-01'.'-01';
-            }
+            $author_name = $get_amazon_items->ItemInfo->ByLineInfo->Contributors[0]->Name;
+            $publication_date = $get_amazon_items->ItemInfo->ContentInfo->PublicationDate->DisplayValue;
 
             $product = new Product();
-            $product->isbn = $item['ASIN'];
-            $product->product_title = $item['ItemAttributes']['Title'];
+            $product->isbn = $item->ASIN;
+            $product->product_title = $item->ItemInfo->Title->DisplayValue;
             $product->product_description = $editorial_details;
-            $product->amazon_link = $item['DetailPageURL'];
-            $product->image_url = $item['LargeImage']['URL'];
+            $product->amazon_link = $item->DetailPageURL;
+            $product->image_url = $item->Images->Primary->Large->URL;
             $product->author_name = $author_name;
+            $product->publication_date = Carbon::parse($publication_date)->format('Y-m-d 00:00:00');
             $product->article_id = $article_id;
-            $product->publication_date = $publication_date;
             $product->save();
+
         }
+
+
+
+
         return redirect()->back()->with(['success' => 'Product Created Successfully']);
     }
 
