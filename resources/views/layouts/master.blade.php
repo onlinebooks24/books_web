@@ -44,7 +44,7 @@
 
 @yield('content')
 
-@if (env('APP_ENV') == 'production' && empty(Auth::user()))
+
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -54,7 +54,7 @@
         ga('create', 'UA-97703152-1', 'auto');
         ga('send', 'pageview');
     </script>
-@endif
+
 
 @yield('run_custom_js_file')
 @yield('run_custom_jquery')
