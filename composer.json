@@ -16,7 +16,9 @@
         "laravel/tinker": "~1.0",
         "pulkitjalan/geoip": "^3.0",
         "spatie/browsershot": "^3.26",
-        "wapmorgan/mp3info": "^0.0.3"
+        "spatie/laravel-backup": "^4.0.0",
+        "wapmorgan/mp3info": "^0.0.3",
+        "league/flysystem-aws-s3-v3": "~1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

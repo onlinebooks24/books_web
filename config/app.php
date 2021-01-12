@@ -178,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Dawson\Youtube\YoutubeServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
     ],
 
     /*
