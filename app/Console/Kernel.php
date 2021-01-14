@@ -32,6 +32,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        
+        $schedule->command('backup:clean');
+        $schedule->command('backup:run');
     }
 
     /**
