@@ -477,8 +477,17 @@ class AdminArticlesController extends Controller
         if(!empty($get_amazon_items)){
             $item = $get_amazon_items ;
             $editorial_details = '';
+            $date = '';
             $author_name = $get_amazon_items->ItemInfo->ByLineInfo->Contributors[0]->Name;
-            $publication_date = $get_amazon_items->ItemInfo->ContentInfo->PublicationDate->DisplayValue;
+            $publication_date = isset($get_amazon_items->ItemInfo->ContentInfo->PublicationDate)? $get_amazon_items->ItemInfo->ContentInfo->PublicationDate->DisplayValue : '';
+            $release_date = isset($get_amazon_items->ItemInfo->ProductInfo->ReleaseDate)? $get_amazon_items->ItemInfo->ProductInfo->ReleaseDate->DisplayValue : '';
+            if (!empty($publication_date)) {
+                $date = $publication_date;
+            }else {
+                if (!empty($release_date)) {
+                    $date = $release_date;
+                }
+            }
 
             $product = new Product();
             $product->isbn = $item->ASIN;
@@ -487,7 +496,7 @@ class AdminArticlesController extends Controller
             $product->amazon_link = $item->DetailPageURL;
             $product->image_url = $item->Images->Primary->Large->URL;
             $product->author_name = $author_name;
-            $product->publication_date = Carbon::parse($publication_date)->format('Y-m-d 00:00:00');
+            $product->publication_date = $date? Carbon::parse($date)->format('Y-m-d 00:00:00') : '';
             $product->article_id = $article_id;
             $product->save();
 
@@ -557,7 +566,7 @@ class AdminArticlesController extends Controller
         $spend_time_type = $role_type. '_spend_time';
 
         $spend_time = Carbon::createFromFormat('H:i:s', $article[$spend_time_type])
-                                ->addSeconds(5)->format('H:i:s');
+            ->addSeconds(5)->format('H:i:s');
         $article[$spend_time_type]  = $spend_time;
 
         $article->save();
