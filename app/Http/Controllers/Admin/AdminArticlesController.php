@@ -462,49 +462,7 @@ class AdminArticlesController extends Controller
     {
         $isbn = $request['isbn'];
         $article_id = $request['article_id'];
-
-        $amazon_response = Helper::amazonAdAPI($isbn);
-        $amazon_response = $amazon_response->response;
-        $amazon_response = json_decode($amazon_response);
-
-        $item = $amazon_response->ItemsResult->Items[0];
-        if($item){
-            $get_amazon_items = $item;
-        } else {
-            $get_amazon_items = null;
-        }
-
-        if(!empty($get_amazon_items)){
-            $item = $get_amazon_items ;
-            $editorial_details = '';
-            $date = '';
-            $author_name = $get_amazon_items->ItemInfo->ByLineInfo->Contributors[0]->Name;
-            $publication_date = isset($get_amazon_items->ItemInfo->ContentInfo->PublicationDate)? $get_amazon_items->ItemInfo->ContentInfo->PublicationDate->DisplayValue : '';
-            $release_date = isset($get_amazon_items->ItemInfo->ProductInfo->ReleaseDate)? $get_amazon_items->ItemInfo->ProductInfo->ReleaseDate->DisplayValue : '';
-            if (!empty($publication_date)) {
-                $date = $publication_date;
-            }else {
-                if (!empty($release_date)) {
-                    $date = $release_date;
-                }
-            }
-
-            $product = new Product();
-            $product->isbn = $item->ASIN;
-            $product->product_title = $item->ItemInfo->Title->DisplayValue;
-            $product->product_description = $editorial_details;
-            $product->amazon_link = $item->DetailPageURL;
-            $product->image_url = $item->Images->Primary->Large->URL;
-            $product->author_name = $author_name;
-            $product->publication_date = $date? Carbon::parse($date)->format('Y-m-d 00:00:00') : '';
-            $product->article_id = $article_id;
-            $product->save();
-
-        }
-
-
-
-
+        Helper::addProduct($isbn, $article_id);
         return redirect()->back()->with(['success' => 'Product Created Successfully']);
     }
 

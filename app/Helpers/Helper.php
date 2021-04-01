@@ -1,10 +1,10 @@
 <?php // Code within app\Helpers\Helper.php
 
 namespace App\Helpers;
+use App\Models\Product;
+use Carbon\Carbon;
 use PulkitJalan\GeoIP\GeoIP;
 use App\Models\Category;
-
-require 'Paapi.php';
 
 class Helper
 {
@@ -18,27 +18,26 @@ class Helper
         return $string;
     }
 
-    public static function amazonAdAPI($search_query){
+    public static function amazonAdAPI($payload, $action){
         try {
             $host = "webservices.amazon.com";
-            $uriPath = "/paapi5/getitems";
+            $uriPath = "/paapi5/" . strtolower($action);
             $partner_tag = env('AssociateTag');
-            $amazon_id = $search_query;
 
-            $awsv4 = new \AwsV4(env('AccessKey'), env('SecretKey'));
+            $awsv4 = new AwsV4(env('AccessKey'), env('SecretKey'));
             $awsv4->setRegionName("us-east-1");
             $awsv4->setServiceName("ProductAdvertisingAPI");
             $awsv4->setPath ($uriPath);
             $awsv4->setHost($host);
-            $awsv4->setItemID($amazon_id);
+            $awsv4->setAction($action);
             $awsv4->setPartnerTag($partner_tag);
-            $awsv4->setPayload();
+            $awsv4->setPayload($payload);
 
             $awsv4->setRequestMethod ("POST");
             $awsv4->addHeader ('content-encoding', 'amz-1.0');
             $awsv4->addHeader ('content-type', 'application/json; charset=utf-8');
             $awsv4->addHeader ('host', $host);
-            $awsv4->addHeader ('x-amz-target', 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems');
+            $awsv4->addHeader ('x-amz-target', 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.' . $action);
             return $product = $awsv4->getResponse();
 
         } catch(Exception $e) {
@@ -86,6 +85,65 @@ class Helper
         $category_ids = Category::whereIn('browse_node_id', $category_ids)->pluck('id')->toArray();
 
         return $category_ids;
+    }
+
+    public static function addProduct($isbn, $article_id, $keywords = null){
+        $payload = [
+            'ItemIds' => [$isbn]
+        ];
+
+        $amazon_response = Helper::amazonAdAPI($payload, 'GetItems');
+        $amazon_response = $amazon_response->response;
+        $amazon_response = json_decode($amazon_response);
+
+        $item = $amazon_response->ItemsResult->Items[0];
+        if($item){
+            $get_amazon_items = $item;
+        } else {
+            $get_amazon_items = null;
+        }
+
+        if(!empty($get_amazon_items)){
+            $item = $get_amazon_items ;
+            $editorial_details = '';
+            $date = '';
+            $author_name = $get_amazon_items->ItemInfo->ByLineInfo->Contributors[0]->Name;
+            $publication_date = isset($get_amazon_items->ItemInfo->ContentInfo->PublicationDate)? $get_amazon_items->ItemInfo->ContentInfo->PublicationDate->DisplayValue : '';
+            $release_date = isset($get_amazon_items->ItemInfo->ProductInfo->ReleaseDate)? $get_amazon_items->ItemInfo->ProductInfo->ReleaseDate->DisplayValue : '';
+            if (!empty($publication_date)) {
+                $date = $publication_date;
+            }else {
+                if (!empty($release_date)) {
+                    $date = $release_date;
+                }
+            }
+            $match_count = 1;
+
+            if ($keywords) {
+                $match_count = 0;
+                $keyword_array = explode(" ", strtolower($keywords));
+                foreach($keyword_array as $keyword_item){
+                    if (strpos(strtolower($item->ItemInfo->Title->DisplayValue), $keyword_item) !== false) {
+                        $match_count++;
+                    }
+                }
+            }
+
+
+            if ($match_count > 0) {
+                $product = new Product();
+                $product->isbn = $item->ASIN;
+                $product->product_title = $item->ItemInfo->Title->DisplayValue;
+                $product->product_description = $editorial_details;
+                $product->amazon_link = $item->DetailPageURL;
+                $product->image_url = $item->Images->Primary->Large->URL;
+                $product->author_name = $author_name;
+                $product->publication_date = $date? Carbon::parse($date)->format('Y-m-d 00:00:00') : '';
+                $product->article_id = $article_id;
+                $product->save();
+            }
+
+        }
     }
 
 }

@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Helpers;
+
+use Exception;
+
 class AwsV4
 {
     private $accessKey = null;
@@ -14,6 +18,29 @@ class AwsV4
     private $host = "";
     private $partnerTag = "";
     private $itemID = "";
+    private $SearchIndex = "Books";
+    private $Keywords = "";
+    private $action = null;
+    private $Resources = [
+        "Images.Primary.Small",
+        "Images.Primary.Medium",
+        "Images.Primary.Large",
+        "Images.Variants.Small",
+        "Images.Variants.Medium",
+        "Images.Variants.Large",
+        "ItemInfo.ByLineInfo",
+        "ItemInfo.ContentInfo",
+        "ItemInfo.ContentRating",
+        "ItemInfo.Classifications",
+        "ItemInfo.ExternalIds",
+        "ItemInfo.Features",
+        "ItemInfo.ManufactureInfo",
+        "ItemInfo.ProductInfo",
+        "ItemInfo.TechnicalInfo",
+        "ItemInfo.Title",
+        "ItemInfo.TradeInInfo",
+        "Offers.Listings.Price"
+    ];
 
     private $HMACAlgorithm = "AWS4-HMAC-SHA256";
     private $aws4Request = "aws4_request";
@@ -46,36 +73,45 @@ class AwsV4
         $this->regionName = $regionName;
     }
 
-    function setPayload()
+    function setAction($action)
     {
-        $payload = "{"
-            . " \"ItemIds\": ["
-            . "  \"" . $this->itemID . "\""
-            . " ],"
-            . " \"Resources\": ["
-            . "  \"Images.Primary.Small\","
-            . "  \"Images.Primary.Medium\","
-            . "  \"Images.Primary.Large\","
-            . "  \"Images.Variants.Small\","
-            . "  \"Images.Variants.Medium\","
-            . "  \"Images.Variants.Large\","
-            . "  \"ItemInfo.ByLineInfo\","
-            . "  \"ItemInfo.ContentInfo\","
-            . "  \"ItemInfo.ContentRating\","
-            . "  \"ItemInfo.Classifications\","
-            . "  \"ItemInfo.ExternalIds\","
-            . "  \"ItemInfo.Features\","
-            . "  \"ItemInfo.ManufactureInfo\","
-            . "  \"ItemInfo.ProductInfo\","
-            . "  \"ItemInfo.TechnicalInfo\","
-            . "  \"ItemInfo.Title\","
-            . "  \"ItemInfo.TradeInInfo\","
-            . "  \"Offers.Listings.Price\""
-            . " ],"
-            . " \"PartnerTag\": \"" . $this->partnerTag . "\","
-            . " \"PartnerType\": \"Associates\","
-            . " \"Marketplace\": \"www.amazon.com\""
-            . "}";
+        $this->action = $action;
+    }
+
+    function setResources($resources)
+    {
+        $this->Resources = $resources;
+    }
+
+    function setSearchIndex($searchIndex)
+    {
+        $this->SearchIndex = $searchIndex;
+    }
+
+    function setKeywords($keywords)
+    {
+        $this->Keywords = $keywords;
+    }
+
+    function setPayload($payload = [])
+    {
+        $tempPayload = [
+            'Resources' => $this->Resources,
+            'PartnerType' => 'Associates',
+            'Marketplace' => 'www.amazon.com',
+            'PartnerTag' => $this->partnerTag,
+        ];
+        if ($this->action === 'SearchItems') {
+            $tempPayload += [
+                'SearchIndex' => $this->SearchIndex
+            ];
+        }
+
+        $tempPayload += $payload;
+
+        $tempPayload = (object) $tempPayload;
+        $payload = json_encode($tempPayload);
+
         $this->payload = $payload;
     }
 

@@ -51,16 +51,15 @@ class AdminAutoArticlesController extends Controller
 
             for($i = 1; $i <= 3; $i++){
                 $search_query = [
-                    'Operation' => 'ItemSearch',
                     'ResponseGroup' => 'Medium',
                     'Keywords' => $keyword,
-                    'SearchIndex' => 'Books',
                     'ItemPage' => $i
                 ];
 
-                $amazon_response = Helper::amazonAdAPI($search_query);
-                if(isset($amazon_response['Items']['Item'])){
-                    $get_amazon_items = $amazon_response['Items']['Item'];
+                $amazon_response = Helper::amazonAdAPI($search_query, 'SearchItems')->response;
+                $amazon_response = json_decode($amazon_response);
+                if(isset($amazon_response->SearchResult->Items)){
+                    $get_amazon_items = $amazon_response->SearchResult->Items;
                 } else {
                     $get_amazon_items = null;
                 }
@@ -68,8 +67,8 @@ class AdminAutoArticlesController extends Controller
                 if(!empty($get_amazon_items)){
 
                     foreach($get_amazon_items as $item){
-                        if(isset($item['ASIN'])){
-                            $asin = $item['ASIN'];
+                        if(isset($item->ASIN)){
+                            $asin = $item->ASIN;
                             $best_books = $this->getRankingFromAmazonReview($best_books, $asin);
                         }
                     }
@@ -148,89 +147,9 @@ class AdminAutoArticlesController extends Controller
             if(!empty($best_books)){
                 arsort($best_books);
                 foreach($best_books as $key => $book_item){
-                    $isbn = $key;
+                    $isbn = (string) $key;
                     $article_id = $article->id;
-                    $search_query = [
-                        'Operation' => 'ItemLookup',
-                        'ResponseGroup' => 'Medium',
-                        'ItemId' => $isbn
-                    ];
-
-                    $amazon_response = Helper::amazonAdAPI($search_query);
-
-                    if(isset($amazon_response['Items']['Item'])){
-                        $get_amazon_items = $amazon_response['Items']['Item'];
-                    } else {
-                        $get_amazon_items = null;
-                    }
-
-                    if(!empty($get_amazon_items)){
-                        $item = $get_amazon_items ;
-
-                        $keyword_array = explode(" ", strtolower($input['keyword']));
-                        $match_count = 0;
-                        foreach($keyword_array as $keyword_item){
-                            if (strpos(strtolower($item['ItemAttributes']['Title']), $keyword_item) !== false) {
-                                $match_count++;
-                            }
-                        }
-
-                        if ($match_count > 0) {
-                            if(isset($item['EditorialReviews']['EditorialReview'])){
-                                $editorial_array = $item['EditorialReviews']['EditorialReview'];
-                            }
-                            $editorial_details = '';
-                            if(!isset($editorial_array['Content'])){
-                                foreach($editorial_array as $editorial_item){
-                                    $editorial_details = $editorial_item['Content'];
-                                }
-                            } else {
-                                $editorial_details = $editorial_array['Content'];
-                            }
-
-                            $author_name = null;
-                            if(isset($item['ItemAttributes']['Author'])){
-                                $author_name = $item['ItemAttributes']['Author'];
-                                if(is_array($author_name)){
-                                    $author_name = implode(',', $author_name);
-                                }
-                            }
-
-                            if(isset($item['ItemAttributes']['PublicationDate'])){
-                                $publication_date = $item['ItemAttributes']['PublicationDate'];
-                            } else {
-                                $publication_date = null;
-                            }
-
-
-                            if( strlen($publication_date) == 7 ){
-                                $publication_date = $publication_date. '-01';
-                            } elseif (strlen($publication_date) == 4) {
-                                $publication_date = $publication_date. '-01'.'-01';
-                            }
-
-                            if (isset($item['LargeImage']['URL'])){
-                                $product_image = $item['LargeImage']['URL'];
-                            } elseif(isset($item['MediumImage']['URL'])) {
-                                $product_image = $item['MediumImage']['URL'];
-                            } elseif (isset($item['SmallImage']['URL'])){
-                                $product_image = $item['SmallImage']['URL'];
-                            } else {
-                                $product_image = '';
-                            }
-
-                            $product = new Product();
-                            $product->isbn = $item['ASIN'];
-                            $product->product_title = $item['ItemAttributes']['Title'];
-                            $product->product_description = $editorial_details;
-                            $product->amazon_link = $item['DetailPageURL'];
-                            $product->image_url = $product_image;
-                            $product->author_name = $author_name;
-                            $product->article_id = $article_id;
-                            $product->publication_date = $publication_date;
-                            $product->save();
-                        }
-                    }
+                    Helper::addProduct($isbn, $article_id, $input['keyword']);
                     sleep(2);
                 }
             }
