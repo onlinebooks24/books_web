@@ -372,3 +372,18 @@ h2 {
     font-size: 16px;
     font-weight: bold;
 }
+
+form.article_search input[type=text] {
+    float: left;
+    width: 80%;
+}
+
+form.article_search button {
+    float: left;
+    width: 20%;
+    cursor: pointer;
+}
+
+#article_search_block {
+    padding: 0;
+}

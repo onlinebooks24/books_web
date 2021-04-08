@@ -31,7 +31,7 @@ class AdminArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $site_costs = SiteCost::all();
 
@@ -45,8 +45,12 @@ class AdminArticlesController extends Controller
                 }
             }
         }
-
-        $articles = Article::where('status', true)->orderBy('created_at', 'desc')->Paginate(150);
+      
+        $articles = Article::where('status', true)->orderBy('created_at', 'desc');
+        if($request->search) {
+          $articles->where('title', 'like', '%' . $request->search . '%');
+        }
+        $articles = $articles->paginate(50)->appends($request->query());;
         return view('admin.articles.index', ['articles' => $articles]);
     }
 
