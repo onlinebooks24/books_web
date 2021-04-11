@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Helpers\Helper;
 use Auth;
 use Goutte\Client;
+use function foo\func;
 
 class AdminAutoArticlesController extends Controller
 {
@@ -19,8 +20,23 @@ class AdminAutoArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
+      $xmlResponse = file_get_contents('https://www.amazon.com/dp/B01CID6IDY');
+      $xmlArray = $this->Minify_Html(json_decode(json_encode($xmlResponse)));
+      
+      $pattern = "/<noscript>(.*?)<\/noscript>/";
+      preg_match_all($pattern, $xmlArray, $matches);
+  
+      $matches = collect($matches[1])->filter(function($match) {
+        return strlen(strip_tags($match)) > 0;
+      });
+      $description = strip_tags($matches[1]);
+      dd($description);
+      
+      
+      ini_set('max_execution_time', 300);
         $input = Input::all();
         $best_books = null;
 
@@ -55,7 +71,7 @@ class AdminAutoArticlesController extends Controller
                     'Keywords' => $keyword,
                     'ItemPage' => $i
                 ];
-
+    
                 $amazon_response = Helper::amazonAdAPI($search_query, 'SearchItems')->response;
                 $amazon_response = json_decode($amazon_response);
                 if(isset($amazon_response->SearchResult->Items)){
@@ -256,4 +272,30 @@ class AdminAutoArticlesController extends Controller
 
         return $best_books;
     }
+  
+  function Minify_Html($Html)
+  {
+    $Search = array(
+      '/(\n|^)(\x20+|\t)/',
+      '/(\n|^)\/\/(.*?)(\n|$)/',
+      '/\n/',
+      '/\<\!--.*?-->/',
+      '/(\x20+|\t)/', # Delete multispace (Without \n)
+      '/\>\s+\</', # strip whitespaces between tags
+      '/(\"|\')\s+\>/', # strip whitespaces between quotation ("') and end tags
+      '/=\s+(\"|\')/'); # strip whitespaces between = "'
+    
+    $Replace = array(
+      "\n",
+      "\n",
+      " ",
+      "",
+      " ",
+      "><",
+      "$1>",
+      "=$1");
+    
+    $Html = preg_replace($Search,$Replace,$Html);
+    return $Html;
+  }
 }
