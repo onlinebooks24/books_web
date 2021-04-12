@@ -23,20 +23,6 @@ class AdminAutoArticlesController extends Controller
     
     public function index()
     {
-      $xmlResponse = file_get_contents('https://www.amazon.com/dp/B01CID6IDY');
-      $xmlArray = $this->Minify_Html(json_decode(json_encode($xmlResponse)));
-      
-      $pattern = "/<noscript>(.*?)<\/noscript>/";
-      preg_match_all($pattern, $xmlArray, $matches);
-  
-      $matches = collect($matches[1])->filter(function($match) {
-        return strlen(strip_tags($match)) > 0;
-      });
-      $description = strip_tags($matches[1]);
-      dd($description);
-      
-      
-      ini_set('max_execution_time', 300);
         $input = Input::all();
         $best_books = null;
 
@@ -165,7 +151,12 @@ class AdminAutoArticlesController extends Controller
                 foreach($best_books as $key => $book_item){
                     $isbn = (string) $key;
                     $article_id = $article->id;
-                    Helper::addProduct($isbn, $article_id, $input['keyword']);
+                    $keyword = $input['keyword'];
+                    try{
+                      Helper::addProduct($isbn, $article_id, $input['keyword']);
+                    } catch (\Exception $e) {
+                      \Log::info("---Response not found. ISBN=$isbn---Search_keyword=$keyword---\n");
+                    }
                     sleep(2);
                 }
             }
@@ -272,30 +263,4 @@ class AdminAutoArticlesController extends Controller
 
         return $best_books;
     }
-  
-  function Minify_Html($Html)
-  {
-    $Search = array(
-      '/(\n|^)(\x20+|\t)/',
-      '/(\n|^)\/\/(.*?)(\n|$)/',
-      '/\n/',
-      '/\<\!--.*?-->/',
-      '/(\x20+|\t)/', # Delete multispace (Without \n)
-      '/\>\s+\</', # strip whitespaces between tags
-      '/(\"|\')\s+\>/', # strip whitespaces between quotation ("') and end tags
-      '/=\s+(\"|\')/'); # strip whitespaces between = "'
-    
-    $Replace = array(
-      "\n",
-      "\n",
-      " ",
-      "",
-      " ",
-      "><",
-      "$1>",
-      "=$1");
-    
-    $Html = preg_replace($Search,$Replace,$Html);
-    return $Html;
-  }
 }

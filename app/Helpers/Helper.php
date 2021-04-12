@@ -105,7 +105,7 @@ class Helper
 
         if(!empty($get_amazon_items)){
             $item = $get_amazon_items ;
-            $editorial_details = '';
+            $editorial_details = self::getDescription($isbn);
             $date = '';
             $author_name = $get_amazon_items->ItemInfo->ByLineInfo->Contributors[0]->Name;
             $publication_date = isset($get_amazon_items->ItemInfo->ContentInfo->PublicationDate)? $get_amazon_items->ItemInfo->ContentInfo->PublicationDate->DisplayValue : '';
@@ -144,6 +144,51 @@ class Helper
             }
 
         }
+    }
+    
+    public static function getDescription($isbn) {
+      $url = 'https://www.amazon.com/dp/'.$isbn;
+      list($status) = get_headers($url);
+      if (strpos($status, '404') !== TRUE) {
+        $response = file_get_contents('https://www.amazon.com/dp/'.$isbn);
+        $minify_response = self::Minify_Html(json_decode(json_encode($response)));
+    
+        $pattern = "/<noscript>(.*?)<\/noscript>/";
+        preg_match_all($pattern, $minify_response, $matches);
+    
+        $matches = collect($matches[1])->filter(function($match) {
+          return strlen(strip_tags($match)) > 0;
+        });
+        return strip_tags($matches[1]);
+      } else {
+        return $description = '';
+      }
+    }
+  
+    public static function Minify_Html($Html)
+    {
+      $Search = array(
+        '/(\n|^)(\x20+|\t)/',
+        '/(\n|^)\/\/(.*?)(\n|$)/',
+        '/\n/',
+        '/\<\!--.*?-->/',
+        '/(\x20+|\t)/', # Delete multispace (Without \n)
+        '/\>\s+\</', # strip whitespaces between tags
+        '/(\"|\')\s+\>/', # strip whitespaces between quotation ("') and end tags
+        '/=\s+(\"|\')/'); # strip whitespaces between = "'
+      
+      $Replace = array(
+        "\n",
+        "\n",
+        " ",
+        "",
+        " ",
+        "><",
+        "$1>",
+        "=$1");
+      
+      $Html = preg_replace($Search,$Replace,$Html);
+      return $Html;
     }
 
 }
