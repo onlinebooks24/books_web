@@ -195,7 +195,7 @@
 @endsection
 
 @section('run_custom_js_file')
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b322acaa95624c1"></script>
+    <!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b322acaa95624c1"></script>-->
     {{--<script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>--}}
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 @endsection
