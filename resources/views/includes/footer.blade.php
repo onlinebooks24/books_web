@@ -95,11 +95,12 @@
                 }
             });
         }
-    } else {
-        setTimeout(function() {
-            $('#subscribe-modal').modal();
-        }, 120000);
-    }
+    } 
+    // else {
+    //     setTimeout(function() {
+    //         $('#subscribe-modal').modal();
+    //     }, 120000);
+    // }
 
     $('.btn-subscribe').click(function(e){
         e.preventDefault();

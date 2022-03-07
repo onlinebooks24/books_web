@@ -95,6 +95,7 @@
                                         <div class="clearfix"></div>
 
                                         @if($key == 7)
+                                            @if(!Auth::check())
                                             <!-- OnlineBooksReview Article middle display -->
                                             <ins class="adsbygoogle"
                                                  style="display:block"
@@ -105,6 +106,7 @@
                                                 (adsbygoogle = window.adsbygoogle || []).push({});
                                             </script>
                                             <hr>
+                                            @endif
                                         @endif
                                     @endforeach
                                 @endif
@@ -197,7 +199,9 @@
 @section('run_custom_js_file')
     <!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b322acaa95624c1"></script>-->
     {{--<script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=590d63c61554ce0011357601&product=sticky-share-buttons"></script>--}}
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    @if(!Auth::check())
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    @endif
 @endsection
 
 

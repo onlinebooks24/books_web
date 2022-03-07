@@ -91,5 +91,7 @@
 @endsection
 
 @section('run_custom_js_file')
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    @if(!Auth::check())
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    @endif
 @endsection

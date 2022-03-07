@@ -44,6 +44,7 @@
         </form>
     </div> <!-- end widget newsletter -->
 
+    @if(!Auth::check())
     <div class="widget top10 bottom20">
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <!-- OnlineBooksreview article show right sidebar -->
@@ -56,6 +57,7 @@
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
     </div>
+    @endif
 
     <div class="widget">
         <h4 class="widget-title">Categories</h4>
