@@ -46,16 +46,8 @@
 
     @if(!Auth::check())
     <div class="widget top10 bottom20">
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- OnlineBooksreview article show right sidebar -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1505016841070170"
-             data-ad-slot="6631171390"
-             data-ad-format="auto"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <script async="async" data-cfasync="false" src="//ghostsinstance.com/ab9a6a90f70177d3a21c9959e19d9c1b/invoke.js"></script>
+        <div id="container-ab9a6a90f70177d3a21c9959e19d9c1b"></div>
     </div>
     @endif
 
